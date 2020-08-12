@@ -9,12 +9,15 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 
+import { NgxEchartsModule } from 'ngx-echarts';
+
 import { DashboardComponent } from './dashboard.component';
 import { GainsAndLossesComponent } from './pages/gains-and-losses/gains-and-losses.component';
 import { AccountListCardComponent } from './components/account-list-card/account-list-card.component';
+import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
 
 @NgModule({
-  declarations: [DashboardComponent, GainsAndLossesComponent, AccountListCardComponent],
+  declarations: [DashboardComponent, GainsAndLossesComponent, AccountListCardComponent, BalancesChartComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -25,6 +28,9 @@ import { AccountListCardComponent } from './components/account-list-card/account
     MatGridListModule,
     MatCardModule,
     MatTableModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    })
   ]
 })
 export class DashboardModule { }

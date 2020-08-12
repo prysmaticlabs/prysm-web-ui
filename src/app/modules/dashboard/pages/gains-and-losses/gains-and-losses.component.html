@@ -1,6 +1,6 @@
 <div class="gains-and-losses m-sm-30">
   <mat-grid-list cols="12" gutterSize="24px">
-    <mat-grid-tile colspan="8" rowspan="8">
+    <mat-grid-tile colspan="8" rowspan="12">
       <div class="gains-content">
 
         <mat-card
@@ -22,11 +22,17 @@
 
         <div class="py-12"></div>
 
+        <mat-card class="bg-paper">
+          <app-balances-chart></app-balances-chart>
+        </mat-card>
+
+        <div class="py-12"></div>
+
         <app-account-list-card></app-account-list-card>
         
       </div>
     </mat-grid-tile>
-    <mat-grid-tile colspan="4" rowspan="8">
+    <mat-grid-tile colspan="4" rowspan="12">
       <div class="gains-content">
 
         <mat-card class="bg-paper p-sm-24 mb-24">

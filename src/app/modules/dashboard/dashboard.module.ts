@@ -7,12 +7,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
 import { DashboardComponent } from './dashboard.component';
-import { GainsAndLossesComponent } from './gains-and-losses/gains-and-losses.component';
+import { GainsAndLossesComponent } from './pages/gains-and-losses/gains-and-losses.component';
+import { AccountListCardComponent } from './components/account-list-card/account-list-card.component';
 
 @NgModule({
-  declarations: [DashboardComponent, GainsAndLossesComponent],
+  declarations: [DashboardComponent, GainsAndLossesComponent, AccountListCardComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -22,6 +24,7 @@ import { GainsAndLossesComponent } from './gains-and-losses/gains-and-losses.com
     MatIconModule,
     MatGridListModule,
     MatCardModule,
+    MatTableModule,
   ]
 })
 export class DashboardModule { }

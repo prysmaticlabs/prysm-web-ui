@@ -1,3 +1,86 @@
-<div class="learning-management m-sm-30">
-  Hello
+<div class="gains-and-losses m-sm-30">
+  <mat-grid-list cols="12" gutterSize="24px">
+    <mat-grid-tile colspan="8" rowspan="8">
+      <div class="gains-content">
+        <mat-card
+          class="welcome-card bg-primary p-sm-24 mb-24 flex flex-space-between"
+        >
+          <div class="pr-16">
+            <h4 class="font-size-22 font-weight-normal m-0 mb-8 text-white">
+              Your Prysm validator dashboard
+            </h4>
+            <p class="m-0 text-muted-white">
+              Manage your Prysm validator, analyze your validator performance, and control your wallet all from a simple web interface
+            </p>
+          </div>
+          <img
+            src="/assets/images/designer.svg"
+            alt="designer"
+          />
+        </mat-card>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="4" rowspan="8">
+      <div class="gains-content">
+
+        <mat-card class="bg-paper p-sm-24 mb-24">
+          <mat-card
+            class="upgrade-card bg-paper-light p-sm-24"
+          >
+            <img
+              src="/assets/images/eth.svg"
+              alt="upgrade"
+              height="80px"
+              width="80px"
+            />
+            <p class="text-muted m-8 py-16">
+              Join Medalla - the <b>official</b>, eth2 <br/>public testnet
+            </p>
+            <button mat-raised-button color="primary" class="uppercase">
+              Join the Testnet
+            </button>
+          </mat-card>
+        </mat-card>
+
+        <mat-card class="bg-paper p-16">
+          <div class="flex flex-middle">
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+              <mat-icon>trending_up</mat-icon>
+            </button>
+            <h5 class="font-weight-500 text-green m-0 ml-12">
+              Attestation Effectiveness
+            </h5>
+          </div>
+          <div class="pt-16 flex flex-middle">
+            <h2 class="m-0 text-muted flex-grow-1">98.5%</h2>
+            <div class="ml-12 small-circle bg-green text-white">
+              <mat-icon>expand_less</mat-icon>
+            </div>
+            <span class="font-size-13 text-green ml-4"> (+11%)</span>
+          </div>
+        </mat-card>
+
+        <div class="py-12"></div>
+
+        <mat-card class="bg-paper p-16">
+          <div class="flex flex-middle">
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+              <mat-icon>star_outline</mat-icon>
+            </button>
+            <h5 class="font-weight-500 text-green m-0 ml-12">
+              Uptime Percentage
+            </h5>
+          </div>
+          <div class="pt-16 flex flex-middle">
+            <h2 class="m-0 text-muted flex-grow-1">98.5%</h2>
+            <div class="ml-12 small-circle bg-green text-white">
+              <mat-icon>expand_more</mat-icon>
+            </div>
+            <span class="font-size-13 text-green ml-4"> (+11%)</span>
+          </div>
+        </mat-card>
+
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>

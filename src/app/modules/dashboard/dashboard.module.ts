@@ -5,6 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 
 import { DashboardComponent } from './dashboard.component';
 import { GainsAndLossesComponent } from './gains-and-losses/gains-and-losses.component';
@@ -18,6 +20,8 @@ import { GainsAndLossesComponent } from './gains-and-losses/gains-and-losses.com
     MatSliderModule,
     MatButtonModule,
     MatIconModule,
+    MatGridListModule,
+    MatCardModule,
   ]
 })
 export class DashboardModule { }

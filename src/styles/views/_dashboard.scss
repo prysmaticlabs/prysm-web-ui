@@ -81,13 +81,19 @@
   }
 }
 
-// online education
-.learning-management {
+.gains-and-losses {
   position: relative;
+  ::ng-deep .mat-grid-tile .mat-figure {
+    display: block !important;
+  }
+
+  .gains-content {
+    padding-top: 40px;
+  }
 
   .welcome-card {
-    position: relative;
     padding: 36px 50px !important;
+    position: relative;
     overflow: visible;
 
     img {

@@ -1,0 +1,31 @@
+<div class="signup flex flex-center w-100 h-100vh">
+  <div class="p-8">
+    <mat-card class="signup-card position-relative y-center bg-paper">
+      <mat-grid-list cols="12" rowHeight="200px">
+        <mat-grid-tile class="signup-img" colspan="5">
+          <img src="/assets/images/dreamer.svg" alt="" />
+        </mat-grid-tile>
+        <mat-grid-tile class="signup-form-container" colspan="7">
+          <form (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Enter your password" name="password" type="password">
+              </mat-form-field>
+            </div>
+            <div class="flex flex-middle mb-8">
+              <div class="btn-container">
+                <button mat-raised-button color="primary" [disabled]="loading">
+                  Sign in to Web UI
+                </button>
+                <div class="btn-progress" *ngIf="loading">
+                  <mat-spinner color="primary" [diameter]="25"></mat-spinner>
+                </div>
+              </div>
+            </div>
+          </form>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card>
+  </div>
+</div>

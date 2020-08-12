@@ -1,0 +1,126 @@
+.sidenav {
+  color: rgba(255, 255, 255, 0.7);
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  overflow: hidden;
+  z-index: 99;
+  box-shadow: $elevation-z8;
+  width: $sidenav-width;
+  .sidenav__hold {
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    z-index: 3;
+    background-image: url(/assets/images/sidebar-eth.png);
+    opacity: 1 !important;
+    .scrollable {
+      padding-bottom: 120px;
+    }
+    // Sidebar overlay
+    &::after {
+      background: $bg-paper;
+      opacity: 0.94;
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: -1;
+    }
+    .brand-area {
+      width: $sidenav-width;
+      padding: 13px 18px;
+      .brand {
+        img {
+          height: 24px;
+          margin-right: 12px;
+        }
+        .brand__text {
+          font-weight: bold;
+          font-size: 1.125rem;
+        }
+      }
+    }
+  }
+}
+
+.sidenav-mobile {
+  .sidenav {
+    width: $sidenav-width;
+  }
+  .sidenav__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.54);
+    z-index: -1;
+  }
+}
+
+.navigation {
+  margin-top: 40px;
+  .nav-item {
+    display: flex;
+    height: 48px;
+    justify-content: space-between;
+    &:hover {
+      background: rgba($black, 0.2);
+      color: white;
+    }
+    &.active {
+      background: rgba($black, 0.2);
+      color: white;
+    }
+    button {
+      padding: 0 20px;
+      width: 100%;
+      border-radius: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+  .submenu {
+    position: relative;
+    background: rgba($black, 0.12);
+    &:before,
+    &:after {
+      content: "";
+      left: 0;
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      z-index: 3;
+    }
+    &:before {
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), transparent);
+      top: 0;
+    }
+    &:after {
+      background: linear-gradient(-180deg, rgba(0, 0, 0, 0.06), transparent);
+      bottom: 0;
+    }
+    .nav-item {
+      height: 44px;
+    }
+  }
+}
+.badge {
+  height: 20px;
+  padding: 0 8px;
+  margin: 0 4px 0 auto;
+  border-radius: 12px;
+  line-height: 20px;
+  font-weight: 500;
+}

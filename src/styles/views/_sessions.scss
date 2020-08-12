@@ -1,0 +1,47 @@
+.signup {
+  background: $bg-default;
+  
+  .signup-card {
+    padding: 0;
+    width: 550px;
+    border-radius: 12px !important;
+    img {
+      width: 160px;
+      height: 120px;
+    }
+    .signup-form-container {
+      background: $light-gray;
+      ::ng-deep .mat-button-disabled {
+        color: $text-hint;
+      }
+      ::ng-deep input.mat-input-element {
+        color: white;
+      }
+      ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+        color: $primary!important;
+      }
+      ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+        color: $primary!important;
+      }
+      ::ng-deep .mat-input-element {
+        caret-color: white!important;
+      }
+      ::ng-deep .mat-form-field-label {
+        color: white;
+      }
+      ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+        color: $primary!important;
+      }
+    }
+    .btn-container {
+      position: relative;
+      .btn-progress {
+        position: absolute;
+        top: 5px;
+        left: 56px;
+        margin-top: -4;
+        margin-left: -24;
+      }
+    }
+  }
+}

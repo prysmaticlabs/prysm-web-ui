@@ -121,6 +121,10 @@ export class BalancesChartComponent implements OnInit {
           fontFamily: 'roboto',
         }
       },
+      color: [
+        "#7467ef",
+        "#ff9e43",
+      ],
       yAxis: {},
       series: [
         {

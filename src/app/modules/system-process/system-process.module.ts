@@ -12,9 +12,10 @@ import { SharedModule } from '../../modules/shared/shared.module';
 import { LogsComponent } from './pages/logs/logs.component';
 import { MetricsComponent } from './pages/metrics/metrics.component';
 import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
+import { ProposedMissedChartComponent } from './components/proposed-missed-chart/proposed-missed-chart.component';
 
 @NgModule({
-  declarations: [LogsComponent, MetricsComponent, BalancesChartComponent],
+  declarations: [LogsComponent, MetricsComponent, BalancesChartComponent, ProposedMissedChartComponent],
   imports: [
     CommonModule,
     SharedModule,

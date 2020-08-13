@@ -1,7 +1,7 @@
 <div class="metrics m-sm-30">
   <app-breadcrumb></app-breadcrumb>
-  <mat-grid-list cols="12" gutterSize="24px">
-    <mat-grid-tile colspan="6" rowspan="3">
+  <mat-grid-list cols="12" gutterSize="24px" rowHeight="300px">
+    <mat-grid-tile colspan="6">
       <div class="col-content">
         <mat-card
           class="usage-card bg-primary p-16 py-28 text-center h-100"
@@ -13,21 +13,21 @@
           <div class="font-weight-300 px-80 flex flex-space-between">
             <div class="text-white">
               <div class="font-size-32">220Mb</div>
-              <p class="uppercase m-0">RAM used</p>
+              <p class="uppercase m-12">RAM used</p>
             </div>
             <div class="text-white">
               <div class="font-size-32">320</div>
-              <p class="uppercase m-0">Attestations</p>
+              <p class="uppercase m-12">Attestations</p>
             </div>
             <div class="text-white">
               <div class="font-size-32">4</div>
-              <p class="uppercase m-0">Blocks missed</p>
+              <p class="uppercase m-12">Blocks missed</p>
             </div>
           </div>
         </mat-card>
       </div>
     </mat-grid-tile>
-    <mat-grid-tile colspan="3" rowspan="3">
+    <mat-grid-tile colspan="3">
       <div class="col-content">
         <mat-card class="h-100 bg-paper">
           <div class="px-4 pt-4">
@@ -41,7 +41,7 @@
         </mat-card>
       </div>
     </mat-grid-tile>
-    <mat-grid-tile colspan="3" rowspan="3">
+    <mat-grid-tile colspan="3">
       <div class="col-content">
         <mat-card class="h-100 bg-paper">
           <div class="px-4 pt-4">
@@ -55,15 +55,18 @@
         </mat-card>
       </div>
     </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="12" gutterSize="24px" class="mt-12">
     <mat-grid-tile colspan="6" rowspan="6">
-      <div class="col-content">
+      <mat-card class="bg-paper">
         <app-balances-chart></app-balances-chart>
-      </div>
+      </mat-card>
     </mat-grid-tile>
     <mat-grid-tile colspan="6" rowspan="6">
-      <div class="col-content">
-        <app-balances-chart></app-balances-chart>
-      </div>
+      <mat-card class="bg-paper">
+        <app-proposed-missed-chart></app-proposed-missed-chart>
+      </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

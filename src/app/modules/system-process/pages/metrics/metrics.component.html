@@ -58,14 +58,27 @@
   </mat-grid-list>
 
   <mat-grid-list cols="12" gutterSize="24px" class="mt-12">
-    <mat-grid-tile colspan="6" rowspan="6">
+    <mat-grid-tile colspan="6" rowspan="5">
       <mat-card class="bg-paper">
         <app-balances-chart></app-balances-chart>
       </mat-card>
     </mat-grid-tile>
-    <mat-grid-tile colspan="6" rowspan="6">
+    <mat-grid-tile colspan="6" rowspan="5">
       <mat-card class="bg-paper">
         <app-proposed-missed-chart></app-proposed-missed-chart>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="12" gutterSize="24px" class="mt-12">
+    <mat-grid-tile colspan="6" rowspan="5">
+      <mat-card class="bg-paper">
+        <app-double-bar-chart></app-double-bar-chart>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="6" rowspan="5">
+      <mat-card class="bg-paper">
+        <app-pie-chart></app-pie-chart>
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>

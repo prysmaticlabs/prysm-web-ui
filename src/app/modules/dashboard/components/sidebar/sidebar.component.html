@@ -9,7 +9,25 @@
     <div class="scrollbar-container scrollable position-relative ps">
       <div class="navigation">
         <div *ngFor="let link of links">
-          <a *ngIf="!link.children" class="nav-item active" [routerLink]="link.path">
+          <a *ngIf="!link.children && !link.externalUrl" 
+            class="nav-item active" 
+            [routerLink]="link.path"
+            [routerLinkActive]="['active']"
+          >
+            <button mat-button class="nav-button">
+              <mat-icon aria-hidden="false" aria-label="Example home icon">
+                {{link.icon}}
+              </mat-icon>
+              <span style="margin-left:18px;font-size: 14px;">
+                {{link.name}}
+              </span>
+            </button>
+          </a>
+          <a *ngIf="!link.children && link.externalUrl" 
+             class="nav-item" 
+             [href]="link.externalUrl" 
+             target="_blank"
+          >
             <button mat-button class="nav-button">
               <mat-icon aria-hidden="false" aria-label="Example home icon">
                 {{link.icon}}
@@ -25,25 +43,6 @@
           >
           </app-sidebar-expandable-link>
         </div>
-        <!-- <a class="nav-item" routerLink="/dashboard/wallet/accounts">
-          <button mat-button class="nav-button">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">account_balance_wallet</mat-icon>
-            <span style="margin-left:18px;font-size: 14px;">Wallet & Accounts</span>
-          </button>
-        </a>
-        <a class="nav-item" routerLink="/dashboard/system/logs">
-          <button mat-button class="nav-button">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">whatshot</mat-icon>
-            <span style="margin-left:18px;font-size: 14px;">Process Analytics</span>
-          </button>
-        </a>
-        <app-sidebar-expandable-link></app-sidebar-expandable-link>
-        <a class="nav-item">
-          <button mat-button class="nav-button">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">style</mat-icon>
-            <span style="margin-left:18px;font-size: 14px;">Read the Docs</span>
-          </button>
-        </a> -->
       </div>
     </div>
   </div>

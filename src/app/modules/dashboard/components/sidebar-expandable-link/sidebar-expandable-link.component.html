@@ -1,5 +1,5 @@
 <a class="nav-item expandable">
-  <button mat-button class="nav-expandable-button" style="padding: 0px;">
+  <button mat-button class="nav-expandable-button" style="padding: 0px;" (click)="toggleCollapsed()">
     <div class="content">
       <div class="flex flex-middle">
         <mat-icon aria-hidden="false" aria-label="Example home icon">{{link.icon}}</mat-icon>
@@ -8,9 +8,9 @@
       <mat-icon aria-hidden="false" aria-label="Example home icon" style="font-size:18px;margin-top:8px;">chevron_right</mat-icon>
     </div>
   </button>
-  <div class="submenu">
+  <div *ngIf="!collapsed" class="submenu">
     <div *ngFor="let child of link.children">
-      <a class="nav-item" [routerLink]="child.path">
+      <a class="nav-item" [routerLink]="child.path" [routerLinkActive]="['active']">
         <button mat-button class="nav-button">
           <mat-icon aria-hidden="false" aria-label="Example home icon">
             {{child.icon}}

@@ -56,5 +56,10 @@ export class SidebarComponent {
         },
       ],
     },
+    {
+      name: 'Read the Docs',
+      icon: 'style',
+      externalUrl: 'https://docs.prylabs.network'
+    },
   ];
 }

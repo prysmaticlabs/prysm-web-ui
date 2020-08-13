@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import SidebarLink from '../../types/sidebar-link';
 
 @Component({
@@ -6,11 +6,11 @@ import SidebarLink from '../../types/sidebar-link';
   templateUrl: './sidebar-expandable-link.component.html',
   styleUrls: ['./sidebar-expandable-link.component.scss']
 })
-export class SidebarExpandableLinkComponent implements OnInit {
+export class SidebarExpandableLinkComponent {
   @Input() link: SidebarLink;
+  collapsed = true;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  toggleCollapsed() {
+    this.collapsed = !this.collapsed;
   }
 }

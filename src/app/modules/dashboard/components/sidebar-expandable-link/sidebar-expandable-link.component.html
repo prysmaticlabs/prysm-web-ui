@@ -1,0 +1,25 @@
+<a class="nav-item expandable">
+  <button mat-button class="nav-expandable-button" style="padding: 0px;">
+    <div class="content">
+      <div class="flex flex-middle">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">{{link.icon}}</mat-icon>
+        <span style="margin-left:18px;font-size: 14px;">{{link.name}}</span>
+      </div>
+      <mat-icon aria-hidden="false" aria-label="Example home icon" style="font-size:18px;margin-top:8px;">chevron_right</mat-icon>
+    </div>
+  </button>
+  <div class="submenu">
+    <div *ngFor="let child of link.children">
+      <a class="nav-item" [routerLink]="child.path">
+        <button mat-button class="nav-button">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">
+            {{child.icon}}
+          </mat-icon>
+          <span style="margin-left:18px;font-size: 14px;">
+            {{child.name}}
+          </span>
+        </button>
+      </a>
+    </div>
+  </div>
+</a>

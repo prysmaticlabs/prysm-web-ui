@@ -17,6 +17,7 @@ import { GainsAndLossesComponent } from './pages/gains-and-losses/gains-and-loss
 import { AccountListCardComponent } from './components/account-list-card/account-list-card.component';
 import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-link/sidebar-expandable-link.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     GainsAndLossesComponent, 
     AccountListCardComponent, 
     BalancesChartComponent, 
-    SidebarComponent,
+    SidebarComponent, SidebarExpandableLinkComponent,
   ],
   imports: [
     CommonModule,

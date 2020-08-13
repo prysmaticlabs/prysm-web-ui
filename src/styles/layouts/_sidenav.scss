@@ -68,72 +68,72 @@
 
 .navigation {
   margin-top: 40px;
-  .nav-item {
-    display: flex;
-    justify-content: space-between;
+}
+.nav-item {
+  display: flex;
+  justify-content: space-between;
+}
+.nav-item:not(.expandable) {
+  height: 48px;
+  &:hover {
+    background: rgba($black, 0.2);
+    color: white;
   }
-  .nav-item:not(.expandable) {
+  &.active {
+    background: rgba($black, 0.2);
+    color: white;
+  }
+}
+.nav-button {
+  padding: 0 20px;
+  width: 100%;
+  border-radius: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+.expandable {
+  display: block;
+}
+.nav-expandable-button {
+  width: 100%;
+  border-radius: 0;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  .content {
     height: 48px;
-    &:hover {
-      background: rgba($black, 0.2);
-      color: white;
-    }
-    &.active {
-      background: rgba($black, 0.2);
-      color: white;
-    }
-  }
-  .nav-button {
-    padding: 0 20px;
-    width: 100%;
-    border-radius: 0;
+    padding-left: 20px;
+    padding-right: 20px;
     display: flex;
     justify-content: space-between;
+    align-content: center;
     align-items: center;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
   }
-  .expandable {
-    display: block;
-  }
-  .nav-expandable-button {
+}
+.submenu {
+  position: relative;
+  background: rgba($black, 0.12);
+  &:before,
+  &:after {
+    content: "";
+    left: 0;
+    position: absolute;
     width: 100%;
-    border-radius: 0;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-    .content {
-      height: 48px;
-      padding-left: 20px;
-      padding-right: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-content: center;
-      align-items: center;
-    }
+    height: 2px;
+    z-index: 3;
   }
-  .submenu {
-    position: relative;
-    background: rgba($black, 0.12);
-    &:before,
-    &:after {
-      content: "";
-      left: 0;
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      z-index: 3;
-    }
-    &:before {
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), transparent);
-      top: 0;
-    }
-    &:after {
-      background: linear-gradient(-180deg, rgba(0, 0, 0, 0.06), transparent);
-      bottom: 0;
-    }
-    .nav-item {
-      height: 50px;
-    }
+  &:before {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), transparent);
+    top: 0;
+  }
+  &:after {
+    background: linear-gradient(-180deg, rgba(0, 0, 0, 0.06), transparent);
+    bottom: 0;
+  }
+  .nav-item {
+    height: 50px;
   }
 }
 .badge {

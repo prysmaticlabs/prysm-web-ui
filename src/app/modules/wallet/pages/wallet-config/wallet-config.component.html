@@ -1,1 +1,39 @@
-<p>wallet-config works!</p>
+<div class="m-sm-30">
+  <mat-card class="bg-paper">
+    <mat-horizontal-stepper class="bg-paper" linear #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Choose your wallet type</ng-template>
+          <mat-form-field>
+            <mat-label>Wallet type</mat-label>
+            <input matInput placeholder="Choose wallet type" formControlName="firstCtrl" required>
+          </mat-form-field>
+          <div>
+            <button color="primary" mat-raised-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup" label="Configure accounts">
+        <form [formGroup]="secondFormGroup">
+          <mat-form-field>
+            <mat-label>Num accounts</mat-label>
+            <input matInput formControlName="secondCtrl" placeholder="12"
+                  required>
+          </mat-form-field>
+          <div>
+            <button color="primary" mat-raised-button matStepperPrevious>Back</button>
+            <button color="accent" mat-raised-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div>
+          <button color="accent" mat-raised-button matStepperPrevious>Back</button>
+          <button color="accent" mat-raised-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card>
+</div>

@@ -1,1 +1,69 @@
-<p>metrics works!</p>
+<div class="metrics m-sm-30">
+  <app-breadcrumb></app-breadcrumb>
+  <mat-grid-list cols="12" gutterSize="24px">
+    <mat-grid-tile colspan="6" rowspan="3">
+      <div class="col-content">
+        <mat-card
+          class="usage-card bg-primary p-16 py-28 text-center h-100"
+        >
+          <button mat-mini-fab color="primary" class="mb-28" aria-label="Example icon button with a delete icon">
+            <mat-icon>memory</mat-icon>
+          </button>
+          <div class="mb-38 font-size-18 uppercase text-white">Process metrics summary</div>
+          <div class="font-weight-300 px-80 flex flex-space-between">
+            <div class="text-white">
+              <div class="font-size-32">220Mb</div>
+              <p class="uppercase m-0">RAM used</p>
+            </div>
+            <div class="text-white">
+              <div class="font-size-32">320</div>
+              <p class="uppercase m-0">Attestations</p>
+            </div>
+            <div class="text-white">
+              <div class="font-size-32">4</div>
+              <p class="uppercase m-0">Blocks missed</p>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3" rowspan="3">
+      <div class="col-content">
+        <mat-card class="h-100 bg-paper">
+          <div class="px-4 pt-4">
+            <div class="card-title">Profitability</div>
+            <div class="card-subtitle mb-24">$323</div>
+            <button mat-raised-button color="primary">
+              + 0.32 pending ETH
+            </button>
+          </div>
+          <!-- <AreaChart height="158px" color={[theme.palette.primary.main]} /> -->
+        </mat-card>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3" rowspan="3">
+      <div class="col-content">
+        <mat-card class="h-100 bg-paper">
+          <div class="px-4 pt-4">
+            <div class="card-title">RPC Traffic Sent</div>
+            <div class="card-subtitle mb-24">2.4Gb</div>
+            <button mat-raised-button color="accent">
+              Total Data
+            </button>
+          </div>
+          <!-- <AreaChart height="158px" color={[theme.palette.primary.main]} /> -->
+        </mat-card>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="6" rowspan="6">
+      <div class="col-content">
+        <app-balances-chart></app-balances-chart>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="6" rowspan="6">
+      <div class="col-content">
+        <app-balances-chart></app-balances-chart>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

@@ -181,3 +181,9 @@
 .col-content {
   padding-top: 40px;
 }
+
+.usage-card {
+  background: url(/assets/images/dots.png), linear-gradient(90deg, $primary -19.83%, rgb(143, 133, 242) 189.85%) !important;
+  background-size: 100% !important;
+  background-repeat: no-repeat !important;
+}

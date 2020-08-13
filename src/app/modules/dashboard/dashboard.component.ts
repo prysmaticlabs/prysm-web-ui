@@ -34,14 +34,14 @@ export class DashboardComponent {
       icon: 'whatshot',
       children: [
         {
-          name: 'System logs',
-          icon: 'memory',
-          path: '/dashboard/system/logs',
-        },
-        {
           name: 'Performance metrics',
           icon: 'insert_chart',
           path: '/dashboard/system/metrics',
+        },
+        {
+          name: 'System logs',
+          icon: 'memory',
+          path: '/dashboard/system/logs',
         },
       ],
     },

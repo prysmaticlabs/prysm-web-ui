@@ -155,6 +155,23 @@
       width: 150px;
     }
   }
+
+  .list-item {
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    &:hover {
+      background: rgba(0,0,0, .08);
+      padding-left: 8px;
+      overflow: hidden;
+      & .action-icon, & .rectangle-box {
+        opacity: 1;
+      }
+    }
+    & .action-icon, & .rectangle-box {
+      opacity: .76;
+    }
+  }
 }
 
 .logs {

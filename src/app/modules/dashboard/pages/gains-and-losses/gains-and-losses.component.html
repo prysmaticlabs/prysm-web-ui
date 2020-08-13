@@ -77,19 +77,72 @@
 
         <mat-card class="bg-paper p-16">
           <div class="flex flex-middle">
-            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+            <button mat-mini-fab color="error" aria-label="Example icon button with a delete icon">
               <mat-icon>star_outline</mat-icon>
             </button>
-            <h5 class="font-weight-500 text-green m-0 ml-12">
+            <h5 class="font-weight-500 text-error m-0 ml-12">
               Uptime Percentage
             </h5>
           </div>
           <div class="pt-16 flex flex-middle">
             <h2 class="m-0 text-muted flex-grow-1">98.5%</h2>
-            <div class="ml-12 small-circle bg-green text-white">
+            <div class="ml-12 small-circle bg-error text-white">
               <mat-icon>expand_more</mat-icon>
             </div>
-            <span class="font-size-13 text-green ml-4"> (+11%)</span>
+            <span class="font-size-13 text-error ml-4"> (+11%)</span>
+          </div>
+        </mat-card>
+
+        <div class="py-12"></div>
+
+        <mat-card class="bg-paper p-16">
+          <h5 class="mb-16 font-size-14 font-weight-600 text-hint">Achievements</h5>
+          <div class="flex flex-middle mb-12">
+            <img src="/assets/images/badge-1.svg" alt="badge" height="24px" title="Attested" class="">
+            <img class="mx-24" src="/assets/images/badge-2.svg" alt="badge" height="24px" title="Proposed a Block">
+            <img src="/assets/images/badge-3.svg" alt="badge" height="24px" title="Made weekly gains" class="">
+          </div>
+          <div class="list-item py-8 flex flex-middle">
+            <div class="rectangle-box bg-primary flex flex-center flex-middle">
+              <mat-icon>web</mat-icon>
+            </div>
+            <div class="ml-16 flex-grow-1">
+              <h6 class="m-0 font-size-13 font-weight-normal text-body">
+                Proposed a block
+              </h6>
+              <small class="text-muted">28 December 2020</small>
+            </div>
+            <button mat-mini-fab color="accent">
+              <mat-icon>play_circle_outline</mat-icon>
+            </button>
+          </div>
+          <div class="list-item py-8 flex flex-middle">
+            <div class="rectangle-box bg-error flex flex-center flex-middle">
+              <mat-icon>whatshot</mat-icon>
+            </div>
+            <div class="ml-16 flex-grow-1">
+              <h6 class="m-0 font-size-13 font-weight-normal text-body">
+                Had consistent, 100% uptime
+              </h6>
+              <small class="text-muted">28 December 2020</small>
+            </div>
+            <button mat-mini-fab color="accent">
+              <mat-icon>play_circle_outline</mat-icon>
+            </button>
+          </div>
+          <div class="list-item py-8 flex flex-middle">
+            <div class="rectangle-box bg-secondary flex flex-center flex-middle">
+              <mat-icon>memory</mat-icon>
+            </div>
+            <div class="ml-16 flex-grow-1">
+              <h6 class="m-0 font-size-13 font-weight-normal text-body">
+                Caught a slashing
+              </h6>
+              <small class="text-muted">28 December 2020</small>
+            </div>
+            <button mat-mini-fab color="accent">
+              <mat-icon>play_circle_outline</mat-icon>
+            </button>
           </div>
         </mat-card>
 

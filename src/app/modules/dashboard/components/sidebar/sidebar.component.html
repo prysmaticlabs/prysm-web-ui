@@ -1,0 +1,57 @@
+<div class="sidenav bg-paper">
+  <div class="sidenav__hold">
+    <div class="flex flex-middle flex-space-between brand-area">
+      <div class="flex flex-middle brand">
+        <img src="https://prysmaticlabs.com/assets/Prysm.svg" alt="company-logo"/>
+        <span class="brand__text">Prysm Validator</span>
+      </div>
+    </div>
+    <div class="scrollbar-container scrollable position-relative ps">
+      <div class="navigation">
+        <a class="nav-item active" routerLink="/dashboard/gains-and-losses">
+          <button mat-button class="nav-button">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">trending_up</mat-icon>
+            <span style="margin-left:18px;font-size: 14px;">Validator Gains & Losses</span>
+          </button>
+        </a>
+        <a class="nav-item" routerLink="/dashboard/wallet/accounts">
+          <button mat-button class="nav-button">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">account_balance_wallet</mat-icon>
+            <span style="margin-left:18px;font-size: 14px;">Wallet & Accounts</span>
+          </button>
+        </a>
+        <a class="nav-item" routerLink="/dashboard/system/logs">
+          <button mat-button class="nav-button">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">whatshot</mat-icon>
+            <span style="margin-left:18px;font-size: 14px;">Process Analytics</span>
+          </button>
+        </a>
+        <a class="nav-item expandable">
+          <button mat-button class="nav-expandable-button" style="padding: 0px;">
+            <div class="content">
+              <div class="flex flex-middle">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">https</mat-icon>
+                <span style="margin-left:18px;font-size: 14px;">Security</span>
+              </div>
+              <mat-icon aria-hidden="false" aria-label="Example home icon" style="font-size:18px;margin-top:8px;">chevron_right</mat-icon>
+            </div>
+          </button>
+          <div class="submenu">
+            <a class="nav-item">
+              <button mat-button class="nav-button">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">memory</mat-icon>
+                <span style="margin-left:18px;font-size: 14px;">Change your password</span>
+              </button>
+            </a>
+          </div>
+        </a>
+        <a class="nav-item">
+          <button mat-button class="nav-button">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">style</mat-icon>
+            <span style="margin-left:18px;font-size: 14px;">Read the Docs</span>
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

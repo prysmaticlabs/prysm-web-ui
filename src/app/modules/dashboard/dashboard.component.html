@@ -1,48 +1,5 @@
 <div class="bg-default layout sidenav-full theme-dark flex topbar-fixed">
-  <div class="sidenav bg-paper">
-    <div class="sidenav__hold">
-      <div class="flex flex-middle flex-space-between brand-area">
-        <div class="flex flex-middle brand">
-          <img src="https://prysmaticlabs.com/assets/Prysm.svg" alt="company-logo"/>
-          <span class="brand__text">Prysm Validator</span>
-        </div>
-      </div>
-      <div class="scrollbar-container scrollable position-relative ps">
-        <div class="navigation">
-          <a class="nav-item active" routerLink="/dashboard/gains-and-losses">
-            <button mat-button>
-              <mat-icon aria-hidden="false" aria-label="Example home icon">trending_up</mat-icon>
-              <span style="margin-left:18px;font-size: 14px;">Validator Gains & Losses</span>
-            </button>
-          </a>
-          <a class="nav-item" routerLink="/dashboard/wallet/accounts">
-            <button mat-button>
-              <mat-icon aria-hidden="false" aria-label="Example home icon">account_balance_wallet</mat-icon>
-              <span style="margin-left:18px;font-size: 14px;">Wallet & Accounts</span>
-            </button>
-          </a>
-          <a class="nav-item">
-            <button mat-button>
-              <mat-icon aria-hidden="false" aria-label="Example home icon">whatshot</mat-icon>
-              <span style="margin-left:18px;font-size: 14px;">Process Analytics</span>
-            </button>
-          </a>
-          <a class="nav-item">
-            <button mat-button>
-              <mat-icon aria-hidden="false" aria-label="Example home icon">https</mat-icon>
-              <span style="margin-left:18px;font-size: 14px;">Security</span>
-            </button>
-          </a>
-          <a class="nav-item">
-            <button mat-button>
-              <mat-icon aria-hidden="false" aria-label="Example home icon">style</mat-icon>
-              <span style="margin-left:18px;font-size: 14px;">Read the Docs</span>
-            </button>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-sidebar></app-sidebar>
   <div class="content-wrap position-relative">
     <div class="scrollbar-container scrollable-content ps ps--active-y">
       <div class="content">

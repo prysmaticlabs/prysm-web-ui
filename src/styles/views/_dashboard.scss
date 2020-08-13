@@ -87,10 +87,6 @@
     display: block !important;
   }
 
-  .gains-content {
-    padding-top: 40px;
-  }
-
   .welcome-card {
     padding: 36px 50px !important;
     position: relative;
@@ -159,4 +155,29 @@
       width: 150px;
     }
   }
+}
+
+.logs {
+  .logs-card {
+    padding: 0;
+  }
+  .code {
+    background-color: #121212;
+    font-family: 'Source Code Pro', monospace;
+    padding: 16px 24px;
+    color: white;
+    .highlight {
+      color: #00C228;
+    }
+    .blue {
+      color: #00C5C7;
+    }
+    .gray {
+      color: #686868;
+    }
+  }
+}
+
+.col-content {
+  padding-top: 30px;
 }

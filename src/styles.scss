@@ -14,20 +14,16 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $prysm-primary: (
-  50: $primary,
-  100: $primary,
-  200: $primary,
-  300: $primary,
+  50: #eceafd,
+  100: #cecbfa,
+  200: #aea9f7,
+  300: #8c85f3,
   400: $primary,
-  500: $primary,
-  600: $primary,
-  700: $primary,
-  800: $primary,
-  900: $primary,
-  A100: $primary,
-  A200: $primary,
-  A400: $primary,
-  A700: $primary,
+  500: #6047e9,
+  600: #5b3edd,
+  700: #5331d0,
+  800: #4c22c4,
+  900: #4200ac,
   contrast: (
     50: white,
     100: white,
@@ -47,20 +43,16 @@ $prysm-primary: (
 );
 
 $prysm-secondary: (
-  50: $secondary,
-  100: $secondary,
-  200: $secondary,
-  300: $secondary,
-  400: $secondary,
-  500: $secondary,
-  600: $secondary,
-  700: $secondary,
-  800: $secondary,
-  900: $secondary,
-  A100: $secondary,
-  A200: $secondary,
-  A400: $secondary,
-  A700: $secondary,
+  50: #fff9e6,
+  100: #ffefbe,
+  200: #ffe696,
+  300: #ffdd6f,
+  400: #ffd358,
+  500: #ffcc50,
+  600: #ffbf4b,
+  700: #ffad46,
+  800: #ff9e43,
+  900: #fb833e,
   contrast: (
     50: white,
     100: white,
@@ -107,4 +99,8 @@ body {
   font-size: 16px;
   overflow: hidden;
   position: relative;
+}
+
+::ng-deep .mat-grid-tile .mat-figure {
+  display: block !important;
 }

@@ -11,15 +11,24 @@ import { MatTableModule } from '@angular/material/table';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { SharedModule } from '../../modules/shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { GainsAndLossesComponent } from './pages/gains-and-losses/gains-and-losses.component';
 import { AccountListCardComponent } from './components/account-list-card/account-list-card.component';
 import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
-  declarations: [DashboardComponent, GainsAndLossesComponent, AccountListCardComponent, BalancesChartComponent],
+  declarations: [
+    DashboardComponent, 
+    GainsAndLossesComponent, 
+    AccountListCardComponent, 
+    BalancesChartComponent, 
+    SidebarComponent,
+  ],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule,
     BrowserAnimationsModule,
     MatSliderModule,

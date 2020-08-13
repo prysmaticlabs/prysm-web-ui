@@ -8,6 +8,7 @@ import { AccountListComponent } from './modules/wallet/pages/account-list/accoun
 import { WalletConfigComponent } from './modules/wallet/pages/wallet-config/wallet-config.component';
 import { LogsComponent } from './modules/system-process/pages/logs/logs.component';
 import { MetricsComponent } from './modules/system-process/pages/metrics/metrics.component';
+import { ChangePasswordComponent } from './modules/security/pages/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,15 @@ const routes: Routes = [
           {
             path: 'metrics',
             component: MetricsComponent,
+          },
+        ]
+      },
+      {
+        path: 'security',
+        children: [
+          {
+            path: 'change-password',
+            component: ChangePasswordComponent,
           },
         ]
       }

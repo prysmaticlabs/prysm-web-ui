@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { WalletModule } from './modules/wallet/wallet.module';
+import { SecurityModule } from './modules/security/security.module';
 import { SystemProcessModule } from './modules/system-process/system-process.module';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { SystemProcessModule } from './modules/system-process/system-process.mod
     DashboardModule,
     WalletModule,
     SystemProcessModule,
+    SecurityModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,6 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { LoginComponent } from './login.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Overlay } from '@angular/cdk/overlay';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -18,7 +20,11 @@ describe('LoginComponent', () => {
         FormsModule,
         ReactiveFormsModule,
       ],
-      providers: [ FormBuilder ]
+      providers: [
+        MatSnackBar,
+        Overlay,
+        FormBuilder,
+      ]
     })
       .compileComponents();
   }));

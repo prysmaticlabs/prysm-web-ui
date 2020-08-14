@@ -10,11 +10,11 @@
             <div class="mb-4">
               <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
-                <input 
-                  matInput 
-                  formControlName="password" 
-                  placeholder="Enter your password" 
-                  name="password" 
+                <input
+                  matInput
+                  formControlName="password"
+                  placeholder="Enter your password"
+                  name="password"
                   type="password"
                   required
                 />
@@ -27,7 +27,7 @@
             </div>
             <div class="flex flex-middle mb-8">
               <div class="btn-container">
-                <button mat-raised-button color="primary" [disabled]="loading">
+                <button mat-raised-button color="primary" name="submit" [disabled]="loading">
                   Sign in to Web UI
                 </button>
                 <div class="btn-progress" *ngIf="loading">

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SidebarExpandableLinkComponent } from './sidebar-expandable-link.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('SidebarExpandableLinkComponent', () => {
   let component: SidebarExpandableLinkComponent;
@@ -8,7 +9,12 @@ describe('SidebarExpandableLinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidebarExpandableLinkComponent ]
+      imports: [
+        MatIconModule,
+      ],
+      declarations: [
+        SidebarExpandableLinkComponent,
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +22,10 @@ describe('SidebarExpandableLinkComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SidebarExpandableLinkComponent);
     component = fixture.componentInstance;
+    component.link = {
+      name: 'Wallet',
+      icon: 'whatshot',
+    };
     fixture.detectChanges();
   });
 

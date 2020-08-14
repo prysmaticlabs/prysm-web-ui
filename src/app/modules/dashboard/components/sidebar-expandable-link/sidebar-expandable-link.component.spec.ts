@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from '../../../shared/shared.module';
 import { SidebarExpandableLinkComponent } from './sidebar-expandable-link.component';
 
 describe('SidebarExpandableLinkComponent', () => {
@@ -8,7 +9,12 @@ describe('SidebarExpandableLinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidebarExpandableLinkComponent ]
+      imports: [
+        SharedModule,
+      ],
+      declarations: [
+        SidebarExpandableLinkComponent,
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +22,10 @@ describe('SidebarExpandableLinkComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SidebarExpandableLinkComponent);
     component = fixture.componentInstance;
+    component.link = {
+      name: 'Wallet',
+      icon: 'whatshot',
+    };
     fixture.detectChanges();
   });
 

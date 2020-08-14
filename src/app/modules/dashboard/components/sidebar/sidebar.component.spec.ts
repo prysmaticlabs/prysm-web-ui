@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SidebarComponent } from './sidebar.component';
+import { SharedModule } from '../../../shared/shared.module';
+import { SidebarExpandableLinkComponent } from '../sidebar-expandable-link/sidebar-expandable-link.component';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -8,7 +10,13 @@ describe('SidebarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidebarComponent ]
+      imports: [
+        SharedModule,
+      ],
+      declarations: [
+        SidebarExpandableLinkComponent,
+        SidebarComponent,
+      ]
     })
     .compileComponents();
   }));

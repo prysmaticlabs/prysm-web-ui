@@ -3,7 +3,11 @@ import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Overlay } from '@angular/cdk/overlay';
+
 import { LoginComponent } from './login.component';
+import { SharedModule } from '../../shared/shared.module';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -17,8 +21,13 @@ describe('LoginComponent', () => {
         RouterTestingModule,
         FormsModule,
         ReactiveFormsModule,
+        SharedModule,
       ],
-      providers: [ FormBuilder ]
+      providers: [
+        MatSnackBar,
+        Overlay,
+        FormBuilder,
+      ]
     })
       .compileComponents();
   }));
@@ -55,9 +64,8 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
     expect(passwordInput.value).toContain('1234');
     expect(form.valid).toBeFalsy();
-    expect(form.controls.password.errors.password).toBeTruthy();
 
-    const invalidPasswordText = fixture.nativeElement.querySelector('div[name="validWarn"]');
+    const invalidPasswordText = fixture.nativeElement.querySelector('div[name="passwordReq"]');
     expect(invalidPasswordText).toBeTruthy();
   });
 

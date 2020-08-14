@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AuthGuard } from './auth.guard';
 import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
-import { ENVIRONMENT } from '../../../../environments/token';
 import { 
   GainsAndLossesComponent,
 } from '../../dashboard/pages/gains-and-losses/gains-and-losses.component';
@@ -38,7 +37,6 @@ describe('AuthredirectGuard', () => {
       ],
       providers: [
         AuthGuard,
-        { provide: ENVIRONMENT, useValue: true },
         { provide: AuthenticationService, useValue: spy },
         { provide: ActivatedRouteSnapshot, useValue: MockActivatedRouteSnapshot },
         { provide: RouterStateSnapshot, useValue: MockRouterStateSnapshot },

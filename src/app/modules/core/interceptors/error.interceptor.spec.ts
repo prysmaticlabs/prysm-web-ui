@@ -3,7 +3,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { RouterTestingModule } from '@angular/router/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { ENVIRONMENT } from '../../../../environments/token';
 import { ErrorInterceptor } from './error.interceptor';
 import { AuthenticationService } from '../services/auth.service';
 
@@ -24,7 +23,6 @@ describe('ErrorInterceptor', () => {
           multi: true
         },
         { provide: AuthenticationService, useValue: spy },
-        { provide: ENVIRONMENT, useValue: true },
       ]
     });
     authService = TestBed.inject(AuthenticationService);

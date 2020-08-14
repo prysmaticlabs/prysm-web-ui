@@ -2,7 +2,6 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { ENVIRONMENT } from '../../../../environments/token';
 import { JwtInterceptor } from './jwt.interceptor';
 import { AuthenticationService } from '../services/auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,7 +25,6 @@ describe('JwtInterceptor', () => {
         {
           provide: AuthenticationService, useValue: authService,
         },
-        { provide: ENVIRONMENT, useValue: true },
       ]
     });
     authService = TestBed.inject(AuthenticationService);

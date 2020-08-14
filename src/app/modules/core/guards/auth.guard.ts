@@ -9,7 +9,6 @@ import {
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '../services/auth.service';
-import { onErrorResumeNextStatic } from 'rxjs/internal/operators/onErrorResumeNext';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {

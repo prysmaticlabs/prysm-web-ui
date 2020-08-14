@@ -1,7 +1,7 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Environment, ENVIRONMENT } from '../../../../environments/token';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +9,19 @@ import { Environment, ENVIRONMENT } from '../../../../environments/token';
 export class AuthenticationService {
 
   public token: string;
-  private apiUrl: string;
 
   constructor(
-    @Inject(ENVIRONMENT) private readonly environment: Environment,
     private router: Router,
     private http: HttpClient,
   ) {
-    this.apiUrl = environment.apiEndpoint;
   }
 
-  login() {
+  login(password: string) {
+    return this.http.post(`/api/login`, { password }).pipe(
+      tap((res: any) => {
+        this.token = res.token;
+      })
+    );
   }
 
   logout() {

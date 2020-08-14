@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthredirectGuard } from './modules/core/guards/authredirect.guard';
+import { AuthGuard } from './modules/core/guards/auth.guard';
+
 import { LoginComponent } from './modules/auth/login/login.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { GainsAndLossesComponent } from './modules/dashboard/pages/gains-and-losses/gains-and-losses.component';
@@ -14,10 +17,12 @@ const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
+    canActivate: [AuthredirectGuard],
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'gains-and-losses',

@@ -1,5 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
+import { ErrorInterceptor } from './modules/core/interceptors/error.interceptor';
+import { JwtInterceptor } from './modules/core/interceptors/jwt.interceptor';
+import { ENVIRONMENT } from '../environments/token';
+import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,13 +22,18 @@ import { SystemProcessModule } from './modules/system-process/system-process.mod
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     AuthModule,
     DashboardModule,
     WalletModule,
     SystemProcessModule,
     SecurityModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: ENVIRONMENT, useValue: environment },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

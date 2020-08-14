@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = this.formBuilder.group({
       password: new FormControl("", [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(8),
         Validators.pattern(
           '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     // Redirect to dashboard by default unless a different
     // return url is set in the query parameters.
     this.route.queryParams
-      .subscribe(params => this.returnUrl = params['return'] || '/dashboard/gains-and-losses');
+      .subscribe(params => this.returnUrl = params.return || '/dashboard/gains-and-losses');
   }
 
   onSubmit() {

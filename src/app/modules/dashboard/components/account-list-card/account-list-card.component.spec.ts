@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
+import { SharedModule } from '../../../shared/shared.module';
 
 import { AccountListCardComponent } from './account-list-card.component';
 
@@ -11,8 +10,7 @@ describe('AccountListCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatCardModule,
-        MatTableModule,
+        SharedModule,
       ],
       declarations: [ AccountListCardComponent ]
     })

@@ -5,10 +5,11 @@ import { AuthenticationService } from '../services/auth.service';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
+  let authService: AuthenticationService;
   const router = {
     navigate: jasmine.createSpy('navigate')
   };
-  const authService = { token: 'hello', login: () => {}};
+  const authMock = { login: () => {} };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,7 +17,7 @@ describe('AuthGuard', () => {
         AuthGuard,
         {
           provide: AuthenticationService,
-          useValue: authService,
+          useValue: authMock,
         },
         {
           provide: Router,
@@ -25,6 +26,7 @@ describe('AuthGuard', () => {
       ],
     });
     guard = TestBed.inject(AuthGuard);
+    authService = TestBed.inject(AuthenticationService);
     router.navigate.and.callFake(() => {});
   });
 
@@ -33,10 +35,12 @@ describe('AuthGuard', () => {
     const routeStateMock: any = { snapshot: {}, url: '/'};
 
     it('should return true for a logged in user', () => {
+      authService.token = 'hello';
       expect(guard.canActivate(routeMock, routeStateMock)).toEqual(true);
     });
 
     it('should return false for an unauthenticated user', () => {
+      authService.token = '';
       expect(guard.canActivate(routeMock, routeStateMock)).toEqual(false);
     });
   });

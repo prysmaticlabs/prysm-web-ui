@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from '../../../shared/shared.module';
 import { SidebarExpandableLinkComponent } from './sidebar-expandable-link.component';
-import { MatIconModule } from '@angular/material/icon';
 
 describe('SidebarExpandableLinkComponent', () => {
   let component: SidebarExpandableLinkComponent;
@@ -10,7 +10,7 @@ describe('SidebarExpandableLinkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatIconModule,
+        SharedModule,
       ],
       declarations: [
         SidebarExpandableLinkComponent,

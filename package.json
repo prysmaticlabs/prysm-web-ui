@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "clean": "rm -Rf ./dist",
     "build:ci": "npm run clean && npm run test && npm run build:prod",
     "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",
     "lint": "ng lint",

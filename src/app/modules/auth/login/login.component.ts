@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     // Redirect to dashboard by default unless a different
     // return url is set in the query parameters.
     this.route.queryParams
-      .subscribe(params => this.returnUrl = params.return || '/dashboard/gains-and-losses');
+      .subscribe(params => this.returnUrl = params.return || '/onboarding/wallet');
   }
 
   onSubmit() {

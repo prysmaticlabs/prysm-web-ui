@@ -1,0 +1,122 @@
+<div class="onboarding w-100 h-100vh" [ngSwitch]="onboardingState">
+  <div *ngSwitchCase="'pickingWallet'" class="onboarding-grid flex justify-center items-center my-auto">
+    <mat-card 
+      *ngFor="let selection of walletSelections"
+      class="onboarding-card bg-paper text-center flex flex-col" 
+      [class.active]="selected === selection.kind"
+      [class.mx-24]="selection.kind === 'derived'"
+      (click)="selectWallet(selection.kind)"
+    >
+      <div class="flex justify-center">
+        <img [src]="selection.image"/>
+      </div>
+      <div class="wallet-info">
+        <p class="wallet-kind">
+          {{selection.name}}
+        </p>
+        <p class="wallet-description">
+          {{selection.description}}
+        </p>
+        <p class="wallet-action">
+          <button mat-raised-button color="accent" (click)="next('viewMnemonic')">
+            Select Wallet
+          </button>
+        </p>
+      </div>
+    </mat-card>
+  </div>
+  <div *ngSwitchCase="'viewMnemonic'" class="onboarding-grid flex justify-center items-center my-auto">
+    <mat-card class="form-card bg-paper">
+      <div class="grid grid-cols-12">
+        <div class="col-span-5 flex justify-center py-48">
+          <img src="/assets/images/onboarding/password.svg" alt="" />
+        </div>
+        <div class="col-span-7 form-container py-48 pl-40">
+          <form>
+            <div class="mb-4">
+              <div>
+                Successfully created your wallet
+              </div>
+              <div>
+                Keep this mnemonic phrase safe, you'll need it
+              </div>
+              <mat-card class="bg-primary">
+                fish face red pig meat mint hint boat someone soap happy
+              </mat-card>
+            </div>
+            <div class="flex flex-middle mb-8">
+              <div class="btn-container">
+                <button mat-raised-button color="accent" (click)="next('confirmMnemonic')">
+                  Next
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div *ngSwitchCase="'confirmMnemonic'" class="onboarding-grid flex justify-center items-center my-auto">
+    <mat-card class="form-card bg-paper">
+      <div class="grid grid-cols-12">
+        <div class="col-span-5 flex justify-center py-48">
+          <img src="/assets/images/onboarding/password.svg" alt="" />
+        </div>
+        <div class="col-span-7 form-container py-48 pl-40">
+          <form>
+            <div class="mb-4">
+              <div>
+                Confirm you entered your mnemonic
+              </div>
+              <div>
+                Keep this mnemonic phrase safe, you'll need it
+              </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Your mnemonic</mat-label>
+                <input
+                  matInput
+                  placeholder="Enter your password"
+                  name="password"
+                  type="password"
+                  required
+                />
+              </mat-form-field>
+            </div>
+            <div class="flex flex-middle mb-8">
+              <div class="btn-container">
+                <button mat-raised-button color="accent" name="submit" (click)="next('walletCreated')">
+                  Next
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div *ngSwitchCase="'walletCreated'" class="onboarding-grid flex justify-center items-center my-auto">
+    <mat-card class="form-card bg-paper">
+      <div class="grid grid-cols-12">
+        <div class="col-span-5 flex justify-center py-48">
+          <img src="/assets/images/onboarding/password.svg" alt="" />
+        </div>
+        <div class="col-span-7 form-container py-48 pl-40">
+          <div class="mb-4">
+            <div>
+              Yay! Done with wallet creation
+            </div>
+          </div>
+          <div class="flex flex-middle mb-8">
+            <div class="btn-container">
+              <a [routerLink]="['/dashboard/gains-and-losses']">
+                <button mat-raised-button color="accent">
+                  Dashboard
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

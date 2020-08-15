@@ -1,0 +1,104 @@
+.onboarding {
+  background: $bg-default;
+
+  .onboarding-grid {
+    padding-top: 280px;
+    .onboarding-card {
+      border-width: 4px;
+      padding-top: 60px;
+      height: 400px;
+      width: 350px;
+      border-radius: 12px !important;
+      color: white;
+      img {
+        width: 180px;
+        height: 140px;
+      }
+      .wallet-info {
+        margin-top: 36px;
+        .wallet-kind {
+          font-size: 36px;
+        }
+        .wallet-description {
+          margin-top: 32px;
+          margin-bottom: 26px;
+          font-size: 16px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .wallet-action {
+          button {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    .onboarding-card.active {
+      background-color: $primary;
+      border-color: $primary;
+      height: 480px;
+      width: 420px;
+      -webkit-transition : background-color 500ms ease-out;
+      -moz-transition : background-color 500ms ease-out;
+      -o-transition : background-color 500ms ease-out;
+      transition : background-color 500ms ease-out;
+    }
+    .onboarding-card:not(.active) {
+      cursor: pointer;
+      -webkit-transition : border-color 500ms ease-out;
+      -moz-transition : border-color 500ms ease-out;
+      -o-transition : border-color 500ms ease-out;
+      transition : border-color 500ms ease-out;
+      border-color: $bg-paper;
+      .wallet-action {
+        display: none;
+      }
+      &:hover {
+        border-color: $primary;
+      }
+    }
+  }
+
+  .form-card {
+    padding: 0;
+    width: 1000px;
+    border-radius: 12px !important;
+    img {
+      width: 300px;
+    }
+    .form-container {
+      background: $light-gray;
+      ::ng-deep .mat-button-disabled {
+        color: $text-hint;
+      }
+      ::ng-deep input.mat-input-element {
+        color: white;
+      }
+      ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+        color: $primary!important;
+      }
+      ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+        color: $primary!important;
+      }
+      ::ng-deep .mat-input-element {
+        caret-color: white!important;
+      }
+      ::ng-deep .mat-form-field-label {
+        color: white;
+      }
+      ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+        color: $primary!important;
+      }
+    }
+    .btn-container {
+      position: relative;
+      .btn-progress {
+        position: absolute;
+        top: 5px;
+        left: 56px;
+        margin-top: -4;
+        margin-left: -24;
+      }
+    }
+  }
+}

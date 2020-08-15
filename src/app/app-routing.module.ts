@@ -12,12 +12,18 @@ import { WalletConfigComponent } from './modules/wallet/pages/wallet-config/wall
 import { LogsComponent } from './modules/system-process/pages/logs/logs.component';
 import { MetricsComponent } from './modules/system-process/pages/metrics/metrics.component';
 import { ChangePasswordComponent } from './modules/security/pages/change-password/change-password.component';
+import { ChooseWalletComponent } from './modules/onboarding/pages/choose-wallet/choose-wallet.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
     canActivate: [AuthredirectGuard],
+  },
+  {
+    path: 'onboarding/wallet',
+    component: ChooseWalletComponent,
+    // canActivate: [AuthGuard],
   },
   {
     path: 'dashboard',

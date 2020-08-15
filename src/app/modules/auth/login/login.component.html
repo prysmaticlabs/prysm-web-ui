@@ -1,7 +1,7 @@
 <div class="signup flex flex-center w-100 h-100vh">
   <div class="p-8">
     <mat-card class="signup-card position-relative y-center bg-paper">
-      <mat-grid-list cols="12" rowHeight="250px">
+      <mat-grid-list cols="12" rowHeight="270px">
         <mat-grid-tile class="signup-img" colspan="5">
           <img src="/assets/images/dreamer.svg" alt="" />
         </mat-grid-tile>
@@ -20,9 +20,15 @@
                 />
               </mat-form-field>
               <div *ngIf="submitted && loginForm.controls['password'].errors" class="invalid-feedback pb-16">
-                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.required" class="text-error">Password is required</div>
-                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.minlength" class="text-error">Passwords needs at least 8 characters</div>
-                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.pattern" class="text-error">Needs at least 1 uppercase letter, 1 number, and 1 special char</div>
+                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.required" class="text-error">
+                  Password is required
+                </div>
+                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.minlength" class="text-error">
+                  Enter at least 8 characters
+                </div>
+                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.pattern" class="text-error">
+                  At least 1 uppercase letter, <br/>1 number, and 1 special char
+                </div>
               </div>
             </div>
             <div class="flex flex-middle mb-8">

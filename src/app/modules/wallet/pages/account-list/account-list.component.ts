@@ -22,7 +22,6 @@ const NAMES: string[] = [
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
-  styleUrls: ['./account-list.component.scss'],
 })
 export class AccountListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'progress', 'color'];

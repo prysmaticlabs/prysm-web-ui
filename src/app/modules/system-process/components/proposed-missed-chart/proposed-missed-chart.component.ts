@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-proposed-missed-chart',
   templateUrl: './proposed-missed-chart.component.html',
-  styleUrls: ['./proposed-missed-chart.component.scss']
 })
 export class ProposedMissedChartComponent {
   options = {

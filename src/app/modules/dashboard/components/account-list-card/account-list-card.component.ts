@@ -18,7 +18,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
 @Component({
   selector: 'app-account-list-card',
   templateUrl: './account-list-card.component.html',
-  styleUrls: ['./account-list-card.component.scss']
 })
 export class AccountListCardComponent {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];

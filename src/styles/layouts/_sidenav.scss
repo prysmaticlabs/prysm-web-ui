@@ -24,7 +24,7 @@
     }
     // Sidebar overlay
     &::after {
-      background: $bg-paper;
+      @extend .bg-paper;
       opacity: 0.94;
       content: "";
       position: absolute;

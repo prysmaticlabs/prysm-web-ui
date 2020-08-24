@@ -48,7 +48,7 @@ $prysm-secondary: (
   200: #ffcfa1,
   300: #ffbb7b,
   400: #ffad5f,
-  500: #ff9e43,
+  500: $secondary,
   600: #ff963d,
   700: #ff8c34,
   800: #ff822c,
@@ -109,5 +109,5 @@ body {
 }
 
 .mat-card {
-  background-color: $bg-paper;
+  background-color: $paper;
 }

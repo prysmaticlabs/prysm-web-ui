@@ -1,6 +1,5 @@
 .signup {
-  background: $bg-default;
-
+  @extend .bg-default;
   .invalid-feedback {
     max-width: 100px;
   }
@@ -14,9 +13,9 @@
       height: 120px;
     }
     .signup-form-container {
-      background: $light-gray;
+      background-color: rgba(0, 0, 0, 0.08);
       ::ng-deep .mat-button-disabled {
-        color: $text-hint;
+        @extend .text-hint;
       }
       ::ng-deep input.mat-input-element {
         color: white;

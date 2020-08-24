@@ -31,7 +31,7 @@
       tr {
         transition: background 300ms ease;
         &:hover {
-          background: $light-gray;
+          @extend .text-muted;
         }
         td {
           border-bottom: none;
@@ -54,7 +54,7 @@
       }
     }
     .number-avatar {
-      background: $warn;
+      @extend .bg-error;
     }
   }
 
@@ -131,7 +131,7 @@
       tr {
         transition: background 300ms ease;
         &:hover {
-          background: $light-gray;
+          @extend .text-muted;
         }
         td {
           border-bottom: none;

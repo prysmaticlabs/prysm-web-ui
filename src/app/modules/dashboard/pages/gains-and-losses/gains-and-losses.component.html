@@ -1,7 +1,7 @@
 <div class="gains-and-losses m-sm-30">
   <app-breadcrumb></app-breadcrumb>
-  <mat-grid-list cols="12" gutterSize="24px">
-    <mat-grid-tile colspan="8" rowspan="11">
+  <div class="grid grid-cols-12 gap-8">
+    <div class="col-span-8">
       <div class="col-content">
 
         <mat-card
@@ -32,8 +32,8 @@
         <app-account-list-card></app-account-list-card>
         
       </div>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="4" rowspan="11">
+    </div>
+    <div class="col-span-4">
       <div class="col-content">
 
         <mat-card class="bg-paper p-sm-24 mb-24">
@@ -145,8 +145,7 @@
             </button>
           </div>
         </mat-card>
-
       </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+    </div>
+  </div>
 </div>

@@ -90,7 +90,6 @@ $prysm-web-ui-theme: mat-light-theme((
 @include angular-material-theme($prysm-web-ui-theme);
 
 /* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 
 body {
@@ -107,4 +106,8 @@ body {
 
 ::ng-deep .mat-grid-tile .mat-figure {
   display: block !important;
+}
+
+.mat-card {
+  background-color: $bg-paper;
 }

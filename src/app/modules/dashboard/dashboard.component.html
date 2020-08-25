@@ -1,19 +1,18 @@
-<div class="bg-default layout sidenav-full theme-dark flex topbar-fixed">
-  <app-sidebar [links]="links"></app-sidebar>
-  <div class="content-wrap position-relative">
-    <div class="scrollbar-container scrollable-content ps ps--active-y">
-      <div class="content px-8 pt-6 pb-10">
-        <router-outlet></router-outlet>
-      </div>
-      <div class="my-auto"></div>
-      <div class="footer flex justify-between items-center bg-paper px-8">
-        <a href="https://medalla.launchpad.ethereum.org/">
-          <button mat-raised-button color="accent" class="text-gray">
-            Join the Testnet
-          </button>
-        </a>
-        <div class="text-muted">2020 Prysmatic Labs</div>
-      </div>
+<div class="bg-default layout sidenav-full theme-dark flex">
+  <div class="hidden md:block md:w-1/6">
+    <app-sidebar [links]="links"></app-sidebar>
+  </div>
+  <div class="w-full md:w-5/6 overflow-y-scroll">
+    <div class="pt-6 px-12 pb-10">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="footer bottom-0 w-full flex justify-between items-center bg-paper px-8">
+      <a href="https://medalla.launchpad.ethereum.org/">
+        <button mat-raised-button color="accent" class="text-gray">
+          Join the Testnet
+        </button>
+      </a>
+      <div class="text-muted">2020 Prysmatic Labs</div>
     </div>
   </div>
 </div>

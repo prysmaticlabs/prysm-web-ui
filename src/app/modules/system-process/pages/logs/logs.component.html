@@ -3,8 +3,7 @@
   <div class="grid grid-cols-3 gap-8">
     <div class="col-span-2">
         <mat-card class="pt-20 logs-card bg-paper">
-          <div class="card-title px-24 mb-12">validator client logs</div>
-          <div class="code">
+          <div class="code rounded">
   <span class="gray">[2020-08-08 03:56:08] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Attestation schedule attesters=1 pubKeys=[0xa0551c35fad1] slot=26088
   <br/>
   <span class="gray">[2020-08-08 03:56:08] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Attestation schedule attesters=2 pubKeys=[0x8e557d66788b 0x822e00ec3d8e] slot=26097
@@ -27,16 +26,16 @@
     </div>
     <div class="col-span-1 grid grid-cols-1 gap-8">
         <mat-card class="bg-paper p-16">
-          <div class="flex flex-middle">
+          <div class="flex items-center">
             <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
               <mat-icon>memory</mat-icon>
             </button>
-            <h5 class="font-weight-500 text-green m-0 ml-12">
+            <div class="text-white text-xl ml-4">
               Process Health
-            </h5>
+            </div>
           </div>
-          <div class="pt-16 flex flex-middle flex-space-between">
-            <h2 className="m-0 text-muted flex-grow-1">OK!</h2>
+          <div class="pt-8 flex items-center justify-between">
+            <div className="m-0 text-muted">OK!</div>
             <button
               mat-button
               raised
@@ -48,10 +47,10 @@
         </mat-card>
         
         <mat-card class="bg-paper">
-          <div class="card-title mb-12">Log Percentage Summary</div>
+          <div class="card-title mb-8 text-lg text-muted">Log Percentage Summary</div>
           <div class="text-muted">Today</div>
-          <div class="pt-8"></div>
-          <div class="mb-12">
+          <div class="pt-4"></div>
+          <div class="mb-6">
             <div>
               <mat-progress-bar mode="determinate" value="70" color="primary"></mat-progress-bar>
             </div>
@@ -59,7 +58,7 @@
               <small>70% Info Logs</small>
             </div>
           </div>
-          <div class="mb-12">
+          <div class="mb-6">
             <div>
               <mat-progress-bar mode="determinate" value="10" color="accent"></mat-progress-bar>
             </div>
@@ -67,7 +66,7 @@
               <small>10% Warning Logs</small>
             </div>
           </div>
-          <div class="mb-12">
+          <div class="mb-6">
             <div>
               <mat-progress-bar mode="determinate" value="20" color="warn"></mat-progress-bar>
             </div>

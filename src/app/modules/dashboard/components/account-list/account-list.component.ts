@@ -13,13 +13,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
   {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
 ];
 
 @Component({
-  selector: 'app-account-list-card',
-  templateUrl: './account-list-card.component.html',
+  selector: 'app-account-list',
+  templateUrl: './account-list.component.html',
 })
-export class AccountListCardComponent {
+export class AccountListComponent {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
 }

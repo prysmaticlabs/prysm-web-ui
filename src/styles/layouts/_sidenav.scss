@@ -1,7 +1,5 @@
 .sidenav {
   color: rgba(255, 255, 255, 0.7);
-  position: fixed;
-  top: 0;
   height: 100vh;
   background-repeat: no-repeat;
   background-position: top;
@@ -9,9 +7,8 @@
   overflow: hidden;
   z-index: 99;
   box-shadow: $elevation-z8;
-  width: $sidenav-width;
   .sidenav__hold {
-    padding-top: 15px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -22,7 +19,7 @@
     .scrollable {
       padding-bottom: 120px;
     }
-    // Sidebar overlay
+    // Sidebar overlay.
     &::after {
       @extend .bg-paper;
       opacity: 0.94;
@@ -48,21 +45,6 @@
         }
       }
     }
-  }
-}
-
-.sidenav-mobile {
-  .sidenav {
-    width: $sidenav-width;
-  }
-  .sidenav__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.54);
-    z-index: -1;
   }
 }
 

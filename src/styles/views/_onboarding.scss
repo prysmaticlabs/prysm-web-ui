@@ -1,8 +1,8 @@
 .onboarding {
-  background: $bg-default;
-
+  .create-a-wallet {
+    padding-top: 200px;
+  }
   .onboarding-grid {
-    padding-top: 280px;
     .onboarding-card {
       border-width: 4px;
       padding-top: 60px;
@@ -49,55 +49,12 @@
       -moz-transition : border-color 500ms ease-out;
       -o-transition : border-color 500ms ease-out;
       transition : border-color 500ms ease-out;
-      border-color: $bg-paper;
+      border-color: $paper;
       .wallet-action {
         display: none;
       }
       &:hover {
         border-color: $primary;
-      }
-    }
-  }
-
-  .form-card {
-    padding: 0;
-    width: 1000px;
-    border-radius: 12px !important;
-    img {
-      width: 300px;
-    }
-    .form-container {
-      background: $light-gray;
-      ::ng-deep .mat-button-disabled {
-        color: $text-hint;
-      }
-      ::ng-deep input.mat-input-element {
-        color: white;
-      }
-      ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-        color: $primary!important;
-      }
-      ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-        color: $primary!important;
-      }
-      ::ng-deep .mat-input-element {
-        caret-color: white!important;
-      }
-      ::ng-deep .mat-form-field-label {
-        color: white;
-      }
-      ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
-        color: $primary!important;
-      }
-    }
-    .btn-container {
-      position: relative;
-      .btn-progress {
-        position: absolute;
-        top: 5px;
-        left: 56px;
-        margin-top: -4;
-        margin-left: -24;
       }
     }
   }

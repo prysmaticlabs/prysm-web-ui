@@ -10,7 +10,6 @@ interface walletSelection {
 @Component({
   selector: 'app-choose-wallet',
   templateUrl: './choose-wallet.component.html',
-  styleUrls: ['./choose-wallet.component.scss']
 })
 export class ChooseWalletComponent implements OnInit {
   selected: string = 'derived';

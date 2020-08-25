@@ -86,7 +86,12 @@
   ::ng-deep .mat-grid-tile .mat-figure {
     display: block !important;
   }
-
+  .mat-card:not(.bg-primary) {
+    background-color: $paper;
+  }
+  .mat-card.bg-primary {
+    background-color: $primary;
+  }
   .welcome-card {
     padding: 36px 50px !important;
     position: relative;

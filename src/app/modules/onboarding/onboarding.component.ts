@@ -18,7 +18,7 @@ export class OnboardingComponent implements OnInit, OnDestroy {
   // Alias the enum so we can access it via directives in the template.
   States = OnboardingState;
   // Keep track of the current state of the onboarding process.
-  onboardingState: OnboardingState = OnboardingState.HDWizard;
+  onboardingState: OnboardingState = OnboardingState.PickingWallet;
   // Wallet kinds for the user to choose from.
   walletSelections: WalletSelection[] = [
     {

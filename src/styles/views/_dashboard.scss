@@ -83,9 +83,6 @@
 
 .gains-and-losses {
   position: relative;
-  ::ng-deep .mat-grid-tile .mat-figure {
-    display: block !important;
-  }
   .mat-card:not(.bg-primary) {
     background-color: $paper;
   }
@@ -93,7 +90,6 @@
     background-color: $primary;
   }
   .welcome-card {
-    padding: 36px 50px !important;
     position: relative;
     overflow: visible;
 
@@ -198,10 +194,6 @@
       color: #686868;
     }
   }
-}
-
-.col-content {
-  padding-top: 40px;
 }
 
 .usage-card {

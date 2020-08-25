@@ -80,7 +80,7 @@
 }
 
 .nav-item:not(.expandable) {
-  height: 48px;
+  height: 60px;
   &:hover {
     background: rgba($black, 0.2);
     color: white;
@@ -92,7 +92,6 @@
 }
 
 .nav-button {
-  padding: 0 20px;
   width: 100%;
   border-radius: 0;
   display: flex;

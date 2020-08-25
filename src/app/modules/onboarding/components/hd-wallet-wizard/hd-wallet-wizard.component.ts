@@ -11,7 +11,9 @@ import { take, tap, takeUntil } from 'rxjs/operators';
 export class HdWalletWizardComponent implements OnInit {
   isLinear = false;
   firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  mnemonicFormGroup: FormGroup;
+  accountsFormGroup: FormGroup;
+  passwordFormGroup: FormGroup;
   @ViewChild('stepper') stepper: MatStepper;
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
@@ -24,8 +26,15 @@ export class HdWalletWizardComponent implements OnInit {
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.nullValidator]
     });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.nullValidator]
+    this.mnemonicFormGroup = this._formBuilder.group({
+      mnemonic: ['', Validators.required]
+    });
+    this.accountsFormGroup = this._formBuilder.group({
+      numAccounts: ['', Validators.required]
+    });
+    this.passwordFormGroup = this._formBuilder.group({
+      password: ['', Validators.required],
+      passwordConfirmation: ['', Validators.required]
     });
   }
 

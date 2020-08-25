@@ -58,4 +58,50 @@
       }
     }
   }
+  .onboarding-wizard-card {
+    padding: 0;
+    img {
+      width: 160px;
+      height: 120px;
+    }
+    .wizard-container {
+      background-color: rgba(0, 0, 0, 0.08);
+      .mat-stepper-horizontal {
+        background-color: transparent;
+        height: 450px;
+        width: 900px;
+      }
+      .mat-step-label {
+        color: $white;
+      }
+      .mat-button-disabled {
+        @extend .text-hint;
+      }
+      .mat-form-field-appearance-outline .mat-form-field-outline {
+        color: $primary;
+      }
+      .mat-form-field-label {
+        color: $white;
+      }
+      .confirm-mnemonic-form {
+        .mat-form-field-flex {
+          width: 400px;
+        }
+        .mat-input-element {
+          color: $white;
+          font-size: 18px;
+        }
+      }
+    }
+    .btn-container {
+      position: relative;
+      .btn-progress {
+        position: absolute;
+        top: 5px;
+        left: 56px;
+        margin-top: -4;
+        margin-left: -24;
+      }
+    }
+  }
 }

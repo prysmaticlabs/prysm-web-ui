@@ -10,6 +10,7 @@
       *ngFor="let selection of walletSelections; index as idx"
       class="bg-paper onboarding-card text-center flex flex-col"
       [class.active]="selectedCard === idx"
+      [class.mx-8]="idx === 1"
       (click)="selectCard(idx)"
     >
       <div class="flex justify-center">

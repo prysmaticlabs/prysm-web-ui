@@ -1,0 +1,75 @@
+<div class="create-a-wallet">
+  <div class="text-center pb-8">
+    <div class="text-white text-3xl">Wallet Setup</div>
+    <div class="text-muted text-lg mt-6 leading-snug">
+      We'll guide you through creating your HD wallet <br/>and your validator accounts
+    </div>
+  </div>
+  <div class="onboarding-grid flex justify-center items-center my-auto">
+    <mat-card class="onboarding-wizard-card position-relative y-center">
+      <div class="flex items-center">
+        <div class="w-1/3 signup-img flex justify-center items-center">
+          <img src="/assets/images/onboarding/lock.svg" alt="" />
+        </div>
+        <div class="w-2/3 wizard-container flex items-center">
+          <mat-horizontal-stepper class="bg-paper rounded-r" linear #stepper>
+            <mat-step label="Overview">
+              <div class="text-white text-xl mt-4">
+                Creating an HD Wallet
+              </div>
+              <div class="my-4 bg-secondary rounded p-4 font-semibold text-white text-lg leading-snug">
+                tape hungry front clump chapter blush alien sauce spawn victory mother salt purpose drop mask hour foil physical daughter narrow sheriff agree master survey
+              </div>
+              <div class="my-4 text-hint text-lg leading-snug">
+                Write down the above mnemonic, and <span class="text-error font-semibold">keep it secret!</span> It is the only way you can recover your wallet if you lose it and anyone who gains access to it will be able to <span class="text-error font-semibold">steal all your keys</span>
+              </div>
+              <div class="mt-6">
+                <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup" label="Confirm Mnemonic">
+              <form class="confirm-mnemonic-form" [formGroup]="secondFormGroup">
+                <mat-form-field>
+                  <mat-label>Confirm your mnemonic</mat-label>
+                  <textarea matInput
+                    formControlName="secondCtrl"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"></textarea>
+                </mat-form-field>
+                <div>
+                  <button color="accent" mat-raised-button (click)="stepper.previous()">Back</button>
+                  <button color="primary" class="ml-4" mat-raised-button (click)="stepper.next()">Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step label="Account Creation">
+              <p>You are now done.</p>
+              <div>
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Back</button>
+                <button color="accent" mat-raised-button (click)="stepper.next()">Reset</button>
+              </div>
+            </mat-step>
+            <mat-step label="Password">
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  placeholder="Enter your password"
+                  name="password"
+                  type="password"
+                />
+              </mat-form-field>
+              <p>You are now done.</p>
+              <div>
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Back</button>
+                <button color="accent" mat-raised-button (click)="stepper.reset()">Reset</button>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockComponent } from 'ng-mocks';
 
-import { OnboardingComponent } from './onboarding.component';
+import { WalletKind } from './types/wallet';
+import { OnboardingComponent, OnboardingState } from './onboarding.component';
+import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choose-wallet-kind.component';
 
 describe('OnboardingComponent', () => {
   let component: OnboardingComponent;
@@ -8,7 +11,10 @@ describe('OnboardingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OnboardingComponent ]
+      declarations: [
+        OnboardingComponent,
+        MockComponent(ChooseWalletKindComponent),
+      ]
     })
     .compileComponents();
   }));
@@ -19,7 +25,11 @@ describe('OnboardingComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should update onboarding state based on wallet selection', done => {
+    component.selectedWallet$.subscribe(kind => {
+      expect(component.onboardingState).toEqual(OnboardingState.NonHDWizard);
+      done();
+    });
+    component.selectedWallet$.next(WalletKind.Direct);
   });
 });

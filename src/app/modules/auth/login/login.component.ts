@@ -50,25 +50,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.submitted = true;
-    this.router.navigateByUrl('/onboarding');
-    // if (this.loginForm.controls.password.errors) {
-    //   return;
-    // }
-    // const password = this.loginForm.get('password').value as string;
-    // this.loading = true;
-    // this.authService.login(password).pipe(
-    //   tap((res) => {
-    //     this.loading = false;
-    //     this.router.navigateByUrl(this.returnUrl);
-    //   }),
-    //   takeUntil(this.destroyed$),
-    //   catchError(err => {
-    //     this.loading = false;
-    //     this.snackBar.open(err, 'Close', {
-    //       duration: 2000,
-    //     });
-    //     return throwError(err);
-    //   })
-    // ).subscribe();
+    if (this.loginForm.controls.password.errors) {
+      return;
+    }
+    const password = this.loginForm.get('password').value as string;
+    this.loading = true;
+    this.authService.login(password).pipe(
+      tap((res) => {
+        this.loading = false;
+        this.router.navigateByUrl(this.returnUrl);
+      }),
+      takeUntil(this.destroyed$),
+      catchError(err => {
+        this.loading = false;
+        this.snackBar.open(err, 'Close', {
+          duration: 2000,
+        });
+        return throwError(err);
+      })
+    ).subscribe();
   }
 }

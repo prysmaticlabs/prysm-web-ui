@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-double-bar-chart',
   templateUrl: './double-bar-chart.component.html',
-  styleUrls: ['./double-bar-chart.component.scss']
 })
 export class DoubleBarChartComponent {
   options = {

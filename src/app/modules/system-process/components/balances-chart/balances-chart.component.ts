@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-balances-chart',
   templateUrl: './balances-chart.component.html',
-  styleUrls: ['./balances-chart.component.scss']
 })
 export class BalancesChartComponent implements OnInit {
   // options = {

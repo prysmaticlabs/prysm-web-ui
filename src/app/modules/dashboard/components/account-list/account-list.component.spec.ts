@@ -1,24 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SharedModule } from '../../../shared/shared.module';
 
-import { AccountListCardComponent } from './account-list-card.component';
+import { AccountListComponent } from './account-list.component';
 
-describe('AccountListCardComponent', () => {
-  let component: AccountListCardComponent;
-  let fixture: ComponentFixture<AccountListCardComponent>;
+describe('AccountListComponent', () => {
+  let component: AccountListComponent;
+  let fixture: ComponentFixture<AccountListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
       ],
-      declarations: [ AccountListCardComponent ]
+      declarations: [ AccountListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccountListCardComponent);
+    fixture = TestBed.createComponent(AccountListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { GainsAndLossesComponent } from './gains-and-losses.component';
-import { AccountListCardComponent }  from  '../../components/account-list-card/account-list-card.component';
+import { AccountListComponent }  from  '../../components/account-list/account-list.component';
 import { BalancesChartComponent }  from  '../../components/balances-chart/balances-chart.component';
 import { SharedModule } from '../../../shared/shared.module';
 
@@ -21,7 +21,7 @@ describe('GainsAndLossesComponent', () => {
       ],
       declarations: [
         BalancesChartComponent,
-        AccountListCardComponent,
+        AccountListComponent,
         GainsAndLossesComponent,
       ]
     })

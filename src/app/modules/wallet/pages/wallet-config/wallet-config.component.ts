@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-wallet-config',
   templateUrl: './wallet-config.component.html',
-  styleUrls: ['./wallet-config.component.scss']
 })
 export class WalletConfigComponent implements OnInit {
   isLinear = false;

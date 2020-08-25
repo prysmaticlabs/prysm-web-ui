@@ -1,16 +1,17 @@
 .loader-bounce {
   height: 100vh !important;
   width: 100%;
-  // position: absolute;
   display: flex;
   align-items: center;
 }
+
 .spinner {
   width: 40px;
   height: 40px;
   position: relative;
   margin: auto;
 }
+
 .double-bounce1,
 .double-bounce2 {
   width: 100%;
@@ -23,10 +24,12 @@
   -webkit-animation: sk-bounce 2s infinite ease-in-out;
   animation: sk-bounce 2s infinite ease-in-out;
 }
+
 .double-bounce2 {
   -webkit-animation-delay: -1s;
   animation-delay: -1s;
 }
+
 @-webkit-keyframes sk-bounce {
   0%,
   100% {
@@ -36,6 +39,7 @@
     -webkit-transform: scale(1);
   }
 }
+
 @keyframes sk-bounce {
   0%,
   100% {

@@ -23,10 +23,12 @@ const routes: Routes = [
   {
     path: 'onboarding',
     component: OnboardingComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'gains-and-losses',

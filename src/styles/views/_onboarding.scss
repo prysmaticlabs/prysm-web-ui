@@ -71,6 +71,10 @@
         height: 450px;
         width: 900px;
       }
+      .mat-stepper-vertical {
+        background-color: transparent;
+        width: 95%;
+      }
       .mat-step-label {
         color: $white;
       }
@@ -83,10 +87,10 @@
       .mat-form-field-label {
         color: $white;
       }
+      .mat-form-field {
+        width: 80%;
+      }
       .confirm-mnemonic-form {
-        .mat-form-field-flex {
-          width: 600px;
-        }
         .mat-input-element {
           color: $white;
           font-size: 16px;
@@ -96,17 +100,11 @@
         }
       }
       .generate-accounts-form {
-        .mat-form-field-flex {
-          width: 600px;
-        }
         .mat-input-element {
           color: $white;
         }
       }
       .password-form {
-        .mat-form-field-flex {
-          width: 600px;
-        }
         .mat-input-element {
           color: $white;
         }

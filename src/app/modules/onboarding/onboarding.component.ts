@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WalletKind, WalletSelection } from './types/wallet';
-import { Subject, Subscription, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
+import { tap, catchError, takeUntil } from 'rxjs/operators';
 
 enum OnboardingState {
   PickingWallet = 'PickingWallet',
-  ConfirmingMnemonic = 'ConfirmingMnemonic',
+  HDWizard = 'HDWizard',
+  NonHDWizard = 'NonHDWizard',
+  RemoteWizard = 'RemoteWizard',
 }
 
 @Component({
@@ -13,8 +15,8 @@ enum OnboardingState {
   templateUrl: './onboarding.component.html',
 })
 export class OnboardingComponent implements OnInit, OnDestroy {
-  // Alias the enum so we can access it via directives in the template. 
-  States = OnboardingState; 
+  // Alias the enum so we can access it via directives in the template.
+  States = OnboardingState;
   // Keep track of the current state of the onboarding process.
   onboardingState: OnboardingState = OnboardingState.PickingWallet;
   // Wallet kinds for the user to choose from.
@@ -38,27 +40,40 @@ export class OnboardingComponent implements OnInit, OnDestroy {
       image: '/assets/images/onboarding/server.svg',
     },
   ];
-  // Wallet selection can be defined as a behavior subject.
+
+  // Define subjects for reacting to data changes.
   selectedWallet$ = new Subject<WalletKind>();
-  sub: Subscription;
+  // Keep track of a subject to immediately notify
+  // all observables they should unsubscribe as soon
+  // as this fires. This subject will fire in ngOnDestroy.
+  destroyed$ = new Subject();
 
   constructor() { }
 
   ngOnInit(): void {
-    this.sub = this.selectedWallet$.pipe(
+    this.selectedWallet$.pipe(
       tap(kind => {
         switch (kind) {
           case WalletKind.Derived:
-            this.onboardingState = OnboardingState.ConfirmingMnemonic;
+            this.onboardingState = OnboardingState.HDWizard;
+            break;
+          case WalletKind.Direct:
+            this.onboardingState = OnboardingState.NonHDWizard;
+            break;
+          case WalletKind.Remote:
+            this.onboardingState = OnboardingState.RemoteWizard;
+            break;
           default:
-            console.log(kind);
+            break;
         }
       }),
+      takeUntil(this.destroyed$),
       catchError(err => throwError(err)),
     ).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 }

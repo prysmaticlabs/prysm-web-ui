@@ -13,7 +13,7 @@ export class ChooseWalletKindComponent {
   constructor() { }
 
   // Update the currently selected UI card.
-  selectCard(index: number) {
+  selectCard(index: number): void {
     this.selectedCard = index;
   }
 }

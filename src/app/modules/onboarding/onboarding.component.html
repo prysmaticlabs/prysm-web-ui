@@ -1,12 +1,18 @@
 <div class="onboarding bg-default flex h-screen" [ngSwitch]="onboardingState">
   <div class="mx-auto">
     <div *ngSwitchCase="States.PickingWallet">
-      <app-choose-wallet-kind 
+      <app-choose-wallet-kind
         [walletSelections]="walletSelections"
         [selectedWallet$]="selectedWallet$"
       ></app-choose-wallet-kind>
     </div>
-    <div *ngSwitchCase="States.ConfirmingMnemonic">
+    <div *ngSwitchCase="States.NonHDWizard">
+      <div>Hello</div>
+    </div>
+    <div *ngSwitchCase="States.HDWizard">
+      <div>Hello</div>
+    </div>
+    <div *ngSwitchCase="States.RemoteWizard">
       <div>Hello</div>
     </div>
   </div>

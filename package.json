@@ -9,6 +9,7 @@
     "clean": "rm -Rf ./dist",
     "build:ci": "npm run clean && npm run test && npm run build",
     "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",
+    "test:watch": "ng test --watch=true --browsers=ChromeHeadlessCustom",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

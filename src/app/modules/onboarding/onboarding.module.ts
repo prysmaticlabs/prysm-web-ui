@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
-import { ChooseWalletComponent } from './pages/choose-wallet/choose-wallet.component';
+import { OnboardingComponent } from './onboarding.component';
+import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choose-wallet-kind.component';
 
 @NgModule({
-  declarations: [ChooseWalletComponent],
+  declarations: [OnboardingComponent, ChooseWalletKindComponent],
   imports: [
     CommonModule,
     SharedModule,

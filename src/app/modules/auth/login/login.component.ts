@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) {
     this.loginForm = this.formBuilder.group({
-      password: new FormControl("", [
+      password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
         Validators.pattern(
@@ -36,12 +36,12 @@ export class LoginComponent implements OnInit {
     // Redirect to dashboard by default unless a different
     // return url is set in the query parameters.
     this.route.queryParams
-      .subscribe(params => this.returnUrl = params.return || '/onboarding/wallet');
+      .subscribe(params => this.returnUrl = params.return || '/onboarding');
   }
 
   onSubmit() {
     this.submitted = true;
-    this.router.navigateByUrl('/onboarding/wallet');
+    this.router.navigateByUrl('/onboarding');
     // if (this.loginForm.controls.password.errors) {
     //   return;
     // }

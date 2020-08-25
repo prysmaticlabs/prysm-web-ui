@@ -1,0 +1,10 @@
+<div class="onboarding bg-default flex h-screen" [ngSwitch]="onboardingState">
+  <div class="mx-auto">
+    <div *ngSwitchCase="States.PickingWallet">
+      <app-choose-wallet-kind 
+        [walletSelections]="walletSelections"
+        [selectedWallet$]="selectedWallet$"
+      ></app-choose-wallet-kind>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChooseWalletPasswordComponent } from './choose-wallet-password.component';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 describe('ChooseWalletPasswordComponent', () => {
   let component: ChooseWalletPasswordComponent;
@@ -8,7 +9,8 @@ describe('ChooseWalletPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChooseWalletPasswordComponent ]
+      declarations: [ ChooseWalletPasswordComponent ],
+      imports: [ SharedModule ]
     })
     .compileComponents();
   }));

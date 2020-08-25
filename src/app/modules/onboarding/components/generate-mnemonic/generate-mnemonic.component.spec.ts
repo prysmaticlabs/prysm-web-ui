@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenerateMnemonicComponent } from './generate-mnemonic.component';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 describe('GenerateMnemonicComponent', () => {
   let component: GenerateMnemonicComponent;
@@ -8,7 +9,8 @@ describe('GenerateMnemonicComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GenerateMnemonicComponent ]
+      declarations: [ GenerateMnemonicComponent ],
+      imports: [ SharedModule ]
     })
     .compileComponents();
   }));

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmMnemonicComponent } from './confirm-mnemonic.component';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 describe('ConfirmMnemonicComponent', () => {
   let component: ConfirmMnemonicComponent;
@@ -8,7 +9,8 @@ describe('ConfirmMnemonicComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmMnemonicComponent ]
+      declarations: [ ConfirmMnemonicComponent ],
+      imports: [ SharedModule ]
     })
     .compileComponents();
   }));

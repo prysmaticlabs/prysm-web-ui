@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenerateAccountsComponent } from './generate-accounts.component';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 describe('GenerateAccountsComponent', () => {
   let component: GenerateAccountsComponent;
@@ -8,7 +9,8 @@ describe('GenerateAccountsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GenerateAccountsComponent ]
+      declarations: [ GenerateAccountsComponent ],
+      imports: [ SharedModule ]
     })
     .compileComponents();
   }));

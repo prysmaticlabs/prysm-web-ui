@@ -3,7 +3,7 @@
 @import '~@angular/material/theming';
 
 // Plus imports for other components in your app.
-@import "./styles/variables";
+@import "./styles/app";
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -48,7 +48,7 @@ $prysm-secondary: (
   200: #ffcfa1,
   300: #ffbb7b,
   400: #ffad5f,
-  500: #ff9e43,
+  500: $secondary,
   600: #ff963d,
   700: #ff8c34,
   800: #ff822c,
@@ -90,7 +90,6 @@ $prysm-web-ui-theme: mat-light-theme((
 @include angular-material-theme($prysm-web-ui-theme);
 
 /* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 
 body {
@@ -105,6 +104,24 @@ body {
   position: relative;
 }
 
-::ng-deep .mat-grid-tile .mat-figure {
+button:focus {
+  outline: none !important;
+}
+
+.mat-grid-tile .mat-figure {
   display: block !important;
+}
+
+.mat-card {
+  background-color: $paper;
+  border-radius: 12px;
+}
+
+.mat-table {
+  background-color: $paper;
+  width: 100%;
+}
+
+.mat-paginator {
+  background-color: $paper;
 }

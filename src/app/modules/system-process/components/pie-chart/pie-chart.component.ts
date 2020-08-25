@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
+import { mixinColor } from '@angular/material/core';
 
 @Component({
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
-  styleUrls: ['./pie-chart.component.scss']
 })
 export class PieChartComponent {
   options = {
     title: {
       text: 'Validator data breakdown',
       subtext: 'Some sample pie chart data',
-      x: 'center'
+      x: 'center',
+      color: 'white'
     },
     tooltip: {
       trigger: 'item',

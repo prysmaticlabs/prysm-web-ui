@@ -15,7 +15,7 @@
 
 .layout-contained {
   .container {
-    max-width: $contained-layout-width;
+    max-width: 1000px;
     margin: auto;
     width: 100%;
     @include media(767px) {
@@ -25,7 +25,7 @@
 }
 
 .layout-boxed {
-  max-width: $contained-layout-width;
+  max-width: 1000px;
   margin: auto;
   box-shadow: $elevation-z12;
   background: $white;

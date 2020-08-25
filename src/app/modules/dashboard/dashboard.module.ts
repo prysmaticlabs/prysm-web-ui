@@ -14,7 +14,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { GainsAndLossesComponent } from './pages/gains-and-losses/gains-and-losses.component';
-import { AccountListCardComponent } from './components/account-list-card/account-list-card.component';
+import { AccountListComponent } from './components/account-list/account-list.component';
 import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-link/sidebar-expandable-link.component';
@@ -23,9 +23,10 @@ import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-
   declarations: [
     DashboardComponent, 
     GainsAndLossesComponent, 
-    AccountListCardComponent, 
+    AccountListComponent, 
     BalancesChartComponent, 
-    SidebarComponent, SidebarExpandableLinkComponent,
+    SidebarComponent, 
+    SidebarExpandableLinkComponent,
   ],
   imports: [
     CommonModule,

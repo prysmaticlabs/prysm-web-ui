@@ -1,51 +1,19 @@
-// Colors
+// Colors.
 $white: #ffffff;
 $black: rgba(0, 0, 0, 0.87);
 $muted: rgba(0, 0, 0, 0.54);
 
 $primary: #7467ef;
 $secondary: #ff9e43;
-$error: #e95455;
-$warn: #e95455;
+$paper: #222A45;
 
-$bg-default: #1a2038;
-$bg-paper: #222A45;
-$bg-paper-light: #30345b;
-
-$text-body: #fff;
-
-$text-muted: rgba(255, 255, 255, 0.7);
-$text-hint: rgba(255, 255, 255, 0.5);
-
-$brand: $primary;
-
-$light-gray: rgba(0, 0, 0, 0.08);
-
-// Layout
+// Layout.
 $topbar-mobile-width: 220px;
 $topbar-height: 64px;
 $sidenav-width: 260px;
 $sidenav-button-width: 220px;
 $sidenav-compact-width: 60px;
-
 $contained-layout-width: 1200px;
-
-// Typography
-$font-weight-base: 400;
-$font-size-base: 0.875rem;
-$font-family-base: Roboto, "Helvetica Neue", sans-serif !default;
-
-$font-caption: 400 12px/20px "Roboto";
-$font-body-1: 400 14px/20px "Roboto";
-$font-body-2: 500 14px/24px "Roboto";
-$font-subheading-1: 400 15px/24px "Roboto";
-$font-subheading-2: 400 16px/28px "Roboto";
-$font-heading: 400 24px/32px "Roboto";
-$font-title: 500 18px/26px "Roboto";
-$font-display-1: 400 34px/40px "Roboto";
-$font-display-2: 400 45px/48px "Roboto";
-$font-display-3: 400 56px/56px "Roboto";
-$font-display-4: 300 112px/112px "Roboto";
 
 // box shadow
 $elevation-z0: none;

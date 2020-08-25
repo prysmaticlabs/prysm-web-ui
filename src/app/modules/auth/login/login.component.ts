@@ -7,7 +7,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   submitted: boolean;
@@ -43,7 +42,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.loginForm.controls.password.errors) {
-      console.error(this.loginForm.controls.password.errors);
       return;
     }
     const password = this.loginForm.get('password').value as string;

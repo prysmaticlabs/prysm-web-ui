@@ -1,37 +1,28 @@
-<div class="signup flex flex-center w-100 h-100vh">
-  <div class="p-8">
-    <mat-card class="signup-card position-relative y-center bg-paper">
-      <mat-grid-list cols="12" rowHeight="270px">
-        <mat-grid-tile class="signup-img" colspan="5">
+<div class="signup flex h-screen">
+  <div class="m-auto">
+    <mat-card class="signup-card position-relative y-center">
+      <div class="flex items-center">
+        <div class="w-5/12 signup-img flex justify-center items-center">
           <img src="/assets/images/dreamer.svg" alt="" />
-        </mat-grid-tile>
-        <mat-grid-tile class="signup-form-container" colspan="7">
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="mb-4">
-              <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
-                <input
-                  matInput
-                  formControlName="password"
-                  placeholder="Enter your password"
-                  name="password"
-                  type="password"
-                  required
-                />
-              </mat-form-field>
-              <div *ngIf="submitted && loginForm.controls['password'].errors" class="invalid-feedback pb-16">
-                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.required" class="text-error">
-                  Password is required
-                </div>
-                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.minlength" class="text-error">
-                  Enter at least 8 characters
-                </div>
-                <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.pattern" class="text-error">
-                  At least 1 uppercase letter, <br/>1 number, and 1 special char
-                </div>
-              </div>
+        </div>
+        <form class="w-7/12 signup-form-container flex items-center px-8" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                formControlName="password"
+                placeholder="Enter your password"
+                name="password"
+                type="password"
+              />
+            </mat-form-field>
+            <div *ngIf="submitted && loginForm.controls['password'].errors" class="mb-6">
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.required" class="text-error">Password is required</div>
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.minlength" class="text-error">Passwords needs at least 8 characters</div>
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.pattern" class="text-error">Needs at least 1 uppercase letter, 1 number, and 1 special char</div>
             </div>
-            <div class="flex flex-middle mb-8">
+            <div class="flex">
               <div class="btn-container">
                 <button mat-raised-button color="primary" name="submit" [disabled]="loading">
                   Sign in to Web UI
@@ -41,9 +32,9 @@
                 </div>
               </div>
             </div>
-          </form>
-        </mat-grid-tile>
-      </mat-grid-list>
+          </div>
+        </form>
+      </div>
     </mat-card>
   </div>
 </div>

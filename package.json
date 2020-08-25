@@ -9,6 +9,7 @@
     "clean": "rm -Rf ./dist",
     "build:ci": "npm run clean && npm run test && npm run build",
     "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",
+    "test:watch": "ng test --watch=true --browsers=ChromeHeadlessCustom",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -45,6 +46,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "ng-mocks": "^10.1.2",
     "ng-tailwindcss": "^2.3.1",
     "protractor": "~7.0.0",
     "puppeteer": "^5.2.1",

@@ -1,0 +1,61 @@
+.onboarding {
+  .create-a-wallet {
+    padding-top: 200px;
+  }
+  .onboarding-grid {
+    .onboarding-card {
+      border-width: 4px;
+      padding-top: 60px;
+      height: 400px;
+      width: 350px;
+      border-radius: 12px !important;
+      color: white;
+      img {
+        width: 180px;
+        height: 140px;
+      }
+      .wallet-info {
+        margin-top: 36px;
+        .wallet-kind {
+          font-size: 36px;
+        }
+        .wallet-description {
+          margin-top: 32px;
+          margin-bottom: 26px;
+          font-size: 16px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .wallet-action {
+          button {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    .onboarding-card.active {
+      background-color: $primary;
+      border-color: $primary;
+      height: 480px;
+      width: 420px;
+      -webkit-transition : background-color 500ms ease-out;
+      -moz-transition : background-color 500ms ease-out;
+      -o-transition : background-color 500ms ease-out;
+      transition : background-color 500ms ease-out;
+    }
+    .onboarding-card:not(.active) {
+      cursor: pointer;
+      -webkit-transition : border-color 500ms ease-out;
+      -moz-transition : border-color 500ms ease-out;
+      -o-transition : border-color 500ms ease-out;
+      transition : border-color 500ms ease-out;
+      border-color: $paper;
+      .wallet-action {
+        display: none;
+      }
+      &:hover {
+        border-color: $primary;
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import { WalletConfigComponent } from './modules/wallet/pages/wallet-config/wall
 import { LogsComponent } from './modules/system-process/pages/logs/logs.component';
 import { MetricsComponent } from './modules/system-process/pages/metrics/metrics.component';
 import { ChangePasswordComponent } from './modules/security/pages/change-password/change-password.component';
+import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 
 const routes: Routes = [
   {
@@ -20,9 +21,14 @@ const routes: Routes = [
     canActivate: [AuthredirectGuard],
   },
   {
+    path: 'onboarding',
+    component: OnboardingComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'gains-and-losses',

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { WalletKind, WalletSelection } from '../../types/wallet';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-choose-wallet-kind',
@@ -8,10 +8,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ChooseWalletKindComponent {
   @Input() walletSelections: WalletSelection[];
-  @Input() selectedWallet$: BehaviorSubject<WalletKind>;
-  selectedCard = 1;
+  @Input() selectedWallet$: Subject<WalletKind>;
+  selectedCard = 1; // We select card with index 1 as the default.
   constructor() { }
 
+  // Update the currently selected UI card.
   selectCard(index: number) {
     this.selectedCard = index;
   }

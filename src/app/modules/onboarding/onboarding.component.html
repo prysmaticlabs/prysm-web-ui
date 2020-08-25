@@ -6,5 +6,8 @@
         [selectedWallet$]="selectedWallet$"
       ></app-choose-wallet-kind>
     </div>
+    <div *ngSwitchCase="States.ConfirmingMnemonic">
+      <div>Hello</div>
+    </div>
   </div>
 </div>

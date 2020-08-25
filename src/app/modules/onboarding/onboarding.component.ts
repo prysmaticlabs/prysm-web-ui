@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WalletKind, WalletSelection } from './types/wallet';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subject, Subscription, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
 enum OnboardingState {
   PickingWallet = 'PickingWallet',
+  ConfirmingMnemonic = 'ConfirmingMnemonic',
 }
 
 @Component({
@@ -12,8 +13,11 @@ enum OnboardingState {
   templateUrl: './onboarding.component.html',
 })
 export class OnboardingComponent implements OnInit, OnDestroy {
-  public States = OnboardingState; 
+  // Alias the enum so we can access it via directives in the template. 
+  States = OnboardingState; 
+  // Keep track of the current state of the onboarding process.
   onboardingState: OnboardingState = OnboardingState.PickingWallet;
+  // Wallet kinds for the user to choose from.
   walletSelections: WalletSelection[] = [
     {
       kind: WalletKind.Direct,
@@ -34,15 +38,23 @@ export class OnboardingComponent implements OnInit, OnDestroy {
       image: '/assets/images/onboarding/server.svg',
     },
   ];
-  selectedWallet$ = new BehaviorSubject<WalletKind>(null);
+  // Wallet selection can be defined as a behavior subject.
+  selectedWallet$ = new Subject<WalletKind>();
   sub: Subscription;
 
   constructor() { }
 
   ngOnInit(): void {
     this.sub = this.selectedWallet$.pipe(
-      tap(kind => console.log(kind)),
-      catchError(() => console.error),
+      tap(kind => {
+        switch (kind) {
+          case WalletKind.Derived:
+            this.onboardingState = OnboardingState.ConfirmingMnemonic;
+          default:
+            console.log(kind);
+        }
+      }),
+      catchError(err => throwError(err)),
     ).subscribe();
   }
 

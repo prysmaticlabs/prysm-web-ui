@@ -7,9 +7,13 @@ import { OnboardingComponent } from './onboarding.component';
 import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choose-wallet-kind.component';
 import { HdWalletWizardComponent } from './components/hd-wallet-wizard/hd-wallet-wizard.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ChooseWalletPasswordComponent } from './components/choose-wallet-password/choose-wallet-password.component';
+import { GenerateAccountsComponent } from './components/generate-accounts/generate-accounts.component';
+import { GenerateMnemonicComponent } from './components/generate-mnemonic/generate-mnemonic.component';
+import { ConfirmMnemonicComponent } from './components/confirm-mnemonic/confirm-mnemonic.component';
 
 @NgModule({
-  declarations: [OnboardingComponent, ChooseWalletKindComponent, HdWalletWizardComponent],
+  declarations: [OnboardingComponent, ChooseWalletKindComponent, HdWalletWizardComponent, ChooseWalletPasswordComponent, GenerateAccountsComponent, GenerateMnemonicComponent, ConfirmMnemonicComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -8,105 +8,37 @@
   <div class="onboarding-grid flex justify-center items-center my-auto">
     <mat-card class="onboarding-wizard-card position-relative y-center">
       <div class="flex items-center">
-        <div class="w-1/3 signup-img flex justify-center items-center">
+        <div class="hidden md:flex w-1/3 signup-img justify-center items-center">
           <img src="/assets/images/onboarding/lock.svg" alt="" />
         </div>
-        <div class="w-2/3 wizard-container flex items-center">
+        <div class="w-full md:w-2/3 wizard-container flex items-center">
           <mat-horizontal-stepper class="bg-paper rounded-r" linear #stepper>
             <mat-step label="Overview">
-              <div class="text-white text-xl mt-4">
-                Creating an HD Wallet
-              </div>
-              <div class="my-4 bg-secondary rounded p-4 font-semibold text-white text-lg leading-snug">
-                tape hungry front clump chapter blush alien sauce spawn victory mother salt purpose drop mask hour foil physical daughter narrow sheriff agree master survey
-              </div>
-              <div class="my-4 text-hint text-lg leading-snug">
-                Write down the above mnemonic offline, and <span class="text-error font-semibold">keep it secret!</span> It is the only way you can recover your wallet if you lose it and anyone who gains access to it will be able to <span class="text-error font-semibold">steal all your keys</span>
-              </div>
+              <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
                 <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">
-              <form class="confirm-mnemonic-form" [formGroup]="mnemonicFormGroup">
-                <div class="text-white text-xl mt-4">
-                  Confirm your mnemonic
-                </div>
-                <div class="my-4 text-hint text-lg leading-snug">
-                  Enter all 24 words for your mnemonic from the previous step to proceed. Remember this is the <span class="text-error font-semibold">only way</span> you can recover your validator keys if you lose your wallet.
-                </div>
-                <mat-form-field appearance="outline">
-                  <mat-label>Confirm your mnemonic</mat-label>
-                  <textarea matInput
-                    formControlName="mnemonic"
-                    cdkTextareaAutosize
-                    #autosize="cdkTextareaAutosize"
-                    cdkAutosizeMinRows="4"
-                    cdkAutosizeMaxRows="4"></textarea>
-                </mat-form-field>
-                <div class="mt-4">
-                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
-                </div>
-              </form>
+              <app-confirm-mnemonic [formGroup]="mnemonicFormGroup"></app-confirm-mnemonic>
+              <div class="mt-4">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              </div>
             </mat-step>
             <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
-              <form class="generate-accounts-form" [formGroup]="accountsFormGroup">
-                <div class="text-white text-xl mt-4">
-                  Generate new validator accounts
-                </div>
-                <div class="my-4 text-hint text-lg leading-snug">
-                  Enter the number of new validator accounts you want to generate. This will generate validating keys from the 24 word mnemonic. Using the mnemonic, you can always recover all your validating keys <b>and</b> withdrawal keys anytime
-                </div>
-                <mat-form-field appearance="outline">
-                  <mat-label>Number of accounts</mat-label>
-                  <input
-                    matInput
-                    formControlName="numAccounts"
-                    placeholder="Number of accounts to generate"
-                    name="numAccounts"
-                    type="number"
-                  />
-                </mat-form-field>
-                <div class="mt-4">
-                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
-                </div>
-              </form>
+              <app-generate-accounts [formGroup]="accountsFormGroup"></app-generate-accounts>
+              <div class="mt-4">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">
-              <form class="password-form" [formGroup]="passwordFormGroup">
-                <div class="text-white text-xl mt-4">
-                  Pick a strong wallet password
-                </div>
-                <div class="my-4 text-hint text-lg leading-snug">
-                  You'll need to input this password every time you log back into the web interface or interact with your validator wallet
-                </div>
-                <mat-form-field appearance="outline">
-                  <mat-label>Password</mat-label>
-                  <input
-                    matInput
-                    formControlName="password"
-                    placeholder="Enter your password"
-                    name="password"
-                    type="password"
-                  />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Password Confirmation</mat-label>
-                  <input
-                    matInput
-                    formControlName="passwordConfirmation"
-                    placeholder="Confirm password"
-                    name="passwordConfirmation"
-                    type="password"
-                  />
-                </mat-form-field>
-                <div class="mt-4">
-                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
-                </div>
-              </form>
+              <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+              <div class="mt-4">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              </div>
             </mat-step>
           </mat-horizontal-stepper>
         </div>

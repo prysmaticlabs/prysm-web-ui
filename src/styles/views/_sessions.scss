@@ -1,39 +1,23 @@
 .signup {
   @extend .bg-default;
-  .invalid-feedback {
-    max-width: 100px;
-  }
-
   .signup-card {
     padding: 0;
-    width: 550px;
-    border-radius: 12px !important;
+    width: 600px;
     img {
       width: 160px;
       height: 120px;
     }
     .signup-form-container {
+      height: 300px;
       background-color: rgba(0, 0, 0, 0.08);
-      ::ng-deep .mat-button-disabled {
+      .mat-button-disabled {
         @extend .text-hint;
       }
-      ::ng-deep input.mat-input-element {
-        color: white;
+      .mat-form-field-appearance-outline .mat-form-field-outline {
+        color: $primary;
       }
-      ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-        color: $primary!important;
-      }
-      ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-        color: $primary!important;
-      }
-      ::ng-deep .mat-input-element {
-        caret-color: white!important;
-      }
-      ::ng-deep .mat-form-field-label {
-        color: white;
-      }
-      ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
-        color: $primary!important;
+      .mat-form-field-label {
+        color: $white;
       }
     }
     .btn-container {
@@ -45,6 +29,23 @@
         margin-top: -4;
         margin-left: -24;
       }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .signup {
+    padding-left: 20px;
+    padding-right: 20px;
+    .signup-img {
+      padding-left: 16px;
+      padding-right: 16px;
+      img {
+        width: 100%;
+      }
+    }
+    .signup-card {
+      width: 100%;
     }
   }
 }

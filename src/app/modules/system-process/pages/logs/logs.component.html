@@ -1,8 +1,7 @@
 <div class="logs m-sm-30">
   <app-breadcrumb></app-breadcrumb>
-  <mat-grid-list cols="12" gutterSize="24px">
-    <mat-grid-tile colspan="8" rowspan="12">
-      <div class="col-content">
+  <div class="grid grid-cols-3 gap-8">
+    <div class="col-span-2">
         <mat-card class="pt-20 logs-card bg-paper">
           <div class="card-title px-24 mb-12">validator client logs</div>
           <div class="code">
@@ -25,11 +24,8 @@
   <span class="gray">[2020-08-08 03:57:16] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Submitted new attestations AggregatorIndices=[21810] AttesterIndices=[21810] BeaconBlockRoot=0x9a05cf03b664 CommitteeIndex=2 Slot=26083 SourceEpoch=814 SourceRoot=0xd8a76ec4ec5f TargetEpoch=815 TargetRoot=0x6bb926a538d6
           </div>
         </mat-card>
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="4" rowspan="12">
-      <div class="col-content">
-
+    </div>
+    <div class="col-span-1 grid grid-cols-1 gap-8">
         <mat-card class="bg-paper p-16">
           <div class="flex flex-middle">
             <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
@@ -50,9 +46,7 @@
             </button> 
           </div>
         </mat-card>
-
-        <div class="py-12"></div>
-
+        
         <mat-card class="bg-paper">
           <div class="card-title mb-12">Log Percentage Summary</div>
           <div class="text-muted">Today</div>
@@ -83,8 +77,6 @@
           </div>
 
         </mat-card>
-
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+    </div>
+  </div>
 </div>

@@ -12,15 +12,17 @@
           <a *ngIf="!link.children && !link.externalUrl" 
             class="nav-item active" 
             [routerLink]="link.path"
-            [routerLinkActive]="['active']"
+            routerLinkActive="active"
           >
             <button mat-button class="nav-button">
-              <mat-icon aria-hidden="false" aria-label="Example home icon">
-                {{link.icon}}
-              </mat-icon>
-              <span style="margin-left:18px;font-size: 14px;">
-                {{link.name}}
-              </span>
+              <div class="content flex items-center">
+                <mat-icon aria-hidden="false" class="ml-1" aria-label="Example home icon">
+                  {{link.icon}}
+                </mat-icon>
+                <span class="ml-6">
+                  {{link.name}}
+                </span>
+              </div>
             </button>
           </a>
           <a *ngIf="!link.children && link.externalUrl" 
@@ -29,12 +31,14 @@
              target="_blank"
           >
             <button mat-button class="nav-button">
-              <mat-icon aria-hidden="false" aria-label="Example home icon">
-                {{link.icon}}
-              </mat-icon>
-              <span style="margin-left:18px;font-size: 14px;">
-                {{link.name}}
-              </span>
+              <div class="content flex items-center">
+                <mat-icon aria-hidden="false" class="ml-1" aria-label="Example home icon">
+                  {{link.icon}}
+                </mat-icon>
+                <span class="ml-8">
+                  {{link.name}}
+                </span>
+              </div>
             </button>
           </a>
           <app-sidebar-expandable-link 

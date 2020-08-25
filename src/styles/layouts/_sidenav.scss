@@ -69,10 +69,16 @@
 .navigation {
   margin-top: 40px;
 }
+
 .nav-item {
   display: flex;
   justify-content: space-between;
 }
+
+.nav-item.expandable {
+  padding: 0;
+}
+
 .nav-item:not(.expandable) {
   height: 48px;
   &:hover {
@@ -84,6 +90,7 @@
     color: white;
   }
 }
+
 .nav-button {
   padding: 0 20px;
   width: 100%;
@@ -94,16 +101,19 @@
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
+
 .expandable {
   display: block;
 }
+
 .nav-expandable-button {
   width: 100%;
   border-radius: 0;
   font-weight: 400;
+  padding: 0 !important;
   -webkit-font-smoothing: antialiased;
   .content {
-    height: 48px;
+    height: 60px;
     padding-left: 20px;
     padding-right: 20px;
     display: flex;
@@ -112,8 +122,8 @@
     align-items: center;
   }
 }
+
 .submenu {
-  position: relative;
   background: rgba($black, 0.12);
   &:before,
   &:after {
@@ -133,14 +143,6 @@
     bottom: 0;
   }
   .nav-item {
-    height: 50px;
+    height: 60px;
   }
-}
-.badge {
-  height: 20px;
-  padding: 0 8px;
-  margin: 0 4px 0 auto;
-  border-radius: 12px;
-  line-height: 20px;
-  font-weight: 500;
 }

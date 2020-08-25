@@ -1,23 +1,25 @@
 <a class="nav-item expandable">
-  <button mat-button class="nav-expandable-button" style="padding: 0px;" (click)="toggleCollapsed()">
+  <button mat-button class="nav-expandable-button" (click)="toggleCollapsed()">
     <div class="content">
-      <div class="flex flex-middle">
+      <div class="flex items-center">
         <mat-icon aria-hidden="false" aria-label="Example home icon">{{link.icon}}</mat-icon>
-        <span style="margin-left:18px;font-size: 14px;">{{link.name}}</span>
+        <span class="ml-8">{{link.name}}</span>
       </div>
-      <mat-icon aria-hidden="false" aria-label="Example home icon" style="font-size:18px;margin-top:8px;">chevron_right</mat-icon>
+      <mat-icon aria-hidden="false" aria-label="Example home icon">chevron_right</mat-icon>
     </div>
   </button>
   <div *ngIf="!collapsed" class="submenu">
     <div *ngFor="let child of link.children">
-      <a class="nav-item" [routerLink]="child.path" [routerLinkActive]="['active']">
+      <a class="nav-item" [routerLink]="child.path" routerLinkActive="active">
         <button mat-button class="nav-button">
-          <mat-icon aria-hidden="false" aria-label="Example home icon">
-            {{child.icon}}
-          </mat-icon>
-          <span style="margin-left:18px;font-size: 14px;">
-            {{child.name}}
-          </span>
+          <div class="content flex items-center">
+            <mat-icon aria-hidden="false" class="ml-1" aria-label="Example home icon">
+              {{child.icon}}
+            </mat-icon>
+            <span class="ml-8">
+              {{child.name}}
+            </span>
+          </div>
         </button>
       </a>
     </div>

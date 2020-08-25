@@ -104,7 +104,11 @@ body {
   position: relative;
 }
 
-::ng-deep .mat-grid-tile .mat-figure {
+button:focus {
+  outline: none !important;
+}
+
+.mat-grid-tile .mat-figure {
   display: block !important;
 }
 

@@ -13,6 +13,7 @@ export class NonhdWalletWizardComponent implements OnInit {
   // Properties.
   isSmallScreen = false;
   importFormGroup: FormGroup;
+  unlockFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
 
   // View children.
@@ -22,18 +23,20 @@ export class NonhdWalletWizardComponent implements OnInit {
   destroyed$ = new Subject();
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit(): void {
-    this.importFormGroup = this._formBuilder.group({
+    this.importFormGroup = this.formBuilder.group({
+    });
+    this.unlockFormGroup = this.formBuilder.group({
       keystoresPassword: ['', Validators.required]
     });
     const strongPasswordValidator = Validators.pattern(
       '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
     )
-    this.passwordFormGroup = this._formBuilder.group({
+    this.passwordFormGroup = this.formBuilder.group({
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),

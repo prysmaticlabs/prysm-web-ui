@@ -113,6 +113,16 @@
           color: $white;
         }
       }
+      .import-keys-form {
+        .ngx-file-drop__drop-zone {
+          border: 4px dashed $primary;
+          border-radius: 0px;
+        }
+        .ngx-file-drop__content {
+          color: $white;
+          text-align: center;
+        }
+      }
     }
     .btn-container {
       position: relative;

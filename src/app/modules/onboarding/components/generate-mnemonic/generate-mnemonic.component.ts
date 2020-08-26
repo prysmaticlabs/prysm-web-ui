@@ -12,5 +12,4 @@ export class GenerateMnemonicComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

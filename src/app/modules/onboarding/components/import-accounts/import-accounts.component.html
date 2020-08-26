@@ -1,4 +1,4 @@
-<form class="generate-accounts-form" [formGroup]="formGroup">
+<form class="import-keys-form" [formGroup]="formGroup">
   <div class="text-white text-xl mt-4">
     Import Validating Keys
   </div>
@@ -6,15 +6,21 @@
     Upload the validator_keys folder that was created during the eth2 launchpad's eth2.0-deposit-cli process here. You can drag and drop the directory or individual keystore files.
   </div>
 
-  <div class="my-4">
-    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
-      (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-          Optional custom content that replaces the the entire default content.
-          <button type="button" (click)="openFileSelector()">Browse Files</button>
-        </ng-template>
-    </ngx-file-drop>
-    <div class="upload-table">
+  <div class="my-4 flex">
+    <div class="w-full md:w-1/2">
+      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+        (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+          <ng-template
+            ngx-file-drop-content-tmp
+            let-openFileSelector="openFileSelector" 
+            class="flex items-center text-center"
+            (click)="openFileSelector()">
+            Optional custom content that replaces the the entire default content.
+            <button color="accent" mat-raised-button (click)="openFileSelector()">Browse Files</button>
+          </ng-template>
+      </ngx-file-drop>
+    </div>
+    <div class="w-full md:w-1/2">
         <table class="table">
             <thead>
                 <tr>
@@ -30,17 +36,4 @@
     </div>
   </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Password to unlock keystores</mat-label>
-    <input
-      matInput
-      formControlName="keystoresPassword"
-      placeholder="Enter the password you used to originally create the keystores"
-      name="keystoresPassword"
-      type="password"
-    />
-  </mat-form-field>
-  <div *ngIf="!formGroup.pristine && formGroup.controls['keystoresPassword'].errors" class="mb-6 warnings">
-    <div *ngIf="formGroup.controls['keystoresPassword'].errors.required" class="text-error">Keystores password is required</div>
-  </div>
 </form>

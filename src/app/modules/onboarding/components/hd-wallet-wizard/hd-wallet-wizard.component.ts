@@ -23,12 +23,12 @@ export class HdWalletWizardComponent implements OnInit {
   destroyed$ = new Subject();
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit(): void {
-    this.mnemonicFormGroup = this._formBuilder.group({
+    this.mnemonicFormGroup = this.formBuilder.group({
       mnemonic: new FormControl('', [
         Validators.required,
         Validators.pattern(
@@ -36,13 +36,13 @@ export class HdWalletWizardComponent implements OnInit {
         )
       ]),
     });
-    this.accountsFormGroup = this._formBuilder.group({
+    this.accountsFormGroup = this.formBuilder.group({
       numAccounts: ['', Validators.required]
     });
     const strongPasswordValidator = Validators.pattern(
       '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
     )
-    this.passwordFormGroup = this._formBuilder.group({
+    this.passwordFormGroup = this.formBuilder.group({
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),

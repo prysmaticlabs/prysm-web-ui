@@ -3,7 +3,7 @@
     Unlock Keystores
   </div>
   <div class="my-4 text-hint text-lg leading-snug">
-    Unlock the keystores
+    Enter the password to unlock the keystores you are uploading. This is the password you set when you created the keystores using a tool such as the eth2.0-deposit-cli.
   </div>
   <mat-form-field appearance="outline">
     <mat-label>Password to unlock keystores</mat-label>
@@ -16,6 +16,6 @@
     />
   </mat-form-field>
   <div *ngIf="!formGroup.pristine && formGroup.controls['keystoresPassword'].errors" class="mb-6 warnings">
-    <div *ngIf="formGroup.controls['keystoresPassword'].errors.required" class="text-error">Keystores password is required</div>
+    <div *ngIf="formGroup.controls['keystoresPassword'].errors.required" class="text-error">Password for keystores is required</div>
   </div>
 </form>

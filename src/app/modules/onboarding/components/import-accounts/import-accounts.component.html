@@ -3,37 +3,32 @@
     Import Validating Keys
   </div>
   <div class="my-4 text-hint text-lg leading-snug">
-    Upload the validator_keys folder that was created during the eth2 launchpad's eth2.0-deposit-cli process here. You can drag and drop the directory or individual keystore files.
+    Upload any folder of keystore files or the validator_keys folder that was created during the eth2 launchpad's eth2.0-deposit-cli process here. You can drag and drop the directory or individual keystore files.
   </div>
 
   <div class="my-4 flex">
     <div class="w-full md:w-1/2">
-      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
-        (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)">
           <ng-template
             ngx-file-drop-content-tmp
             let-openFileSelector="openFileSelector" 
-            class="flex items-center text-center"
+            class="text-center"
             (click)="openFileSelector()">
-            Optional custom content that replaces the the entire default content.
-            <button color="accent" mat-raised-button (click)="openFileSelector()">Browse Files</button>
+            <div class="flex items-center justify-center mb-4">
+              <img src="/assets/images/upload.svg"/>  
+            </div>
+            <button mat-stroked-button (click)="openFileSelector()">Browse Files</button>
           </ng-template>
       </ngx-file-drop>
     </div>
     <div class="w-full md:w-1/2">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody class="upload-name-style">
-                <tr *ngFor="let item of files; let i=index">
-                    <td><strong>{{ item.relativePath }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
+      <div *ngIf="files.length" class="text-white text-xl px-6 py-2">
+        <span class="font-semibold text-secondary">{{files.length}}</span> Files Selected
+        <div *ngFor="let file of filesPreview">
+          <div class="mt-3 text-muted text-base">{{file.relativePath}}</div>
+        </div>
+        ...
+      </div>
     </div>
   </div>
-
 </form>

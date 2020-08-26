@@ -13,7 +13,7 @@
         </div>
         <div *ngIf="!isSmallScreen" class="wizard-container hidden md:flex md:w-2/3 items-center">
           <mat-horizontal-stepper class="bg-paper rounded-r" linear #stepper>
-            <!-- <mat-step label="Overview">
+            <mat-step label="Overview">
               <div class="text-white text-xl mt-4">
                 Creating an Wallet By Importing Keys
               </div>
@@ -26,10 +26,10 @@
               <div class="mt-6">
                 <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
               </div>
-            </mat-step> -->
+            </mat-step>
             <mat-step [stepControl]="importFormGroup" label="Import Keys">
               <app-import-accounts [formGroup]="importFormGroup"></app-import-accounts>
-              <div class="mt-4">
+              <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
               </div>

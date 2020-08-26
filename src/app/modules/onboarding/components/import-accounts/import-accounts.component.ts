@@ -14,9 +14,11 @@ export class ImportAccountsComponent implements OnInit {
   }
 
   files: NgxFileDropEntry[] = [];
+  filesPreview: NgxFileDropEntry[];
 
   dropped(files: NgxFileDropEntry[]) {
     this.files = files;
+    this.filesPreview = this.files.slice(0, 5);
     for (const droppedFile of files) {
       // Is it a file?
       if (droppedFile.fileEntry.isFile) {
@@ -33,13 +35,5 @@ export class ImportAccountsComponent implements OnInit {
         console.log(droppedFile.relativePath, fileEntry);
       }
     }
-  }
-
-  fileOver(event){
-    console.log(event);
-  }
-
-  fileLeave(event){
-    console.log(event);
   }
 }

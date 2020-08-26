@@ -117,10 +117,18 @@
         .ngx-file-drop__drop-zone {
           border: 4px dashed $primary;
           border-radius: 0px;
+          height: auto;
+          padding-top: 30px;
+          padding-bottom: 30px;
         }
         .ngx-file-drop__content {
           color: $white;
           text-align: center;
+          display: block;
+          height: auto;
+          img {
+            height: 100px;
+          }
         }
       }
     }

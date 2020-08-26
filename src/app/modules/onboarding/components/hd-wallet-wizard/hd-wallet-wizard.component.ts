@@ -109,10 +109,8 @@ export class HdWalletWizardComponent implements OnInit {
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
     this.walletService.createWallet(request).pipe(
-      take(1),
       switchMap(() => {
         return this.authService.signup(request.walletPassword).pipe(
-          take(1),
           tap(() => {
             this.router.navigate(['/dashboard/gains-and-losses']);
             this.loading = false;

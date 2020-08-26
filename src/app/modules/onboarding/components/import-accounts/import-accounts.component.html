@@ -3,12 +3,12 @@
     Import Validating Keys
   </div>
   <div class="my-4 text-hint text-lg leading-snug">
-    Upload any folder of keystore files or the validator_keys folder that was created during the eth2 launchpad's eth2.0-deposit-cli process here. You can drag and drop the directory or individual keystore files.
+    Upload any folder of keystore files such as the validator_keys folder that was created during the eth2 launchpad's eth2.0-deposit-cli process here. You can drag and drop the directory or individual files.
   </div>
 
   <div class="my-4 flex">
     <div class="w-full md:w-1/2">
-      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)">
+      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" directory="true" accept=".json">
           <ng-template
             ngx-file-drop-content-tmp
             let-openFileSelector="openFileSelector" 

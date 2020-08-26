@@ -11,9 +11,19 @@ import { ChooseWalletPasswordComponent } from './components/choose-wallet-passwo
 import { GenerateAccountsComponent } from './components/generate-accounts/generate-accounts.component';
 import { GenerateMnemonicComponent } from './components/generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from './components/confirm-mnemonic/confirm-mnemonic.component';
+import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive';
 
 @NgModule({
-  declarations: [OnboardingComponent, ChooseWalletKindComponent, HdWalletWizardComponent, ChooseWalletPasswordComponent, GenerateAccountsComponent, GenerateMnemonicComponent, ConfirmMnemonicComponent],
+  declarations: [
+    BlockCopyPasteDirective,
+    OnboardingComponent,
+    ChooseWalletKindComponent,
+    HdWalletWizardComponent,
+    ChooseWalletPasswordComponent,
+    GenerateAccountsComponent,
+    GenerateMnemonicComponent,
+    ConfirmMnemonicComponent,
+  ],
   imports: [
     CommonModule,
     SharedModule,

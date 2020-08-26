@@ -15,4 +15,7 @@
       type="number"
     />
   </mat-form-field>
+  <div *ngIf="!formGroup.pristine && formGroup.controls['numAccounts'].errors" class="mb-6 warnings">
+    <div *ngIf="formGroup.controls['numAccounts'].errors.required" class="text-error">Num accounts is required</div>
+  </div>
 </form>

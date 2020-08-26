@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { tap, takeUntil } from 'rxjs/operators';
@@ -11,7 +11,6 @@ import { Subject } from 'rxjs';
 })
 export class HdWalletWizardComponent implements OnInit {
   // Properties.
-  isLinear = false;
   isSmallScreen = false;
   mnemonicFormGroup: FormGroup;
   accountsFormGroup: FormGroup;
@@ -30,14 +29,32 @@ export class HdWalletWizardComponent implements OnInit {
 
   ngOnInit(): void {
     this.mnemonicFormGroup = this._formBuilder.group({
-      mnemonic: ['', Validators.required]
+      mnemonic: new FormControl('', [
+        Validators.required,
+        Validators.pattern(
+          `[a-zA-Z ]*`, // Only words separated by spaces.
+        )
+      ]),
     });
     this.accountsFormGroup = this._formBuilder.group({
       numAccounts: ['', Validators.required]
     });
+    const strongPasswordValidator = Validators.pattern(
+      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
+    )
     this.passwordFormGroup = this._formBuilder.group({
-      password: ['', Validators.required],
-      passwordConfirmation: ['', Validators.required]
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        strongPasswordValidator,
+      ]),
+      passwordConfirmation: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        strongPasswordValidator,
+      ]),
+    }, {
+      validators: this.passwordMatchValidator,
     });
     this.breakpointObserver.observe([
       Breakpoints.XSmall,
@@ -53,5 +70,13 @@ export class HdWalletWizardComponent implements OnInit {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  passwordMatchValidator(control: AbstractControl) {
+    const password: string = control.get('password').value;
+    const confirmPassword: string = control.get('passwordConfirmation').value;
+    if (password !== confirmPassword) {
+      control.get('passwordConfirmation').setErrors({ passwordMismatch: true });
+    }
   }
 }

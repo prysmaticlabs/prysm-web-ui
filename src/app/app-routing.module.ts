@@ -17,13 +17,18 @@ import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
-    canActivate: [AuthredirectGuard],
+    redirectTo: 'onboarding',
+    pathMatch: 'full',
   },
   {
     path: 'onboarding',
     component: OnboardingComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthredirectGuard],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [AuthredirectGuard],
   },
   {
     path: 'dashboard',

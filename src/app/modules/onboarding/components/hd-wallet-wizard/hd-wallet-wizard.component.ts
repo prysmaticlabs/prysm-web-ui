@@ -28,6 +28,16 @@ export class HdWalletWizardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.registerFormGroups();
+    this.registerBreakpointObserver();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
+  registerFormGroups() {
     this.mnemonicFormGroup = this.formBuilder.group({
       mnemonic: new FormControl('', [
         Validators.required,
@@ -56,6 +66,9 @@ export class HdWalletWizardComponent implements OnInit {
     }, {
       validators: this.passwordMatchValidator,
     });
+  }
+
+  registerBreakpointObserver() {
     this.breakpointObserver.observe([
       Breakpoints.XSmall,
       Breakpoints.Small
@@ -65,11 +78,6 @@ export class HdWalletWizardComponent implements OnInit {
       }),
       takeUntil(this.destroyed$),
     ).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
   }
 
   passwordMatchValidator(control: AbstractControl) {

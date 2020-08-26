@@ -4,6 +4,7 @@ import { MockComponent } from 'ng-mocks';
 import { WalletKind } from './types/wallet';
 import { OnboardingComponent, OnboardingState } from './onboarding.component';
 import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choose-wallet-kind.component';
+import { HdWalletWizardComponent } from './components/hd-wallet-wizard/hd-wallet-wizard.component';
 
 describe('OnboardingComponent', () => {
   let component: OnboardingComponent;
@@ -14,6 +15,7 @@ describe('OnboardingComponent', () => {
       declarations: [
         OnboardingComponent,
         MockComponent(ChooseWalletKindComponent),
+        MockComponent(HdWalletWizardComponent),
       ]
     })
     .compileComponents();
@@ -22,6 +24,7 @@ describe('OnboardingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OnboardingComponent);
     component = fixture.componentInstance;
+    component.onboardingState = OnboardingState.PickingWallet;
     fixture.detectChanges();
   });
 

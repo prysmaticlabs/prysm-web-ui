@@ -1,6 +1,6 @@
 .onboarding {
   .create-a-wallet {
-    padding-top: 200px;
+    padding-top: 15%;
   }
   .onboarding-grid {
     .onboarding-card {
@@ -55,6 +55,69 @@
       }
       &:hover {
         border-color: $primary;
+      }
+    }
+  }
+  .onboarding-wizard-card {
+    padding: 0;
+    img {
+      width: 160px;
+      height: 120px;
+    }
+    .wizard-container {
+      background-color: rgba(0, 0, 0, 0.08);
+      .mat-stepper-horizontal {
+        background-color: transparent;
+        height: 450px;
+        width: 900px;
+      }
+      .mat-stepper-vertical {
+        background-color: transparent;
+        width: 95%;
+      }
+      .mat-step-label {
+        color: $white;
+      }
+      .mat-button-disabled {
+        @extend .text-hint;
+      }
+      .mat-form-field-appearance-outline .mat-form-field-outline {
+        color: $primary;
+      }
+      .mat-form-field-label {
+        color: $white;
+      }
+      .mat-form-field {
+        width: 80%;
+      }
+      .confirm-mnemonic-form {
+        .mat-input-element {
+          color: $white;
+          font-size: 16px;
+          padding-top: 8px;
+          padding-bottom: 8px;
+          line-height: 1.375;
+        }
+      }
+      .generate-accounts-form {
+        .mat-input-element {
+          color: $white;
+        }
+      }
+      .password-form {
+        .mat-input-element {
+          color: $white;
+        }
+      }
+    }
+    .btn-container {
+      position: relative;
+      .btn-progress {
+        position: absolute;
+        top: 5px;
+        left: 56px;
+        margin-top: -4;
+        margin-left: -24;
       }
     }
   }

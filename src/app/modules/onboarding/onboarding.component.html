@@ -1,5 +1,5 @@
 <div class="onboarding bg-default flex h-screen" [ngSwitch]="onboardingState">
-  <div class="mx-auto">
+  <div class="mx-auto overflow-y-scroll">
     <div *ngSwitchCase="States.PickingWallet">
       <app-choose-wallet-kind
         [walletSelections]="walletSelections"
@@ -10,7 +10,7 @@
       <div>Hello</div>
     </div>
     <div *ngSwitchCase="States.HDWizard">
-      <div>Hello</div>
+      <app-hd-wallet-wizard></app-hd-wallet-wizard>
     </div>
     <div *ngSwitchCase="States.RemoteWizard">
       <div>Hello</div>

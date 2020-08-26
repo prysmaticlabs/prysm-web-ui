@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { WalletKind, WalletSelection } from './types/wallet';
 import { Subject, throwError } from 'rxjs';
 import { tap, catchError, takeUntil } from 'rxjs/operators';
+
+import { WalletKind, WalletSelection } from './types/wallet';
+import { WalletService } from '../core/services/wallet.service';
 
 export enum OnboardingState {
   PickingWallet = 'PickingWallet',
@@ -49,9 +51,18 @@ export class OnboardingComponent implements OnInit, OnDestroy {
   // as this fires. This subject will fire in ngOnDestroy.
   destroyed$ = new Subject();
 
-  constructor() { }
+  constructor(
+    private walletService: WalletService,
+  ) { }
 
   ngOnInit(): void {
+    // Get the wallet config.
+    this.walletService.walletConfig$.pipe(
+      tap((resp) => console.log(resp)),
+      takeUntil(this.destroyed$),
+      catchError(err => throwError(err)),
+    ).subscribe();
+
     this.selectedWallet$.pipe(
       tap(kind => {
         switch (kind) {

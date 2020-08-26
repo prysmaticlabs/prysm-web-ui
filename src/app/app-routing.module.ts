@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthredirectGuard } from './modules/core/guards/authredirect.guard';
 import { AuthGuard } from './modules/core/guards/auth.guard';
+import { NoWalletFoundGuard } from './modules/core/guards/nowalletfound.guard';
 
 import { LoginComponent } from './modules/auth/login/login.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
@@ -17,18 +18,17 @@ import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'onboarding',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
     path: 'onboarding',
     component: OnboardingComponent,
-    canActivate: [AuthredirectGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [AuthredirectGuard],
+    canActivate: [NoWalletFoundGuard, AuthredirectGuard],
   },
   {
     path: 'dashboard',

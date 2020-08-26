@@ -34,10 +34,15 @@
               </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">
-              <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              <div *ngIf="loading">
+                Creating wallet...
+              </div>
+              <div *ngIf="!loading">
+                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <div class="mt-4">
+                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet()">Create Wallet</button></span>
+                </div>
               </div>
             </mat-step>
           </mat-horizontal-stepper>

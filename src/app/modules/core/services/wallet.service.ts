@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
 
 export interface WalletResponse {
@@ -9,6 +9,12 @@ export interface WalletResponse {
 
 export interface GenerateMnemonicResponse {
   mnemonic: string;
+}
+
+export interface CreateWalletRequest {
+  walletPassword: string;
+  mnemonic: string;
+  numAccounts: number;
 }
 
 @Injectable({
@@ -33,4 +39,8 @@ export class WalletService {
     shareReplay(1),
     catchError(err => throwError(err)),
   );
+
+  createWallet(request: CreateWalletRequest): Observable<WalletResponse> {
+    return this.http.post<WalletResponse>('/api/wallet/create', request);
+  }
 }

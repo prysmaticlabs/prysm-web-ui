@@ -2,16 +2,28 @@ import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { tap, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { tap, takeUntil, catchError, take } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
+import { WalletService, CreateWalletRequest } from 'src/app/modules/core/services/wallet.service';
+import { MnemonicValidator } from '../../validators/mnemonic.validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hd-wallet-wizard',
   templateUrl: './hd-wallet-wizard.component.html',
 })
 export class HdWalletWizardComponent implements OnInit {
+  constructor(
+    private formBuilder: FormBuilder,
+    private breakpointObserver: BreakpointObserver,
+    private mnemonicValidator: MnemonicValidator,
+    private walletService: WalletService,
+    private router: Router,
+  ) {}
+
   // Properties.
   isSmallScreen = false;
+  loading = false;
   mnemonicFormGroup: FormGroup;
   accountsFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
@@ -21,11 +33,6 @@ export class HdWalletWizardComponent implements OnInit {
 
   // Observables and subjects.
   destroyed$ = new Subject();
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private breakpointObserver: BreakpointObserver,
-  ) {}
 
   ngOnInit(): void {
     this.registerFormGroups();
@@ -39,15 +46,24 @@ export class HdWalletWizardComponent implements OnInit {
 
   registerFormGroups() {
     this.mnemonicFormGroup = this.formBuilder.group({
-      mnemonic: new FormControl('', [
-        Validators.required,
-        Validators.pattern(
-          `[a-zA-Z ]*`, // Only words separated by spaces.
-        )
-      ]),
+      mnemonic: new FormControl('',
+        // Synchronous validators.
+        [
+          Validators.required,
+          Validators.pattern(
+            `[a-zA-Z ]*`, // Only words separated by spaces.
+          )
+        ],
+        // Asynchronous validator to check if the mnemonic
+        // matches the generated mnemonic from the wallet service.
+        [this.mnemonicValidator.matchingMnemonic()]
+      ),
     });
     this.accountsFormGroup = this.formBuilder.group({
-      numAccounts: ['', Validators.required, Validators.min(0)]
+      numAccounts: new FormControl('', [
+        Validators.required,
+        Validators.min(0),
+      ]),
     });
     const strongPasswordValidator = Validators.pattern(
       '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
@@ -77,6 +93,23 @@ export class HdWalletWizardComponent implements OnInit {
         this.isSmallScreen = result.matches;
       }),
       takeUntil(this.destroyed$),
+    ).subscribe();
+  }
+
+  createWallet(): void {
+    const request: CreateWalletRequest = {
+      walletPassword: this.passwordFormGroup.controls.password.value,
+      numAccounts: this.accountsFormGroup.controls.numAccounts.value,
+      mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
+    }
+    this.loading = true;
+    this.walletService.createWallet(request).pipe(
+      tap(() => {
+        this.router.navigate(['/dashboard/gains-and-losses']);
+        this.loading = false;
+      }),
+      take(1),
+      catchError(err => throwError(err)),
     ).subscribe();
   }
 

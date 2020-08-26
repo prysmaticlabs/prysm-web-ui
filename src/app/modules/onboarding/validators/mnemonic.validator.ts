@@ -26,9 +26,12 @@ export class MnemonicValidator {
         take(1),
         switchMap(_ =>
           this.walletService.generateMnemonic$.pipe(
-            map(originalMnemonic =>
-              ({ mnemonicMismatch: { value: control.value !== originalMnemonic } })
-            )
+            map(originalMnemonic => {
+              if (control.value !== originalMnemonic) {
+                return { mnemonicMismatch: true };
+              }
+              return null;
+            })
           )
         )
       );

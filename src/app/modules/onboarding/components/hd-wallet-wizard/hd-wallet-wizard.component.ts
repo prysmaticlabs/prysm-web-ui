@@ -11,7 +11,6 @@ import { Subject } from 'rxjs';
 })
 export class HdWalletWizardComponent implements OnInit {
   // Properties.
-  isLinear = false;
   isSmallScreen = false;
   mnemonicFormGroup: FormGroup;
   accountsFormGroup: FormGroup;
@@ -40,20 +39,19 @@ export class HdWalletWizardComponent implements OnInit {
     this.accountsFormGroup = this._formBuilder.group({
       numAccounts: ['', Validators.required]
     });
+    const strongPasswordValidator = Validators.pattern(
+      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
+    )
     this.passwordFormGroup = this._formBuilder.group({
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
-        )
+        strongPasswordValidator,
       ]),
       passwordConfirmation: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
-        )
+        strongPasswordValidator,
       ]),
     }, {
       validators: this.passwordMatchValidator,

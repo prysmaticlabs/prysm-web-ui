@@ -12,7 +12,6 @@ import { Subject } from 'rxjs';
 export class NonhdWalletWizardComponent implements OnInit {
   // Properties.
   isSmallScreen = false;
-  importFormGroup: FormGroup;
   unlockFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
 
@@ -28,8 +27,6 @@ export class NonhdWalletWizardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.importFormGroup = this.formBuilder.group({
-    });
     this.unlockFormGroup = this.formBuilder.group({
       keystoresPassword: ['', Validators.required]
     });

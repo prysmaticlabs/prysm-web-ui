@@ -7,7 +7,6 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
   templateUrl: './import-accounts.component.html',
 })
 export class ImportAccountsComponent implements OnInit {
-  @Input() formGroup: FormGroup;
   constructor() { }
 
   ngOnInit(): void {

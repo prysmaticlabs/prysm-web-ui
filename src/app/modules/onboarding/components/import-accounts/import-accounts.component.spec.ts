@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MockComponent } from 'ng-mocks';
+import { NgxFileDropComponent } from 'ngx-file-drop';
+
 import { ImportAccountsComponent } from './import-accounts.component';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 describe('ImportAccountsComponent', () => {
   let component: ImportAccountsComponent;
@@ -8,7 +12,13 @@ describe('ImportAccountsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImportAccountsComponent ]
+      declarations: [
+        ImportAccountsComponent,
+        MockComponent(NgxFileDropComponent),
+      ],
+      imports: [
+        SharedModule,
+      ]
     })
     .compileComponents();
   }));

@@ -10,8 +10,13 @@
     <textarea matInput
       formControlName="mnemonic"
       cdkTextareaAutosize
+      appBlockCopyPaste
       #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="4"
+      cdkAutosizeMinRows="3"
       cdkAutosizeMaxRows="4"></textarea>
   </mat-form-field>
+  <div *ngIf="!formGroup.pristine && formGroup.controls['mnemonic'].errors" class="mb-6">
+    <div *ngIf="formGroup.controls['mnemonic'].errors.required" class="text-error">Mnemonic is required</div>
+    <div *ngIf="formGroup.controls['mnemonic'].errors.pattern" class="text-error">Can only contain words separated by spaces</div>
+  </div>
 </form>

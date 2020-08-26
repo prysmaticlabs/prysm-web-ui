@@ -37,7 +37,7 @@ export class HdWalletWizardComponent implements OnInit {
       ]),
     });
     this.accountsFormGroup = this.formBuilder.group({
-      numAccounts: ['', Validators.required]
+      numAccounts: ['', Validators.required, Validators.min(0)]
     });
     const strongPasswordValidator = Validators.pattern(
       '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',

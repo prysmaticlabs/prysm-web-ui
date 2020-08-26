@@ -18,12 +18,12 @@ export class OnboardingComponent implements OnInit, OnDestroy {
   // Alias the enum so we can access it via directives in the template.
   States = OnboardingState;
   // Keep track of the current state of the onboarding process.
-  onboardingState: OnboardingState = OnboardingState.PickingWallet;
+  onboardingState: OnboardingState = OnboardingState.NonHDWizard;
   // Wallet kinds for the user to choose from.
   walletSelections: WalletSelection[] = [
     {
       kind: WalletKind.Direct,
-      name: 'Non-HD Wallet',
+      name: 'Imported Wallet',
       description: '(Basic) Simple wallet that allows to importing keys from an external source',
       image: '/assets/images/onboarding/direct.svg',
     },
@@ -38,6 +38,7 @@ export class OnboardingComponent implements OnInit, OnDestroy {
       name: 'Remote Wallet',
       description: '(Advanced) Manages validator keys and sign requests via a remote server',
       image: '/assets/images/onboarding/server.svg',
+      comingSoon: true,
     },
   ];
 

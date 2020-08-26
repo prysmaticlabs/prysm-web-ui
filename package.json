@@ -27,6 +27,7 @@
     "@angular/router": "~10.0.6",
     "echarts": "^4.8.0",
     "ngx-echarts": "^5.1.2",
+    "ngx-file-drop": "^9.0.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

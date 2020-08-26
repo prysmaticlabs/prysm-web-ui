@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { NgxFileDropModule } from 'ngx-file-drop';
+
 import { SharedModule } from '../shared/shared.module';
 import { OnboardingComponent } from './onboarding.component';
 import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choose-wallet-kind.component';
@@ -12,6 +14,8 @@ import { GenerateAccountsComponent } from './components/generate-accounts/genera
 import { GenerateMnemonicComponent } from './components/generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from './components/confirm-mnemonic/confirm-mnemonic.component';
 import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive';
+import { NonhdWalletWizardComponent } from './components/nonhd-wallet-wizard/nonhd-wallet-wizard.component';
+import { ImportAccountsComponent } from './components/import-accounts/import-accounts.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,8 @@ import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive
     GenerateAccountsComponent,
     GenerateMnemonicComponent,
     ConfirmMnemonicComponent,
+    NonhdWalletWizardComponent,
+    ImportAccountsComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +36,7 @@ import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxFileDropModule,
   ]
 })
 export class OnboardingModule { }

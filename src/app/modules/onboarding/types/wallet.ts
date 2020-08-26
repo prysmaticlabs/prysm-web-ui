@@ -9,4 +9,5 @@ export interface WalletSelection {
   name: string;
   description: string;
   image: string;
+  comingSoon?: boolean;
 }

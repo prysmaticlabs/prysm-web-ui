@@ -65,6 +65,11 @@
     }
     .wizard-container {
       background-color: rgba(0, 0, 0, 0.08);
+      .overview-img {
+        img {
+          height: 220px;
+        }
+      }
       .mat-stepper-horizontal {
         background-color: transparent;
         height: 500px;

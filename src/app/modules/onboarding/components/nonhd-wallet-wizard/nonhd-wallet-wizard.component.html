@@ -1,0 +1,77 @@
+<div class="create-a-wallet">
+  <div class="text-center pb-8">
+    <div class="text-white text-3xl">Imported Wallet Setup</div>
+    <div class="text-muted text-lg mt-6 leading-snug">
+      We'll guide you through creating your wallet by importing <br/>validator keys from an external source
+    </div>
+  </div>
+  <div class="onboarding-grid flex justify-center items-center my-auto">
+    <mat-card class="onboarding-wizard-card position-relative y-center">
+      <div class="flex items-center">
+        <div class="hidden md:flex w-1/3 signup-img justify-center items-center">
+          <img src="/assets/images/onboarding/direct.svg" alt="" />
+        </div>
+        <div *ngIf="!isSmallScreen" class="wizard-container hidden md:flex md:w-2/3 items-center">
+          <mat-horizontal-stepper class="bg-paper rounded-r" linear #stepper>
+            <mat-step label="Overview">
+              <div class="text-white text-xl mt-4">
+                Creating an Wallet By Importing Keys
+              </div>
+              <div class="my-4 text-hint text-lg leading-snug">
+                You can create a new wallet for your Prysm validator by importing keys from an external source, such as those created during the eth2 launchpad process by the eth2.0-deposit-cli
+              </div>
+              <div class="overview-img">
+                <img src="https://i.imgur.com/3oUwf4N.png"/>
+              </div>
+              <div class="mt-6">
+                <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="importFormGroup" label="Import Keys">
+              <app-import-accounts [formGroup]="importFormGroup"></app-import-accounts>
+              <div class="mt-4">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="passwordFormGroup" label="Password">
+              <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+              <div class="mt-4">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
+        </div>
+        <div *ngIf="isSmallScreen" class="wizard-container flex w-full md:hidden items-center">
+          <mat-vertical-stepper class="bg-paper rounded-r" linear #stepper>
+            <mat-step label="Overview">
+              <div>
+                Welcome
+              </div>
+              <div class="mt-6">
+                <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="accountsFormGroup" label="Import Keys">
+              <app-import-accounts [formGroup]="accountsFormGroup"></app-import-accounts>
+              <div class="mt-4">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="passwordFormGroup" label="Password">
+              <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+              <div class="mt-4">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <a class="ml-4" routerLink="/dashboard/gains-and-losses">
+                  <button color="primary" mat-raised-button>Continue</button>
+                </a>
+              </div>
+            </mat-step>
+          </mat-vertical-stepper>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

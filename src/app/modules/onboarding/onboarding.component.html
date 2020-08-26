@@ -7,7 +7,7 @@
       ></app-choose-wallet-kind>
     </div>
     <div *ngSwitchCase="States.NonHDWizard">
-      <div>Hello</div>
+      <app-nonhd-wallet-wizard></app-nonhd-wallet-wizard>
     </div>
     <div *ngSwitchCase="States.HDWizard">
       <app-hd-wallet-wizard></app-hd-wallet-wizard>

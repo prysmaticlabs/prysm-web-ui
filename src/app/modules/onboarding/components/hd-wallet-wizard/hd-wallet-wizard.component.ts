@@ -24,7 +24,7 @@ export class HdWalletWizardComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
   ) {}
 
   ngOnInit(): void {

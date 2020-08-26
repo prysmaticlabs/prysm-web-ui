@@ -24,11 +24,13 @@ const routes: Routes = [
   {
     path: 'onboarding',
     component: OnboardingComponent,
+    canActivate: [AuthredirectGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [NoWalletFoundGuard, AuthredirectGuard],
+    // canActivate: [NoWalletFoundGuard, AuthredirectGuard],
+    canActivate: [AuthredirectGuard],
   },
   {
     path: 'dashboard',

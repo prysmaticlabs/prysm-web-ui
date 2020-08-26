@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { tap, takeUntil, catchError, take } from 'rxjs/operators';
+import { tap, takeUntil, catchError, take, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 import { WalletService, CreateWalletRequest } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
   selector: 'app-hd-wallet-wizard',
@@ -14,11 +15,12 @@ import { Router } from '@angular/router';
 })
 export class HdWalletWizardComponent implements OnInit {
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
     private mnemonicValidator: MnemonicValidator,
     private walletService: WalletService,
-    private router: Router,
+    private authService: AuthenticationService,
   ) {}
 
   // Properties.
@@ -96,20 +98,28 @@ export class HdWalletWizardComponent implements OnInit {
     ).subscribe();
   }
 
-  createWallet(): void {
+  createWallet(event: Event): void {
+    event.stopPropagation();
     const request: CreateWalletRequest = {
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
     }
     this.loading = true;
+    // We attempt to create a wallet followed by a call to
+    // signup using the wallet's password in the validator client.
     this.walletService.createWallet(request).pipe(
-      tap(() => {
-        this.router.navigate(['/dashboard/gains-and-losses']);
-        this.loading = false;
-      }),
       take(1),
-      catchError(err => throwError(err)),
+      switchMap(() => {
+        return this.authService.signup(request.walletPassword).pipe(
+          take(1),
+          tap(() => {
+            this.router.navigate(['/dashboard/gains-and-losses']);
+            this.loading = false;
+          }),
+          catchError(err => throwError(err)),
+        );
+      })
     ).subscribe();
   }
 

@@ -41,7 +41,7 @@
                 <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
                 <div class="mt-4">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet()">Create Wallet</button></span>
+                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>
                 </div>
               </div>
             </mat-step>

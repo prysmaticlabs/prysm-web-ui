@@ -65,9 +65,14 @@
     }
     .wizard-container {
       background-color: rgba(0, 0, 0, 0.08);
+      .overview-img {
+        img {
+          height: 220px;
+        }
+      }
       .mat-stepper-horizontal {
         background-color: transparent;
-        height: 500px;
+        height: 520px;
         width: 900px;
       }
       .mat-stepper-vertical {
@@ -106,6 +111,24 @@
       .password-form {
         .mat-input-element {
           color: $white;
+        }
+      }
+      .import-keys-form {
+        .ngx-file-drop__drop-zone {
+          border: 4px dashed $primary;
+          border-radius: 0px;
+          height: auto;
+          padding-top: 30px;
+          padding-bottom: 30px;
+        }
+        .ngx-file-drop__content {
+          color: $white;
+          text-align: center;
+          display: block;
+          height: auto;
+          img {
+            height: 100px;
+          }
         }
       }
     }

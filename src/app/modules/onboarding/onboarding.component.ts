@@ -22,22 +22,23 @@ export class OnboardingComponent implements OnInit, OnDestroy {
   // Wallet kinds for the user to choose from.
   walletSelections: WalletSelection[] = [
     {
-      kind: WalletKind.Direct,
-      name: 'Non-HD Wallet',
-      description: '(Basic) Simple wallet that allows to importing keys from an external source',
-      image: '/assets/images/onboarding/direct.svg',
-    },
-    {
       kind: WalletKind.Derived,
       name: 'HD Wallet',
-      description: '(Default) Secure kind of blockchain wallet which can be recovered from a 24-word mnemonic phrase',
+      description: 'Secure kind of blockchain wallet which can be recovered from a 24-word mnemonic phrase',
       image: '/assets/images/onboarding/lock.svg',
+    },
+    {
+      kind: WalletKind.Direct,
+      name: 'Imported Wallet',
+      description: '(Default) Simple wallet that allows to importing keys from an external source',
+      image: '/assets/images/onboarding/direct.svg',
     },
     {
       kind: WalletKind.Remote,
       name: 'Remote Wallet',
       description: '(Advanced) Manages validator keys and sign requests via a remote server',
       image: '/assets/images/onboarding/server.svg',
+      comingSoon: true,
     },
   ];
 

@@ -24,8 +24,11 @@
           {{selection.description}}
         </p>
         <p class="wallet-action">
-          <button class="select-button" mat-raised-button color="accent" (click)="selectedWallet$.next(selection.kind)">
+          <button *ngIf="!selection.comingSoon" class="select-button" mat-raised-button color="accent" (click)="selectedWallet$.next(selection.kind)">
             Select Wallet
+          </button>
+          <button *ngIf="selection.comingSoon" class="select-button" mat-raised-button disabled>
+            Coming Soon
           </button>
         </p>
       </div>

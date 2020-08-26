@@ -6,14 +6,13 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-hd-wallet-wizard',
-  templateUrl: './hd-wallet-wizard.component.html',
+  selector: 'app-nonhd-wallet-wizard',
+  templateUrl: './nonhd-wallet-wizard.component.html',
 })
-export class HdWalletWizardComponent implements OnInit {
+export class NonhdWalletWizardComponent implements OnInit {
   // Properties.
   isSmallScreen = false;
-  mnemonicFormGroup: FormGroup;
-  accountsFormGroup: FormGroup;
+  unlockFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
 
   // View children.
@@ -28,16 +27,8 @@ export class HdWalletWizardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.mnemonicFormGroup = this.formBuilder.group({
-      mnemonic: new FormControl('', [
-        Validators.required,
-        Validators.pattern(
-          `[a-zA-Z ]*`, // Only words separated by spaces.
-        )
-      ]),
-    });
-    this.accountsFormGroup = this.formBuilder.group({
-      numAccounts: ['', Validators.required, Validators.min(0)]
+    this.unlockFormGroup = this.formBuilder.group({
+      keystoresPassword: ['', Validators.required]
     });
     const strongPasswordValidator = Validators.pattern(
       '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',

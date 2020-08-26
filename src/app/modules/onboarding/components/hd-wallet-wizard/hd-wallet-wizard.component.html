@@ -12,7 +12,7 @@
           <img src="/assets/images/onboarding/lock.svg" alt="" />
         </div>
         <div *ngIf="!isSmallScreen" class="wizard-container hidden md:flex md:w-2/3 items-center">
-          <mat-horizontal-stepper class="bg-paper rounded-r" #stepper>
+          <mat-horizontal-stepper class="bg-paper rounded-r" linear #stepper>
             <mat-step label="Overview">
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">

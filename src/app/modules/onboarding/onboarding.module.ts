@@ -16,12 +16,12 @@ import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive
 @NgModule({
   declarations: [
     BlockCopyPasteDirective,
-    OnboardingComponent, 
-    ChooseWalletKindComponent, 
-    HdWalletWizardComponent, 
-    ChooseWalletPasswordComponent, 
-    GenerateAccountsComponent, 
-    GenerateMnemonicComponent, 
+    OnboardingComponent,
+    ChooseWalletKindComponent,
+    HdWalletWizardComponent,
+    ChooseWalletPasswordComponent,
+    GenerateAccountsComponent,
+    GenerateMnemonicComponent,
     ConfirmMnemonicComponent,
   ],
   imports: [

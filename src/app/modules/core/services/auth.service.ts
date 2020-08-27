@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { tap, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+export interface AuthRequest {
+  password: string;
+}
+
 export interface AuthResponse {
   token: string;
 }
@@ -26,7 +30,7 @@ export class AuthenticationService {
   }
 
   authenticate(method: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(method, { password }).pipe(
+    return this.http.post<AuthResponse>(method, { password } as AuthRequest).pipe(
       take(1),
       tap((res: any) => {
         this.token = res.token;

@@ -4,7 +4,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { tap, takeUntil, catchError, take, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
-import { WalletService, CreateWalletRequest } from 'src/app/modules/core/services/wallet.service';
+import { WalletService, CreateWalletRequest, KeymanagerKind } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
@@ -107,6 +107,7 @@ export class HdWalletWizardComponent implements OnInit {
       return;
     }
     const request: CreateWalletRequest = {
+      keymanager: KeymanagerKind.Derived,
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,

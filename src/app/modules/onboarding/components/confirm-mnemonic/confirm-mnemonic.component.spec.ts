@@ -1,10 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule, FormsModule, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { ConfirmMnemonicComponent } from './confirm-mnemonic.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { FormBuilder, ReactiveFormsModule, FormsModule, FormControl, Validators } from '@angular/forms';
 import { BlockCopyPasteDirective } from '../../directives/block-copy-paste.directive';
-import { By } from '@angular/platform-browser';
+
+const SAMPLE_MNEMONIC = 'tape hungry front clump chapter blush alien sauce spawn victory mother salt purpose drop mask hour foil physical daughter narrow sheriff agree master survey';
+
+function matchingMnemonicValidator(control: AbstractControl) {
+  return control.get('mnemonic').setErrors({ mnemonicMismatch: true });
+}
 
 describe('ConfirmMnemonicComponent', () => {
   let component: ConfirmMnemonicComponent;
@@ -31,12 +37,13 @@ describe('ConfirmMnemonicComponent', () => {
     const builder = new FormBuilder();
     component.formGroup = builder.group({
       mnemonic: new FormControl('', [
-        Validators.required,
-        Validators.pattern(
-          `[a-zA-Z ]*`, // Only words separated by spaces.
-        )
-      ]),
-    });
+          Validators.required,
+          Validators.pattern(
+            `[a-zA-Z ]*`, // Only words separated by spaces.
+          ),
+        ]),
+      },
+    );
     fixture.detectChanges();
   });
 
@@ -72,10 +79,37 @@ describe('ConfirmMnemonicComponent', () => {
   it('should test form validity for properly formatted mnemonic', () => {
     const form = component.formGroup;
     const input = fixture.nativeElement.querySelector('textarea[name="mnemonic"]');
-    input.value = 'tape hungry front clump chapter blush alien sauce spawn victory mother salt purpose drop mask hour foil physical daughter narrow sheriff agree master survey';
+    input.value = SAMPLE_MNEMONIC;
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
     expect(form.valid).toBeTruthy();
+  });
+
+  it('it should show errors on a mismatched mnemonic', () => {
+    const builder = new FormBuilder();
+    component.formGroup = builder.group({
+      mnemonic: new FormControl('', [
+          Validators.required,
+          Validators.pattern(
+            `[a-zA-Z ]*`, // Only words separated by spaces.
+          ),
+        ]),
+      },
+      {
+        validators: matchingMnemonicValidator,
+      }
+    );
+    fixture.detectChanges();
+    const form = component.formGroup;
+    const input = fixture.nativeElement.querySelector('textarea[name="mnemonic"]');
+
+    input.value = SAMPLE_MNEMONIC;
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(input.value).toContain(SAMPLE_MNEMONIC);
+    expect(form.valid).toBeFalsy();
+    const warnings = fixture.debugElement.query(By.css('.warnings'));
+    expect(warnings).toBeTruthy();
   });
 
   it('should not show warnings on an empty form on pristine', () => {

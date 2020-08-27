@@ -1,26 +1,40 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { tap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
+export interface AuthRequest {
+  password: string;
+}
+
+export interface AuthResponse {
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  public token: string;
-
   constructor(
-    private router: Router,
     private http: HttpClient,
   ) {
   }
+  token: string;
 
-  login(password: string) {
-    return this.http.post(`/api/login`, { password }).pipe(
+  login(password: string): Observable<AuthResponse> {
+    return this.authenticate('/api/login', password);
+  }
+
+  signup(password: string): Observable<AuthResponse> {
+    return this.authenticate('/api/signup', password);
+  }
+
+  authenticate(method: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(method, { password } as AuthRequest).pipe(
+      take(1),
       tap((res: any) => {
         this.token = res.token;
-      })
+      }),
     );
   }
 

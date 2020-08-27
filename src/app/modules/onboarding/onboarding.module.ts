@@ -17,6 +17,7 @@ import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive
 import { NonhdWalletWizardComponent } from './components/nonhd-wallet-wizard/nonhd-wallet-wizard.component';
 import { ImportAccountsComponent } from './components/import-accounts/import-accounts.component';
 import { UnlockKeysComponent } from './components/unlock-keys/unlock-keys.component';
+import { MnemonicValidator } from './validators/mnemonic.validator';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UnlockKeysComponent } from './components/unlock-keys/unlock-keys.compon
     ImportAccountsComponent,
     UnlockKeysComponent,
   ],
+  providers: [MnemonicValidator],
   imports: [
     CommonModule,
     SharedModule,

@@ -12,7 +12,7 @@
           <img src="/assets/images/onboarding/lock.svg" alt="" />
         </div>
         <div *ngIf="!isSmallScreen" class="wizard-container hidden md:flex md:w-2/3 items-center">
-          <mat-horizontal-stepper class="bg-paper rounded-r" linear #stepper>
+          <mat-horizontal-stepper class="bg-paper rounded-r" #stepper>
             <mat-step label="Overview">
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
@@ -34,10 +34,20 @@
               </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">
-              <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              <div *ngIf="loading">
+                <div class="text-white text-xl mt-4">
+                  Creating wallet...
+                </div>
+                <div class="my-4 text-hint text-lg leading-snug">
+                  Please wait while we are creating your validator accounts and your new wallet for Prysm. Soon, you'll be able to view your accounts, monitor your validator performance, and visualize system metrics more in-depth.
+                </div>
+              </div>
+              <div *ngIf="!loading">
+                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <div class="mt-4">
+                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>
+                </div>
               </div>
             </mat-step>
           </mat-horizontal-stepper>
@@ -65,12 +75,20 @@
               </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">
-              <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <a class="ml-4" routerLink="/dashboard/gains-and-losses">
-                  <button color="primary" mat-raised-button>Continue</button>
-                </a>
+              <div *ngIf="loading">
+                <div class="text-white text-xl mt-4">
+                  Creating wallet...
+                </div>
+                <div class="my-4 text-hint text-lg leading-snug">
+                  Please wait while we are creating your validator accounts and your new wallet for Prysm. Soon, you'll be able to view your accounts, monitor your validator performance, and visualize system metrics more in-depth.
+                </div>
+              </div>
+              <div *ngIf="loading">
+                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <div class="mt-4">
+                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>
+                </div>
               </div>
             </mat-step>
           </mat-vertical-stepper>

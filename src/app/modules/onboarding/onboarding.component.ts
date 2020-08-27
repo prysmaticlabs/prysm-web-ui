@@ -77,4 +77,8 @@ export class OnboardingComponent implements OnInit, OnDestroy {
     this.destroyed$.next();
     this.destroyed$.complete();
   }
+
+  resetOnboarding(): void {
+    this.onboardingState = OnboardingState.PickingWallet;
+  }
 }

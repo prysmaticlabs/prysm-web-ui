@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './hd-wallet-wizard.component.html',
 })
 export class HdWalletWizardComponent implements OnInit {
+  @Input() resetOnboarding: () => void;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,

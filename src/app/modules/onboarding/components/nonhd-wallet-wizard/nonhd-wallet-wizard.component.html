@@ -24,7 +24,8 @@
                 <img src="/assets/images/launchpad.png"/>
               </div>
               <div class="mt-6">
-                <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
+                <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>  
               </div>
             </mat-step>
             <mat-step label="Import Keys">
@@ -63,7 +64,8 @@
                 <img src="/assets/images/launchpad.png"/>
               </div>
               <div class="mt-6">
-                <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
+                <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>  
               </div>
             </mat-step>
             <mat-step label="Import Keys">

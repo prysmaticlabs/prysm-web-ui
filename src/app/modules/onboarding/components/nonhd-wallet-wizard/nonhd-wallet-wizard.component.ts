@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
   templateUrl: './nonhd-wallet-wizard.component.html',
 })
 export class NonhdWalletWizardComponent implements OnInit {
+  @Input() resetOnboarding: () => void;
   // Properties.
   isSmallScreen = false;
   unlockFormGroup: FormGroup;

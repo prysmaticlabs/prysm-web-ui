@@ -16,7 +16,8 @@
             <mat-step label="Overview">
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
-                <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
+                <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>  
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">
@@ -57,7 +58,8 @@
             <mat-step label="Overview">
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
-                <button color="primary" mat-raised-button (click)="stepper.next()">Continue</button>
+                <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>  
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">

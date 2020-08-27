@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { of } from 'rxjs';
 import { MockComponent } from 'ng-mocks';
 
 import { HdWalletWizardComponent } from './hd-wallet-wizard.component';
@@ -11,11 +12,8 @@ import { GenerateMnemonicComponent } from '../generate-mnemonic/generate-mnemoni
 import { ConfirmMnemonicComponent } from '../confirm-mnemonic/confirm-mnemonic.component';
 import { GenerateAccountsComponent } from '../generate-accounts/generate-accounts.component';
 import { ChooseWalletPasswordComponent } from '../choose-wallet-password/choose-wallet-password.component';
-import { GainsAndLossesComponent } from 'src/app/modules/dashboard/pages/gains-and-losses/gains-and-losses.component';
 import { WalletService, WalletResponse } from 'src/app/modules/core/services/wallet.service';
-import { Router } from '@angular/router';
-import { AuthenticationService, AuthRequest, AuthResponse } from 'src/app/modules/core/services/auth.service';
-import { of, Observable } from 'rxjs';
+import { AuthenticationService, AuthResponse } from 'src/app/modules/core/services/auth.service';
 
 describe('HdWalletWizardComponent', () => {
   let component: HdWalletWizardComponent;

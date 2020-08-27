@@ -1,18 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { of } from 'rxjs';
 
 import { NoWalletFoundGuard } from './nowalletfound.guard';
 import { WalletService, WalletResponse } from '../services/wallet.service';
-import { OnboardingComponent } from '../../onboarding/onboarding.component';
 
-class MockActivatedRouteSnapshot {
-  private _data: any;
-  get data() {
-    return this._data;
-  }
-}
+class MockActivatedRouteSnapshot {}
 
 class MockRouterStateSnapshot {
   url: string = '/';
@@ -26,17 +19,13 @@ describe('NoWalletFoundGuard', () => {
   let state: RouterStateSnapshot;
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('WalletService', ['walletConfig$']);
+    const serviceSpy = jasmine.createSpyObj('WalletService', ['walletConfig$']);
+    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        RouterTestingModule.withRoutes([
-          { path: 'onboarding', component: OnboardingComponent } 
-        ]),
-      ],
       providers: [
         NoWalletFoundGuard,
-        { provide: WalletService, useValue: spy },
+        { provide: WalletService, useValue: serviceSpy },
+        { provide: Router, useValue: routerSpy },
         { provide: ActivatedRouteSnapshot, useValue: MockActivatedRouteSnapshot },
         { provide: RouterStateSnapshot, useValue: MockRouterStateSnapshot },
       ]
@@ -53,25 +42,27 @@ describe('NoWalletFoundGuard', () => {
     expect(guard).toBeDefined();
   });
 
-  it('should return false when the user does not have a wallet', () => {
+  it('should return false when the user does not have a wallet', done => {
     const resp: WalletResponse = {
       walletPath: '',
     };
     service.walletConfig$ = of(resp);
     guard.canActivate(next, state).subscribe(canActivate => {
       expect(canActivate).toBe(false);
-      // expect(router.navigate).toHaveBeenCalledWith(['/onboarding']);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/onboarding');
+      done();
     });
   });
 
-  it('should return true when the user does has a wallet', () => {
+  it('should return true when the user does has a wallet', done => {
     const resp: WalletResponse = {
       walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
     };
     service.walletConfig$ = of(resp);
     guard.canActivate(next, state).subscribe(canActivate => {
       expect(canActivate).toBe(true);
-      // expect(router.navigate).toHaveBeenCalledTimes(0);
+      expect(router.navigateByUrl).toHaveBeenCalledTimes(0);
+      done();
     });
   });
 });

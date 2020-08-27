@@ -18,7 +18,7 @@ export class MnemonicValidator {
     return (
       control: AbstractControl
     ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      if (isEmptyInputValue(control.value)) {
+      if (!control.value) {
         return of(null);
       }
       return control.valueChanges.pipe(
@@ -37,8 +37,4 @@ export class MnemonicValidator {
       );
     };
   }
-}
-
-function isEmptyInputValue(value: any): boolean {
-  return value === null || value.length === 0;
 }

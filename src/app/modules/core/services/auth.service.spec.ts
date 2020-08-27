@@ -30,7 +30,7 @@ describe('AuthenticationService', () => {
       // to the token in the response.
       expect(service.token).toEqual(resp.token);
     });
-    const request = httpMock.expectOne( `/api/login`);
+    const request = httpMock.expectOne('/api/login');
     expect(request.request.method).toBe('POST');
     request.flush(mockResponse);
   });

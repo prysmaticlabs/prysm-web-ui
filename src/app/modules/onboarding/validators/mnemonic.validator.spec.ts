@@ -35,6 +35,23 @@ describe('MnemonicValidator', () => {
     });
   });
 
+  it('should not error if user input is empty', done => {
+    let validator = new MnemonicValidator(walletService);
+    walletService.generateMnemonic$ = of('hello foo');
+    const validationFunc = validator.matchingMnemonic();
+    const formControl = {
+      value: '',
+      valueChanges: of({}),
+    };
+    const obs = validationFunc(
+      formControl as AbstractControl,
+    ) as Observable<ValidationErrors>;
+    obs.subscribe((errors) => {
+      expect(errors).toBeFalsy();
+      done();
+    });
+  });
+
   it('should pass validation if user input matches value from service', done => {
     let validator = new MnemonicValidator(walletService);
     walletService.generateMnemonic$ = of('hello foo');

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { GenerateMnemonicComponent } from './generate-mnemonic.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
@@ -10,7 +11,10 @@ describe('GenerateMnemonicComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ GenerateMnemonicComponent ],
-      imports: [ SharedModule ]
+      imports: [
+        SharedModule,
+        HttpClientTestingModule,
+      ]
     })
     .compileComponents();
   }));

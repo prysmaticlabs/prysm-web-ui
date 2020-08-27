@@ -21,7 +21,7 @@ export class NoWalletFoundGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<any> | Promise<boolean|UrlTree> | boolean{
+  ): Observable<boolean> {
     return this.walletService.walletConfig$.pipe(
       map((resp: WalletResponse) => {
         // If the user does not have a wallet, we redirect 

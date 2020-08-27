@@ -1,12 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 import { MockComponent } from 'ng-mocks';
+
 import { HdWalletWizardComponent } from './hd-wallet-wizard.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { GenerateMnemonicComponent } from '../generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from '../confirm-mnemonic/confirm-mnemonic.component';
 import { GenerateAccountsComponent } from '../generate-accounts/generate-accounts.component';
 import { ChooseWalletPasswordComponent } from '../choose-wallet-password/choose-wallet-password.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('HdWalletWizardComponent', () => {
   let component: HdWalletWizardComponent;
@@ -24,7 +28,9 @@ describe('HdWalletWizardComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        RouterTestingModule,
         SharedModule,
+        HttpClientTestingModule,
       ]
     })
     .compileComponents();

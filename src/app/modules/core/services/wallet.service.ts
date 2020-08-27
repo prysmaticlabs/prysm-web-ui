@@ -25,9 +25,6 @@ export class WalletService {
     private http: HttpClient,
   ) { }
 
-  // Properties.
-  token: string;
-
   // Observables.
   walletConfig$ = this.http.get<WalletResponse>('/api/wallet');
   // Retrieve a randomly generateed bip39 mnemonic from the backend,

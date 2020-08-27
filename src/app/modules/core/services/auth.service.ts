@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-interface AuthResponse {
+export interface AuthResponse {
   token: string;
 }
 

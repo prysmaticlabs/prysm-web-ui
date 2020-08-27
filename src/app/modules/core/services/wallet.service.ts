@@ -13,7 +13,7 @@ export interface GenerateMnemonicResponse {
 
 export interface CreateWalletRequest {
   walletPassword: string;
-  mnemonic: string;
+  mnemonic?: string;
   numAccounts: number;
 }
 

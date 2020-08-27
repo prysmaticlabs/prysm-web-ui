@@ -24,10 +24,8 @@ export class NoWalletFoundGuard implements CanActivate {
   ): Observable<any> | Promise<boolean|UrlTree> | boolean{
     return this.walletService.walletConfig$.pipe(
       map((resp: WalletResponse) => {
-        // If the user does not have a wallet, we redirect them
-        // to the onboarding page.
-        console.log('checking no wallet guard')
-        console.log(resp.walletPath);
+        // If the user does not have a wallet, we redirect 
+        // them to the onboarding page.
         if (resp.walletPath === undefined || resp.walletPath === '') {
           this.router.navigateByUrl('/onboarding');
           return false;

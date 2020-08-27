@@ -8,6 +8,7 @@ import { WalletService, CreateWalletRequest } from 'src/app/modules/core/service
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-hd-wallet-wizard',
@@ -21,6 +22,7 @@ export class HdWalletWizardComponent implements OnInit {
     private mnemonicValidator: MnemonicValidator,
     private walletService: WalletService,
     private authService: AuthenticationService,
+    private snackBar: MatSnackBar,
   ) {}
 
   // Properties.
@@ -115,7 +117,12 @@ export class HdWalletWizardComponent implements OnInit {
             this.router.navigate(['/dashboard/gains-and-losses']);
             this.loading = false;
           }),
-          catchError(err => throwError(err)),
+          catchError(err => {
+            this.snackBar.open('Oops Something Went Wrong!', 'Close', {
+              duration: 2000,
+            });
+            return throwError(err);
+          }),
         );
       })
     ).subscribe();

@@ -17,11 +17,11 @@ export class AuthenticationService {
   }
   token: string;
 
-  login(password: string) {
+  login(password: string): Observable<AuthResponse> {
     return this.authenticate('/api/login', password);
   }
 
-  signup(password: string) {
+  signup(password: string): Observable<AuthResponse> {
     return this.authenticate('/api/signup', password);
   }
 

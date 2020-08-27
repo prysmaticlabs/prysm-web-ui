@@ -56,13 +56,6 @@ export class OnboardingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // Get the wallet config.
-    this.walletService.walletConfig$.pipe(
-      tap((resp) => console.log(resp)),
-      takeUntil(this.destroyed$),
-      catchError(err => throwError(err)),
-    ).subscribe();
-
     this.selectedWallet$.pipe(
       tap(kind => {
         switch (kind) {

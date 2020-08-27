@@ -54,11 +54,12 @@ describe('GenerateAccountsComponent', () => {
 
     input.value = '';
     input.dispatchEvent(new Event('input'));
+    component.formGroup.markAsTouched();
     fixture.detectChanges();
     expect(input.value).toBeFalsy();
     expect(form.valid).toBeFalsy();
-
-    const warnings = fixture.debugElement.query(By.css('.warnings'));
+    expect(form.controls.numAccounts.errors.required).toBeTruthy();
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
   });
 
@@ -68,16 +69,17 @@ describe('GenerateAccountsComponent', () => {
 
     input.value = '10';
     input.dispatchEvent(new Event('input'));
+    component.formGroup.markAsTouched();
     fixture.detectChanges();
     expect(input.value).toContain('10');
     expect(form.valid).toBeTruthy();
 
-    const warnings = fixture.debugElement.query(By.css('.warnings'));
-    expect(warnings).toBeFalsy();
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toEqual([]);
   });
 
   it('should not show warnings on an empty form on pristine', () => {
-    const warnings = fixture.debugElement.query(By.css('.warnings'));
-    expect(warnings).toBeFalsy();
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toEqual([]);
   });
 });

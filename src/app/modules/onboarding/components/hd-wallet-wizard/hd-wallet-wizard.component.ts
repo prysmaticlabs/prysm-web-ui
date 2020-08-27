@@ -102,6 +102,9 @@ export class HdWalletWizardComponent implements OnInit {
 
   createWallet(event: Event): void {
     event.stopPropagation();
+    if (this.passwordFormGroup.invalid) {
+      return;
+    }
     const request: CreateWalletRequest = {
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,

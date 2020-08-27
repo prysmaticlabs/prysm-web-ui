@@ -11,16 +11,17 @@
       name="mnemonic"
       formControlName="mnemonic"
       cdkTextareaAutosize
-      appBlockCopyPaste
       #autosize="cdkTextareaAutosize"
       cdkAutosizeMinRows="3"
       cdkAutosizeMaxRows="4"></textarea>
+      <mat-error class="warning" *ngIf="formGroup.controls.mnemonic.hasError('required')">
+        Mnemonic is required
+      </mat-error>
+      <mat-error class="warning" *ngIf="formGroup.controls.mnemonic.hasError('pattern')">
+        Can only contain words separated by spaces (perhaps remove space at the end)
+      </mat-error>
+      <mat-error class="warning" *ngIf="formGroup.controls.mnemonic.hasError('mnemonicMismatch')">
+        Entered mnemonic does not match original
+      </mat-error>
   </mat-form-field>
-  <div *ngIf="!formGroup.pristine && formGroup.controls['mnemonic'].errors" class="mb-6 warnings">
-    <div *ngIf="formGroup.controls['mnemonic'].errors.required" class="text-error">Mnemonic is required</div>
-    <div *ngIf="formGroup.controls['mnemonic'].errors.pattern" class="text-error">Can only contain words separated by spaces (perhaps remove space at the end)</div>
-    <div *ngIf="formGroup.controls['mnemonic'].errors.mnemonicMismatch" class="text-error">
-      Entered mnemonic does not match original
-    </div>
-  </div>
 </form>

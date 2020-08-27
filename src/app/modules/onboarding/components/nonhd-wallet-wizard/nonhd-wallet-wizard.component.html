@@ -45,7 +45,7 @@
               <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><a routerLink="/dashboard/gains-and-losses"><button color="primary" mat-raised-button>Continue</button></a></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
               </div>
             </mat-step>
           </mat-horizontal-stepper>
@@ -84,7 +84,7 @@
               <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><a routerLink="/dashboard/gains-and-losses"><button color="primary" mat-raised-button>Continue</button></a></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
               </div>
             </mat-step>
           </mat-vertical-stepper>

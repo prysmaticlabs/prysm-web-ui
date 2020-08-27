@@ -68,11 +68,13 @@ describe('ConfirmMnemonicComponent', () => {
 
     input.value = '1234';
     input.dispatchEvent(new Event('input'));
+    component.formGroup.markAsTouched();
     fixture.detectChanges();
     expect(input.value).toContain('1234');
     expect(form.valid).toBeFalsy();
+    expect(form.controls.mnemonic.errors.pattern).toBeTruthy();
 
-    const warnings = fixture.debugElement.query(By.css('.warnings'));
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
   });
 
@@ -105,15 +107,17 @@ describe('ConfirmMnemonicComponent', () => {
 
     input.value = SAMPLE_MNEMONIC;
     input.dispatchEvent(new Event('input'));
+    component.formGroup.markAsTouched();
     fixture.detectChanges();
     expect(input.value).toContain(SAMPLE_MNEMONIC);
     expect(form.valid).toBeFalsy();
-    const warnings = fixture.debugElement.query(By.css('.warnings'));
+    expect(form.controls.mnemonic.errors.mnemonicMismatch).toBeTruthy();
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
   });
 
   it('should not show warnings on an empty form on pristine', () => {
-    const warnings = fixture.debugElement.query(By.css('.warnings'));
-    expect(warnings).toBeFalsy();
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toEqual([]);
   });
 });

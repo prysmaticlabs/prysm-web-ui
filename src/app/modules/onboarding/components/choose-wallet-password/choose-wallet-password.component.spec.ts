@@ -4,6 +4,7 @@ import { ChooseWalletPasswordComponent } from './choose-wallet-password.componen
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { Input } from '@angular/core';
 
 describe('ChooseWalletPasswordComponent', () => {
   let component: ChooseWalletPasswordComponent;
@@ -58,27 +59,39 @@ describe('ChooseWalletPasswordComponent', () => {
   it('should test form invalidity for password', () => {
     const form = component.formGroup;
     const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
-    const confirmationInput = fixture.nativeElement.querySelector('input[name="passwordConfirmation"]');
 
     passwordInput.value = '1234';
     passwordInput.dispatchEvent(new Event('input'));
+    component.formGroup.markAllAsTouched();
     fixture.detectChanges();
+
     expect(passwordInput.value).toContain('1234');
     expect(form.valid).toBeFalsy();
 
-    const warnings = fixture.debugElement.query(By.css('.password-warnings'));
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
 
-    // If password confirmation does not match, we expect an invalid form.
-    passwordInput.value = 'Password0%2020';
-    confirmationInput.value = 'Password0%20202020';
+  });
+
+  it('should test form invalidity for password mismatch', () => {
+    const form = component.formGroup;
+    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
+    const passwordConfirmation = fixture.nativeElement.querySelector('input[name="passwordConfirmation"]');
+
+    passwordInput.value = 'Passw0rddddd!';
+    passwordConfirmation.value = 'Passw0rdddd!!';
     passwordInput.dispatchEvent(new Event('input'));
+    component.formGroup.markAllAsTouched();
     fixture.detectChanges();
+
     expect(form.valid).toBeFalsy();
+
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toBeTruthy();
   });
 
   it('should not show warnings on an empty form on pristine', () => {
-    const warnings = fixture.debugElement.query(By.css('.password-warnings'));
-    expect(warnings).toBeFalsy();
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toEqual([]);
   });
 });

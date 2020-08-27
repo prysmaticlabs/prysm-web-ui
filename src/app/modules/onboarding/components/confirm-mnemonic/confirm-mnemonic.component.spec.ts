@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule, FormsModule, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { ConfirmMnemonicComponent } from './confirm-mnemonic.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { FormBuilder, ReactiveFormsModule, FormsModule, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { BlockCopyPasteDirective } from '../../directives/block-copy-paste.directive';
-import { By } from '@angular/platform-browser';
 
 const SAMPLE_MNEMONIC = 'tape hungry front clump chapter blush alien sauce spawn victory mother salt purpose drop mask hour foil physical daughter narrow sheriff agree master survey';
 

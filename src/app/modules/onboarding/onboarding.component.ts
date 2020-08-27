@@ -3,7 +3,6 @@ import { WalletKind, WalletSelection } from './types/wallet';
 import { Subject, throwError } from 'rxjs';
 import { tap, catchError, takeUntil } from 'rxjs/operators';
 
-
 export enum OnboardingState {
   PickingWallet = 'PickingWallet',
   HDWizard = 'HDWizard',

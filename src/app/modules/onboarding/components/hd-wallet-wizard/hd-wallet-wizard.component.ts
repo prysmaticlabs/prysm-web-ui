@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { tap, takeUntil, catchError, take, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
-import { WalletService, CreateWalletRequest } from 'src/app/modules/core/services/wallet.service';
+import { WalletService, CreateWalletRequest, KeymanagerKind } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './hd-wallet-wizard.component.html',
 })
 export class HdWalletWizardComponent implements OnInit {
+  @Input() resetOnboarding: () => void;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -102,7 +103,11 @@ export class HdWalletWizardComponent implements OnInit {
 
   createWallet(event: Event): void {
     event.stopPropagation();
+    if (this.passwordFormGroup.invalid) {
+      return;
+    }
     const request: CreateWalletRequest = {
+      keymanager: KeymanagerKind.Derived,
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,

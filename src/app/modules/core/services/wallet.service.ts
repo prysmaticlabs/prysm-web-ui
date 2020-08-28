@@ -11,7 +11,14 @@ export interface GenerateMnemonicResponse {
   mnemonic: string;
 }
 
+export enum KeymanagerKind {
+  Derived,
+  Direct,
+  Remote,
+}
+
 export interface CreateWalletRequest {
+  keymanager: KeymanagerKind,
   walletPassword: string;
   mnemonic?: string;
   numAccounts: number;

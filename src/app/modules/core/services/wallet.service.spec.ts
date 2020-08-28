@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { WalletService, CreateWalletRequest, GenerateMnemonicResponse, WalletResponse } from './wallet.service';
+import { WalletService, CreateWalletRequest, GenerateMnemonicResponse, WalletResponse, KeymanagerKind } from './wallet.service';
 
 describe('WalletService', () => {
   let service: WalletService;
@@ -47,6 +47,7 @@ describe('WalletService', () => {
         walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
       };
       const request: CreateWalletRequest = {
+        keymanager: KeymanagerKind.Derived,
         walletPassword: 'password',
         numAccounts: 4,
       };

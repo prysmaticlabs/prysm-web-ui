@@ -65,7 +65,8 @@ describe('HdWalletWizardComponent', () => {
   describe('Create wallet', () => {
     it('should redirect to dashboard upon wallet creation and signup', () => {
       component.registerFormGroups();
-      component.passwordFormGroup.controls.password.setValue('password');
+      component.passwordFormGroup.controls.password.setValue('Passw0rdz2020$');
+      component.passwordFormGroup.controls.passwordConfirmation.setValue('Passw0rdz2020$');
       component.accountsFormGroup.controls.numAccounts.setValue(5);
       component.mnemonicFormGroup.controls.mnemonic.setValue('hello fish');
       walletService.createWallet.and.returnValue(of({ walletPath: 'hello' } as WalletResponse));

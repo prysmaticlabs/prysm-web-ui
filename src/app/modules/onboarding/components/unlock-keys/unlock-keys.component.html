@@ -14,8 +14,8 @@
       name="keystoresPassword"
       type="password"
     />
+    <mat-error class="warning" *ngIf="formGroup.controls.keystoresPassword.hasError('required')">
+      Password for keystores is required
+    </mat-error>
   </mat-form-field>
-  <div *ngIf="!formGroup.pristine && formGroup.controls['keystoresPassword'].errors" class="mb-6 warnings">
-    <div *ngIf="formGroup.controls['keystoresPassword'].errors.required" class="text-error">Password for keystores is required</div>
-  </div>
 </form>

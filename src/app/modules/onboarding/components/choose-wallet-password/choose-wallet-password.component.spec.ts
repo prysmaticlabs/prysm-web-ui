@@ -4,6 +4,7 @@ import { ChooseWalletPasswordComponent } from './choose-wallet-password.componen
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { Input } from '@angular/core';
 
 describe('ChooseWalletPasswordComponent', () => {
   let component: ChooseWalletPasswordComponent;
@@ -55,30 +56,75 @@ describe('ChooseWalletPasswordComponent', () => {
     expect(form.valid).toBeFalsy();
   });
 
-  it('should test form invalidity for password', () => {
+  it('should test form invalidity for password too short', () => {
     const form = component.formGroup;
     const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
-    const confirmationInput = fixture.nativeElement.querySelector('input[name="passwordConfirmation"]');
 
+    // Length requirement.
     passwordInput.value = '1234';
     passwordInput.dispatchEvent(new Event('input'));
+    component.formGroup.markAllAsTouched();
     fixture.detectChanges();
-    expect(passwordInput.value).toContain('1234');
+
     expect(form.valid).toBeFalsy();
 
-    const warnings = fixture.debugElement.query(By.css('.password-warnings'));
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
+  });
+  
+  it('should test form invalidity for password not containing a number nor special character', () => {
+    const form = component.formGroup;
+    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
 
-    // If password confirmation does not match, we expect an invalid form.
-    passwordInput.value = 'Password0%2020';
-    confirmationInput.value = 'Password0%20202020';
+    // No number nor special character
+    passwordInput.value = 'Passworddddddd';
     passwordInput.dispatchEvent(new Event('input'));
+    component.formGroup.markAllAsTouched();
     fixture.detectChanges();
+
     expect(form.valid).toBeFalsy();
+
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toBeTruthy();
+  });
+
+  it('should test form validity for password meeting all requirements', () => {
+    const form = component.formGroup;
+    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
+    const passwordConfirmation = fixture.nativeElement.querySelector('input[name="passwordConfirmation"]');
+
+    passwordInput.value = 'Password2$';
+    passwordConfirmation.value = 'Password2$';
+    passwordInput.dispatchEvent(new Event('input'));
+    passwordConfirmation.dispatchEvent(new Event('input'));
+    component.formGroup.markAllAsTouched();
+    fixture.detectChanges();
+
+    expect(form.valid).toBeTruthy();
+
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toEqual([]);
+  });
+
+  it('should test form invalidity for password mismatch', () => {
+    const form = component.formGroup;
+    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
+    const passwordConfirmation = fixture.nativeElement.querySelector('input[name="passwordConfirmation"]');
+
+    passwordInput.value = 'Passw0rddddd!';
+    passwordConfirmation.value = 'Passw0rdddd!!';
+    passwordInput.dispatchEvent(new Event('input'));
+    component.formGroup.markAllAsTouched();
+    fixture.detectChanges();
+
+    expect(form.valid).toBeFalsy();
+
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toBeTruthy();
   });
 
   it('should not show warnings on an empty form on pristine', () => {
-    const warnings = fixture.debugElement.query(By.css('.password-warnings'));
-    expect(warnings).toBeFalsy();
+    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
+    expect(warnings).toEqual([]);
   });
 });

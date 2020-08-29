@@ -4,8 +4,10 @@
   "scripts": {
     "ng": "ng",
     "prestart": "ngtw build",
-    "start": "ng serve & ngtw watch",
-    "build": "ngtw build && ng build",
+    "start": "ng serve && ngtw watch",
+    "start:staging": "ng serve --proxy-config proxy.conf.json & ngtw watch",
+    "build:dev": "ngtw build && ng build --prod=false",
+    "build:prod": "ngtw build && ng build --prod=true",
     "clean": "rm -Rf ./dist",
     "build:ci": "npm run clean && npm run test && npm run build",
     "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",

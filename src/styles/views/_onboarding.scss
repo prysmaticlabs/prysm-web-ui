@@ -1,6 +1,6 @@
 .onboarding {
   .create-a-wallet {
-    padding-top: 15%;
+    padding-top: 7%;
   }
   .onboarding-grid {
     .onboarding-card {
@@ -36,7 +36,7 @@
     .onboarding-card.active {
       background-color: $primary;
       border-color: $primary;
-      height: 480px;
+      height: 460px;
       width: 420px;
       -webkit-transition : background-color 500ms ease-out;
       -moz-transition : background-color 500ms ease-out;
@@ -67,12 +67,12 @@
       background-color: rgba(0, 0, 0, 0.08);
       .overview-img {
         img {
-          height: 220px;
+          height: 150px;
         }
       }
       .mat-stepper-horizontal {
         background-color: transparent;
-        height: 520px;
+        height: 460px;
         width: 900px;
       }
       .mat-stepper-vertical {
@@ -117,7 +117,7 @@
         .ngx-file-drop__drop-zone {
           border: 4px dashed $primary;
           border-radius: 0px;
-          height: auto;
+          height: 170px;
           padding-top: 30px;
           padding-bottom: 30px;
         }
@@ -125,9 +125,9 @@
           color: $white;
           text-align: center;
           display: block;
-          height: auto;
+          height: 170px;
           img {
-            height: 100px;
+            height: 50px;
           }
         }
       }

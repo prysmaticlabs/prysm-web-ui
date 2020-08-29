@@ -9,7 +9,7 @@
     "build:dev": "ngtw build && ng build --prod=false",
     "build:prod": "ngtw build && ng build --prod=true",
     "clean": "rm -Rf ./dist",
-    "build:ci": "npm run clean && npm run test && npm run build",
+    "build:ci": "npm run clean && npm run test && npm run build:dev",
     "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",
     "test:watch": "ng test --watch=true --browsers=ChromeHeadlessCustom",
     "lint": "ng lint",

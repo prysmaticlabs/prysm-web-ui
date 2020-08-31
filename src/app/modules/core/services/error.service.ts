@@ -19,10 +19,10 @@ export class ErrorService {
           formattedError = 'Bad gateway, cannot connect to server';
           break;
         case 503:
-          formattedError = 'Server unavailable, cannot connect';
+          formattedError = 'Server unavailable, cannot connect to server';
           break;
         case 504:
-          formattedError = 'Operation timed out, please try again';
+          formattedError = 'Operation timed out, perhaps the server is down';
           break;
         default:
           formattedError = 'Internal server error, something went wrong';
@@ -63,7 +63,7 @@ export class ErrorService {
     }
     this.zone.run(() => {
       this.snackBar.open(formattedError, 'Close', {
-        duration: 2000,
+        duration: 4000,
       });
     });
   }

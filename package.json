@@ -5,7 +5,7 @@
     "ng": "ng",
     "prestart": "ngtw build",
     "start": "ng serve && ngtw watch",
-    "start:staging": "ng serve --prod=true --proxy-config=src/proxy.conf.json & ngtw watch",
+    "start:staging": "ng serve --prod=true --proxy-config=src/proxy.conf.json && ngtw watch",
     "build:dev": "ngtw build && ng build --prod=false",
     "build:prod": "ngtw build && ng build --prod=true",
     "clean": "rm -Rf ./dist",

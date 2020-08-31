@@ -55,9 +55,7 @@ export class HdWalletWizardComponent implements OnInit {
         // Synchronous validators.
         [
           Validators.required,
-          Validators.pattern(
-            `[a-zA-Z ]*`, // Only words separated by spaces.
-          )
+          this.mnemonicValidator.properFormatting,
         ],
         // Asynchronous validator to check if the mnemonic
         // matches the generated mnemonic from the wallet service.

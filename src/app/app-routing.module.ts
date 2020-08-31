@@ -29,7 +29,7 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [NoWalletFoundGuard, AuthredirectGuard],
+    canActivate: [NoWalletFoundGuard, AuthredirectGuard],
   },
   {
     path: 'dashboard',

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,8 +15,12 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+
 @NgModule({
-  declarations: [BreadcrumbComponent],
+  declarations: [
+    BreadcrumbComponent,
+  ],
   imports: [
     CommonModule,
     MatIconModule,

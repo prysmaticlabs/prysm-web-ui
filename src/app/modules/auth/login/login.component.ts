@@ -2,9 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Subject, throwError } from 'rxjs';
 import { takeUntil, tap, catchError } from 'rxjs/operators';
+import { throwError, Subject } from 'rxjs';
 
+import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { AuthenticationService } from '../../core/services/auth.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string;
   loading = false;
   destroyed$ = new Subject();
+  private passwordValidator = new PasswordValidator();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,9 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
-        )
+        this.passwordValidator.strongPassword,
       ]),
     });
   }
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const password = this.loginForm.get('password').value as string;
     this.loading = true;
     this.authService.login(password).pipe(
-      tap((res) => {
+      tap(() => {
         this.loading = false;
         this.router.navigateByUrl(this.returnUrl);
       }),

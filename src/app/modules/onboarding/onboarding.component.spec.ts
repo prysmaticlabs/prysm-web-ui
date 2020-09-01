@@ -4,7 +4,7 @@ import { MockComponent } from 'ng-mocks';
 import { WalletKind } from './types/wallet';
 import { OnboardingComponent, OnboardingState } from './onboarding.component';
 import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choose-wallet-kind.component';
-import { HdWalletWizardComponent } from './components/hd-wallet-wizard/hd-wallet-wizard.component';
+import { HdWalletWizardComponent } from './pages/hd-wallet-wizard/hd-wallet-wizard.component';
 
 describe('OnboardingComponent', () => {
   let component: OnboardingComponent;

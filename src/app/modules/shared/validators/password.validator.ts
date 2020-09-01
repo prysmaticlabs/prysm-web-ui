@@ -3,9 +3,7 @@ import { AbstractControl, Validators } from '@angular/forms';
 
 // PasswordValidator contains form validation for strong 
 // password protection in the Prysm web UI.
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PasswordValidator {
   constructor() {}
 

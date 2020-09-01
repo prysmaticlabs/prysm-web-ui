@@ -25,6 +25,9 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     CommonModule,
     MatIconModule,
   ],
+  providers: [
+    PasswordValidator,
+  ],
   exports: [
     PasswordValidator,
     BreadcrumbComponent,

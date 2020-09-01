@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
@@ -26,7 +25,6 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     private mnemonicValidator: MnemonicValidator,
     private walletService: WalletService,
     private authService: AuthenticationService,
-    private snackBar: MatSnackBar,
   ) {}
 
   // Properties.
@@ -121,12 +119,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
             this.router.navigate(['/dashboard/gains-and-losses']);
             this.loading = false;
           }),
-          catchError(err => {
-            this.snackBar.open('Oops Something Went Wrong!', 'Close', {
-              duration: 2000,
-            });
-            return throwError(err);
-          }),
+          catchError(err => throwError(err)),
         );
       })
     ).subscribe();

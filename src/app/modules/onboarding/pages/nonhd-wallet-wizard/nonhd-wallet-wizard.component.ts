@@ -1,11 +1,15 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
+import { Router } from '@angular/router';
 
-import { tap, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { tap, takeUntil, switchMap, catchError } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
+
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
+import { CreateWalletRequest, KeymanagerKind, WalletService } from 'src/app/modules/core/services/wallet.service';
+import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
   selector: 'app-nonhd-wallet-wizard',
@@ -18,6 +22,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   isSmallScreen = false;
   unlockFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
+  importedKeystores: Uint8Array[] = []; // Imported keystores as an array of byte arrays.
   private passwordValidator = new PasswordValidator();
 
   // View children.
@@ -29,6 +34,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
+    private router: Router,
+    private authService: AuthenticationService,
+    private walletService: WalletService,
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +78,39 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
         this.isSmallScreen = result.matches;
       }),
       takeUntil(this.destroyed$),
+    ).subscribe();
+  }
+
+  updateImportedKeystores(uploadedKeystore: Uint8Array) {
+    console.log('uploaded keystores');
+    this.importedKeystores.push(uploadedKeystore);
+    console.log(this.importedKeystores.length);
+  }
+
+  createWallet(event: Event): void {
+    event.stopPropagation();
+    if (this.passwordFormGroup.invalid) {
+      return;
+    }
+    const request: CreateWalletRequest = {
+      keymanager: KeymanagerKind.Direct,
+      walletPassword: this.passwordFormGroup.controls.password.value,
+      keystoresPassword: this.unlockFormGroup.controls.keystoresPassword.value,
+      importedKeystores: this.importedKeystores,
+    };
+    this.loading = true;
+    // We attempt to create a wallet followed by a call to
+    // signup using the wallet's password in the validator client.
+    this.walletService.createWallet(request).pipe(
+      switchMap(() => {
+        return this.authService.signup(request.walletPassword).pipe(
+          tap(() => {
+            this.router.navigate(['/dashboard/gains-and-losses']);
+            this.loading = false;
+          }),
+          catchError(err => throwError(err)),
+        );
+      })
     ).subscribe();
   }
 }

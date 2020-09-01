@@ -22,8 +22,8 @@
       </ngx-file-drop>
     </div>
     <div class="w-full md:w-1/2">
-      <div *ngIf="files.length" class="text-white text-xl px-6 py-2">
-        <span class="font-semibold text-secondary">{{files.length}}</span> Files Selected
+      <div *ngIf="filesPreview" class="text-white text-xl px-6 py-2">
+        <span class="font-semibold text-secondary">{{filesPreview.length}}</span> Files Selected
         <div *ngFor="let file of filesPreview">
           <div class="mt-3 text-muted text-base">{{file.relativePath}}</div>
         </div>

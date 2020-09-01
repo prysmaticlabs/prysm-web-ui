@@ -29,7 +29,7 @@
               </div>
             </mat-step>
             <mat-step label="Import Keys">
-              <app-import-accounts></app-import-accounts>
+              <app-import-accounts (keystoreUploaded)="updateImportedKeystores($event)"></app-import-accounts>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
@@ -46,7 +46,7 @@
               <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Continue</button></span>
               </div>
             </mat-step>
           </mat-horizontal-stepper>

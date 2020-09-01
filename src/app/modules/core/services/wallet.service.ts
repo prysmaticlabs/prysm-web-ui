@@ -20,8 +20,10 @@ export enum KeymanagerKind {
 export interface CreateWalletRequest {
   keymanager: KeymanagerKind,
   walletPassword: string;
+  keystoresPassword?: string;
   mnemonic?: string;
-  numAccounts: number;
+  numAccounts?: number;
+  importedKeystores?: Uint8Array[];
 }
 
 @Injectable({

@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Overlay } from '@angular/cdk/overlay';
 
 import { LoginComponent } from './login.component';
@@ -24,7 +23,6 @@ describe('LoginComponent', () => {
         SharedModule,
       ],
       providers: [
-        MatSnackBar,
         Overlay,
         FormBuilder,
       ]

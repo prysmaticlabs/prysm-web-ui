@@ -30,6 +30,16 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.registerFormGroups();
+    this.registerBreakpointObserver();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
+  registerFormGroups(): void {
     this.unlockFormGroup = this.formBuilder.group({
       keystoresPassword: ['', Validators.required]
     });
@@ -50,6 +60,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     }, {
       validators: this.passwordMatchValidator,
     });
+  }
+
+  registerBreakpointObserver() {
     this.breakpointObserver.observe([
       Breakpoints.XSmall,
       Breakpoints.Small
@@ -59,11 +72,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       }),
       takeUntil(this.destroyed$),
     ).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
   }
 
   passwordMatchValidator(control: AbstractControl) {

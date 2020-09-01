@@ -5,7 +5,7 @@ import { MatStepper } from '@angular/material/stepper';
 
 import { tap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { PasswordValidator } from 'src/app/modules/shared/validators/password.validator';
+import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 
 @Component({
   selector: 'app-nonhd-wallet-wizard',
@@ -17,6 +17,7 @@ export class NonhdWalletWizardComponent implements OnInit {
   isSmallScreen = false;
   unlockFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
+  private passwordValidator = new PasswordValidator();
 
   // View children.
   @ViewChild('stepper') stepper: MatStepper;
@@ -27,7 +28,6 @@ export class NonhdWalletWizardComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
-    private passwordValidator: PasswordValidator,
   ) {}
 
   ngOnInit(): void {

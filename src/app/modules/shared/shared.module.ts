@@ -15,21 +15,17 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PasswordValidator } from './validators/password.validator';
-
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
-    PasswordValidator,
   ],
   imports: [
     CommonModule,
     MatIconModule,
   ],
   exports: [
-    PasswordValidator,
     BreadcrumbComponent,
     BrowserAnimationsModule,
     MatGridListModule,

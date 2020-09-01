@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil, tap, catchError } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
-import { PasswordValidator } from '../../shared/validators/password.validator';
+import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +17,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string;
   loading = false;
   destroyed$ = new Subject();
+  private passwordValidator = new PasswordValidator();
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthenticationService,
-    private passwordValidator: PasswordValidator,
     private snackBar: MatSnackBar,
   ) {
     this.loginForm = this.formBuilder.group({

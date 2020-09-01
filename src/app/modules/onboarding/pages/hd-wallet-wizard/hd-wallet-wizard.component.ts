@@ -11,7 +11,7 @@ import { Subject, throwError } from 'rxjs';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 import { WalletService, CreateWalletRequest, KeymanagerKind } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
-import { PasswordValidator } from 'src/app/modules/shared/validators/password.validator';
+import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 
 @Component({
   selector: 'app-hd-wallet-wizard',
@@ -24,7 +24,6 @@ export class HdWalletWizardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
     private mnemonicValidator: MnemonicValidator,
-    private passwordValidator: PasswordValidator,
     private walletService: WalletService,
     private authService: AuthenticationService,
     private snackBar: MatSnackBar,
@@ -36,6 +35,7 @@ export class HdWalletWizardComponent implements OnInit {
   mnemonicFormGroup: FormGroup;
   accountsFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
+  private passwordValidator = new PasswordValidator();
 
   // View children.
   @ViewChild('stepper') stepper: MatStepper;

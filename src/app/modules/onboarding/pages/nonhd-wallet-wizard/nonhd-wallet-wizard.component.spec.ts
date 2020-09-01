@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MockComponent } from 'ng-mocks';
 
-import { NonhdWalletWizardComponent } from './nonhd-wallet-wizard.component';
-import { ImportAccountsComponent } from '../import-accounts/import-accounts.component';
-import { UnlockKeysComponent } from '../unlock-keys/unlock-keys.component';
-import { ChooseWalletPasswordComponent } from '../choose-wallet-password/choose-wallet-password.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { NonhdWalletWizardComponent } from './nonhd-wallet-wizard.component';
+import { ImportAccountsComponent } from '../../components/import-accounts/import-accounts.component';
+import { UnlockKeysComponent } from '../../components/unlock-keys/unlock-keys.component';
+import { ChooseWalletPasswordComponent } from '../../components/choose-wallet-password/choose-wallet-password.component';
 
 describe('NonhdWalletWizardComponent', () => {
   let component: NonhdWalletWizardComponent;

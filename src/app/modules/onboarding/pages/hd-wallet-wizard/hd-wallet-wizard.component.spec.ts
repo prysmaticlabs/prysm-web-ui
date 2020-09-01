@@ -8,10 +8,10 @@ import { MockComponent } from 'ng-mocks';
 
 import { HdWalletWizardComponent } from './hd-wallet-wizard.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { GenerateMnemonicComponent } from '../generate-mnemonic/generate-mnemonic.component';
-import { ConfirmMnemonicComponent } from '../confirm-mnemonic/confirm-mnemonic.component';
-import { GenerateAccountsComponent } from '../generate-accounts/generate-accounts.component';
-import { ChooseWalletPasswordComponent } from '../choose-wallet-password/choose-wallet-password.component';
+import { GenerateMnemonicComponent } from '../../components/generate-mnemonic/generate-mnemonic.component';
+import { ConfirmMnemonicComponent } from '../../components/confirm-mnemonic/confirm-mnemonic.component';
+import { GenerateAccountsComponent } from '../../components/generate-accounts/generate-accounts.component';
+import { ChooseWalletPasswordComponent } from '../../components/choose-wallet-password/choose-wallet-password.component';
 import { WalletService, WalletResponse } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService, AuthResponse } from 'src/app/modules/core/services/auth.service';
 

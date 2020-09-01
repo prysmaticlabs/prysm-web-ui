@@ -55,6 +55,7 @@
     "puppeteer": "^5.2.1",
     "tailwindcss": "^1.7.3",
     "ts-node": "~8.3.0",
+    "ts-proto": "^1.28.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
   }

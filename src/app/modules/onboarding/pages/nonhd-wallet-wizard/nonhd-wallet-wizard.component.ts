@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
@@ -11,9 +11,10 @@ import { PasswordValidator } from 'src/app/modules/core/validators/password.vali
   selector: 'app-nonhd-wallet-wizard',
   templateUrl: './nonhd-wallet-wizard.component.html',
 })
-export class NonhdWalletWizardComponent implements OnInit {
+export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   @Input() resetOnboarding: () => void;
   // Properties.
+  loading = false;
   isSmallScreen = false;
   unlockFormGroup: FormGroup;
   passwordFormGroup: FormGroup;

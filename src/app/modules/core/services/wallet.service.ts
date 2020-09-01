@@ -41,13 +41,9 @@ export class WalletService {
   generateMnemonic$ = this.http.get<GenerateMnemonicResponse>('/api/mnemonic/generate').pipe(
     map((resp: GenerateMnemonicResponse) => resp.mnemonic),
     shareReplay(1),
-    catchError(err => throwError(err)),
   );
 
   createWallet(request: CreateWalletRequest): Observable<WalletResponse> {
-    return this.http.post<WalletResponse>('/api/wallet/create', request).pipe(
-      take(1),
-      catchError(err => throwError(err)),
-    );
+    return this.http.post<WalletResponse>('/api/wallet/create', request).pipe();
   }
 }

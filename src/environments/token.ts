@@ -1,8 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
-export interface Environment {
+export interface IEnvironment {
     production: boolean,
-    apiEndpoint: string,
 }
 
-export const ENVIRONMENT = new InjectionToken<Environment>('ENVIRONMENT');
+export const ENVIRONMENT = new InjectionToken<IEnvironment>('ENVIRONMENT');

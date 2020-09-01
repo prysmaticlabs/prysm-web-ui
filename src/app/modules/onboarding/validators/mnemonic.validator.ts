@@ -14,6 +14,24 @@ import { WalletService } from '../../core/services/wallet.service';
 export class MnemonicValidator {
   constructor(private walletService: WalletService) {}
 
+  properFormatting(control: AbstractControl): ValidationErrors {
+    let mnemonic: string = control.value;
+    if (!control.value) {
+      return null;
+    }
+    // Remove start and end spaces from string.
+    mnemonic = mnemonic.replace(/(^\s*)|(\s*$)/gi, '');
+    // Reduce multiple spaces into single space
+    mnemonic = mnemonic.replace(/[ ]{2,}/gi, ' ');
+    // Exclude new lines with start spacing.
+    mnemonic = mnemonic.replace(/\n /, '\n');
+    // Check if mnemonic has 24 words.
+    if (mnemonic.split(' ').length !== 24) {
+      return { properFormatting: true };
+    }
+    return null;
+  }
+
   matchingMnemonic(): AsyncValidatorFn {
     return (
       control: AbstractControl

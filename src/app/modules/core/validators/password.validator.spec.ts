@@ -4,7 +4,7 @@ import { PasswordValidator } from './password.validator';
 
 describe('PasswordValidator', () => {
   describe('Password strength checks', () => {
-    it('should error if password is does not contain uppercase characters', () => {
+    it('should error if password does not contain uppercase characters', () => {
       let validator = new PasswordValidator();
       const validationFunc = validator.strongPassword
       const formControl = {
@@ -16,7 +16,7 @@ describe('PasswordValidator', () => {
       expect(errors).not.toBeNull();
     });
 
-    it('should error if password is does not contain at least one number', () => {
+    it('should error if password does not contain at least one number', () => {
       let validator = new PasswordValidator();
       const validationFunc = validator.strongPassword
       const formControl = {
@@ -28,7 +28,7 @@ describe('PasswordValidator', () => {
       expect(res).not.toBeNull();
     });
 
-    it('should error if password is does not contain at least one special character', () => {
+    it('should error if password does not contain at least one special character', () => {
       let validator = new PasswordValidator();
       const validationFunc = validator.strongPassword
       const formControl = {

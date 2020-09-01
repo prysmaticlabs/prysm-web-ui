@@ -8,9 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
+import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 import { WalletService, CreateWalletRequest, KeymanagerKind } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
-import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
+import { PasswordValidator } from 'src/app/modules/shared/validators/password.validator';
 
 @Component({
   selector: 'app-hd-wallet-wizard',
@@ -23,6 +24,7 @@ export class HdWalletWizardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
     private mnemonicValidator: MnemonicValidator,
+    private passwordValidator: PasswordValidator,
     private walletService: WalletService,
     private authService: AuthenticationService,
     private snackBar: MatSnackBar,
@@ -72,22 +74,19 @@ export class HdWalletWizardComponent implements OnInit {
         Validators.min(0),
       ]),
     });
-    const strongPasswordValidator = Validators.pattern(
-      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
-    )
     this.passwordFormGroup = this.formBuilder.group({
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        strongPasswordValidator,
+        this.passwordValidator.strongPassword,
       ]),
       passwordConfirmation: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        strongPasswordValidator,
+        this.passwordValidator.strongPassword,
       ]),
     }, {
-      validators: this.passwordMatchValidator,
+      validators: this.passwordValidator.matchingPasswordConfirmation,
     });
   }
 
@@ -133,13 +132,5 @@ export class HdWalletWizardComponent implements OnInit {
         );
       })
     ).subscribe();
-  }
-
-  passwordMatchValidator(control: AbstractControl) {
-    const password: string = control.get('password').value;
-    const confirmPassword: string = control.get('passwordConfirmation').value;
-    if (password !== confirmPassword) {
-      control.get('passwordConfirmation').setErrors({ passwordMismatch: true });
-    }
   }
 }

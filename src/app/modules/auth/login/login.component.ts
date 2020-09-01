@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil, tap, catchError } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
+import { PasswordValidator } from '../../shared/validators/password.validator';
 
 @Component({
   selector: 'app-login',
@@ -22,15 +23,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthenticationService,
+    private passwordValidator: PasswordValidator,
     private snackBar: MatSnackBar,
   ) {
     this.loginForm = this.formBuilder.group({
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
-        )
+        this.passwordValidator.strongPassword,
       ]),
     });
   }

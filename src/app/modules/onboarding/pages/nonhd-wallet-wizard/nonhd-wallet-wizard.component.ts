@@ -5,6 +5,7 @@ import { MatStepper } from '@angular/material/stepper';
 
 import { tap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { PasswordValidator } from 'src/app/modules/shared/validators/password.validator';
 
 @Component({
   selector: 'app-nonhd-wallet-wizard',
@@ -25,29 +26,27 @@ export class NonhdWalletWizardComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private passwordValidator: PasswordValidator,
   ) {}
 
   ngOnInit(): void {
     this.unlockFormGroup = this.formBuilder.group({
       keystoresPassword: ['', Validators.required]
     });
-    const strongPasswordValidator = Validators.pattern(
-      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
-    )
     this.passwordFormGroup = this.formBuilder.group({
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        strongPasswordValidator,
+        this.passwordValidator.strongPassword,
       ]),
       passwordConfirmation: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        strongPasswordValidator,
+        this.passwordValidator.strongPassword,
       ]),
     }, {
-      validators: this.passwordMatchValidator,
+      validators: this.passwordValidator.matchingPasswordConfirmation,
     });
     this.breakpointObserver.observe([
       Breakpoints.XSmall,
@@ -63,13 +62,5 @@ export class NonhdWalletWizardComponent implements OnInit {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
-  }
-
-  passwordMatchValidator(control: AbstractControl) {
-    const password: string = control.get('password').value;
-    const confirmPassword: string = control.get('passwordConfirmation').value;
-    if (password !== confirmPassword) {
-      control.get('passwordConfirmation').setErrors({ passwordMismatch: true });
-    }
   }
 }

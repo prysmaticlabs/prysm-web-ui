@@ -31,7 +31,7 @@ describe('MnemonicValidator', () => {
     });
 
     it('proper word count, it should not error if there are extraneous spaces', () => {
-      const mnemonic = ' grape harvest method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra ';
+      const mnemonic = ' grape harvest     method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra ';
       let validator = new MnemonicValidator(walletService);
       const validationFunc = validator.properFormatting;
       const formControl = {

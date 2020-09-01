@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -16,7 +16,7 @@ import { AuthenticationService } from 'src/app/modules/core/services/auth.servic
   selector: 'app-hd-wallet-wizard',
   templateUrl: './hd-wallet-wizard.component.html',
 })
-export class HdWalletWizardComponent implements OnInit {
+export class HdWalletWizardComponent implements OnInit, OnDestroy {
   @Input() resetOnboarding: () => void;
   constructor(
     private router: Router,

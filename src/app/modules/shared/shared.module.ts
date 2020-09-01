@@ -20,13 +20,13 @@ import { PasswordValidator } from './validators/password.validator';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
 @NgModule({
-  declarations: [BreadcrumbComponent],
+  declarations: [
+    BreadcrumbComponent,
+    PasswordValidator,
+  ],
   imports: [
     CommonModule,
     MatIconModule,
-  ],
-  providers: [
-    PasswordValidator,
   ],
   exports: [
     PasswordValidator,

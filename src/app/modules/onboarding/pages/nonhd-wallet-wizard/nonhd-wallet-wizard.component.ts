@@ -114,6 +114,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       case WizardState.ImportAccounts:
         this.importFormGroup.markAllAsTouched();
         break;
+      case WizardState.UnlockAccounts:
+        this.unlockFormGroup.markAllAsTouched();
+        break;
     }
     this.stepper.next();
   }

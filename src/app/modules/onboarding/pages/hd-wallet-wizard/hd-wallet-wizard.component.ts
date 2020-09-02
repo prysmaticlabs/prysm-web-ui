@@ -107,6 +107,14 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
 
   nextStep(event: Event, state: WizardState) {
     event.stopPropagation();
+    switch (state) {
+      case WizardState.ConfirmMnemonic:
+        this.mnemonicFormGroup.markAllAsTouched();
+        break;
+      case WizardState.GenerateAccounts:
+        this.accountsFormGroup.markAllAsTouched();
+        break;
+    }
     this.stepper.next();
   }
 

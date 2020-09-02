@@ -23,7 +23,7 @@ export interface CreateWalletRequest {
   keystoresPassword?: string;
   mnemonic?: string;
   numAccounts?: number;
-  importedKeystores?: Uint8Array[];
+  keystoresImported?: Uint8Array[];
 }
 
 @Injectable({

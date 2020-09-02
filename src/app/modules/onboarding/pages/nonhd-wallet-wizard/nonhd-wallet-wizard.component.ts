@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { PasswordValidator } from 'src/app/modules/core/validators/password.vali
 import { CreateWalletRequest, KeymanagerKind, WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 
+const MAX_ALLOWED_KEYSTORES = 50;
+
 @Component({
   selector: 'app-nonhd-wallet-wizard',
   templateUrl: './nonhd-wallet-wizard.component.html',
@@ -20,9 +22,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   // Properties.
   loading = false;
   isSmallScreen = false;
+  importFormGroup: FormGroup;
   unlockFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
-  importedKeystores: Uint8Array[] = []; // Imported keystores as an array of byte arrays.
   private passwordValidator = new PasswordValidator();
 
   // View children.
@@ -50,6 +52,13 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   }
 
   registerFormGroups(): void {
+    this.importFormGroup = this.formBuilder.group({
+      keystoresImported: [
+        [] as Uint8Array[], 
+      ]
+    }, {
+      validators: this.validateImportedKeystores,
+    });
     this.unlockFormGroup = this.formBuilder.group({
       keystoresPassword: ['', Validators.required]
     });
@@ -82,9 +91,25 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   }
 
   updateImportedKeystores(uploadedKeystore: Uint8Array) {
-    console.log('uploaded keystores');
-    this.importedKeystores.push(uploadedKeystore);
-    console.log(this.importedKeystores.length);
+    const imported = this.importFormGroup.get('keystoresImported').value;
+    this.importFormGroup.get('keystoresImported').setValue([...imported, uploadedKeystore]);
+  }
+
+  validateImportedKeystores(control: AbstractControl) {
+    const keystores: Uint8Array[] = control.get('keystoresImported').value;
+    if (!keystores || keystores.length === 0) {
+      control.get('keystoresImported').setErrors({ noKeystoresUploaded: true });
+      return;
+    }
+    if (keystores.length > MAX_ALLOWED_KEYSTORES) {
+      control.get('keystoresImported').setErrors({ tooManyKeystores: true });
+    }
+  }
+
+  clickContinueImporting(event: Event) {
+    event.stopPropagation();
+    this.importFormGroup.markAllAsTouched();
+    this.stepper.next();
   }
 
   createWallet(event: Event): void {
@@ -94,9 +119,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     }
     const request: CreateWalletRequest = {
       keymanager: KeymanagerKind.Direct,
-      walletPassword: this.passwordFormGroup.controls.password.value,
-      keystoresPassword: this.unlockFormGroup.controls.keystoresPassword.value,
-      importedKeystores: this.importedKeystores,
+      walletPassword: this.passwordFormGroup.get('password').value,
+      keystoresPassword: this.unlockFormGroup.get('keystoresPassword').value,
+      keystoresImported: this.importFormGroup.get('keystoresImported').value,
     };
     this.loading = true;
     // We attempt to create a wallet followed by a call to

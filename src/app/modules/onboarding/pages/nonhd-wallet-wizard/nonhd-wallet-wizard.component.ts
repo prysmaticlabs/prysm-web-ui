@@ -61,7 +61,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   registerFormGroups(): void {
     this.importFormGroup = this.formBuilder.group({
       keystoresImported: [
-        [] as Uint8Array[], 
+        [] as string[], 
       ]
     }, {
       validators: this.validateImportedKeystores,
@@ -143,7 +143,11 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
             return throwError(err);
           }),
         );
-      })
+      }),
+      catchError(err => {
+        this.loading = false;
+        return throwError(err);
+      }),
     ).subscribe();
   }
 }

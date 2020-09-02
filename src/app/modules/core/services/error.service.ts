@@ -24,6 +24,12 @@ export class ErrorService {
         case 504:
           formattedError = 'Operation timed out, perhaps the server is down';
           break;
+        case 500:
+          formattedError = 'Internal server error, something went wrong';
+          if (err.error && err.error.message.includes('wrong password for keystore')) {
+            formattedError = 'Wrong password for uploaded keystore, try again';
+          }
+          break;
         default:
           formattedError = 'Internal server error, something went wrong';
           break;

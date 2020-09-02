@@ -19,9 +19,9 @@ export class ImportAccountsComponent {
   numFilesUploaded: number = 0;
   uploading = false;
 
-  updateImportedKeystores(ui8: Uint8Array) {
+  updateImportedKeystores(jsonFile: object) {
     const imported = this.formGroup.get('keystoresImported').value;
-    this.formGroup.get('keystoresImported').setValue([...imported, ui8]);
+    this.formGroup.get('keystoresImported').setValue([...imported, JSON.stringify(jsonFile)]);
   }
 
   dropped(files: NgxFileDropEntry[]) {
@@ -33,13 +33,12 @@ export class ImportAccountsComponent {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file(async (file: File) => {
-          const buffer = await file.arrayBuffer();
-          const ui8 = new Uint8Array(buffer);
+          const text = await file.text();
           this.numFilesUploaded++;
           if (this.numFilesUploaded === this.totalFiles) {
             this.uploading = false;
           }
-          this.updateImportedKeystores(ui8);
+          this.updateImportedKeystores(JSON.parse(text));
         });
       }
     }

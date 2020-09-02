@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { FormGroup } from '@angular/forms';
 
@@ -8,20 +8,25 @@ import { FormGroup } from '@angular/forms';
 })
 export class ImportAccountsComponent {
   @Input() formGroup: FormGroup;
-  @Output() keystoreUploaded = new EventEmitter<Uint8Array>();
 
   constructor() { }
 
   // Properties.
+  MAX_FILES_BEFORE_PREVIEW = 3;
   filesPreview: NgxFileDropEntry[];
   files: NgxFileDropEntry[] = [];
   totalFiles: number;
   numFilesUploaded: number = 0;
   uploading = false;
 
+  updateImportedKeystores(ui8: Uint8Array) {
+    const imported = this.formGroup.get('keystoresImported').value;
+    this.formGroup.get('keystoresImported').setValue([...imported, ui8]);
+  }
+
   dropped(files: NgxFileDropEntry[]) {
     this.files = this.files.concat(files);
-    this.filesPreview = this.files.slice(0, 3);
+    this.filesPreview = this.files.slice(0, this.MAX_FILES_BEFORE_PREVIEW);
     this.totalFiles = this.files.length;
     this.uploading = true;
     for (const droppedFile of files) {
@@ -34,7 +39,7 @@ export class ImportAccountsComponent {
           if (this.numFilesUploaded === this.totalFiles) {
             this.uploading = false;
           }
-          this.keystoreUploaded.emit(ui8);
+          this.updateImportedKeystores(ui8);
         });
       }
     }

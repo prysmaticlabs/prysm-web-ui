@@ -13,6 +13,12 @@ import { AuthenticationService } from 'src/app/modules/core/services/auth.servic
 
 const MAX_ALLOWED_KEYSTORES = 50;
 
+enum WizardState {
+  Overview,
+  ImportAccounts,
+  UnlockAccounts,
+}
+
 @Component({
   selector: 'app-nonhd-wallet-wizard',
   templateUrl: './nonhd-wallet-wizard.component.html',
@@ -20,6 +26,7 @@ const MAX_ALLOWED_KEYSTORES = 50;
 export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   @Input() resetOnboarding: () => void;
   // Properties.
+  states = WizardState
   loading = false;
   isSmallScreen = false;
   importFormGroup: FormGroup;
@@ -90,11 +97,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  updateImportedKeystores(uploadedKeystore: Uint8Array) {
-    const imported = this.importFormGroup.get('keystoresImported').value;
-    this.importFormGroup.get('keystoresImported').setValue([...imported, uploadedKeystore]);
-  }
-
   validateImportedKeystores(control: AbstractControl) {
     const keystores: Uint8Array[] = control.get('keystoresImported').value;
     if (!keystores || keystores.length === 0) {
@@ -106,9 +108,13 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     }
   }
 
-  clickContinueImporting(event: Event) {
+  nextStep(event: Event, state: WizardState) {
     event.stopPropagation();
-    this.importFormGroup.markAllAsTouched();
+    switch (state) {
+      case WizardState.ImportAccounts:
+        this.importFormGroup.markAllAsTouched();
+        break;
+    }
     this.stepper.next();
   }
 
@@ -131,9 +137,11 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
         return this.authService.signup(request.walletPassword).pipe(
           tap(() => {
             this.router.navigate(['/dashboard/gains-and-losses']);
-            this.loading = false;
           }),
-          catchError(err => throwError(err)),
+          catchError(err => {
+            this.loading = false;
+            return throwError(err);
+          }),
         );
       })
     ).subscribe();

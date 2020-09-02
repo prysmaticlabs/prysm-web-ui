@@ -12,6 +12,12 @@ import { WalletService, CreateWalletRequest, KeymanagerKind } from 'src/app/modu
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 
+enum WizardState {
+  Overview,
+  ConfirmMnemonic,
+  GenerateAccounts,
+}
+
 @Component({
   selector: 'app-hd-wallet-wizard',
   templateUrl: './hd-wallet-wizard.component.html',
@@ -28,6 +34,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   ) {}
 
   // Properties.
+  states = WizardState
   isSmallScreen = false;
   loading = false;
   mnemonicFormGroup: FormGroup;
@@ -98,6 +105,11 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
+  nextStep(event: Event, state: WizardState) {
+    event.stopPropagation();
+    this.stepper.next();
+  }
+
   createWallet(event: Event): void {
     event.stopPropagation();
     if (this.passwordFormGroup.invalid) {
@@ -117,9 +129,11 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
         return this.authService.signup(request.walletPassword).pipe(
           tap(() => {
             this.router.navigate(['/dashboard/gains-and-losses']);
-            this.loading = false;
           }),
-          catchError(err => throwError(err)),
+          catchError(err => {
+            this.loading = false;
+            return throwError(err);
+          }),
         );
       })
     ).subscribe();

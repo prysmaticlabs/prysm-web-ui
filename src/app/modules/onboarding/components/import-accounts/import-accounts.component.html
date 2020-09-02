@@ -47,7 +47,7 @@
         <div *ngFor="let file of filesPreview">
           <div class="mt-3 text-muted text-base">{{file.relativePath}}</div>
         </div>
-        <span *ngIf="filesPreview.length > 1">...</span>
+        <span *ngIf="filesPreview.length > MAX_FILES_BEFORE_PREVIEW">...</span>
       </div>
     </div>
   </div>

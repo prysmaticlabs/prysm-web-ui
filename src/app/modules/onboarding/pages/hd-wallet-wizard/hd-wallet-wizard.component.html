@@ -17,21 +17,21 @@
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">
               <app-confirm-mnemonic [formGroup]="mnemonicFormGroup"></app-confirm-mnemonic>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ConfirmMnemonic)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
               <app-generate-accounts [formGroup]="accountsFormGroup"></app-generate-accounts>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.GenerateAccounts)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">
@@ -41,6 +41,9 @@
                 </div>
                 <div class="my-4 text-hint text-lg leading-snug">
                   Please wait while we are creating your validator accounts and your new wallet for Prysm. Soon, you'll be able to view your accounts, monitor your validator performance, and visualize system metrics more in-depth.
+                </div>
+                <div>
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                 </div>
               </div>
               <div *ngIf="!loading">
@@ -59,21 +62,21 @@
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">
               <app-confirm-mnemonic [formGroup]="mnemonicFormGroup"></app-confirm-mnemonic>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ConfirmMnemonic)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
               <app-generate-accounts [formGroup]="accountsFormGroup"></app-generate-accounts>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.GenerateAccounts)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">
@@ -83,6 +86,9 @@
                 </div>
                 <div class="my-4 text-hint text-lg leading-snug">
                   Please wait while we are creating your validator accounts and your new wallet for Prysm. Soon, you'll be able to view your accounts, monitor your validator performance, and visualize system metrics more in-depth.
+                </div>
+                <div>
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                 </div>
               </div>
               <div *ngIf="!loading">

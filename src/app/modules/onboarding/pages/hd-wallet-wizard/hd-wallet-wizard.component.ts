@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
@@ -12,6 +11,12 @@ import { AuthenticationService } from 'src/app/modules/core/services/auth.servic
 import { WalletService, CreateWalletRequest, KeymanagerKind } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
+
+enum WizardState {
+  Overview,
+  ConfirmMnemonic,
+  GenerateAccounts,
+}
 
 @Component({
   selector: 'app-hd-wallet-wizard',
@@ -26,10 +31,10 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     private mnemonicValidator: MnemonicValidator,
     private walletService: WalletService,
     private authService: AuthenticationService,
-    private snackBar: MatSnackBar,
   ) {}
 
   // Properties.
+  states = WizardState
   isSmallScreen = false;
   loading = false;
   mnemonicFormGroup: FormGroup;
@@ -100,6 +105,19 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
+  nextStep(event: Event, state: WizardState) {
+    event.stopPropagation();
+    switch (state) {
+      case WizardState.ConfirmMnemonic:
+        this.mnemonicFormGroup.markAllAsTouched();
+        break;
+      case WizardState.GenerateAccounts:
+        this.accountsFormGroup.markAllAsTouched();
+        break;
+    }
+    this.stepper.next();
+  }
+
   createWallet(event: Event): void {
     event.stopPropagation();
     if (this.passwordFormGroup.invalid) {
@@ -119,12 +137,9 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
         return this.authService.signup(request.walletPassword).pipe(
           tap(() => {
             this.router.navigate(['/dashboard/gains-and-losses']);
-            this.loading = false;
           }),
           catchError(err => {
-            this.snackBar.open('Oops Something Went Wrong!', 'Close', {
-              duration: 2000,
-            });
+            this.loading = false;
             return throwError(err);
           }),
         );

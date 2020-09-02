@@ -1,14 +1,26 @@
 <div class="import-keys-form">
-  <div class="text-white text-xl mt-4">
-    Import Validating Keys
+  <div *ngIf="uploading">
+    <div class="text-white text-xl mt-4">
+      Uploading files...
+    </div>
+    <div class="my-4 text-hint text-lg leading-snug">
+      Hang in there while we upload your keystore files...
+    </div>
+    <div class="pb-2">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
   </div>
-  <div class="my-4 text-hint text-lg leading-snug">
-    Upload any folder of keystore files such as the validator_keys folder that was created during the eth2 launchpad's eth2.0-deposit-cli process here. You can drag and drop the directory or individual files.
+  <div *ngIf="!uploading">
+    <div class="text-white text-xl mt-4">
+      Import Validating Keys
+    </div>
+    <div class="my-4 text-hint text-lg leading-snug">
+      Upload any folder of keystore files such as the validator_keys folder that was created during the eth2 launchpad's eth2.0-deposit-cli process here. You can drag and drop the directory or individual files.
+    </div>
   </div>
-
   <div class="my-4 flex">
     <div class="w-full md:w-1/2">
-      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" directory="true" accept=".json">
+      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" accept=".json">
           <ng-template
             ngx-file-drop-content-tmp
             let-openFileSelector="openFileSelector" 
@@ -17,17 +29,25 @@
             <div class="flex items-center justify-center mb-4">
               <img src="/assets/images/upload.svg"/>  
             </div>
-            <button mat-stroked-button (click)="openFileSelector()">Browse Files</button>
+            <button mat-stroked-button (click)="openFileSelector()" [disabled]="uploading">Browse Files</button>
           </ng-template>
       </ngx-file-drop>
+      <div class="mt-4 -mb-1">
+        <mat-error *ngIf="formGroup.touched && formGroup.controls.keystoresImported.hasError('noKeystoresUploaded')">
+          Please upload at least 1 valid keystore file
+        </mat-error>
+        <mat-error *ngIf="formGroup.touched && formGroup.controls.keystoresImported.hasError('tooManyKeystores')">
+          Max 50 keystore files allowed. If you have more than that, we recommend an HD wallet instead
+        </mat-error>
+      </div>
     </div>
     <div class="w-full md:w-1/2">
-      <div *ngIf="files.length" class="text-white text-xl px-6 py-2">
-        <span class="font-semibold text-secondary">{{files.length}}</span> Files Selected
+      <div *ngIf="filesPreview" class="text-white text-xl px-6 py-2">
+        <span class="font-semibold text-secondary">{{totalFiles}}</span> Files Selected
         <div *ngFor="let file of filesPreview">
           <div class="mt-3 text-muted text-base">{{file.relativePath}}</div>
         </div>
-        ...
+        <span *ngIf="filesPreview.length > MAX_FILES_BEFORE_PREVIEW">...</span>
       </div>
     </div>
   </div>

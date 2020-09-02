@@ -18,35 +18,48 @@
                 Creating an Wallet By Importing Keys
               </div>
               <div class="my-4 text-hint text-lg leading-snug">
-                You can create a new wallet for your Prysm validator by importing keys from an external source, such as those created during the eth2 launchpad process by the eth2.0-deposit-cli
+                You can create a new wallet for your Prysm validator by importing keys from an external source, such as those created during the <a href="https://medalla.launchpad.ethereum.org/" target="_blank" class="text-primary font-semibold">eth2 launchpad</a> process by the eth2.0-deposit-cli
               </div>
               <div class="overview-img">
                 <img src="/assets/images/launchpad.png"/>
               </div>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
               </div>
             </mat-step>
-            <mat-step label="Import Keys">
-              <app-import-accounts></app-import-accounts>
+            <mat-step [stepControl]="importFormGroup" label="Import Keys">
+              <app-import-accounts [formGroup]="importFormGroup"></app-import-accounts>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ImportAccounts)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="unlockFormGroup" label="Unlock Keys">
               <app-unlock-keys [formGroup]="unlockFormGroup"></app-unlock-keys>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockKeys)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">
-              <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              <div *ngIf="loading">
+                <div class="text-white text-xl mt-4">
+                  Creating wallet...
+                </div>
+                <div class="my-4 text-hint text-lg leading-snug">
+                  Please wait while we are creating your validator accounts and your new wallet for Prysm. Soon, you'll be able to view your accounts, monitor your validator performance, and visualize system metrics more in-depth.
+                </div>
+                <div>
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
+              </div>
+              <div *ngIf="!loading">
+                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <div class="mt-4">
+                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Continue</button></span>
+                </div>
               </div>
             </mat-step>
           </mat-horizontal-stepper>
@@ -58,35 +71,48 @@
                 Creating an Wallet By Importing Keys
               </div>
               <div class="my-4 text-hint text-lg leading-snug">
-                You can create a new wallet for your Prysm validator by importing keys from an external source, such as those created during the eth2 launchpad process by the eth2.0-deposit-cli
+                You can create a new wallet for your Prysm validator by importing keys from an external source, such as those created during the <a href="https://medalla.launchpad.ethereum.org/" target="_blank" class="text-primary font-semibold">eth2 launchpad</a> process by the eth2.0-deposit-cli
               </div>
               <div class="overview-img">
                 <img src="/assets/images/launchpad.png"/>
               </div>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
               </div>
             </mat-step>
-            <mat-step label="Import Keys">
-              <app-import-accounts></app-import-accounts>
+            <mat-step [stepControl]="importFormGroup" label="Import Keys">
+              <app-import-accounts [formGroup]="importFormGroup"></app-import-accounts>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ImportAccounts)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="unlockFormGroup" label="Unlock Keys">
               <app-unlock-keys [formGroup]="unlockFormGroup"></app-unlock-keys>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockKeys)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">
-              <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="stepper.next()">Continue</button></span>
+              <div *ngIf="loading">
+                <div class="text-white text-xl mt-4">
+                  Creating wallet...
+                </div>
+                <div class="my-4 text-hint text-lg leading-snug">
+                  Please wait while we are creating your validator accounts and your new wallet for Prysm. Soon, you'll be able to view your accounts, monitor your validator performance, and visualize system metrics more in-depth.
+                </div>
+                <div>
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
+              </div>
+              <div *ngIf="!loading">
+                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <div class="mt-4">
+                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Continue</button></span>
+                </div>
               </div>
             </mat-step>
           </mat-vertical-stepper>

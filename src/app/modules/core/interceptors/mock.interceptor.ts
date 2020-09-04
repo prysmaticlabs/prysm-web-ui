@@ -18,11 +18,15 @@ export class MockInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!this.environmenter.env.production && request.url in Mocks) {
-      return of(new HttpResponse({
-        status: 200,
-        body: Mocks[request.url],
-      }));
+    if (!this.environmenter.env.production) {
+      const apiIdx = request.url.indexOf('/v2/validator/');
+      if (apiIdx !== -1) {
+        const endpoint = request.url.slice(apiIdx);
+        return of(new HttpResponse({
+          status: 200,
+          body: Mocks[endpoint],
+        }));
+      }
     }
     return next.handle(request);
   }

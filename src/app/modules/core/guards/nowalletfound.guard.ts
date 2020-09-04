@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { 
   CanActivate, 
   ActivatedRouteSnapshot, 
-  UrlTree, 
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { WalletService, WalletResponse } from '../services/wallet.service';
+import { WalletService } from '../services/wallet.service';
+import { WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({ providedIn: 'root' })
 export class NoWalletFoundGuard implements CanActivate {

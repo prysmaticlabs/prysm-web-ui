@@ -18,17 +18,17 @@ import { AccountListComponent } from './components/account-list/account-list.com
 import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-link/sidebar-expandable-link.component';
-import { NodeStatusComponent } from './components/node-status/node-status.component';
+import { BeaconNodeStatusComponent } from './components/beacon-node-status/beacon-node-status.component';
 
 @NgModule({
   declarations: [
-    DashboardComponent, 
-    GainsAndLossesComponent, 
-    AccountListComponent, 
-    BalancesChartComponent, 
-    SidebarComponent, 
+    DashboardComponent,
+    GainsAndLossesComponent,
+    AccountListComponent,
+    BalancesChartComponent,
+    SidebarComponent,
     SidebarExpandableLinkComponent,
-    NodeStatusComponent,
+    BeaconNodeStatusComponent,
   ],
   imports: [
     CommonModule,

@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {
-  WalletResponse, 
-  GenerateMnemonicResponse, 
+  WalletResponse,
+  GenerateMnemonicResponse,
   CreateWalletRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 

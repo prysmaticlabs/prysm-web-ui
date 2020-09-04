@@ -12,7 +12,11 @@ module.exports = {
       hint: 'rgba(255, 255, 255, 0.5)',
       white: '#fff',
     },
-    extend: {},
+    extend: {
+      colors: {
+        success: 'rgba(51, 217, 178, 1)',
+      }
+    },
   },
   variants: {},
   plugins: [],

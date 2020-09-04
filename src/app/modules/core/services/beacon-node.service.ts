@@ -9,7 +9,7 @@ import {
   NodeConnectionResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
-const POLLING_INTERVAL = 5000;
+const POLLING_INTERVAL = 3000;
 
 @Injectable({
   providedIn: 'root',

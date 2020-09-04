@@ -6,6 +6,8 @@ import { BeaconNodeStatusComponent } from './beacon-node-status.component';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { BoundDirectivePropertyAst } from '@angular/compiler';
+import { By } from 'protractor';
 
 describe('BeaconNodeStatusComponent', () => {
   let component: BeaconNodeStatusComponent;
@@ -41,5 +43,10 @@ describe('BeaconNodeStatusComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display different pulsating circles depending on connection status', () => {
+    const pulsatingCircle = fixture.nativeElement.querySelector(By.css('.pulsating-circle.green'));
+    expect(pulsatingCircle).toBeTruthy();
   });
 });

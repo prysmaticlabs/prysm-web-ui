@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { EnvironmenterService } from './environmenter.service';
 
 export interface AuthRequest {
   password: string;
@@ -19,16 +20,18 @@ export class AuthenticationService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private environmenter: EnvironmenterService,
   ) {
   }
   token: string;
+  private apiUrl = this.environmenter.env.validatorEndpoint;
 
   login(password: string): Observable<AuthResponse> {
-    return this.authenticate('/api/login', password);
+    return this.authenticate(`${this.apiUrl}/login`, password);
   }
 
   signup(password: string): Observable<AuthResponse> {
-    return this.authenticate('/api/signup', password);
+    return this.authenticate(`${this.apiUrl}/signup`, password);
   }
 
   // Authenticate the user with a password and extract the JWT token

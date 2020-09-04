@@ -18,6 +18,7 @@ import { AccountListComponent } from './components/account-list/account-list.com
 import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-link/sidebar-expandable-link.component';
+import { NodeStatusComponent } from './components/node-status/node-status.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-
     BalancesChartComponent, 
     SidebarComponent, 
     SidebarExpandableLinkComponent,
+    NodeStatusComponent,
   ],
   imports: [
     CommonModule,

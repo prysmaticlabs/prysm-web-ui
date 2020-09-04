@@ -1,9 +1,0 @@
-{
-  "/api": {
-    "target": "http://localhost:7500/v2/validator",
-    "secure": false,
-    "pathRewrite": {
-      "^/api": ""
-    }
-  }
-}

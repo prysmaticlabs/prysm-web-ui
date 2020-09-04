@@ -34,7 +34,7 @@ describe('WalletService', () => {
         // Check the mnemonic in the response.
         expect(resp).toEqual(mockResponse.mnemonic);
       });
-      const request = httpMock.expectOne('/api/mnemonic/generate');
+      const request = httpMock.expectOne('/api/validator/mnemonic/generate');
       expect(request.request.method).toBe('GET');
       request.flush(mockResponse);
     });
@@ -57,7 +57,7 @@ describe('WalletService', () => {
         // Check the mnemonic in the response.
         expect(resp).toEqual(mockResponse);
       });
-      const mockCall = httpMock.expectOne('/api/wallet/create');
+      const mockCall = httpMock.expectOne('/api/validator/wallet/create');
       expect(mockCall.request.method).toBe('POST');
       mockCall.flush(mockResponse);
     });

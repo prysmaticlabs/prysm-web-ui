@@ -1,0 +1,24 @@
+<mat-card class="bg-paper" *ngIf="(nodeConnection$ | async) as conn">
+  <div class="flex items-center">
+    <div>
+      <div class="pulsating-circle green"></div>
+    </div>
+    <div class="text-white text-lg m-0 ml-4">
+      Beacon Node Status
+    </div>
+  </div>
+  <div class="my-4">
+    <div class="text-muted text-lg">
+      {{conn.beaconNodeEndpoint}}
+    </div>
+    <div class="text-base mt-2 text-success">
+      Connected
+    </div>
+  </div>
+  <div *ngIf="conn.syncing">
+    <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div class="text-muted mt-3">
+    Syncing to chain head...
+  </div>
+</mat-card>

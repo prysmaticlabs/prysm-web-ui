@@ -18,7 +18,7 @@ import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'dashboard/gains-and-losses',
     pathMatch: 'full',
   },
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'gains-and-losses',

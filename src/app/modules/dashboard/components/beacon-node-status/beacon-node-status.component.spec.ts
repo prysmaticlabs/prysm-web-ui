@@ -1,14 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NodeStatusComponent } from './node-status.component';
+import { of } from 'rxjs';
+
+import { BeaconNodeStatusComponent } from './beacon-node-status.component';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { of } from 'rxjs';
 import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
-describe('NodeStatusComponent', () => {
-  let component: NodeStatusComponent;
-  let fixture: ComponentFixture<NodeStatusComponent>;
+describe('BeaconNodeStatusComponent', () => {
+  let component: BeaconNodeStatusComponent;
+  let fixture: ComponentFixture<BeaconNodeStatusComponent>;
   let service: BeaconNodeService;
   const spy = jasmine.createSpyObj('BeaconNodeService', ['conn$']);
 
@@ -17,7 +18,7 @@ describe('NodeStatusComponent', () => {
       imports: [
         SharedModule,
       ],
-      declarations: [ NodeStatusComponent ],
+      declarations: [ BeaconNodeStatusComponent ],
       providers: [
         { provide: BeaconNodeService, useValue: spy },
       ]
@@ -27,7 +28,7 @@ describe('NodeStatusComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NodeStatusComponent);
+    fixture = TestBed.createComponent(BeaconNodeStatusComponent);
     component = fixture.componentInstance;
     service.conn$ = of({
       beaconNodeEndpoint: 'endpoint.com',

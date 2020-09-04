@@ -15,6 +15,22 @@ export interface CreateWalletRequest {
    */
   walletPassword: string;
   /**
+   *  Mnemonic in case the user is creating a derived wallet.
+   */
+  mnemonic: string;
+  /**
+   *  Number of accounts.
+   */
+  numAccounts: number;
+  /**
+   *  JSON-encoded keystore files to import during wallet creation.
+   */
+  keystoresImported: string[];
+  /**
+   *  Password to unlock imported keystore files.
+   */
+  keystoresPassword: string;
+  /**
    *  Remote address such as host.example.com:4000 for a gRPC remote signer server.
    */
   remoteAddr: string;
@@ -37,6 +53,10 @@ export interface EditWalletConfigRequest {
   remoteCrtPath: string;
   remoteKeyPath: string;
   remoteCaCrtPath: string;
+}
+
+export interface GenerateMnemonicResponse {
+  mnemonic: string;
 }
 
 export interface WalletResponse {
@@ -102,53 +122,6 @@ export interface AccountRequest {
   indices: number[];
 }
 
-export interface ListBalancesResponse {
-  /**
-   *  A list of validator public keys.
-   */
-  publicKeys: Uint8Array[];
-  /**
-   *  A list of validator indices.
-   */
-  indices: number[];
-  /**
-   *  A list of validator balances that maps to public keys and indices.
-   */
-  balances: number[];
-}
-
-export interface ListStatusesResponse {
-  /**
-   *  A list of validator public keys.
-   */
-  publicKeys: Uint8Array[];
-  /**
-   *  A list of validator indices.
-   */
-  indices: number[];
-  statuses: ListStatusesResponse_ValidatorStatus[];
-}
-
-export interface ListPerformanceResponse {
-  /**
-   *  A list of validator public keys.
-   */
-  publicKeys: Uint8Array[];
-  /**
-   *  A list of validator indices.
-   */
-  indices: number[];
-  submissions: ListPerformanceResponse_Submission[];
-}
-
-/**
- *  A list of block / attestation submission count since last launch.
- */
-export interface ListPerformanceResponse_Submission {
-  blockCount: number;
-  attestationCount: number;
-}
-
 export interface AuthRequest {
   password: string;
 }
@@ -158,10 +131,30 @@ export interface AuthResponse {
   tokenExpiration: number;
 }
 
+export interface NodeConnectionResponse {
+  /**
+   *  The host address of the beacon node the validator
+   *  client is connected to.
+   */
+  beaconNodeEndpoint: string;
+  /**
+   *  Whether the connection is active.
+   */
+  connected: boolean;
+  /**
+   *  Whether the beacon node is currently synchronizing to chain head.
+   */
+  syncing: boolean;
+}
+
 const baseCreateWalletRequest: object = {
   walletPath: "",
   keymanager: 0,
   walletPassword: "",
+  mnemonic: "",
+  numAccounts: 0,
+  keystoresImported: "",
+  keystoresPassword: "",
   remoteAddr: "",
   remoteCrtPath: "",
   remoteKeyPath: "",
@@ -173,6 +166,10 @@ const baseEditWalletConfigRequest: object = {
   remoteCrtPath: "",
   remoteKeyPath: "",
   remoteCaCrtPath: "",
+};
+
+const baseGenerateMnemonicResponse: object = {
+  mnemonic: "",
 };
 
 const baseWalletResponse: object = {
@@ -206,25 +203,6 @@ const baseAccountRequest: object = {
   indices: 0,
 };
 
-const baseListBalancesResponse: object = {
-  indices: 0,
-  balances: 0,
-};
-
-const baseListStatusesResponse: object = {
-  indices: 0,
-  statuses: 0,
-};
-
-const baseListPerformanceResponse: object = {
-  indices: 0,
-};
-
-const baseListPerformanceResponse_Submission: object = {
-  blockCount: 0,
-  attestationCount: 0,
-};
-
 const baseAuthRequest: object = {
   password: "",
 };
@@ -234,6 +212,12 @@ const baseAuthResponse: object = {
   tokenExpiration: 0,
 };
 
+const baseNodeConnectionResponse: object = {
+  beaconNodeEndpoint: "",
+  connected: false,
+  syncing: false,
+};
+
 export interface Wallet {
 
   CreateWallet(request: CreateWalletRequest): Promise<WalletResponse>;
@@ -241,6 +225,8 @@ export interface Wallet {
   EditConfig(request: EditWalletConfigRequest): Promise<WalletResponse>;
 
   WalletConfig(request: Empty): Promise<WalletResponse>;
+
+  GenerateMnemonic(request: Empty): Promise<GenerateMnemonicResponse>;
 
 }
 
@@ -268,6 +254,12 @@ export class WalletClientImpl implements Wallet {
     const data = Empty.encode(request).finish();
     const promise = this.rpc.request("ethereum.validator.accounts.v2.Wallet", "WalletConfig", data);
     return promise.then(data => WalletResponse.decode(new Reader(data)));
+  }
+
+  GenerateMnemonic(request: Empty): Promise<GenerateMnemonicResponse> {
+    const data = Empty.encode(request).finish();
+    const promise = this.rpc.request("ethereum.validator.accounts.v2.Wallet", "GenerateMnemonic", data);
+    return promise.then(data => GenerateMnemonicResponse.decode(new Reader(data)));
   }
 
 }
@@ -304,11 +296,7 @@ export class AccountsClientImpl implements Accounts {
 
 export interface Health {
 
-  ListBalances(request: AccountRequest): Promise<ListBalancesResponse>;
-
-  ListStatuses(request: AccountRequest): Promise<ListStatusesResponse>;
-
-  ListPerformance(request: AccountRequest): Promise<ListPerformanceResponse>;
+  GetBeaconNodeConnection(request: Empty): Promise<NodeConnectionResponse>;
 
 }
 
@@ -320,22 +308,10 @@ export class HealthClientImpl implements Health {
     this.rpc = rpc;
   }
 
-  ListBalances(request: AccountRequest): Promise<ListBalancesResponse> {
-    const data = AccountRequest.encode(request).finish();
-    const promise = this.rpc.request("ethereum.validator.accounts.v2.Health", "ListBalances", data);
-    return promise.then(data => ListBalancesResponse.decode(new Reader(data)));
-  }
-
-  ListStatuses(request: AccountRequest): Promise<ListStatusesResponse> {
-    const data = AccountRequest.encode(request).finish();
-    const promise = this.rpc.request("ethereum.validator.accounts.v2.Health", "ListStatuses", data);
-    return promise.then(data => ListStatusesResponse.decode(new Reader(data)));
-  }
-
-  ListPerformance(request: AccountRequest): Promise<ListPerformanceResponse> {
-    const data = AccountRequest.encode(request).finish();
-    const promise = this.rpc.request("ethereum.validator.accounts.v2.Health", "ListPerformance", data);
-    return promise.then(data => ListPerformanceResponse.decode(new Reader(data)));
+  GetBeaconNodeConnection(request: Empty): Promise<NodeConnectionResponse> {
+    const data = Empty.encode(request).finish();
+    const promise = this.rpc.request("ethereum.validator.accounts.v2.Health", "GetBeaconNodeConnection", data);
+    return promise.then(data => NodeConnectionResponse.decode(new Reader(data)));
   }
 
 }
@@ -423,91 +399,28 @@ export function createWalletRequest_KeymanagerKindToJSON(object: CreateWalletReq
   }
 }
 
-/**  A list of validator statuses that maps to public keys and indices.
- */
-export enum ListStatusesResponse_ValidatorStatus {
-  UNKNOWN_STATUS = 0,
-  DEPOSITED = 1,
-  PENDING = 2,
-  ACTIVE = 3,
-  EXITING = 4,
-  SLASHING = 5,
-  EXITED = 6,
-  INVALID = 7,
-  UNRECOGNIZED = -1,
-}
-
-export function listStatusesResponse_ValidatorStatusFromJSON(object: any): ListStatusesResponse_ValidatorStatus {
-  switch (object) {
-    case 0:
-    case "UNKNOWN_STATUS":
-      return ListStatusesResponse_ValidatorStatus.UNKNOWN_STATUS;
-    case 1:
-    case "DEPOSITED":
-      return ListStatusesResponse_ValidatorStatus.DEPOSITED;
-    case 2:
-    case "PENDING":
-      return ListStatusesResponse_ValidatorStatus.PENDING;
-    case 3:
-    case "ACTIVE":
-      return ListStatusesResponse_ValidatorStatus.ACTIVE;
-    case 4:
-    case "EXITING":
-      return ListStatusesResponse_ValidatorStatus.EXITING;
-    case 5:
-    case "SLASHING":
-      return ListStatusesResponse_ValidatorStatus.SLASHING;
-    case 6:
-    case "EXITED":
-      return ListStatusesResponse_ValidatorStatus.EXITED;
-    case 7:
-    case "INVALID":
-      return ListStatusesResponse_ValidatorStatus.INVALID;
-    case -1:
-    case "UNRECOGNIZED":
-    default:
-      return ListStatusesResponse_ValidatorStatus.UNRECOGNIZED;
-  }
-}
-
-export function listStatusesResponse_ValidatorStatusToJSON(object: ListStatusesResponse_ValidatorStatus): string {
-  switch (object) {
-    case ListStatusesResponse_ValidatorStatus.UNKNOWN_STATUS:
-      return "UNKNOWN_STATUS";
-    case ListStatusesResponse_ValidatorStatus.DEPOSITED:
-      return "DEPOSITED";
-    case ListStatusesResponse_ValidatorStatus.PENDING:
-      return "PENDING";
-    case ListStatusesResponse_ValidatorStatus.ACTIVE:
-      return "ACTIVE";
-    case ListStatusesResponse_ValidatorStatus.EXITING:
-      return "EXITING";
-    case ListStatusesResponse_ValidatorStatus.SLASHING:
-      return "SLASHING";
-    case ListStatusesResponse_ValidatorStatus.EXITED:
-      return "EXITED";
-    case ListStatusesResponse_ValidatorStatus.INVALID:
-      return "INVALID";
-    default:
-      return "UNKNOWN";
-  }
-}
-
 export const CreateWalletRequest = {
   encode(message: CreateWalletRequest, writer: Writer = Writer.create()): Writer {
     writer.uint32(10).string(message.walletPath);
     writer.uint32(16).int32(message.keymanager);
     writer.uint32(26).string(message.walletPassword);
-    writer.uint32(34).string(message.remoteAddr);
-    writer.uint32(42).string(message.remoteCrtPath);
-    writer.uint32(50).string(message.remoteKeyPath);
-    writer.uint32(58).string(message.remoteCaCrtPath);
+    writer.uint32(34).string(message.mnemonic);
+    writer.uint32(40).uint64(message.numAccounts);
+    for (const v of message.keystoresImported) {
+      writer.uint32(50).string(v!);
+    }
+    writer.uint32(58).string(message.keystoresPassword);
+    writer.uint32(66).string(message.remoteAddr);
+    writer.uint32(74).string(message.remoteCrtPath);
+    writer.uint32(82).string(message.remoteKeyPath);
+    writer.uint32(90).string(message.remoteCaCrtPath);
     return writer;
   },
   decode(input: Uint8Array | Reader, length?: number): CreateWalletRequest {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseCreateWalletRequest } as CreateWalletRequest;
+    message.keystoresImported = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -521,15 +434,27 @@ export const CreateWalletRequest = {
           message.walletPassword = reader.string();
           break;
         case 4:
-          message.remoteAddr = reader.string();
+          message.mnemonic = reader.string();
           break;
         case 5:
-          message.remoteCrtPath = reader.string();
+          message.numAccounts = longToNumber(reader.uint64() as Long);
           break;
         case 6:
-          message.remoteKeyPath = reader.string();
+          message.keystoresImported.push(reader.string());
           break;
         case 7:
+          message.keystoresPassword = reader.string();
+          break;
+        case 8:
+          message.remoteAddr = reader.string();
+          break;
+        case 9:
+          message.remoteCrtPath = reader.string();
+          break;
+        case 10:
+          message.remoteKeyPath = reader.string();
+          break;
+        case 11:
           message.remoteCaCrtPath = reader.string();
           break;
         default:
@@ -541,6 +466,7 @@ export const CreateWalletRequest = {
   },
   fromJSON(object: any): CreateWalletRequest {
     const message = { ...baseCreateWalletRequest } as CreateWalletRequest;
+    message.keystoresImported = [];
     if (object.walletPath !== undefined && object.walletPath !== null) {
       message.walletPath = String(object.walletPath);
     } else {
@@ -555,6 +481,26 @@ export const CreateWalletRequest = {
       message.walletPassword = String(object.walletPassword);
     } else {
       message.walletPassword = "";
+    }
+    if (object.mnemonic !== undefined && object.mnemonic !== null) {
+      message.mnemonic = String(object.mnemonic);
+    } else {
+      message.mnemonic = "";
+    }
+    if (object.numAccounts !== undefined && object.numAccounts !== null) {
+      message.numAccounts = Number(object.numAccounts);
+    } else {
+      message.numAccounts = 0;
+    }
+    if (object.keystoresImported !== undefined && object.keystoresImported !== null) {
+      for (const e of object.keystoresImported) {
+        message.keystoresImported.push(String(e));
+      }
+    }
+    if (object.keystoresPassword !== undefined && object.keystoresPassword !== null) {
+      message.keystoresPassword = String(object.keystoresPassword);
+    } else {
+      message.keystoresPassword = "";
     }
     if (object.remoteAddr !== undefined && object.remoteAddr !== null) {
       message.remoteAddr = String(object.remoteAddr);
@@ -580,6 +526,7 @@ export const CreateWalletRequest = {
   },
   fromPartial(object: DeepPartial<CreateWalletRequest>): CreateWalletRequest {
     const message = { ...baseCreateWalletRequest } as CreateWalletRequest;
+    message.keystoresImported = [];
     if (object.walletPath !== undefined && object.walletPath !== null) {
       message.walletPath = object.walletPath;
     } else {
@@ -594,6 +541,26 @@ export const CreateWalletRequest = {
       message.walletPassword = object.walletPassword;
     } else {
       message.walletPassword = "";
+    }
+    if (object.mnemonic !== undefined && object.mnemonic !== null) {
+      message.mnemonic = object.mnemonic;
+    } else {
+      message.mnemonic = "";
+    }
+    if (object.numAccounts !== undefined && object.numAccounts !== null) {
+      message.numAccounts = object.numAccounts;
+    } else {
+      message.numAccounts = 0;
+    }
+    if (object.keystoresImported !== undefined && object.keystoresImported !== null) {
+      for (const e of object.keystoresImported) {
+        message.keystoresImported.push(e);
+      }
+    }
+    if (object.keystoresPassword !== undefined && object.keystoresPassword !== null) {
+      message.keystoresPassword = object.keystoresPassword;
+    } else {
+      message.keystoresPassword = "";
     }
     if (object.remoteAddr !== undefined && object.remoteAddr !== null) {
       message.remoteAddr = object.remoteAddr;
@@ -622,6 +589,14 @@ export const CreateWalletRequest = {
     obj.walletPath = message.walletPath || "";
     obj.keymanager = createWalletRequest_KeymanagerKindToJSON(message.keymanager);
     obj.walletPassword = message.walletPassword || "";
+    obj.mnemonic = message.mnemonic || "";
+    obj.numAccounts = message.numAccounts || 0;
+    if (message.keystoresImported) {
+      obj.keystoresImported = message.keystoresImported.map(e => e || "");
+    } else {
+      obj.keystoresImported = [];
+    }
+    obj.keystoresPassword = message.keystoresPassword || "";
     obj.remoteAddr = message.remoteAddr || "";
     obj.remoteCrtPath = message.remoteCrtPath || "";
     obj.remoteKeyPath = message.remoteKeyPath || "";
@@ -718,6 +693,53 @@ export const EditWalletConfigRequest = {
     obj.remoteCrtPath = message.remoteCrtPath || "";
     obj.remoteKeyPath = message.remoteKeyPath || "";
     obj.remoteCaCrtPath = message.remoteCaCrtPath || "";
+    return obj;
+  },
+};
+
+export const GenerateMnemonicResponse = {
+  encode(message: GenerateMnemonicResponse, writer: Writer = Writer.create()): Writer {
+    writer.uint32(10).string(message.mnemonic);
+    return writer;
+  },
+  decode(input: Uint8Array | Reader, length?: number): GenerateMnemonicResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseGenerateMnemonicResponse } as GenerateMnemonicResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.mnemonic = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): GenerateMnemonicResponse {
+    const message = { ...baseGenerateMnemonicResponse } as GenerateMnemonicResponse;
+    if (object.mnemonic !== undefined && object.mnemonic !== null) {
+      message.mnemonic = String(object.mnemonic);
+    } else {
+      message.mnemonic = "";
+    }
+    return message;
+  },
+  fromPartial(object: DeepPartial<GenerateMnemonicResponse>): GenerateMnemonicResponse {
+    const message = { ...baseGenerateMnemonicResponse } as GenerateMnemonicResponse;
+    if (object.mnemonic !== undefined && object.mnemonic !== null) {
+      message.mnemonic = object.mnemonic;
+    } else {
+      message.mnemonic = "";
+    }
+    return message;
+  },
+  toJSON(message: GenerateMnemonicResponse): unknown {
+    const obj: any = {};
+    obj.mnemonic = message.mnemonic || "";
     return obj;
   },
 };
@@ -1235,425 +1257,6 @@ export const AccountRequest = {
   },
 };
 
-export const ListBalancesResponse = {
-  encode(message: ListBalancesResponse, writer: Writer = Writer.create()): Writer {
-    for (const v of message.publicKeys) {
-      writer.uint32(10).bytes(v!);
-    }
-    writer.uint32(18).fork();
-    for (const v of message.indices) {
-      writer.uint64(v);
-    }
-    writer.ldelim();
-    writer.uint32(26).fork();
-    for (const v of message.balances) {
-      writer.uint64(v);
-    }
-    writer.ldelim();
-    return writer;
-  },
-  decode(input: Uint8Array | Reader, length?: number): ListBalancesResponse {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseListBalancesResponse } as ListBalancesResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.balances = [];
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.publicKeys.push(reader.bytes());
-          break;
-        case 2:
-          if ((tag & 7) === 2) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.indices.push(longToNumber(reader.uint64() as Long));
-            }
-          } else {
-            message.indices.push(longToNumber(reader.uint64() as Long));
-          }
-          break;
-        case 3:
-          if ((tag & 7) === 2) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.balances.push(longToNumber(reader.uint64() as Long));
-            }
-          } else {
-            message.balances.push(longToNumber(reader.uint64() as Long));
-          }
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-  fromJSON(object: any): ListBalancesResponse {
-    const message = { ...baseListBalancesResponse } as ListBalancesResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.balances = [];
-    if (object.publicKeys !== undefined && object.publicKeys !== null) {
-      for (const e of object.publicKeys) {
-        message.publicKeys.push(bytesFromBase64(e));
-      }
-    }
-    if (object.indices !== undefined && object.indices !== null) {
-      for (const e of object.indices) {
-        message.indices.push(Number(e));
-      }
-    }
-    if (object.balances !== undefined && object.balances !== null) {
-      for (const e of object.balances) {
-        message.balances.push(Number(e));
-      }
-    }
-    return message;
-  },
-  fromPartial(object: DeepPartial<ListBalancesResponse>): ListBalancesResponse {
-    const message = { ...baseListBalancesResponse } as ListBalancesResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.balances = [];
-    if (object.publicKeys !== undefined && object.publicKeys !== null) {
-      for (const e of object.publicKeys) {
-        message.publicKeys.push(e);
-      }
-    }
-    if (object.indices !== undefined && object.indices !== null) {
-      for (const e of object.indices) {
-        message.indices.push(e);
-      }
-    }
-    if (object.balances !== undefined && object.balances !== null) {
-      for (const e of object.balances) {
-        message.balances.push(e);
-      }
-    }
-    return message;
-  },
-  toJSON(message: ListBalancesResponse): unknown {
-    const obj: any = {};
-    if (message.publicKeys) {
-      obj.publicKeys = message.publicKeys.map(e => e !== undefined ? base64FromBytes(e) : undefined);
-    } else {
-      obj.publicKeys = [];
-    }
-    if (message.indices) {
-      obj.indices = message.indices.map(e => e || 0);
-    } else {
-      obj.indices = [];
-    }
-    if (message.balances) {
-      obj.balances = message.balances.map(e => e || 0);
-    } else {
-      obj.balances = [];
-    }
-    return obj;
-  },
-};
-
-export const ListStatusesResponse = {
-  encode(message: ListStatusesResponse, writer: Writer = Writer.create()): Writer {
-    for (const v of message.publicKeys) {
-      writer.uint32(10).bytes(v!);
-    }
-    writer.uint32(18).fork();
-    for (const v of message.indices) {
-      writer.uint64(v);
-    }
-    writer.ldelim();
-    writer.uint32(26).fork();
-    for (const v of message.statuses) {
-      writer.int32(v);
-    }
-    writer.ldelim();
-    return writer;
-  },
-  decode(input: Uint8Array | Reader, length?: number): ListStatusesResponse {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseListStatusesResponse } as ListStatusesResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.statuses = [];
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.publicKeys.push(reader.bytes());
-          break;
-        case 2:
-          if ((tag & 7) === 2) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.indices.push(longToNumber(reader.uint64() as Long));
-            }
-          } else {
-            message.indices.push(longToNumber(reader.uint64() as Long));
-          }
-          break;
-        case 3:
-          if ((tag & 7) === 2) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.statuses.push(reader.int32() as any);
-            }
-          } else {
-            message.statuses.push(reader.int32() as any);
-          }
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-  fromJSON(object: any): ListStatusesResponse {
-    const message = { ...baseListStatusesResponse } as ListStatusesResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.statuses = [];
-    if (object.publicKeys !== undefined && object.publicKeys !== null) {
-      for (const e of object.publicKeys) {
-        message.publicKeys.push(bytesFromBase64(e));
-      }
-    }
-    if (object.indices !== undefined && object.indices !== null) {
-      for (const e of object.indices) {
-        message.indices.push(Number(e));
-      }
-    }
-    if (object.statuses !== undefined && object.statuses !== null) {
-      for (const e of object.statuses) {
-        message.statuses.push(listStatusesResponse_ValidatorStatusFromJSON(e));
-      }
-    }
-    return message;
-  },
-  fromPartial(object: DeepPartial<ListStatusesResponse>): ListStatusesResponse {
-    const message = { ...baseListStatusesResponse } as ListStatusesResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.statuses = [];
-    if (object.publicKeys !== undefined && object.publicKeys !== null) {
-      for (const e of object.publicKeys) {
-        message.publicKeys.push(e);
-      }
-    }
-    if (object.indices !== undefined && object.indices !== null) {
-      for (const e of object.indices) {
-        message.indices.push(e);
-      }
-    }
-    if (object.statuses !== undefined && object.statuses !== null) {
-      for (const e of object.statuses) {
-        message.statuses.push(e);
-      }
-    }
-    return message;
-  },
-  toJSON(message: ListStatusesResponse): unknown {
-    const obj: any = {};
-    if (message.publicKeys) {
-      obj.publicKeys = message.publicKeys.map(e => e !== undefined ? base64FromBytes(e) : undefined);
-    } else {
-      obj.publicKeys = [];
-    }
-    if (message.indices) {
-      obj.indices = message.indices.map(e => e || 0);
-    } else {
-      obj.indices = [];
-    }
-    if (message.statuses) {
-      obj.statuses = message.statuses.map(e => listStatusesResponse_ValidatorStatusToJSON(e));
-    } else {
-      obj.statuses = [];
-    }
-    return obj;
-  },
-};
-
-export const ListPerformanceResponse = {
-  encode(message: ListPerformanceResponse, writer: Writer = Writer.create()): Writer {
-    for (const v of message.publicKeys) {
-      writer.uint32(10).bytes(v!);
-    }
-    writer.uint32(18).fork();
-    for (const v of message.indices) {
-      writer.uint64(v);
-    }
-    writer.ldelim();
-    for (const v of message.submissions) {
-      ListPerformanceResponse_Submission.encode(v!, writer.uint32(26).fork()).ldelim();
-    }
-    return writer;
-  },
-  decode(input: Uint8Array | Reader, length?: number): ListPerformanceResponse {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseListPerformanceResponse } as ListPerformanceResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.submissions = [];
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.publicKeys.push(reader.bytes());
-          break;
-        case 2:
-          if ((tag & 7) === 2) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.indices.push(longToNumber(reader.uint64() as Long));
-            }
-          } else {
-            message.indices.push(longToNumber(reader.uint64() as Long));
-          }
-          break;
-        case 3:
-          message.submissions.push(ListPerformanceResponse_Submission.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-  fromJSON(object: any): ListPerformanceResponse {
-    const message = { ...baseListPerformanceResponse } as ListPerformanceResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.submissions = [];
-    if (object.publicKeys !== undefined && object.publicKeys !== null) {
-      for (const e of object.publicKeys) {
-        message.publicKeys.push(bytesFromBase64(e));
-      }
-    }
-    if (object.indices !== undefined && object.indices !== null) {
-      for (const e of object.indices) {
-        message.indices.push(Number(e));
-      }
-    }
-    if (object.submissions !== undefined && object.submissions !== null) {
-      for (const e of object.submissions) {
-        message.submissions.push(ListPerformanceResponse_Submission.fromJSON(e));
-      }
-    }
-    return message;
-  },
-  fromPartial(object: DeepPartial<ListPerformanceResponse>): ListPerformanceResponse {
-    const message = { ...baseListPerformanceResponse } as ListPerformanceResponse;
-    message.publicKeys = [];
-    message.indices = [];
-    message.submissions = [];
-    if (object.publicKeys !== undefined && object.publicKeys !== null) {
-      for (const e of object.publicKeys) {
-        message.publicKeys.push(e);
-      }
-    }
-    if (object.indices !== undefined && object.indices !== null) {
-      for (const e of object.indices) {
-        message.indices.push(e);
-      }
-    }
-    if (object.submissions !== undefined && object.submissions !== null) {
-      for (const e of object.submissions) {
-        message.submissions.push(ListPerformanceResponse_Submission.fromPartial(e));
-      }
-    }
-    return message;
-  },
-  toJSON(message: ListPerformanceResponse): unknown {
-    const obj: any = {};
-    if (message.publicKeys) {
-      obj.publicKeys = message.publicKeys.map(e => e !== undefined ? base64FromBytes(e) : undefined);
-    } else {
-      obj.publicKeys = [];
-    }
-    if (message.indices) {
-      obj.indices = message.indices.map(e => e || 0);
-    } else {
-      obj.indices = [];
-    }
-    if (message.submissions) {
-      obj.submissions = message.submissions.map(e => e ? ListPerformanceResponse_Submission.toJSON(e) : undefined);
-    } else {
-      obj.submissions = [];
-    }
-    return obj;
-  },
-};
-
-export const ListPerformanceResponse_Submission = {
-  encode(message: ListPerformanceResponse_Submission, writer: Writer = Writer.create()): Writer {
-    writer.uint32(8).uint64(message.blockCount);
-    writer.uint32(16).uint64(message.attestationCount);
-    return writer;
-  },
-  decode(input: Uint8Array | Reader, length?: number): ListPerformanceResponse_Submission {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseListPerformanceResponse_Submission } as ListPerformanceResponse_Submission;
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.blockCount = longToNumber(reader.uint64() as Long);
-          break;
-        case 2:
-          message.attestationCount = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-  fromJSON(object: any): ListPerformanceResponse_Submission {
-    const message = { ...baseListPerformanceResponse_Submission } as ListPerformanceResponse_Submission;
-    if (object.blockCount !== undefined && object.blockCount !== null) {
-      message.blockCount = Number(object.blockCount);
-    } else {
-      message.blockCount = 0;
-    }
-    if (object.attestationCount !== undefined && object.attestationCount !== null) {
-      message.attestationCount = Number(object.attestationCount);
-    } else {
-      message.attestationCount = 0;
-    }
-    return message;
-  },
-  fromPartial(object: DeepPartial<ListPerformanceResponse_Submission>): ListPerformanceResponse_Submission {
-    const message = { ...baseListPerformanceResponse_Submission } as ListPerformanceResponse_Submission;
-    if (object.blockCount !== undefined && object.blockCount !== null) {
-      message.blockCount = object.blockCount;
-    } else {
-      message.blockCount = 0;
-    }
-    if (object.attestationCount !== undefined && object.attestationCount !== null) {
-      message.attestationCount = object.attestationCount;
-    } else {
-      message.attestationCount = 0;
-    }
-    return message;
-  },
-  toJSON(message: ListPerformanceResponse_Submission): unknown {
-    const obj: any = {};
-    obj.blockCount = message.blockCount || 0;
-    obj.attestationCount = message.attestationCount || 0;
-    return obj;
-  },
-};
-
 export const AuthRequest = {
   encode(message: AuthRequest, writer: Writer = Writer.create()): Writer {
     writer.uint32(10).string(message.password);
@@ -1759,6 +1362,83 @@ export const AuthResponse = {
     const obj: any = {};
     obj.token = message.token || "";
     obj.tokenExpiration = message.tokenExpiration || 0;
+    return obj;
+  },
+};
+
+export const NodeConnectionResponse = {
+  encode(message: NodeConnectionResponse, writer: Writer = Writer.create()): Writer {
+    writer.uint32(10).string(message.beaconNodeEndpoint);
+    writer.uint32(16).bool(message.connected);
+    writer.uint32(24).bool(message.syncing);
+    return writer;
+  },
+  decode(input: Uint8Array | Reader, length?: number): NodeConnectionResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseNodeConnectionResponse } as NodeConnectionResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.beaconNodeEndpoint = reader.string();
+          break;
+        case 2:
+          message.connected = reader.bool();
+          break;
+        case 3:
+          message.syncing = reader.bool();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): NodeConnectionResponse {
+    const message = { ...baseNodeConnectionResponse } as NodeConnectionResponse;
+    if (object.beaconNodeEndpoint !== undefined && object.beaconNodeEndpoint !== null) {
+      message.beaconNodeEndpoint = String(object.beaconNodeEndpoint);
+    } else {
+      message.beaconNodeEndpoint = "";
+    }
+    if (object.connected !== undefined && object.connected !== null) {
+      message.connected = Boolean(object.connected);
+    } else {
+      message.connected = false;
+    }
+    if (object.syncing !== undefined && object.syncing !== null) {
+      message.syncing = Boolean(object.syncing);
+    } else {
+      message.syncing = false;
+    }
+    return message;
+  },
+  fromPartial(object: DeepPartial<NodeConnectionResponse>): NodeConnectionResponse {
+    const message = { ...baseNodeConnectionResponse } as NodeConnectionResponse;
+    if (object.beaconNodeEndpoint !== undefined && object.beaconNodeEndpoint !== null) {
+      message.beaconNodeEndpoint = object.beaconNodeEndpoint;
+    } else {
+      message.beaconNodeEndpoint = "";
+    }
+    if (object.connected !== undefined && object.connected !== null) {
+      message.connected = object.connected;
+    } else {
+      message.connected = false;
+    }
+    if (object.syncing !== undefined && object.syncing !== null) {
+      message.syncing = object.syncing;
+    } else {
+      message.syncing = false;
+    }
+    return message;
+  },
+  toJSON(message: NodeConnectionResponse): unknown {
+    const obj: any = {};
+    obj.beaconNodeEndpoint = message.beaconNodeEndpoint || "";
+    obj.connected = message.connected || false;
+    obj.syncing = message.syncing || false;
     return obj;
   },
 };

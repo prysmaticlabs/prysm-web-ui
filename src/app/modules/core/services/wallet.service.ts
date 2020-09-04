@@ -3,29 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
-
-export interface WalletResponse {
-  walletPath: string;
-}
-
-export interface GenerateMnemonicResponse {
-  mnemonic: string;
-}
-
-export enum KeymanagerKind {
-  Derived,
-  Direct,
-  Remote,
-}
-
-export interface CreateWalletRequest {
-  keymanager: KeymanagerKind,
-  walletPassword: string;
-  keystoresPassword?: string;
-  mnemonic?: string;
-  numAccounts?: number;
-  keystoresImported?: Uint8Array[];
-}
+import {
+  WalletResponse, 
+  GenerateMnemonicResponse, 
+  CreateWalletRequest,
+} from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +22,6 @@ export class WalletService {
 
   // Observables.
   walletConfig$ = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`);
-  accounts$ = this.http.get<object>(`${this.apiUrl}/accounts`);
 
   // Retrieve a randomly generateed bip39 mnemonic from the backend,
   // ensuring it can be replayed by multiple subscribers. For example: being able

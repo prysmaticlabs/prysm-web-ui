@@ -1,11 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MockComponent } from 'ng-mocks';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { GainsAndLossesComponent } from './gains-and-losses.component';
 import { AccountListComponent }  from  '../../components/account-list/account-list.component';
 import { BalancesChartComponent }  from  '../../components/balances-chart/balances-chart.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { NodeStatusComponent } from '../../components/node-status/node-status.component';
 
 describe('GainsAndLossesComponent', () => {
   let component: GainsAndLossesComponent;
@@ -20,6 +22,7 @@ describe('GainsAndLossesComponent', () => {
         })
       ],
       declarations: [
+        MockComponent(NodeStatusComponent),
         BalancesChartComponent,
         AccountListComponent,
         GainsAndLossesComponent,

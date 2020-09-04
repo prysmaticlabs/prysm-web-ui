@@ -7,10 +7,12 @@ import { Overlay } from '@angular/cdk/overlay';
 
 import { LoginComponent } from './login.component';
 import { SharedModule } from '../../shared/shared.module';
+import { AuthenticationService } from '../../core/services/auth.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
+  const serviceSpy = jasmine.createSpyObj('AuthenticationService', ['login']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,6 +27,7 @@ describe('LoginComponent', () => {
       providers: [
         Overlay,
         FormBuilder,
+        { provide: AuthenticationService, useValue: serviceSpy },
       ]
     })
       .compileComponents();

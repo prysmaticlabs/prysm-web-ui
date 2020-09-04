@@ -4,14 +4,7 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { EnvironmenterService } from './environmenter.service';
-
-export interface AuthRequest {
-  password: string;
-}
-
-export interface AuthResponse {
-  token: string;
-}
+import { AuthRequest, AuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
   providedIn: 'root'

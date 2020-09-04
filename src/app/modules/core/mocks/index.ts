@@ -1,8 +1,4 @@
-import { AuthResponse } from '../services/auth.service';
-import {
-  GenerateMnemonicResponse,
-  WalletResponse,
-} from '../services/wallet.service';
+import { AuthResponse, WalletResponse, GenerateMnemonicResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 export const Mocks = {
   '/api/validator/login': {

@@ -3,7 +3,8 @@ import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/ro
 import { of } from 'rxjs';
 
 import { NoWalletFoundGuard } from './nowalletfound.guard';
-import { WalletService, WalletResponse } from '../services/wallet.service';
+import { WalletService } from '../services/wallet.service';
+import { WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 class MockActivatedRouteSnapshot {}
 
@@ -43,9 +44,9 @@ describe('NoWalletFoundGuard', () => {
   });
 
   it('should return false when the user does not have a wallet', done => {
-    const resp: WalletResponse = {
+    const resp = {
       walletPath: '',
-    };
+    } as WalletResponse;
     service.walletConfig$ = of(resp);
     guard.canActivate(next, state).subscribe(canActivate => {
       expect(canActivate).toBe(false);
@@ -55,9 +56,9 @@ describe('NoWalletFoundGuard', () => {
   });
 
   it('should return true when the user does has a wallet', done => {
-    const resp: WalletResponse = {
+    const resp = {
       walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
-    };
+    } as WalletResponse;
     service.walletConfig$ = of(resp);
     guard.canActivate(next, state).subscribe(canActivate => {
       expect(canActivate).toBe(true);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NodeService } from 'src/app/modules/core/services/node.service';
+import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 
 @Component({
   selector: 'app-node-status',
@@ -8,6 +8,6 @@ import { NodeService } from 'src/app/modules/core/services/node.service';
   ]
 })
 export class NodeStatusComponent {
-  constructor(private nodeService: NodeService) { }
+  constructor(private nodeService: BeaconNodeService) { }
   nodeConnection$ = this.nodeService.conn$;
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { interval } from 'rxjs';
-import { tap, startWith, mergeMap, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { tap, startWith, mergeMap, switchMap, filter, map, switchMapTo, catchError } from 'rxjs/operators';
 
 import { EnvironmenterService } from './environmenter.service';
 import { WalletService } from './wallet.service';
@@ -11,8 +11,19 @@ import {
   NodeConnectionResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
+import {
+  ValidatorBalances,
+} from 'src/app/proto/eth/v1alpha1/beacon_chain';
+
 const POLLING_INTERVAL = 3000;
 const BEACON_API_SUFFIX = '/eth/v1alpha1';
+
+export class BeaconState {
+  beaconNodeEndpoint$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+  connected$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  syncing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  balances$: BehaviorSubject<ValidatorBalances> = new BehaviorSubject(undefined);
+}
 
 @Injectable({
   providedIn: 'root',
@@ -25,16 +36,41 @@ export class BeaconNodeService {
   ) { }
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
-  private beaconNodeEndpoint: string;
+  beaconState: BeaconState = new BeaconState();
 
-  // Observables.
-  status$ = this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`).pipe(
-    tap((res: NodeConnectionResponse) => {
-      this.beaconNodeEndpoint = res.beaconNodeEndpoint + BEACON_API_SUFFIX;
-    }),
-  );
+  private get getBeaconEndpoint$(): BehaviorSubject<string> {
+    if (!this.beaconState.beaconNodeEndpoint$.getValue()) {
+      this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`).subscribe(
+          (res: NodeConnectionResponse) => {
+            this.beaconState.beaconNodeEndpoint$.next("http://" + res.beaconNodeEndpoint + BEACON_API_SUFFIX);
+          },
+          (error) => {
+          }
+        );
+    }
+    return this.beaconState.beaconNodeEndpoint$;
+  }
+
+  private updateBalances(): void {
+    this.getBeaconEndpoint$.pipe(
+      filter((beacanNodeEnpoint) => {
+        return beacanNodeEnpoint !== undefined;
+      }),
+      map(beacanNodeEnpoint => {
+        return this.http.get<ValidatorBalances>(`${beacanNodeEnpoint}/validator/balances`)
+          .subscribe((result) => {
+            this.beaconState.balances$.next(result)
+            this.beaconState.connected$.next(true);
+          },
+          (err) => {
+            this.beaconState.connected$.next(false);
+          });
+      })
+    ).subscribe();
+  }
+
   statusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),
-    mergeMap(_ => this.status$),
-  );
+    tap(() => this.updateBalances()),
+  ).subscribe();
 }

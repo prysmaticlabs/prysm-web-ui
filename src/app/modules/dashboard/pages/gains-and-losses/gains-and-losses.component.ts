@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { tap, take, switchMap } from 'rxjs/operators';
 
-import { ValidatorService } from '../../../core/services/validator.service';
-import { BeaconNodeService } from '../../../core/services/beacon-node.service';
+import { ValidatorService } from 'src/app/modules/core/services/validator.service';
+import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import {
   ChainHead,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';

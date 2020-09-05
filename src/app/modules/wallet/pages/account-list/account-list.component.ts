@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { tap } from 'rxjs/operators';
-import { Account } from '../../../../proto/validator/accounts/v2/web_api';
+import { Account } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
 
 export interface UserData {

@@ -17,6 +17,29 @@ export enum KeymanagerKind {
   Remote,
 }
 
+export interface ListAccountsResponse {
+  accounts: Account[];
+}
+
+export interface Account {
+  /**
+   *  The validating public key.
+   */
+  validatingPublicKey: Uint8Array;
+  /**
+   *  The human readable account name.
+   */
+  accountName: string;
+  /**
+   *  The deposit data transaction RLP bytes.
+   */
+  depositTxData: Uint8Array;
+  /**
+   *  The derivation path (if using HD wallet).
+   */
+  derivationPath: string;
+}
+
 export interface CreateWalletRequest {
   keymanager: KeymanagerKind,
   walletPassword: string;
@@ -36,6 +59,7 @@ export class WalletService {
 
   // Observables.
   walletConfig$ = this.http.get<WalletResponse>('/api/wallet');
+  accounts$ = this.http.get<ListAccountsResponse>('/api/accounts');
   // Retrieve a randomly generateed bip39 mnemonic from the backend,
   // ensuring it can be replayed by multiple subscribers. For example: being able
   // to verify the generated mnemonic matches the user input in a confirmation box

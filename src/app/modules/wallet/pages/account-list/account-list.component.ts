@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { tap } from 'rxjs/operators';
+import { WalletService } from '../../../core/services/wallet.service';
 
 export interface UserData {
   id: string;
@@ -30,12 +32,18 @@ export class AccountListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor() {
+  constructor(private walletService: WalletService) {
     // Create 100 users.
     const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
 
     // Assign the data to the data source for the table to render.
     this.dataSource = new MatTableDataSource(users);
+
+    walletService.accounts$.pipe(
+      tap(result => {
+        console.log(result);
+      })
+    ).subscribe();
   }
 
   ngOnInit() {

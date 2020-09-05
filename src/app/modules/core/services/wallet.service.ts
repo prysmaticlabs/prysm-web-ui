@@ -7,6 +7,7 @@ import {
   WalletResponse,
   GenerateMnemonicResponse,
   CreateWalletRequest,
+  ListAccountsResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -22,6 +23,7 @@ export class WalletService {
 
   // Observables.
   walletConfig$ = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`);
+  accounts$ = this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts`);
 
   // Retrieve a randomly generateed bip39 mnemonic from the backend,
   // ensuring it can be replayed by multiple subscribers. For example: being able

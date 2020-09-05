@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { interval } from 'rxjs';
-import { tap, startWith, mergeMap, switchMap } from 'rxjs/operators';
+import { interval, Observable } from 'rxjs';
+import { startWith, mergeMap, shareReplay, map } from 'rxjs/operators';
 
 import { EnvironmenterService } from './environmenter.service';
-import { WalletService } from './wallet.service';
 
 import {
   NodeConnectionResponse,
@@ -21,17 +20,15 @@ export class BeaconNodeService {
   constructor(
     private http: HttpClient,
     private environmenter: EnvironmenterService,
-    private walletService: WalletService,
   ) { }
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
-  private beaconNodeEndpoint: string;
 
   // Observables.
-  status$ = this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`).pipe(
-    tap((res: NodeConnectionResponse) => {
-      this.beaconNodeEndpoint = res.beaconNodeEndpoint + BEACON_API_SUFFIX;
-    }),
+  status$ = this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`);
+  beaconEndpoint$: Observable<string> = this.status$.pipe(
+    map((res: NodeConnectionResponse) => `http://${res.beaconNodeEndpoint}${BEACON_API_SUFFIX}`),
+    shareReplay(1),
   );
   statusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),

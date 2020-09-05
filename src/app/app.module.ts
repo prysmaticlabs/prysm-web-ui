@@ -35,7 +35,7 @@ import { MockInterceptor } from './modules/core/interceptors/mock.interceptor';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
     { provide: ENVIRONMENT, useValue: environment },
   ],
   bootstrap: [AppComponent]

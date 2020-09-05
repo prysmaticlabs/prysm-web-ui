@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { Account } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
 
@@ -44,7 +44,8 @@ export class AccountListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(result.accounts.map((account, index) => {
           return createNewUser(index, account.accountName);
         }));
-      })
+      }),
+      take(1)
     ).subscribe();
   }
 

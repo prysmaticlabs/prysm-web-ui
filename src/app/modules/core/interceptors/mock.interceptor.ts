@@ -27,6 +27,18 @@ export class MockInterceptor implements HttpInterceptor {
           body: Mocks[endpoint],
         }));
       }
+      const beaconApiIdx = request.url.indexOf('/eth/v1alpha1/');
+      if (beaconApiIdx !== -1) {
+        let endpoint = request.url.slice(beaconApiIdx);
+        const end = endpoint.indexOf('?');
+        if (end !== -1) {
+          endpoint = endpoint.substring(0, end);
+        }
+        return of(new HttpResponse({
+          status: 200,
+          body: Mocks[endpoint],
+        }));
+      }
     }
     return next.handle(request);
   }

@@ -11,7 +11,7 @@ import { ValidatorBalances } from '../../../../proto/eth/v1alpha1/beacon_chain';
   ]
 })
 export class BeaconNodeStatusComponent {
-  beaconState: BeaconState = this.nodeService.beaconState;
+  beaconNodeState: BeaconState = this.nodeService.beaconNodeState;
   constructor(private nodeService: BeaconNodeService) {
   }
 }

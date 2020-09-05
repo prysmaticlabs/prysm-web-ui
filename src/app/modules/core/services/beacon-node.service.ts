@@ -23,7 +23,7 @@ import {
 const POLLING_INTERVAL = 3000;
 const BEACON_API_SUFFIX = '/eth/v1alpha1';
 
-export class BeaconState {
+export class BeaconNodeState {
   beaconNodeEndpoint$: BehaviorSubject<string> = new BehaviorSubject(undefined);
   connected$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   syncing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -41,19 +41,19 @@ export class BeaconNodeService {
   ) { }
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
-  beaconState: BeaconState = new BeaconState();
+  beaconNodeState: BeaconNodeState = new BeaconNodeState();
 
   private get getBeaconEndpoint$(): BehaviorSubject<string> {
-    if (!this.beaconState.beaconNodeEndpoint$.getValue()) {
+    if (!this.beaconNodeState.beaconNodeEndpoint$.getValue()) {
       this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`).subscribe(
           (res: NodeConnectionResponse) => {
-            this.beaconState.beaconNodeEndpoint$.next("http://" + res.beaconNodeEndpoint + BEACON_API_SUFFIX);
+          this.beaconNodeState.beaconNodeEndpoint$.next("http://" + res.beaconNodeEndpoint + BEACON_API_SUFFIX);
           },
           (error) => {
           }
         );
     }
-    return this.beaconState.beaconNodeEndpoint$;
+    return this.beaconNodeState.beaconNodeEndpoint$;
   }
 
   private updateBalances(): void {
@@ -64,11 +64,11 @@ export class BeaconNodeService {
       map(beacanNodeEnpoint => {
         return this.http.get<ValidatorBalances>(`${beacanNodeEnpoint}/validators/balances`)
           .subscribe((result) => {
-            this.beaconState.balances$.next(result)
-            this.beaconState.connected$.next(true);
+            this.beaconNodeState.balances$.next(result)
+            this.beaconNodeState.connected$.next(true);
           },
           (err) => {
-            this.beaconState.connected$.next(false);
+            this.beaconNodeState.connected$.next(false);
           });
       })
     ).subscribe();
@@ -82,10 +82,10 @@ export class BeaconNodeService {
       map(beacanNodeEnpoint => {
         return this.http.get<SyncStatus>(`${beacanNodeEnpoint}/eth/v1alpha1/node/syncing`)
           .subscribe((result) => {
-            this.beaconState.syncing$.next(result.syncing);
+            this.beaconNodeState.syncing$.next(result.syncing);
           },
             (err) => {
-              this.beaconState.syncing$.next(false);
+              this.beaconNodeState.syncing$.next(false);
             });
       })
     ).subscribe();

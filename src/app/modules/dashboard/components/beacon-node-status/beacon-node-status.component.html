@@ -3,8 +3,8 @@
     <div>
       <div
         class="pulsating-circle"
-        [class.green]="(beaconState.connected$ | async)"
-        [class.red]="!(beaconState.connected$ | async)"></div>
+        [class.green]="(beaconNodeState.connected$ | async)"
+        [class.red]="!(beaconNodeState.connected$ | async)"></div>
     </div>
     <div class="text-white text-lg m-0 ml-4">
       Beacon Node Status
@@ -12,20 +12,20 @@
   </div>
   <div class="my-4">
     <div class="text-muted text-lg">
-      {{(beaconState.beaconNodeEndpoint$ | async)}}
+      {{(beaconNodeState.beaconNodeEndpoint$ | async)}}
     </div>
     <div
-      *ngIf="(beaconState.connected$ | async)"
+      *ngIf="(beaconNodeState.connected$ | async)"
       class="text-base my-2 text-success">
-      Connected <span *ngIf="!(beaconState.syncing$ | async)">and synced</span>
+      Connected <span *ngIf="!(beaconNodeState.syncing$ | async)">and synced</span>
     </div>
     <div
-      *ngIf="!(beaconState.connected$ | async)"
+      *ngIf="!(beaconNodeState.connected$ | async)"
       class="text-base my-2 text-error">
       Not Connected
     </div>
   </div>
-  <div *ngIf="(beaconState.connected$ | async) && (beaconState.syncing$ | async)">
+  <div *ngIf="(beaconNodeState.connected$ | async) && (beaconNodeState.syncing$ | async)">
     <div>
       <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
     </div>

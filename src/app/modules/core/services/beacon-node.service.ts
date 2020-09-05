@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { tap, startWith, mergeMap, switchMap, filter, map, switchMapTo, catchError } from 'rxjs/operators';
+import { tap, startWith, mergeMap, switchMap, filter, map, switchMapTo, catchError, take } from 'rxjs/operators';
 
 import { EnvironmenterService } from './environmenter.service';
 import { WalletService } from './wallet.service';
@@ -45,13 +45,13 @@ export class BeaconNodeService {
 
   private get getBeaconEndpoint$(): BehaviorSubject<string> {
     if (!this.beaconNodeState.beaconNodeEndpoint$.getValue()) {
-      this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`).subscribe(
-          (res: NodeConnectionResponse) => {
-          this.beaconNodeState.beaconNodeEndpoint$.next("http://" + res.beaconNodeEndpoint + BEACON_API_SUFFIX);
-          },
-          (error) => {
-          }
-        );
+      this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`).pipe(
+        take(1)
+      ).subscribe(
+        (res: NodeConnectionResponse) => {
+           this.beaconNodeState.beaconNodeEndpoint$.next("http://" + res.beaconNodeEndpoint + BEACON_API_SUFFIX);
+        }
+      );
     }
     return this.beaconNodeState.beaconNodeEndpoint$;
   }
@@ -62,15 +62,17 @@ export class BeaconNodeService {
         return beacanNodeEndpoint !== undefined;
       }),
       map(beacanNodeEndpoint => {
-        return this.http.get<ValidatorBalances>(`${beacanNodeEndpoint}/validators/balances`)
-          .subscribe((result) => {
-            this.beaconNodeState.balances$.next(result)
-            this.beaconNodeState.connected$.next(true);
-          },
-          (err) => {
-            this.beaconNodeState.connected$.next(false);
-          });
-      })
+        return this.http.get<ValidatorBalances>(`${beacanNodeEndpoint}/validators/balances`).pipe(
+           take(1)
+        ).subscribe((result) => {
+          this.beaconNodeState.balances$.next(result)
+          this.beaconNodeState.connected$.next(true);
+        },
+        (err) => {
+          this.beaconNodeState.connected$.next(false);
+        });
+      }),
+      take(1)
     ).subscribe();
   }
 
@@ -80,19 +82,21 @@ export class BeaconNodeService {
         return beacanNodeEnpoint !== undefined;
       }),
       map(beacanNodeEnpoint => {
-        return this.http.get<SyncStatus>(`${beacanNodeEnpoint}/eth/v1alpha1/node/syncing`)
-          .subscribe((result) => {
+        return this.http.get<SyncStatus>(`${beacanNodeEnpoint}/eth/v1alpha1/node/syncing`).pipe(
+          tap(result => {
             this.beaconNodeState.syncing$.next(result.syncing);
-          },
-            (err) => {
-              this.beaconNodeState.syncing$.next(false);
-            });
-      })
+          })
+        )
+      }),
+      take(1)
     ).subscribe();
   }
 
   statusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),
-    tap(() => this.updateBalances())
+    tap(() => {
+      this.updateBalances();
+      this.updateSyncing();
+    })
   ).subscribe();
 }

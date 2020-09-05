@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { BeaconNodeService, BeaconState } from 'src/app/modules/core/services/beacon-node.service';
+import { BeaconNodeService, BeaconNodeState } from 'src/app/modules/core/services/beacon-node.service';
 import { ValidatorBalances } from '../../../../proto/eth/v1alpha1/beacon_chain';
 
 @Component({
@@ -11,7 +11,7 @@ import { ValidatorBalances } from '../../../../proto/eth/v1alpha1/beacon_chain';
   ]
 })
 export class BeaconNodeStatusComponent {
-  beaconNodeState: BeaconState = this.nodeService.beaconNodeState;
+  beaconNodeState: BeaconNodeState = this.nodeService.beaconNodeState;
   constructor(private nodeService: BeaconNodeService) {
   }
 }

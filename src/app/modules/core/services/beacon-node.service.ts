@@ -58,11 +58,11 @@ export class BeaconNodeService {
 
   private updateBalances(): void {
     this.getBeaconEndpoint$.pipe(
-      filter((beacanNodeEnpoint) => {
-        return beacanNodeEnpoint !== undefined;
+      filter((beacanNodeEndpoint) => {
+        return beacanNodeEndpoint !== undefined;
       }),
-      map(beacanNodeEnpoint => {
-        return this.http.get<ValidatorBalances>(`${beacanNodeEnpoint}/validators/balances`)
+      map(beacanNodeEndpoint => {
+        return this.http.get<ValidatorBalances>(`${beacanNodeEndpoint}/validators/balances`)
           .subscribe((result) => {
             this.beaconNodeState.balances$.next(result)
             this.beaconNodeState.connected$.next(true);
@@ -93,6 +93,6 @@ export class BeaconNodeService {
 
   statusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),
-    tap(() => this.updateBalances()),
+    tap(() => this.updateBalances())
   ).subscribe();
 }

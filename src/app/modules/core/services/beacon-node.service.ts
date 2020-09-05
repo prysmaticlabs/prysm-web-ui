@@ -15,6 +15,11 @@ import {
   ValidatorBalances,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
+import {
+  SyncStatus,
+} from 'src/app/proto/eth/v1alpha1/node';
+
+
 const POLLING_INTERVAL = 3000;
 const BEACON_API_SUFFIX = '/eth/v1alpha1';
 
@@ -57,7 +62,7 @@ export class BeaconNodeService {
         return beacanNodeEnpoint !== undefined;
       }),
       map(beacanNodeEnpoint => {
-        return this.http.get<ValidatorBalances>(`${beacanNodeEnpoint}/validator/balances`)
+        return this.http.get<ValidatorBalances>(`${beacanNodeEnpoint}/validators/balances`)
           .subscribe((result) => {
             this.beaconState.balances$.next(result)
             this.beaconState.connected$.next(true);
@@ -65,6 +70,23 @@ export class BeaconNodeService {
           (err) => {
             this.beaconState.connected$.next(false);
           });
+      })
+    ).subscribe();
+  }
+
+  private updateSyncing(): void {
+    this.getBeaconEndpoint$.pipe(
+      filter((beacanNodeEnpoint) => {
+        return beacanNodeEnpoint !== undefined;
+      }),
+      map(beacanNodeEnpoint => {
+        return this.http.get<SyncStatus>(`${beacanNodeEnpoint}/eth/v1alpha1/node/syncing`)
+          .subscribe((result) => {
+            this.beaconState.syncing$.next(result.syncing);
+          },
+            (err) => {
+              this.beaconState.syncing$.next(false);
+            });
       })
     ).subscribe();
   }

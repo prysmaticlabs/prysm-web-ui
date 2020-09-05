@@ -17,7 +17,7 @@
     <div
       *ngIf="(beaconState.connected$ | async)"
       class="text-base my-2 text-success">
-      Connected
+      Connected <span *ngIf="!(beaconState.syncing$ | async)">and synced</span>
     </div>
     <div
       *ngIf="!(beaconState.connected$ | async)"

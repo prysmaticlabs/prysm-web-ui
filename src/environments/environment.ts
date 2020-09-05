@@ -5,6 +5,7 @@ import { IEnvironment } from './token';
 
 export const environment: IEnvironment = {
   production: false,
+  validatorEndpoint: 'http://localhost:7500/v2/validator',
 };
 
 /*

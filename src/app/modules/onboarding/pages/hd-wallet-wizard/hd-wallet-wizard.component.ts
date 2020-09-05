@@ -8,9 +8,10 @@ import { tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
-import { WalletService, CreateWalletRequest, KeymanagerKind } from 'src/app/modules/core/services/wallet.service';
+import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
+import { CreateWalletRequest, CreateWalletRequest_KeymanagerKind } from 'src/app/proto/validator/accounts/v2/web_api';
 
 enum WizardState {
   Overview,
@@ -123,12 +124,12 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     if (this.passwordFormGroup.invalid) {
       return;
     }
-    const request: CreateWalletRequest = {
-      keymanager: KeymanagerKind.Derived,
+    const request = {
+      keymanager: CreateWalletRequest_KeymanagerKind.DERIVED,
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
-    }
+    } as CreateWalletRequest;
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.

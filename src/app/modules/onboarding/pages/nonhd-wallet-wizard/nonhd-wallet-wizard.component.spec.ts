@@ -10,9 +10,10 @@ import { NonhdWalletWizardComponent } from './nonhd-wallet-wizard.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { GenerateAccountsComponent } from '../../components/generate-accounts/generate-accounts.component';
 import { ChooseWalletPasswordComponent } from '../../components/choose-wallet-password/choose-wallet-password.component';
-import { WalletService, WalletResponse } from 'src/app/modules/core/services/wallet.service';
-import { AuthenticationService, AuthResponse } from 'src/app/modules/core/services/auth.service';
+import { WalletService } from 'src/app/modules/core/services/wallet.service';
+import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 import { ImportAccountsComponent } from '../../components/import-accounts/import-accounts.component';
+import { WalletResponse, AuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('NonhdWalletWizardComponent', () => {
   let component: NonhdWalletWizardComponent;

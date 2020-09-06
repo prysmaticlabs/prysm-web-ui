@@ -1,20 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { MockService } from 'ng-mocks';
+import { of } from 'rxjs';
+
 import { SharedModule } from '../../modules/shared/shared.module';
 import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-link/sidebar-expandable-link.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard.component';
+import { BeaconNodeService } from '../core/services/beacon-node.service';
+import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
+  let serviceMock = MockService(BeaconNodeService)
+  serviceMock.nodeStatusPoll$ = of({} as NodeConnectionResponse);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
         SharedModule,
+      ],
+      providers: [
+        { provide: BeaconNodeService, useValue: serviceMock },
       ],
       declarations: [
         SidebarExpandableLinkComponent,

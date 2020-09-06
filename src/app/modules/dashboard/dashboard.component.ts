@@ -72,7 +72,6 @@ export class DashboardComponent implements OnInit {
   
   ngOnInit(): void {
     this.beaconNodeService.nodeStatusPoll$.pipe(
-      tap((res) => console.log(res)),
       takeUntil(this.destroyed$$),
     ).subscribe();
   }

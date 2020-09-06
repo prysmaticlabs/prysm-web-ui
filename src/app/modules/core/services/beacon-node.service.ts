@@ -31,15 +31,15 @@ export class BeaconNodeService {
   beaconNodeState$ = new Store({} as NodeConnectionResponse);
   beaconNodeEndpoint$ = select$(
     this.beaconNodeState$,
-    res => res.beaconNodeEndpoint + BEACON_API_SUFFIX,
+    (res: NodeConnectionResponse) => res.beaconNodeEndpoint + BEACON_API_SUFFIX,
   );
   beaconNodeConnected$ = select$(
     this.beaconNodeState$,
-    res => res.connected,
+    (res: NodeConnectionResponse) => res.connected,
   );
   beaconNodeSyncing$ = select$(
     this.beaconNodeState$,
-    res => res.syncing,
+    (res: NodeConnectionResponse) => res.syncing,
   );
 
   // Observables.
@@ -48,6 +48,6 @@ export class BeaconNodeService {
     mergeMap(_ => this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`)),
     tap((res: NodeConnectionResponse) => {
       this.beaconNodeState$.next(res);
-    })
+    }),
   );
 }

@@ -29,9 +29,16 @@ export class ValidatorService {
       return throwError('Cannot request greater than max lookback epochs');
     }
     let startEpoch = 0;
-    if (MAX_EPOCH_LOOKBACK < currentEpoch) {
-      startEpoch = currentEpoch - MAX_EPOCH_LOOKBACK;
+    // Ensure we do not underflow.
+    if (lookback < currentEpoch) {
+      startEpoch = currentEpoch - lookback;
     }
+    // Retrieve the balances starting at the current epoch down to lookback
+    // number of epochs in the input arguments.
+    // 1. Create an array from [currentEpoch - lookback, ..., currentEpoch]
+    // 2. Retrieve the beacon node endpoint and validator public keys and wait until we have both.
+    // 3. Launch N concurrent requests for balances by epoch for each epoch in the array
+    // 4. Combine the results into a single array observable.
     return of(this.range(startEpoch, currentEpoch)).pipe(
       concatAll(),
       mergeMap((epoch: number) => {
@@ -67,6 +74,6 @@ export class ValidatorService {
   }
 
   private range(start: number, end: number): number[] {
-    return Array(end - start).map((_, idx) => start + idx);
+    return Array(end - start).fill(null).map((_, idx) => start + idx);
   }
 }

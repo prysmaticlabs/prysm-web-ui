@@ -18,8 +18,8 @@
           />
         </div>
       </mat-card>
-      <mat-card class="bg-paper">
-        <app-balances-chart></app-balances-chart>
+      <mat-card class="bg-paper" *ngIf="(balances$ | async) as balances">
+        <app-balances-chart [validatorBalances]="balances"></app-balances-chart>
       </mat-card>
       <mat-card class="bg-paper">
         <app-account-list></app-account-list>

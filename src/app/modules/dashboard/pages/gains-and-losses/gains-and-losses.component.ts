@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { tap, take, switchMap } from 'rxjs/operators';
+import { switchMap, shareReplay } from 'rxjs/operators';
 
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
@@ -13,19 +13,18 @@ import {
   templateUrl: './gains-and-losses.component.html',
 })
 export class GainsAndLossesComponent implements OnInit {
-
   constructor(
     private validatorService: ValidatorService,
     private beaconNodeService: BeaconNodeService,
   ) { }
 
+  balances$ = this.beaconNodeService.chainHead$.pipe(
+    switchMap((head: ChainHead) =>
+      this.validatorService.recentEpochBalances(head.headEpoch, 3 /* lookback */)
+    ),
+    shareReplay(1),
+  );
+
   ngOnInit(): void {
-    this.beaconNodeService.chainHead$.pipe(
-      switchMap((head: ChainHead) =>
-        this.validatorService.recentEpochBalances(head.headEpoch, 5 /* lookback */)
-      ),
-      take(1),
-      tap((res) => console.log(res)),
-    ).subscribe();
   }
 }

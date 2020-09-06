@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { take, tap } from 'rxjs/operators';
+import { Account } from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletService } from '../../../core/services/wallet.service';
 
 export interface UserData {
   id: string;
@@ -30,12 +33,20 @@ export class AccountListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor() {
+  constructor(private walletService: WalletService) {
     // Create 100 users.
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    //const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
 
     // Assign the data to the data source for the table to render.
-    this.dataSource = new MatTableDataSource(users);
+
+    walletService.accounts$.pipe(
+      tap(result => {
+        this.dataSource = new MatTableDataSource(result.accounts.map((account, index) => {
+          return createNewUser(index, account.accountName);
+        }));
+      }),
+      take(1)
+    ).subscribe();
   }
 
   ngOnInit() {
@@ -53,9 +64,7 @@ export class AccountListComponent implements OnInit {
   }
 }
 
-function createNewUser(id: number): UserData {
-  const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+function createNewUser(id: number, name: string): UserData {
 
   return {
     id: id.toString(),

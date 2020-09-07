@@ -4,7 +4,6 @@ import { of, Observable } from 'rxjs';
 
 import { WalletService } from '../../core/services/wallet.service';
 import { MnemonicValidator } from './mnemonic.validator';
-import { expressionType } from '@angular/compiler/src/output/output_ast';
 
 describe('MnemonicValidator', () => {
   let walletService: jasmine.SpyObj<WalletService>;

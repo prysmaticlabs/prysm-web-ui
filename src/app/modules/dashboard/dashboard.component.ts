@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import SidebarLink from './types/sidebar-link';
+import { BeaconNodeService } from '../core/services/beacon-node.service';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  constructor(
+    private beaconNodeService: BeaconNodeService,
+  ) { }
   links: SidebarLink[] = [
     {
       name: 'Validator Gains & Losses',
@@ -61,4 +67,17 @@ export class DashboardComponent {
       externalUrl: 'https://docs.prylabs.network'
     },
   ];
+
+  destroyed$$ = new Subject<void>();
+  
+  ngOnInit(): void {
+    this.beaconNodeService.nodeStatusPoll$.pipe(
+      takeUntil(this.destroyed$$),
+    ).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$$.next();
+    this.destroyed$$.complete();
+  }
 }

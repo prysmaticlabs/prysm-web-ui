@@ -11,6 +11,9 @@ import { Observable, of } from 'rxjs';
 import { Mocks } from '../mocks';
 import { EnvironmenterService } from '../services/environmenter.service';
 
+export const VALIDATOR_API_SUFFIX = '/v2/validator';
+export const BEACON_API_SUFFIX = '/eth/v1alpha1';
+
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
   constructor(
@@ -19,21 +22,15 @@ export class MockInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.environmenter.env.production) {
-      const apiIdx = request.url.indexOf('/v2/validator/');
-      if (apiIdx !== -1) {
-        const endpoint = request.url.slice(apiIdx);
+      if (this.contains(request.url, VALIDATOR_API_SUFFIX)) {
+        const endpoint = this.extractEndpoint(request.url, VALIDATOR_API_SUFFIX);
         return of(new HttpResponse({
           status: 200,
           body: Mocks[endpoint],
         }));
       }
-      const beaconApiIdx = request.url.indexOf('/eth/v1alpha1/');
-      if (beaconApiIdx !== -1) {
-        let endpoint = request.url.slice(beaconApiIdx);
-        const end = endpoint.indexOf('?');
-        if (end !== -1) {
-          endpoint = endpoint.substring(0, end);
-        }
+      if (this.contains(request.url, BEACON_API_SUFFIX)) {
+        const endpoint = this.extractEndpoint(request.url, BEACON_API_SUFFIX);
         return of(new HttpResponse({
           status: 200,
           body: Mocks[endpoint],
@@ -41,5 +38,19 @@ export class MockInterceptor implements HttpInterceptor {
       }
     }
     return next.handle(request);
+  }
+
+  private extractEndpoint(url: string, suffix: string): string {
+    const idx = url.indexOf(suffix);
+    let endpoint = url.slice(idx);
+    const end = endpoint.indexOf('?');
+    if (end !== -1) {
+      endpoint = endpoint.substring(0, end);
+    }
+    return endpoint;
+  }
+
+  private contains(url: string, suffix: string): boolean {
+    return url.indexOf(suffix) !== -1;
   }
 }

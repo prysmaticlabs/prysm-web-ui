@@ -43,7 +43,7 @@ export class ValidatorService {
       concatAll(),
       mergeMap((epoch: number) => {
         return zip(
-          this.beaconNodeService.beaconEndpoint$,
+          this.beaconNodeService.beaconNodeEndpoint$,
           this.walletService.validatingPublicKeys$
         ).pipe(
           switchMap((result: [string, Uint8Array[]]) => {

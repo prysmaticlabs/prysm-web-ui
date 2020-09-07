@@ -6,29 +6,14 @@ import { take, tap } from 'rxjs/operators';
 import { Account } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
 
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
-}
-
-const COLORS: string[] = [
-  'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple', 'fuchsia', 'lime', 'teal',
-  'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
 
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
 })
 export class AccountListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'progress', 'color'];
-  dataSource: MatTableDataSource<UserData>;
+  displayedColumns: string[] = ['accountName', 'validatingPublicKey'];
+  dataSource: MatTableDataSource<Account>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -42,7 +27,8 @@ export class AccountListComponent implements OnInit {
     walletService.accounts$.pipe(
       tap(result => {
         this.dataSource = new MatTableDataSource(result.accounts.map((account, index) => {
-          return createNewUser(index, account.accountName);
+          account.validatingPublicKey
+          return account;
         }));
       }),
       take(1)
@@ -62,14 +48,4 @@ export class AccountListComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-}
-
-function createNewUser(id: number, name: string): UserData {
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-  };
 }

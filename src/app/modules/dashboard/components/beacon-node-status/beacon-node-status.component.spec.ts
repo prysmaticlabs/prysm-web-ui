@@ -13,11 +13,9 @@ describe('BeaconNodeStatusComponent', () => {
   let component: BeaconNodeStatusComponent;
   let fixture: ComponentFixture<BeaconNodeStatusComponent>;
   let service: BeaconNodeService = MockService(BeaconNodeService);
-  service.statusPoll$ = of({
-    beaconNodeEndpoint: 'endpoint.com',
-    connected: true,
-    syncing: true,
-  } as NodeConnectionResponse);
+  service.beaconNodeEndpoint$ = of('endpoint.com');
+  service.beaconNodeConnected$ = of(true);
+  service.beaconNodeSyncing$ = of(true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,18 +34,18 @@ describe('BeaconNodeStatusComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BeaconNodeStatusComponent);
     component = fixture.componentInstance;
-    component.nodeConnection$ = service.statusPoll$;
+    component.endpoint$ = service.beaconNodeEndpoint$;
+    component.connected$ = service.beaconNodeConnected$;
+    component.syncing$ = service.beaconNodeSyncing$;
     fixture.detectChanges();
   });
 
   it('it should display different pulsating circles based on connection status', () => {
     let circle = fixture.debugElement.query(By.css('.pulsating-circle.green'));
     expect(circle.nativeElement).toBeTruthy();
-    component.nodeConnection$ = of({
-      beaconNodeEndpoint: 'endpoint.com',
-      connected: false,
-      syncing: true,
-    } as NodeConnectionResponse);
+    component.endpoint$ = of('endpoint.com');
+    component.connected$ = of(false);
+    component.syncing$ = of(true);
     fixture.detectChanges();
     circle = fixture.debugElement.query(By.css('.pulsating-circle.red'));
     expect(circle.nativeElement).toBeTruthy();
@@ -55,11 +53,9 @@ describe('BeaconNodeStatusComponent', () => {
 
   it('it should display different message based on connection status', () => {
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Connected');
-    component.nodeConnection$ = of({
-      beaconNodeEndpoint: 'endpoint.com',
-      connected: false,
-      syncing: true,
-    } as NodeConnectionResponse);
+    component.endpoint$ = of('endpoint.com');
+    component.connected$ = of(false);
+    component.syncing$ = of(true);
     fixture.detectChanges();
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Not Connected');
   });
@@ -68,11 +64,9 @@ describe('BeaconNodeStatusComponent', () => {
     let bar = fixture.debugElement.query(By.css('.mat-progress-bar'));
     expect(bar.nativeElement).toBeTruthy();
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Syncing to chain head');
-    component.nodeConnection$ = of({
-      beaconNodeEndpoint: 'endpoint.com',
-      connected: true,
-      syncing: false,
-    } as NodeConnectionResponse);
+    component.endpoint$ = of('endpoint.com');
+    component.connected$ = of(true);
+    component.syncing$ = of(false);
     fixture.detectChanges();
     bar = fixture.debugElement.query(By.css('.mat-progress-bar'));
     expect(bar).toBeNull();
@@ -80,11 +74,9 @@ describe('BeaconNodeStatusComponent', () => {
   });
 
   it('it should only display sync process bar if connected', () => {
-    component.nodeConnection$ = of({
-      beaconNodeEndpoint: 'endpoint.com',
-      connected: false,
-      syncing: true,
-    } as NodeConnectionResponse);
+    component.endpoint$ = of('endpoint.com');
+    component.connected$ = of(false);
+    component.syncing$ = of(true);
     fixture.detectChanges();
     const bar = fixture.debugElement.query(By.css('.mat-progress-bar'));
     expect(bar).toBeNull();

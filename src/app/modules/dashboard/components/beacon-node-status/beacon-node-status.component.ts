@@ -9,5 +9,7 @@ import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.ser
 })
 export class BeaconNodeStatusComponent {
   constructor(private nodeService: BeaconNodeService) { }
-  nodeConnection$ = this.nodeService.statusPoll$;
+  connected$ = this.nodeService.beaconNodeConnected$;
+  syncing$ = this.nodeService.beaconNodeSyncing$;
+  endpoint$ = this.nodeService.beaconNodeEndpoint$;
 }

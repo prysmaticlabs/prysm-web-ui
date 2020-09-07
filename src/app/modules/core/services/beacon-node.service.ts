@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { interval, Observable } from 'rxjs';
-import { startWith, mergeMap, shareReplay, map, switchMap } from 'rxjs/operators';
+import { interval } from 'rxjs';
+import { tap, startWith, mergeMap, switchMap } from 'rxjs/operators';
 
+import { Store } from 'src/app/modules/core/utils/simple-store';
+import { select$ } from 'src/app/modules/core/utils/select$';
 import { EnvironmenterService } from './environmenter.service';
 
 import {
@@ -27,21 +29,35 @@ export class BeaconNodeService {
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
-  // Observables.
-  status$ = this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`);
-  beaconEndpoint$: Observable<string> = this.status$.pipe(
-    map((res: NodeConnectionResponse) => `http://${res.beaconNodeEndpoint}${BEACON_API_SUFFIX}`),
-    shareReplay(1),
+  // Create a reliable, immutable store for storing the 
+  // connection response with replayability.
+  beaconNodeState$ = new Store({} as NodeConnectionResponse);
+  beaconNodeEndpoint$ = select$(
+    this.beaconNodeState$,
+    (res: NodeConnectionResponse) => res.beaconNodeEndpoint + BEACON_API_SUFFIX,
   );
-  statusPoll$ = interval(POLLING_INTERVAL).pipe(
-    startWith(0),
-    mergeMap(_ => this.status$),
+  beaconNodeConnected$ = select$(
+    this.beaconNodeState$,
+    (res: NodeConnectionResponse) => res.connected,
+  );
+  beaconNodeSyncing$ = select$(
+    this.beaconNodeState$,
+    (res: NodeConnectionResponse) => res.syncing,
   );
 
   // Chain information.
-  chainHead$ = this.beaconEndpoint$.pipe(
+  chainHead$ = this.beaconNodeEndpoint$.pipe(
     switchMap((url: string) => {
       return this.http.get<ChainHead>(`${url}/beacon/chainhead`);
     })
+  );
+
+  // Polls.
+  nodeStatusPoll$ = interval(POLLING_INTERVAL).pipe(
+    startWith(0),
+    mergeMap(_ => this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`)),
+    tap((res: NodeConnectionResponse) => {
+      this.beaconNodeState$.next(res);
+    }),
   );
 }

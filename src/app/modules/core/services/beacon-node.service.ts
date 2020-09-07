@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { tap, startWith, mergeMap, switchMap, take } from 'rxjs/operators';
+import { interval, Observable } from 'rxjs';
+import { tap, startWith, mergeMap, take, switchMap } from 'rxjs/operators';
 
 import { Store } from 'src/app/modules/core/utils/simple-store';
 import { select$ } from 'src/app/modules/core/utils/select$';
@@ -27,51 +27,38 @@ export class BeaconNodeService {
   constructor(
     private http: HttpClient,
     private environmenter: EnvironmenterService,
-  ) { }
+  ) {
+    this.nodeStatus$.pipe(
+      take(1),
+      tap((res: NodeConnectionResponse) => {
+        this.beaconNodeState$.next(res);
+      })
+    ).subscribe()
+  }
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   // Create a reliable, immutable store for storing the 
   // connection response with replayability.
   private beaconNodeState$ = new Store({} as NodeConnectionResponse);
+  readonly beaconNodeEndpoint$ = select$(
+    this.beaconNodeState$,
+    (res: NodeConnectionResponse) => res.beaconNodeEndpoint + BEACON_API_SUFFIX,
+  );
+  readonly beaconNodeConnected$ = select$(
+    this.beaconNodeState$,
+    (res: NodeConnectionResponse) => res.connected,
+  );
+  readonly beaconNodeSyncing$ = select$(
+    this.beaconNodeState$,
+    (res: NodeConnectionResponse) => res.syncing,
+  );
 
-  get beaconNodeEndpoint$(): Observable<string> {
-    // Make sure we load the nodeStaus at least once if it was never called.
-    if (!this.beaconNodeState$.getValue()) {
-      this.nodeStatusPoll$.pipe(
-        take(1)
-      ).subscribe();
-    }
-    return select$(
-      this.beaconNodeState$,
-      res => "http://" + res.beaconNodeEndpoint + BEACON_API_SUFFIX,
-    );
-  }
-  get beaconNodeConnected$(): Observable<boolean> {
-    return select$(
-      this.beaconNodeState$,
-      res => res.connected,
-    );
-  }
-  get beaconNodeSyncing$(): Observable<boolean> {
-    return select$(
-      this.beaconNodeState$,
-      res => res.syncing,
-    );
-  }
-
-  getBalances(): Observable<ValidatorBalances> {
-    return this.beaconNodeEndpoint$.pipe(
-      switchMap(beacanNodeEndpoint => {
-        return this.http.get<ValidatorBalances>(`${beacanNodeEndpoint}/validators/balances`);
-      })
-    );
-  }
-
+  private nodeStatus$ = this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`);
   // Observables.
-  nodeStatusPoll$ = interval(POLLING_INTERVAL).pipe(
+  readonly nodeStatusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),
-    mergeMap(_ => this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`)),
+    mergeMap(_ => this.nodeStatus$),
     tap((res: NodeConnectionResponse) => {
       this.beaconNodeState$.next(res);
     })

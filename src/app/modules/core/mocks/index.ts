@@ -35,6 +35,7 @@ export const Mocks = {
     beaconNodeEndpoint: '127.0.0.1:3500',
     connected: true,
     syncing: true,
+    genesisTime: 1596546008,
   } as NodeConnectionResponse,
   '/v2/validator/accounts': {
     accounts: [
@@ -79,5 +80,9 @@ export const Mocks = {
   '/eth/v1alpha1/beacon/chainhead': {
     headSlot: 1024,
     headEpoch: 32,
+    justifiedSlot: 992,
+    justifiedEpoch: 31,
+    finalizedSlot: 960,
+    finalizedEpoch: 30,
   } as ChainHead,
 };

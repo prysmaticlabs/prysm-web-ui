@@ -14,4 +14,6 @@ export class BeaconNodeStatusComponent {
   endpoint$ = this.beaconNodeService.nodeEndpoint$;
   connected$ = this.beaconNodeService.connected$;
   syncing$ = this.beaconNodeService.syncing$;
+  chainHead$ = this.beaconNodeService.chainHead$;
+  latestClockSlotPoll$ = this.beaconNodeService.latestClockSlotPoll$;
 }

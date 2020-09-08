@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import SidebarLink from './types/sidebar-link';
 import { BeaconNodeService } from '../core/services/beacon-node.service';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',

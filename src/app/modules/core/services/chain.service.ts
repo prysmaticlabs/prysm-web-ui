@@ -6,7 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { BeaconNodeService } from './beacon-node.service';
 
 import {
-  ChainHead,
+  ValidatorParticipationResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
 @Injectable({
@@ -19,9 +19,9 @@ export class ChainService {
   ) { }
 
   // Chain information.
-  chainHead$ = this.beaconService.nodeEndpoint$.pipe(
+  participation$ = this.beaconService.nodeEndpoint$.pipe(
     switchMap((url: string) => {
-      return this.http.get<ChainHead>(`${url}/beacon/chainhead`);
+      return this.http.get<ValidatorParticipationResponse>(`${url}/validators/participation`);
     })
   );
 }

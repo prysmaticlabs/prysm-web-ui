@@ -14,7 +14,7 @@ import { WalletConfigComponent } from './pages/wallet-config/wallet-config.compo
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    SharedModule,
+    SharedModule
   ]
 })
 export class WalletModule { }

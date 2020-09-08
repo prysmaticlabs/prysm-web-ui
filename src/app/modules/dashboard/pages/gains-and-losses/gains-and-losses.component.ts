@@ -7,7 +7,6 @@ import { ChainService } from 'src/app/modules/core/services/chain.service';
 import {
   ChainHead,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
-import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 
 @Component({
   selector: 'app-gains-and-losses',
@@ -17,10 +16,7 @@ export class GainsAndLossesComponent implements OnInit {
   constructor(
     private validatorService: ValidatorService,
     private chainService: ChainService,
-    private beaconNodeService: BeaconNodeService,
   ) { }
-
-  beaconNodeState$ = this.beaconNodeService.beaconNodeState$.asObservable();
 
   balances$ = this.chainService.chainHead$.pipe(
     switchMap((head: ChainHead) =>

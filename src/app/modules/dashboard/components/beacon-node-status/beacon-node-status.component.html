@@ -1,10 +1,10 @@
-<mat-card class="bg-paper" *ngIf="(beaconNodeState$ | async) as state">
+<mat-card class="bg-paper">
   <div class="flex items-center">
     <div>
       <div
         class="pulsating-circle"
-        [class.green]="state.connected"
-        [class.red]="!state.connected"></div>
+        [class.green]="connected$ | async"
+        [class.red]="!(connected$ | async)"></div>
     </div>
     <div class="text-white text-lg m-0 ml-4">
       Beacon Node Status
@@ -12,20 +12,20 @@
   </div>
   <div class="my-4">
     <div class="text-muted text-lg">
-      {{state.endpoint}}
+      {{endpoint$ | async}}
     </div>
     <div
-      *ngIf="state.connected"
+      *ngIf="connected$ | async"
       class="text-base my-2 text-success">
-      Connected
+      Connected <span *ngIf="!(syncing$ | async)">and synced</span>
     </div>
     <div
-      *ngIf="!state.connected"
+      *ngIf="!(connected$ | async)"
       class="text-base my-2 text-error">
       Not Connected
     </div>
   </div>
-  <div *ngIf="state.connected && state.syncing">
+  <div *ngIf="(connected$ | async) && (syncing$ | async)">
     <div>
       <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
     </div>

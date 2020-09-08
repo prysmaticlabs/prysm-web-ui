@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { of } from 'rxjs';
 import { MockComponent } from 'ng-mocks';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -13,8 +12,6 @@ import { SharedModule } from '../../../shared/shared.module';
 import { BeaconNodeStatusComponent } from '../../components/beacon-node-status/beacon-node-status.component';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { ChainService } from 'src/app/modules/core/services/chain.service';
-import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
-import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { ENVIRONMENT } from 'src/environments/token';
 
 describe('GainsAndLossesComponent', () => {
@@ -33,7 +30,7 @@ describe('GainsAndLossesComponent', () => {
       declarations: [
         MockComponent(BeaconNodeStatusComponent),
         MockComponent(BalancesChartComponent),
-        AccountListComponent,
+        MockComponent(AccountListComponent),
         GainsAndLossesComponent,
       ],
       providers: [
@@ -45,10 +42,6 @@ describe('GainsAndLossesComponent', () => {
           provider: ChainService, 
           useValue: jasmine.createSpyObj('ChainService', ['chainHead$']),
         },
-        { 
-          provider: BeaconNodeService, 
-          useValue: jasmine.createSpyObj('BeaconNodeService', ['beaconNodeState$']),
-        },
         { provide: ENVIRONMENT, useValue: environment },
       ]
     })
@@ -58,7 +51,6 @@ describe('GainsAndLossesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GainsAndLossesComponent);
     component = fixture.componentInstance;
-    component.beaconNodeState$ = of({} as NodeConnectionResponse);
     fixture.detectChanges();
   });
 

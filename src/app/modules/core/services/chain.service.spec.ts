@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 class mockNode {
-  beaconNodeEndpoint$ = of('/eth/v1alpha1');
+  nodeEndpoint$ = of('/eth/v1alpha1');
 }
 
 describe('ChainService', () => {

@@ -19,7 +19,7 @@ export class ChainService {
   ) { }
 
   // Chain information.
-  chainHead$ = this.beaconService.beaconNodeEndpoint$.pipe(
+  chainHead$ = this.beaconService.nodeEndpoint$.pipe(
     switchMap((url: string) => {
       return this.http.get<ChainHead>(`${url}/beacon/chainhead`);
     })

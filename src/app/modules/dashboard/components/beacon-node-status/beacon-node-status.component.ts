@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 
 @Component({
   selector: 'app-beacon-node-status',
@@ -9,6 +8,10 @@ import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_
   ]
 })
 export class BeaconNodeStatusComponent {
-  @Input() beaconNodeState$: Observable<NodeConnectionResponse>;
-  constructor() { }
+  constructor(
+    private beaconNodeService: BeaconNodeService,
+  ) { }
+  endpoint$ = this.beaconNodeService.nodeEndpoint$;
+  connected$ = this.beaconNodeService.connected$;
+  syncing$ = this.beaconNodeService.syncing$;
 }

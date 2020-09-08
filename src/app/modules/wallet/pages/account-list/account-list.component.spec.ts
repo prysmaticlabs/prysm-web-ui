@@ -16,7 +16,7 @@ describe('AccountListComponent', () => {
       validatingPublicKey: null,
       accountName: 'Fritz',
       depositTxData: null,
-      derivationPath: "somepath"
+      derivationPath: 'somepath'
     }]
   } as ListAccountsResponse);
   beforeEach(async(() => {

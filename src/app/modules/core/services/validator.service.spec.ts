@@ -59,13 +59,6 @@ describe('ValidatorService', () => {
   });
 
   describe('balancesByEpoch', () => {
-    it('should disallow lookback > MAX_EPOCH_LOOKBACK', () => {
-      const badCall = () => {
-        service.recentEpochBalances(0, MAX_EPOCH_LOOKBACK+1);
-      };
-      expect(badCall).toThrowError();
-    });
-
     it('should properly encode a public key for URI inclusion', () => {
       const key = new Uint8Array([1, 2, 3]);
       const encoded = (service as any).encodePublicKey(key);

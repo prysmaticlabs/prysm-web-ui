@@ -58,7 +58,6 @@ export class BeaconNodeService {
     this.checkState(),
     (res: NodeState) => res.chainHead,
   );
-
   readonly nodeStatusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),
     mergeMap(_ => this.updateState()),
@@ -101,8 +100,9 @@ export class BeaconNodeService {
 
   private isEmpty(obj: object) {
     for (let key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
+      if(obj.hasOwnProperty(key)) {
+        return false;
+      }
     }
     return true;
   }

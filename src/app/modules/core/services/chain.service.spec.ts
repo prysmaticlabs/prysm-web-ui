@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 
 import { ChainService } from './chain.service';
 import { BeaconNodeService } from './beacon-node.service';
-import { ChainHead } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorParticipationResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -33,15 +33,14 @@ describe('ChainService', () => {
     httpMock.verify();
   });
 
-  it('should properly query the beacon endpoint for the chain head', (done) => {
+  it('should properly query the beacon endpoint for participation', (done) => {
     const mockResponse = {
-      headEpoch: 10,
-    } as ChainHead;
-    service.chainHead$.subscribe(resp => {
+    } as ValidatorParticipationResponse;
+    service.participation$.subscribe(resp => {
       expect(resp).toEqual(mockResponse);
       done();
     });
-    const request = httpMock.expectOne(`/eth/v1alpha1/beacon/chainhead`);
+    const request = httpMock.expectOne(`/eth/v1alpha1/validators/participation`);
     expect(request.request.method).toBe('GET');
     request.flush(mockResponse);
   });

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { interval, Observable, empty } from 'rxjs';
 import { flatZipMap } from 'rxjs-pipe-ext';
-import { tap, startWith, mergeMap, take, catchError } from 'rxjs/operators';
+import { startWith, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { Store } from 'src/app/modules/core/utils/simple-store';
 import { select$ } from 'src/app/modules/core/utils/select$';
@@ -31,23 +31,7 @@ export class BeaconNodeService {
   constructor(
     private http: HttpClient,
     private environmenter: EnvironmenterService,
-  ) {
-    this.fetchNodeStatus().pipe(
-      flatZipMap((connStatus: NodeConnectionResponse) =>
-        this.fetchChainHead('http://' + connStatus.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
-          catchError(_ => empty()),
-        )
-      ),
-      take(1),
-      tap(([connStatus, chainHead]) => {
-        const state: NodeState = {
-          nodeConnection: connStatus,
-          chainHead: chainHead,
-        };
-        this.beaconNodeState$.next(state);
-      })
-    ).subscribe();
-  }
+  ) { }
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
@@ -57,42 +41,27 @@ export class BeaconNodeService {
 
   // State field access.
   readonly nodeEndpoint$: Observable<string> = select$(
-    this.beaconNodeState$,
+    this.checkState(),
     (res: NodeState) => {
-      if (!res.nodeConnection) {
-        return '';
-      }
       return 'http://' + res.nodeConnection.beaconNodeEndpoint + BEACON_API_PREFIX;
     }
   );
   readonly connected$: Observable<boolean> = select$(
-    this.beaconNodeState$,
+    this.checkState(),
     (res: NodeState) => res.nodeConnection?.connected,
   );
   readonly syncing$: Observable<boolean> = select$(
-    this.beaconNodeState$,
+    this.checkState(),
     (res: NodeState) => res.nodeConnection?.syncing,
   );
   readonly chainHead$: Observable<ChainHead> = select$(
-    this.beaconNodeState$,
+    this.checkState(),
     (res: NodeState) => res.chainHead,
   );
 
   readonly nodeStatusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),
-    mergeMap(_ => this.fetchNodeStatus()),
-    flatZipMap((res: NodeConnectionResponse) => 
-      this.fetchChainHead('http://' + res.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
-        catchError(_ => empty()),
-      )
-    ),
-    tap(([connStatus, chainHead]) => {
-      const state: NodeState = {
-        nodeConnection: connStatus,
-        chainHead: chainHead,
-      };
-      this.beaconNodeState$.next(state);
-    })
+    mergeMap(_ => this.updateState()),
   );
 
   // Http requests.
@@ -102,5 +71,39 @@ export class BeaconNodeService {
 
   private fetchNodeStatus(): Observable<NodeConnectionResponse> {
     return this.http.get<NodeConnectionResponse>(`${this.apiUrl}/health/node_connection`);
+  }
+
+  // Initializers.
+  private checkState(): Observable<NodeState> {
+    if (this.isEmpty(this.beaconNodeState$.getValue())) {
+      return this.updateState();
+    }
+    return this.beaconNodeState$;
+  }
+
+  private updateState(): Observable<NodeState> {
+    return this.fetchNodeStatus().pipe(
+      flatZipMap((res: NodeConnectionResponse) => 
+        this.fetchChainHead('http://' + res.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
+          catchError(_ => empty()),
+        )
+      ),
+      switchMap(([connStatus, chainHead]) => {
+        const state: NodeState = {
+          nodeConnection: connStatus,
+          chainHead: chainHead,
+        };
+        this.beaconNodeState$.next(state);
+        return this.beaconNodeState$;
+      }),
+    );
+  }
+
+  private isEmpty(obj: object) {
+    for (let key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
   }
 }

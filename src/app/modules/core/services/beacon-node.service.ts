@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { interval, Observable } from 'rxjs';
+import { interval, Observable, empty } from 'rxjs';
 import { flatZipMap } from 'rxjs-pipe-ext';
-import { tap, startWith, mergeMap, take } from 'rxjs/operators';
+import { tap, startWith, mergeMap, take, catchError } from 'rxjs/operators';
 
 import { Store } from 'src/app/modules/core/utils/simple-store';
 import { select$ } from 'src/app/modules/core/utils/select$';
@@ -17,6 +17,7 @@ import {
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
 const POLLING_INTERVAL = 3000;
+const BEACON_API_PREFIX = '/eth/v1alpha1';
 
 interface NodeState {
   nodeConnection: NodeConnectionResponse,
@@ -32,9 +33,11 @@ export class BeaconNodeService {
     private environmenter: EnvironmenterService,
   ) {
     this.fetchNodeStatus().pipe(
-      flatZipMap((connStatus: NodeConnectionResponse) => {
-        return this.fetchChainHead(connStatus.beaconNodeEndpoint);
-      }),
+      flatZipMap((connStatus: NodeConnectionResponse) =>
+        this.fetchChainHead('http://' + connStatus.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
+          catchError(_ => empty()),
+        )
+      ),
       take(1),
       tap(([connStatus, chainHead]) => {
         const state: NodeState = {
@@ -55,15 +58,20 @@ export class BeaconNodeService {
   // Observables.
   readonly nodeEndpoint$: Observable<string> = select$(
     this.beaconNodeState$,
-    (res: NodeState) => res.nodeConnection.beaconNodeEndpoint + BEACON_API_SUFFIX,
+    (res: NodeState) => {
+      if (!res.nodeConnection) {
+        return '';
+      }
+      return 'http://' + res.nodeConnection.beaconNodeEndpoint + BEACON_API_PREFIX;
+    }
   );
   readonly connected$: Observable<boolean> = select$(
     this.beaconNodeState$,
-    (res: NodeState) => res.nodeConnection.connected,
+    (res: NodeState) => res.nodeConnection?.connected,
   );
   readonly syncing$: Observable<boolean> = select$(
     this.beaconNodeState$,
-    (res: NodeState) => res.nodeConnection.syncing,
+    (res: NodeState) => res.nodeConnection?.syncing,
   );
   readonly chainHead$: Observable<ChainHead> = select$(
     this.beaconNodeState$,
@@ -72,8 +80,12 @@ export class BeaconNodeService {
 
   readonly nodeStatusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),
-    mergeMap(this.fetchNodeStatus),
-    flatZipMap((res: NodeConnectionResponse) => this.fetchChainHead(res.beaconNodeEndpoint)),
+    mergeMap(_ => this.fetchNodeStatus()),
+    flatZipMap((res: NodeConnectionResponse) => 
+      this.fetchChainHead('http://' + res.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
+        catchError(_ => empty()),
+      )
+    ),
     tap(([connStatus, chainHead]) => {
       const state: NodeState = {
         nodeConnection: connStatus,

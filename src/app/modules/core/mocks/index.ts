@@ -79,5 +79,9 @@ export const Mocks = {
   '/eth/v1alpha1/beacon/chainhead': {
     headSlot: 1024,
     headEpoch: 32,
+    justifiedSlot: 992,
+    justifiedEpoch: 31,
+    finalizedSlot: 960,
+    finalizedEpoch: 30,
   } as ChainHead,
 };

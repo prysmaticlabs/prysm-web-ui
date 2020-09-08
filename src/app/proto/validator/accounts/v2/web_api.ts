@@ -145,6 +145,14 @@ export interface NodeConnectionResponse {
    *  Whether the beacon node is currently synchronizing to chain head.
    */
   syncing: boolean;
+  /**
+   *  The chain genesis time.
+   */
+  genesisTime: number;
+  /**
+   *  Address of the validator deposit contract in the eth1 chain.
+   */
+  depositContractAddress: Uint8Array;
 }
 
 const baseCreateWalletRequest: object = {
@@ -216,6 +224,7 @@ const baseNodeConnectionResponse: object = {
   beaconNodeEndpoint: "",
   connected: false,
   syncing: false,
+  genesisTime: 0,
 };
 
 export interface Wallet {
@@ -1371,6 +1380,8 @@ export const NodeConnectionResponse = {
     writer.uint32(10).string(message.beaconNodeEndpoint);
     writer.uint32(16).bool(message.connected);
     writer.uint32(24).bool(message.syncing);
+    writer.uint32(32).uint64(message.genesisTime);
+    writer.uint32(42).bytes(message.depositContractAddress);
     return writer;
   },
   decode(input: Uint8Array | Reader, length?: number): NodeConnectionResponse {
@@ -1388,6 +1399,12 @@ export const NodeConnectionResponse = {
           break;
         case 3:
           message.syncing = reader.bool();
+          break;
+        case 4:
+          message.genesisTime = longToNumber(reader.uint64() as Long);
+          break;
+        case 5:
+          message.depositContractAddress = reader.bytes();
           break;
         default:
           reader.skipType(tag & 7);
@@ -1413,6 +1430,14 @@ export const NodeConnectionResponse = {
     } else {
       message.syncing = false;
     }
+    if (object.genesisTime !== undefined && object.genesisTime !== null) {
+      message.genesisTime = Number(object.genesisTime);
+    } else {
+      message.genesisTime = 0;
+    }
+    if (object.depositContractAddress !== undefined && object.depositContractAddress !== null) {
+      message.depositContractAddress = bytesFromBase64(object.depositContractAddress);
+    }
     return message;
   },
   fromPartial(object: DeepPartial<NodeConnectionResponse>): NodeConnectionResponse {
@@ -1432,6 +1457,14 @@ export const NodeConnectionResponse = {
     } else {
       message.syncing = false;
     }
+    if (object.genesisTime !== undefined && object.genesisTime !== null) {
+      message.genesisTime = object.genesisTime;
+    } else {
+      message.genesisTime = 0;
+    }
+    if (object.depositContractAddress !== undefined && object.depositContractAddress !== null) {
+      message.depositContractAddress = object.depositContractAddress;
+    }
     return message;
   },
   toJSON(message: NodeConnectionResponse): unknown {
@@ -1439,6 +1472,8 @@ export const NodeConnectionResponse = {
     obj.beaconNodeEndpoint = message.beaconNodeEndpoint || "";
     obj.connected = message.connected || false;
     obj.syncing = message.syncing || false;
+    obj.genesisTime = message.genesisTime || 0;
+    obj.depositContractAddress = message.depositContractAddress !== undefined ? base64FromBytes(message.depositContractAddress) : undefined;
     return obj;
   },
 };

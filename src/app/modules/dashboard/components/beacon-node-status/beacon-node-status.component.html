@@ -10,7 +10,7 @@
       Beacon Node Status
     </div>
   </div>
-  <div class="my-4">
+  <div class="mt-4 mb-2">
     <div class="text-muted text-lg">
       {{endpoint$ | async}}
     </div>
@@ -23,6 +23,23 @@
       *ngIf="!(connected$ | async)"
       class="text-base my-2 text-error">
       Not Connected
+    </div>
+  </div>
+  <div class="mt-2 mb-4 grid grid-cols-1 gap-2" *ngIf="(chainHead$ | async) as chainHead">
+    <div class="flex">
+      <div class="min-w-sm text-muted">Synced Slot</div>
+      <div class="text-lg">{{chainHead.headSlot}}</div>
+    </div>
+    <div class="flex">
+      <div class="min-w-sm text-muted">Justified Epoch</div>
+      <div class="text-lg">{{chainHead.justifiedEpoch}}</div>
+    </div>
+    <div class="flex">
+      <div class="min-w-sm text-muted">Finalized Epoch</div>
+      <div class="text-lg" [class.text-red-500]="(chainHead.headEpoch - chainHead.finalizedEpoch) > 4">{{chainHead.finalizedEpoch}}</div>
+    </div>
+    <div class="text-red-500" *ngIf="(chainHead.headEpoch - chainHead.finalizedEpoch) > 4">
+      Warning, the chain has not finalized in 4 epochs, which will lead to most validators leaking balances
     </div>
   </div>
   <div *ngIf="(connected$ | async) && (syncing$ | async)">

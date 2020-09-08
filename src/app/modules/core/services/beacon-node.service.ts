@@ -55,7 +55,7 @@ export class BeaconNodeService {
   // connection response with replayability.
   private beaconNodeState$ = new Store({} as NodeState);
 
-  // Observables.
+  // State field access.
   readonly nodeEndpoint$: Observable<string> = select$(
     this.beaconNodeState$,
     (res: NodeState) => {

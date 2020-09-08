@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { interval, Observable, empty } from 'rxjs';
 import { flatZipMap } from 'rxjs-pipe-ext';
-import { startWith, mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { startWith, mergeMap, catchError, switchMap, map } from 'rxjs/operators';
 
 import { Store } from 'src/app/modules/core/utils/simple-store';
 import { select$ } from 'src/app/modules/core/utils/select$';
@@ -17,6 +17,7 @@ import {
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
 const POLLING_INTERVAL = 3000;
+const SECONDS_PER_SLOT = 12;
 const BEACON_API_PREFIX = '/eth/v1alpha1';
 
 interface NodeState {
@@ -57,6 +58,23 @@ export class BeaconNodeService {
   readonly chainHead$: Observable<ChainHead> = select$(
     this.checkState(),
     (res: NodeState) => res.chainHead,
+  );
+  readonly genesisTime$: Observable<number> = select$(
+    this.checkState(),
+    (res: NodeState) => res.nodeConnection?.genesisTime,
+  );
+  readonly latestClockSlotPoll$: Observable<number> = interval(POLLING_INTERVAL).pipe(
+    startWith(0),
+    mergeMap(
+      _ => select$(
+        this.checkState(),
+        (res: NodeState) => res.nodeConnection?.genesisTime,
+      )
+    ),
+    map((genesisTimeUnix: number) => {
+      const currentTime = Math.floor(Date.now() / 1000)
+      return Math.floor((currentTime - genesisTimeUnix) / SECONDS_PER_SLOT);
+    }),
   );
   readonly nodeStatusPoll$ = interval(POLLING_INTERVAL).pipe(
     startWith(0),

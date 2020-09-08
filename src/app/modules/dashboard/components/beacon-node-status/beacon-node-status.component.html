@@ -26,8 +26,12 @@
     </div>
   </div>
   <div class="mt-2 mb-4 grid grid-cols-1 gap-2" *ngIf="(chainHead$ | async) as chainHead">
+    <div class="flex" *ngIf="(latestClockSlotPoll$ | async) as latestClockSlot">
+      <div class="min-w-sm text-muted">Current Slot</div>
+      <div class="text-lg">{{latestClockSlot}}</div>
+    </div>
     <div class="flex">
-      <div class="min-w-sm text-muted">Synced Slot</div>
+      <div class="min-w-sm text-muted">Synced Up To</div>
       <div class="text-lg">{{chainHead.headSlot}}</div>
     </div>
     <div class="flex">

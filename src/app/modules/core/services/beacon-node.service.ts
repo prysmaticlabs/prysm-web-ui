@@ -13,7 +13,7 @@ import {
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 const POLLING_INTERVAL = 3000;
-const BEACON_API_SUFFIX = '/eth/v1alpha1';
+const BEACON_API_PREFIX = '/eth/v1alpha1';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,7 @@ export class BeaconNodeService {
   // Observables.
   readonly nodeEndpoint$ = select$(
     this.beaconNodeState$,
-    (res: NodeConnectionResponse) => res.beaconNodeEndpoint + BEACON_API_SUFFIX,
+    (res: NodeConnectionResponse) => res.beaconNodeEndpoint + BEACON_API_PREFIX,
   );
   readonly connected$ = select$(
     this.beaconNodeState$,

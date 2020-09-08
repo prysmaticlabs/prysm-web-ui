@@ -27,7 +27,7 @@ export class ValidatorService {
   // Observables.
   recentEpochBalances(currentEpoch: number, lookback: number): Observable<ValidatorBalances[]> {
     if (lookback > MAX_EPOCH_LOOKBACK) {
-      throw new Error('Cannot request greater than max lookback epochs');
+      throw new Error(`Cannot request greater than ${MAX_EPOCH_LOOKBACK} max lookback epochs`);
     }
     let startEpoch = 0;
     // Ensure we do not underflow.

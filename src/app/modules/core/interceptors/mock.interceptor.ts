@@ -11,8 +11,8 @@ import { Observable, of } from 'rxjs';
 import { Mocks } from '../mocks';
 import { EnvironmenterService } from '../services/environmenter.service';
 
-export const VALIDATOR_API_SUFFIX = '/v2/validator';
-export const BEACON_API_SUFFIX = '/eth/v1alpha1';
+export const VALIDATOR_API_PREFIX = '/v2/validator';
+export const BEACON_API_PREFIX = '/eth/v1alpha1';
 
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
@@ -22,20 +22,17 @@ export class MockInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.environmenter.env.production) {
-      if (this.contains(request.url, VALIDATOR_API_SUFFIX)) {
-        const endpoint = this.extractEndpoint(request.url, VALIDATOR_API_SUFFIX);
-        return of(new HttpResponse({
-          status: 200,
-          body: Mocks[endpoint],
-        }));
+      let endpoint: string;
+      if (this.contains(request.url, VALIDATOR_API_PREFIX)) {
+        endpoint = this.extractEndpoint(request.url, VALIDATOR_API_PREFIX);
       }
-      if (this.contains(request.url, BEACON_API_SUFFIX)) {
-        const endpoint = this.extractEndpoint(request.url, BEACON_API_SUFFIX);
-        return of(new HttpResponse({
-          status: 200,
-          body: Mocks[endpoint],
-        }));
+      if (this.contains(request.url, BEACON_API_PREFIX)) {
+        endpoint = this.extractEndpoint(request.url, BEACON_API_PREFIX);
       }
+      return of(new HttpResponse({
+        status: 200,
+        body: Mocks[endpoint],
+      }));
     }
     return next.handle(request);
   }

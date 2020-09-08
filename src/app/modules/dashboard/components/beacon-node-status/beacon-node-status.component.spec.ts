@@ -6,8 +6,8 @@ import { of } from 'rxjs';
 import { BeaconNodeStatusComponent } from './beacon-node-status.component';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { MockService } from 'ng-mocks';
+import { CommonModule } from '@angular/common';
 
 describe('BeaconNodeStatusComponent', () => {
   let component: BeaconNodeStatusComponent;
@@ -17,6 +17,7 @@ describe('BeaconNodeStatusComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
         SharedModule,
       ],
       declarations: [ BeaconNodeStatusComponent ],
@@ -40,6 +41,7 @@ describe('BeaconNodeStatusComponent', () => {
   it('it should display different pulsating circles based on connection status', () => {
     let circle = fixture.debugElement.query(By.css('.pulsating-circle.green'));
     expect(circle.nativeElement).toBeTruthy();
+    fixture.detectChanges();
     component.endpoint$ = of('endpoint.com');
     component.connected$ = of(false);
     component.syncing$ = of(true);

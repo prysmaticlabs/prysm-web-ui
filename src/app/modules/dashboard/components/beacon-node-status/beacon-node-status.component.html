@@ -3,7 +3,7 @@
     <div>
       <div
         class="pulsating-circle"
-        [class.green]="(connected$ | async)"
+        [class.green]="connected$ | async"
         [class.red]="!(connected$ | async)"></div>
     </div>
     <div class="text-white text-lg m-0 ml-4">
@@ -15,7 +15,7 @@
       {{endpoint$ | async}}
     </div>
     <div
-      *ngIf="(connected$ | async)"
+      *ngIf="connected$ | async"
       class="text-base my-2 text-success">
       Connected <span *ngIf="!(syncing$ | async)">and synced</span>
     </div>

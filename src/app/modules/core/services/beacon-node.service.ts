@@ -32,7 +32,6 @@ export class BeaconNodeService {
     private environmenter: EnvironmenterService,
   ) {
     this.fetchNodeStatus().pipe(
-      take(1),
       flatZipMap((connStatus: NodeConnectionResponse) => {
         return this.fetchChainHead(connStatus.beaconNodeEndpoint);
       }),

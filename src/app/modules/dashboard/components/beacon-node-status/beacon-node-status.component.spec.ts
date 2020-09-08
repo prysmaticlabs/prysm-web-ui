@@ -13,9 +13,6 @@ describe('BeaconNodeStatusComponent', () => {
   let component: BeaconNodeStatusComponent;
   let fixture: ComponentFixture<BeaconNodeStatusComponent>;
   let service: BeaconNodeService = MockService(BeaconNodeService);
-  service.beaconNodeEndpoint$ = of('endpoint.com');
-  service.beaconNodeConnected$ = of(true);
-  service.beaconNodeSyncing$ = of(true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -34,9 +31,9 @@ describe('BeaconNodeStatusComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BeaconNodeStatusComponent);
     component = fixture.componentInstance;
-    component.endpoint$ = service.beaconNodeEndpoint$;
-    component.connected$ = service.beaconNodeConnected$;
-    component.syncing$ = service.beaconNodeSyncing$;
+    component.endpoint$ = of('endpoint.com');
+    component.connected$ = of(true);
+    component.syncing$ = of(true);
     fixture.detectChanges();
   });
 

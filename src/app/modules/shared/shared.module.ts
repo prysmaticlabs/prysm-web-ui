@@ -16,10 +16,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { UintArrayToHexStringPipe } from '../core/pipes/uint-array-to-hex-string.pipe';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
+    UintArrayToHexStringPipe,
   ],
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     MatSortModule,
     MatStepperModule,
     MatProgressBarModule,
+    UintArrayToHexStringPipe
   ],
 })
 export class SharedModule { }

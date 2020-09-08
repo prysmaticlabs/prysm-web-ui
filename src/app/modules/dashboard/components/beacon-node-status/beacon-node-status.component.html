@@ -17,7 +17,7 @@
     <div
       *ngIf="(connected$ | async)"
       class="text-base my-2 text-success">
-      Connected
+      Connected <span *ngIf="!(syncing$ | async)">and synced</span>
     </div>
     <div
       *ngIf="!(connected$ | async)"

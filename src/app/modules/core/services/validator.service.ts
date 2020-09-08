@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { throwError, zip, Observable, of } from 'rxjs';
+import { zip, Observable, of } from 'rxjs';
 import { switchMap, mergeMap, concatAll, toArray } from 'rxjs/operators';
 
+import range from 'src/app/modules/core/utils/range';
 import { BeaconNodeService } from './beacon-node.service';
 import { WalletService } from './wallet.service';
 
@@ -11,7 +12,7 @@ import {
   ValidatorBalances,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
-const MAX_EPOCH_LOOKBACK = 5;
+export const MAX_EPOCH_LOOKBACK = 5;
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,7 @@ export class ValidatorService {
   // Observables.
   recentEpochBalances(currentEpoch: number, lookback: number): Observable<ValidatorBalances[]> {
     if (lookback > MAX_EPOCH_LOOKBACK) {
-      return throwError('Cannot request greater than max lookback epochs');
+      throw new Error('Cannot request greater than max lookback epochs');
     }
     let startEpoch = 0;
     // Ensure we do not underflow.
@@ -39,7 +40,7 @@ export class ValidatorService {
     // 2. Retrieve the beacon node endpoint and validator public keys and wait until we have both.
     // 3. Launch N concurrent requests for balances by epoch for each epoch in the array
     // 4. Combine the results into a single array observable.
-    return of(this.range(startEpoch, currentEpoch)).pipe(
+    return of(range(startEpoch, currentEpoch)).pipe(
       concatAll(),
       mergeMap((epoch: number) => {
         return zip(
@@ -57,7 +58,7 @@ export class ValidatorService {
     );
   }
 
-  private balancesByEpoch(
+  balancesByEpoch(
     apiUrl: string,
     publicKeys: Uint8Array[],
     epoch: number,
@@ -71,9 +72,5 @@ export class ValidatorService {
 
   private encodePublicKey(key: Uint8Array): string {
     return encodeURIComponent(key.toString());
-  }
-
-  private range(start: number, end: number): number[] {
-    return Array(end - start).fill(null).map((_, idx) => start + idx);
   }
 }

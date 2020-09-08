@@ -35,6 +35,7 @@ export const Mocks = {
     beaconNodeEndpoint: '127.0.0.1:3500',
     connected: true,
     syncing: true,
+    genesisTime: 1596546008,
   } as NodeConnectionResponse,
   '/v2/validator/accounts': {
     accounts: [

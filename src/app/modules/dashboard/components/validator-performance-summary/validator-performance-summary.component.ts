@@ -5,12 +5,10 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BigNumber } from 'ethers';
 
+import { GWEI_PER_ETHER, FAR_FUTURE_EPOCH } from 'src/app/modules/core/constants';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import { ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-
-const GWEI_PER_ETHER = 1000000000;
-const FAR_FUTURE_EPOCH = '18446744073709551615';
 
 export interface PerformanceData {
   averageEffectiveBalance: number;

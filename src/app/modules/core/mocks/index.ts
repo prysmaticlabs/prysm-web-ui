@@ -115,7 +115,16 @@ export const Mocks = {
     epoch: 32,
     finalized: true,
     participation: {
-      globalParticipationRate: 0.8333,
+      currentEpochActiveGwei: "1446418000000000" as any,
+      currentEpochAttestingGwei: "102777000000000" as any,
+      currentEpochTargetAttestingGwei: "101552000000000" as any,
+      eligibleEther: "1446290000000000" as any,
+      globalParticipationRate: 0.7861,
+      previousEpochActiveGwei: "1446290000000000" as any,
+      previousEpochAttestingGwei: "1143101000000000" as any,
+      previousEpochHeadAttestingGwei: "1089546000000000" as any,
+      previousEpochTargetAttestingGwei: "1136975000000000" as any,
+      votedEther: "1136975000000000" as any,
     } as ValidatorParticipation,
   } as ValidatorParticipationResponse,
   '/eth/v1alpha1/validators/performance': {

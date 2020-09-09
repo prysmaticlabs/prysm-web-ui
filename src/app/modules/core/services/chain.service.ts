@@ -3,12 +3,16 @@ import { HttpClient } from '@angular/common/http';
 
 import { switchMap, startWith } from 'rxjs/operators';
 
-import { BeaconNodeService, POLLING_INTERVAL } from './beacon-node.service';
+import { BeaconNodeService } from './beacon-node.service';
 
 import {
   ValidatorParticipationResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { interval } from 'rxjs';
+
+const MILLISECONDS_PER_SLOT = 12000
+const SLOTS_PER_EPOCH = 32
+const POLLING_INTERVAL = SLOTS_PER_EPOCH * MILLISECONDS_PER_SLOT
 
 @Injectable({
   providedIn: 'root',

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 
 @Component({
@@ -8,8 +8,12 @@ import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.ser
   ]
 })
 export class BeaconNodeStatusComponent {
-  constructor(private nodeService: BeaconNodeService) { }
-  connected$ = this.nodeService.beaconNodeConnected$;
-  syncing$ = this.nodeService.beaconNodeSyncing$;
-  endpoint$ = this.nodeService.beaconNodeEndpoint$;
+  constructor(
+    private beaconNodeService: BeaconNodeService,
+  ) { }
+  endpoint$ = this.beaconNodeService.nodeEndpoint$;
+  connected$ = this.beaconNodeService.connected$;
+  syncing$ = this.beaconNodeService.syncing$;
+  chainHead$ = this.beaconNodeService.chainHead$;
+  latestClockSlotPoll$ = this.beaconNodeService.latestClockSlotPoll$;
 }

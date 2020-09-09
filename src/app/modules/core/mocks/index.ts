@@ -6,6 +6,11 @@ import {
   ListAccountsResponse,
   Account,
 } from 'src/app/proto/validator/accounts/v2/web_api';
+import {
+  ValidatorBalances,
+  ValidatorBalances_Balance,
+  ChainHead,
+} from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
 const fromHexString = (hexString: string) =>
   new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
@@ -30,6 +35,7 @@ export const Mocks = {
     beaconNodeEndpoint: '127.0.0.1:3500',
     connected: true,
     syncing: true,
+    genesisTime: 1596546008,
   } as NodeConnectionResponse,
   '/v2/validator/accounts': {
     accounts: [
@@ -51,4 +57,32 @@ export const Mocks = {
       } as Account,
     ],
   } as ListAccountsResponse,
+  '/eth/v1alpha1/validators/balances': {
+    epoch: 7119,
+    balances: [
+      {
+        publicKey: fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
+        index: 0,
+        balance: 32,
+      },
+      {
+        publicKey: fromHexString('0x8e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c10707155'),
+        index: 1,
+        balance: 32,
+      },
+      {
+        publicKey: fromHexString('0xae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b'),
+        index: 2,
+        balance: 32,
+      },
+    ] as ValidatorBalances_Balance[],
+  } as ValidatorBalances,
+  '/eth/v1alpha1/beacon/chainhead': {
+    headSlot: 1024,
+    headEpoch: 32,
+    justifiedSlot: 992,
+    justifiedEpoch: 31,
+    finalizedSlot: 960,
+    finalizedEpoch: 30,
+  } as ChainHead,
 };

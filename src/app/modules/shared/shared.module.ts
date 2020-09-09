@@ -13,6 +13,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
@@ -30,6 +31,8 @@ import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
   exports: [
     BreadcrumbComponent,
     BrowserAnimationsModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
     MatGridListModule,
     MatCardModule,
     MatSnackBarModule,

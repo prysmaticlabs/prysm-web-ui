@@ -6,7 +6,7 @@
     <div>
       <div class="flex justify-between">
         <div class="text-muted uppercase">Avg Validator <br/>Balance</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="Describes your validator balance total across your validating keys">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.balances">
           help_outline
         </mat-icon>
       </div>
@@ -17,7 +17,7 @@
     <div>
       <div class="flex justify-between">
         <div class="text-muted uppercase">Avg Inclusion <br/>Distance</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="Describes your validator balance total across your validating keys">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.inclusionDistance">
           help_outline
         </mat-icon>
       </div>
@@ -28,7 +28,7 @@
     <div>
       <div class="flex justify-between">
         <div class="text-muted uppercase">Recent Epoch<br/>Gains</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="Describes your validator balance total across your validating keys">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.recentEpochGains">
           help_outline
         </mat-icon>
       </div>
@@ -39,7 +39,7 @@
     <div>
       <div class="flex justify-between">
         <div class="text-muted uppercase">Correctly Voted<br/>Head Percent</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="Describes your validator balance total across your validating keys">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.correctlyVoted">
           help_outline
         </mat-icon>
       </div>
@@ -48,27 +48,49 @@
       </div>
     </div>
     <div>
-      <div class="text-muted uppercase">Validating Keys</div>
-      <div class="text-primary font-semibold text-2xl mt-2">
-        8
+      <div class="flex justify-between">
+        <div class="text-muted uppercase">Validating Keys</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.keys">
+          help_outline
+        </mat-icon>
+      </div>
+      <div class="text-primary font-semibold text-2xl mt-2" *ngIf="(validatingKeys$ | async) as keys">
+        {{keys.length}}
       </div>
     </div>
     <div>
-      <div class="text-muted uppercase">Connected Peers</div>
-      <div class="text-primary font-semibold text-2xl mt-2">
-        233
+      <div class="flex justify-between">
+        <div class="text-muted uppercase">Overall Score</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.score">
+          help_outline
+        </mat-icon>
       </div>
-    </div>
-    <div>
-      <div class="text-muted uppercase">Overall Score</div>
-      <div class="text-primary font-semibold text-2xl mt-2">
+      <div class="font-semibold text-2xl mt-2"
+        [class.text-red-500]="perf.overallScore !== 'Poor'" 
+        [class.text-red-500]="perf.overallScore === 'Poor'">
         {{perf.overallScore}}
       </div>
     </div>
     <div>
-      <div class="text-muted uppercase">Block Proposals</div>
-      <div class="text-primary font-semibold text-2xl mt-2">
-        7
+      <div class="flex justify-between">
+        <div class="text-muted uppercase">Connected Peers</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.connectedPeers">
+          help_outline
+        </mat-icon>
+      </div>
+      <div class="text-primary font-semibold text-2xl mt-2" *ngIf="(connectedPeers$ | async) as connected">
+        {{connected.length}}
+      </div>
+    </div>
+    <div>
+      <div class="flex justify-between">
+        <div class="text-muted uppercase">Total Peers</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.totalPeers">
+          help_outline
+        </mat-icon>
+      </div>
+      <div class="text-primary font-semibold text-2xl mt-2" *ngIf="(peers$ | async) as totalPeers">
+        {{totalPeers.length}}
       </div>
     </div>
   </div>

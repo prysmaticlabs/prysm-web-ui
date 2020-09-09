@@ -14,6 +14,7 @@ import {
   ValidatorPerformanceResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
+import { Peers, Peer, PeerDirection, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
 
 const fromHexString = (hexString: string) =>
   new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
@@ -88,6 +89,28 @@ export const Mocks = {
     finalizedSlot: 960,
     finalizedEpoch: 30,
   } as ChainHead,
+  '/eth/v1alpha1/node/peers': {
+    peers: [
+      {
+        connectionState: ConnectionState.CONNECTED,
+      },
+      {
+        connectionState: ConnectionState.CONNECTED,
+      },
+      {
+        connectionState: ConnectionState.DISCONNECTED,
+      },
+      {
+        connectionState: ConnectionState.DISCONNECTED,
+      },
+      {
+        connectionState: ConnectionState.CONNECTED,
+      },
+      {
+        connectionState: ConnectionState.CONNECTED,
+      },
+    ] as Peer[]
+  } as Peers,
   '/eth/v1alpha1/validators/participation': {
     epoch: 32,
     finalized: true,

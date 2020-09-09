@@ -119,14 +119,14 @@ export const Mocks = {
     } as ValidatorParticipation,
   } as ValidatorParticipationResponse,
   '/eth/v1alpha1/validators/performance': {
-    currentEffectiveBalances: [32, 32, 32],
+    currentEffectiveBalances: ["31000000000", "31000000000", "31000000000"] as any,
     correctlyVotedHead: [true, true, false],
     correctlyVotedSource: [true, true, false],
     correctlyVotedTarget: [true, true, true],
     averageActiveValidatorBalance: 32,
-    inclusionDistances: [2, 2, 3],
+    inclusionDistances: [2, 2, 1],
     inclusionSlots: [1022, 1022, 1021],
-    balancesBeforeEpochTransition: [32, 32, 32],
-    balancesAfterEpochTransition: [32.001, 32.0015, 32.0009],
+    balancesBeforeEpochTransition: ["31200781367", "31216554607", "31204371127"] as any,
+    balancesAfterEpochTransition: ["31200823019", "31216596259", "31204412779"] as any,
   } as ValidatorPerformanceResponse,
 };

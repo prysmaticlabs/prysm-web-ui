@@ -5,13 +5,13 @@
   <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-6" *ngIf="(performanceData$ | async) as perf">
     <div>
       <div class="flex justify-between">
-        <div class="text-muted uppercase">Avg Validator <br/>Balance</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.balances">
+        <div class="text-muted uppercase">Avg Effective <br/>Balance</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.effectiveBalance">
           help_outline
         </mat-icon>
       </div>
       <div class="text-primary font-semibold text-2xl mt-2">
-        {{perf.averageValidatorBalance | number: '1.2-2'}} ETH
+        {{perf.averageEffectiveBalance | number: '1.2-2'}} ETH
       </div>
     </div>
     <div>
@@ -33,7 +33,7 @@
         </mat-icon>
       </div>
       <div class="text-primary font-semibold text-2xl mt-2">
-        {{perf.recentEpochGains | number: '1.4-4'}} ETH
+        {{perf.recentEpochGains | number: '1.4-5'}} ETH
       </div>
     </div>
     <div>
@@ -66,7 +66,7 @@
         </mat-icon>
       </div>
       <div class="font-semibold text-2xl mt-2"
-        [class.text-red-500]="perf.overallScore !== 'Poor'" 
+        [class.text-primary]="perf.overallScore !== 'Poor'" 
         [class.text-red-500]="perf.overallScore === 'Poor'">
         {{perf.overallScore}}
       </div>

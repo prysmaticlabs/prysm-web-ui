@@ -12,7 +12,7 @@ import { WalletService } from 'src/app/modules/core/services/wallet.service';
 const GWEI_PER_ETHER = 1000000000;
 const FAR_FUTURE_EPOCH = '18446744073709551615';
 
-interface data {
+export interface PerformanceData {
   averageEffectiveBalance: number;
   averageInclusionDistance: number;
   correctlyVotedHeadPercent: number;
@@ -55,12 +55,12 @@ export class ValidatorPerformanceSummaryComponent {
   connectedPeers$ = this.peers$.pipe(
     map(peers => peers.filter(p => p.connectionState.toString() === 'CONNECTED')), 
   );
-  performanceData$: Observable<data> = this.validatorService.performance$.pipe(
+  performanceData$: Observable<PerformanceData> = this.validatorService.performance$.pipe(
     map(this.transformPerformanceData.bind(this)),
   );
 
 
-  private transformPerformanceData(perf: ValidatorPerformanceResponse): data {
+  private transformPerformanceData(perf: ValidatorPerformanceResponse): PerformanceData {
     const recentEpochGains = this.computeEpochGains(
       perf.balancesBeforeEpochTransition, perf.balancesAfterEpochTransition,
     );
@@ -93,7 +93,7 @@ export class ValidatorPerformanceSummaryComponent {
       overallScore,
       numValidatingKeys: 8,
       recentEpochGains,
-    } as data;
+    } as PerformanceData;
   }
 
   private computeAverageEffectiveBalance(balances: number[]): number {

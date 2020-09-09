@@ -10,7 +10,10 @@ import {
   ValidatorBalances,
   ValidatorBalances_Balance,
   ChainHead,
+  ValidatorParticipationResponse,
+  ValidatorPerformanceResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 
 const fromHexString = (hexString: string) =>
   new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
@@ -85,4 +88,22 @@ export const Mocks = {
     finalizedSlot: 960,
     finalizedEpoch: 30,
   } as ChainHead,
+  '/eth/v1alpha1/validators/participation': {
+    epoch: 32,
+    finalized: true,
+    participation: {
+      globalParticipationRate: 0.8333,
+    } as ValidatorParticipation,
+  } as ValidatorParticipationResponse,
+  '/eth/v1alpha1/validators/performance': {
+    currentEffectiveBalances: [32, 32, 32],
+    correctlyVotedHead: [true, true, false],
+    correctlyVotedSource: [true, true, false],
+    correctlyVotedTarget: [true, true, true],
+    averageActiveValidatorBalance: 32,
+    inclusionDistances: [2, 2, 3],
+    inclusionSlots: [1022, 1022, 1021],
+    balancesBeforeEpochTransition: [32, 32, 32],
+    balancesAfterEpochTransition: [32, 32, 32],
+  } as ValidatorPerformanceResponse,
 };

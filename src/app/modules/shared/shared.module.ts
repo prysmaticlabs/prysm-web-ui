@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { UintArrayToHexStringPipe } from '../core/pipes/uint-array-to-hex-string.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { UintArrayToHexStringPipe } from '../core/pipes/uint-array-to-hex-string
     MatPaginatorModule,
     MatSortModule,
     MatStepperModule,
+    MatTooltipModule,
     MatProgressBarModule,
     UintArrayToHexStringPipe
   ],

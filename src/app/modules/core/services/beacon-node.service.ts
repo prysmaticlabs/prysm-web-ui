@@ -16,9 +16,9 @@ import {
   ChainHead,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
-const POLLING_INTERVAL = 3000;
-const SECONDS_PER_SLOT = 12;
-const BEACON_API_PREFIX = '/eth/v1alpha1';
+export const POLLING_INTERVAL = 3000;
+export const SECONDS_PER_SLOT = 12;
+export const BEACON_API_PREFIX = '/eth/v1alpha1';
 
 interface NodeState {
   nodeConnection: NodeConnectionResponse,

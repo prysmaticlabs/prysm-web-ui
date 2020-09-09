@@ -9,7 +9,7 @@ import { BeaconNodeService } from './beacon-node.service';
 import { WalletService } from './wallet.service';
 
 import {
-  ValidatorBalances,
+  ValidatorBalances, ValidatorPerformanceResponse, ValidatorParticipationResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
 export const MAX_EPOCH_LOOKBACK = 5;
@@ -25,6 +25,21 @@ export class ValidatorService {
   ) { }
 
   // Observables.
+  performance$: Observable<ValidatorPerformanceResponse> = zip(
+    this.beaconNodeService.nodeEndpoint$,
+    this.walletService.validatingPublicKeys$
+  ).pipe(
+    switchMap((result: [string, Uint8Array[]]) => {
+      const endpoint = result[0];
+      const publicKeys = result[1];
+      let params = `?publicKeys=`;
+      publicKeys.forEach((key, _) => {
+        params += `${this.encodePublicKey(key)}&publicKeys=`;
+      });
+      return this.http.get<ValidatorPerformanceResponse>(`${endpoint}/validators/performance${params}`);
+    }),
+  );
+
   recentEpochBalances(currentEpoch: number, lookback: number): Observable<ValidatorBalances[]> {
     if (lookback > MAX_EPOCH_LOOKBACK) {
       throw new Error(`Cannot request greater than ${MAX_EPOCH_LOOKBACK} max lookback epochs`);

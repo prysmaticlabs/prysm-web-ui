@@ -1,0 +1,22 @@
+<mat-card class="bg-paper" *ngIf="(participation$ | async) as data">
+  <div
+    class="bg-paperlight text-center py-8"
+  >
+    <div class="flex justify-center items-center">
+      <img
+        src="/assets/images/eth.svg"
+        alt="upgrade"
+        height="80px"
+        width="80px"
+      />
+    </div>
+    <p class="text-success m-8 py-4 font-bold text-2xl leading-relaxed">
+      {{formatParticipation(data.participation.globalParticipationRate)}}%
+    </p>
+    <a href="https://docs.prylabs.network/docs/testnet/medalla" target="_blank">
+      <button mat-raised-button color="primary" class="uppercase">
+        Join the Testnet
+      </button>
+    </a>
+  </div>
+</mat-card>

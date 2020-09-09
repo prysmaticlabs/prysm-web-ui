@@ -104,6 +104,6 @@ export const Mocks = {
     inclusionDistances: [2, 2, 3],
     inclusionSlots: [1022, 1022, 1021],
     balancesBeforeEpochTransition: [32, 32, 32],
-    balancesAfterEpochTransition: [32, 32, 32],
+    balancesAfterEpochTransition: [32.001, 32.0015, 32.0009],
   } as ValidatorPerformanceResponse,
 };

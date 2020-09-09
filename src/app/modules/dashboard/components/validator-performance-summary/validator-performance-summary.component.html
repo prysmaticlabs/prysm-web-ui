@@ -2,7 +2,7 @@
   <div class="text-lg">
     By the Numbers
   </div> 
-  <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-6" *ngIf="(performance$ | async) as perf">
+  <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-6" *ngIf="(performanceData$ | async) as perf">
     <div>
       <div class="flex justify-between">
         <div class="text-muted uppercase">Avg Validator <br/>Balance</div>
@@ -11,7 +11,7 @@
         </mat-icon>
       </div>
       <div class="text-primary font-semibold text-2xl mt-2">
-        31.430 ETH
+        {{perf.averageValidatorBalance | number: '1.2-2'}} ETH
       </div>
     </div>
     <div>
@@ -22,7 +22,7 @@
         </mat-icon>
       </div>
       <div class="text-primary font-semibold text-2xl mt-2">
-        2.5 Slots
+        {{perf.averageInclusionDistance | number: '1.1-1'}} Slots
       </div>
     </div>
     <div>
@@ -33,7 +33,7 @@
         </mat-icon>
       </div>
       <div class="text-primary font-semibold text-2xl mt-2">
-        +0.002 ETH
+        {{perf.recentEpochGains | number: '1.4-4'}} ETH
       </div>
     </div>
     <div>
@@ -44,7 +44,7 @@
         </mat-icon>
       </div>
       <div class="text-primary font-semibold text-2xl mt-2">
-        88%
+        {{perf.correctlyVotedHeadPercent | number: '1.2-2'}}%
       </div>
     </div>
     <div>
@@ -62,7 +62,7 @@
     <div>
       <div class="text-muted uppercase">Overall Score</div>
       <div class="text-primary font-semibold text-2xl mt-2">
-        Good
+        {{perf.overallScore}}
       </div>
     </div>
     <div>

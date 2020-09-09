@@ -26,30 +26,32 @@ export class ValidatorPerformanceSummaryComponent {
 
   performanceData$: Observable<PerformanceData> = this.validatorService.performance$.pipe(
     map((res: ValidatorPerformanceResponse) => {
-      const epochGains = res.balancesAfterEpochTransition.reduce(
-        (a, b) => a + b, 0,
+      const sum = (a: number, b: number) => a + b;
+      const recentEpochGains = res.balancesAfterEpochTransition.reduce(
+        sum, 0
       ) - res.balancesBeforeEpochTransition.reduce(
-        (a, b) => a + b, 0
+        sum, 0
       );
       const votedHeadPercentage = res.correctlyVotedHead.filter(Boolean).length / 
         res.correctlyVotedHead.length;
-      let score;
+      const averageInclusionDistance = res.inclusionDistances.reduce(sum, 0) / res.inclusionDistances.length;
+      let overallScore;
       if (votedHeadPercentage === 1) {
-        score = 'Perfect';
+        overallScore = 'Perfect';
       } else if (votedHeadPercentage >= 0.95) {
-        score = 'Great';
+        overallScore = 'Great';
       } else if (votedHeadPercentage >= 0.80 && votedHeadPercentage < 0.95) {
-        score = 'Good';
+        overallScore = 'Good';
       } else {
-        score = 'Poor';
+        overallScore = 'Poor';
       }
       return {
         averageValidatorBalance: res.averageActiveValidatorBalance,
-        averageInclusionDistance: 2.5,
+        averageInclusionDistance,
         correctlyVotedHeadPercent: (votedHeadPercentage * 100),
-        overallScore: score,
+        overallScore,
         numValidatingKeys: 8,
-        recentEpochGains: epochGains,
+        recentEpochGains,
       } as PerformanceData;
     })
   );

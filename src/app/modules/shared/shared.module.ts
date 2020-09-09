@@ -17,12 +17,12 @@ import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
-import { UintArrayToHexStringPipe } from '../core/pipes/uint-array-to-hex-string.pipe';
+import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
-    UintArrayToHexStringPipe,
+    HexlifyPipe
   ],
   imports: [
     CommonModule,
@@ -46,7 +46,7 @@ import { UintArrayToHexStringPipe } from '../core/pipes/uint-array-to-hex-string
     MatSortModule,
     MatStepperModule,
     MatProgressBarModule,
-    UintArrayToHexStringPipe
+    HexlifyPipe
   ],
 })
 export class SharedModule { }

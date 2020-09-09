@@ -13,12 +13,23 @@ describe('ValidatorParticipationComponent', () => {
   let component: ValidatorParticipationComponent;
   let fixture: ComponentFixture<ValidatorParticipationComponent>;
   let service: ChainService = MockService(ChainService);
-  (service as any)['participation$'] = of({
-    epoch: 0,
+  const defaultParticipationResponse = {
+    epoch: 32,
+    finalized: true,
     participation: {
-      globalParticipationRate: 0.95,
-    } as ValidatorParticipation
-  } as ValidatorParticipationResponse);
+      currentEpochActiveGwei: "1446418000000000" as any,
+      currentEpochAttestingGwei: "102777000000000" as any,
+      currentEpochTargetAttestingGwei: "101552000000000" as any,
+      eligibleEther: "1446290000000000" as any,
+      globalParticipationRate: 0.7861,
+      previousEpochActiveGwei: "1446290000000000" as any,
+      previousEpochAttestingGwei: "1143101000000000" as any,
+      previousEpochHeadAttestingGwei: "1089546000000000" as any,
+      previousEpochTargetAttestingGwei: "1136975000000000" as any,
+      votedEther: "1136975000000000" as any,
+    } as ValidatorParticipation,
+  } as ValidatorParticipationResponse
+  (service as any)['participation$'] = of(defaultParticipationResponse);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,7 +50,21 @@ describe('ValidatorParticipationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should display the participation rate', () => {
+    const elem: HTMLElement = fixture.nativeElement;
+    expect(elem.textContent).toContain("78");
+  });
+
+  it('should display the epoch', () => {
+    const elem: HTMLElement = fixture.nativeElement;
+    expect(elem.textContent).toContain("32");
+  });
+
+  it('should display the voted eth vs. eligible eth', () => {
+    const votedETH = (component as any).gweiToETH(defaultParticipationResponse.participation.votedEther);
+    const eligibleETH = (component as any).gweiToETH(defaultParticipationResponse.participation.eligibleEther);
+    const elem: HTMLElement = fixture.nativeElement;
+    expect(elem.textContent).toContain(votedETH);
+    expect(elem.textContent).toContain(eligibleETH);
   });
 });

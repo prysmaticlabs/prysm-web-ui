@@ -15,10 +15,8 @@ import {
   ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
-import { Peers, Peer, PeerDirection, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
-
-const fromHexString = (hexString: string) =>
-  new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
+import fromHexString from 'src/app/modules/core/utils/from-hex-string';
 
 export const Mocks = {
   '/v2/validator/login': {

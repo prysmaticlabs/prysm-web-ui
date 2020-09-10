@@ -4,13 +4,14 @@ import { map } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { hexlify } from 'ethers/lib/utils';
 import intersect from 'src/app/modules/core/utils/intersect';
+import fromHexString from 'src/app/modules/core/utils/from-hex-string';
 
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SECONDS_PER_EPOCH } from 'src/app/modules/core/constants';
 
-interface QueueData {
+export interface QueueData {
   originalData: ValidatorQueue;
   churnLimit: Array<number>;
   activationPublicKeys: Set<string>;
@@ -63,7 +64,7 @@ export class ActivationQueueComponent {
   positionInArray(
     data: Uint8Array[], pubKey: string,
   ): number {
-    const key = this.fromHexString(pubKey);
+    const key = fromHexString(pubKey);
     let idx = -1;
     for (let i = 0; i < data.length; i++) {
       if (data[i].toString() === key.toString()) {
@@ -84,9 +85,6 @@ export class ActivationQueueComponent {
     }
     return secondsLeftInQueue;
   }
-
-  fromHexString = (hexString: string) =>
-  new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 
   transformData(validatingKeys: Uint8Array[], queue: ValidatorQueue): QueueData {
     const userValidatingKeysSet = new Set<string>();

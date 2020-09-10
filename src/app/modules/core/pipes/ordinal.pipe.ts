@@ -5,7 +5,7 @@ const ordinals: string[] = ['th','st','nd','rd'];
 /*
  * Append ordinal to number (e.g. "1st" position)
  * Usage:
- *   value | ordinal:keepNumber
+ *   value | ordinal
  * Example:
  *   {{ 23 |  ordinal}}
  *   formats to: '23rd'
@@ -15,8 +15,8 @@ const ordinals: string[] = ['th','st','nd','rd'];
 */
 @Pipe({name: 'ordinal'})
 export class OrdinalPipe implements PipeTransform {
-  transform(n: number, keepNumber: boolean = true) {
+  transform(n: number) {
     const v = n % 100;
-    return (keepNumber?n:'') + (ordinals[(v-20)%10]||ordinals[v]||ordinals[0]);
+    return n + (ordinals[(v-20)%10]||ordinals[v]||ordinals[0]);
   }
 }

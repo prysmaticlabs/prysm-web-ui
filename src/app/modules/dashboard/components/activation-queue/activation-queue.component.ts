@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { hexlify } from 'ethers/lib/utils';
+import intersect from 'src/app/modules/core/utils/intersect';
 
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
@@ -39,18 +40,12 @@ export class ActivationQueueComponent {
     map(([validatingKeys, queue]) => this.transformData(validatingKeys, queue)),
   );
 
-  private intersect<T>(a: Set<T>, b: Set<T>): Set<T> {
-    return new Set(
-      [...a].filter(x => b.has(x)),
-    );
-  }
-
   userKeysAwaitingActivation(
     queueData: QueueData,
   ): Array<string> {
     // We return the set intersection of those keys in the
     // queue with the user's validating public keys.
-    return Array.from(this.intersect<string>(
+    return Array.from(intersect<string>(
       queueData.userValidatingPublicKeys, queueData.activationPublicKeys
     ));
   }
@@ -60,7 +55,7 @@ export class ActivationQueueComponent {
   ): Array<string> {
     // We return the set intersection of those keys in the
     // queue with the user's validating public keys.
-    return Array.from(this.intersect<string>(
+    return Array.from(intersect<string>(
       queueData.userValidatingPublicKeys, queueData.exitPublicKeys
     ));
   }
@@ -68,8 +63,7 @@ export class ActivationQueueComponent {
   positionInArray(
     data: Uint8Array[], pubKey: string,
   ): number {
-    let key = this.fromHexString(pubKey);
-    key = key.slice(1, key.length);
+    const key = this.fromHexString(pubKey);
     let idx = -1;
     for (let i = 0; i < data.length; i++) {
       if (data[i].toString() === key.toString()) {

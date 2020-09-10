@@ -9,7 +9,7 @@ import { BeaconNodeService } from './beacon-node.service';
 import { WalletService } from './wallet.service';
 
 import {
-  ValidatorBalances, ValidatorPerformanceResponse, ValidatorParticipationResponse,
+  ValidatorBalances, ValidatorPerformanceResponse, ValidatorParticipationResponse, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
 export const MAX_EPOCH_LOOKBACK = 5;
@@ -25,6 +25,12 @@ export class ValidatorService {
   ) { }
 
   // Observables.
+  activationQueue$: Observable<ValidatorQueue> = this.beaconNodeService.nodeEndpoint$.pipe(
+    switchMap(endpoint =>
+      this.http.get<ValidatorQueue>(`${endpoint}/validators/queue`)
+    ),
+  );
+
   performance$: Observable<ValidatorPerformanceResponse> = zip(
     this.beaconNodeService.nodeEndpoint$,
     this.walletService.validatingPublicKeys$

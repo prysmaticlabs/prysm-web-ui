@@ -12,6 +12,7 @@ import {
   ChainHead,
   ValidatorParticipationResponse,
   ValidatorPerformanceResponse,
+  ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import { Peers, Peer, PeerDirection, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
@@ -138,4 +139,13 @@ export const Mocks = {
     balancesBeforeEpochTransition: ["31200781367", "31216554607", "31204371127"] as any,
     balancesAfterEpochTransition: ["31200823019", "31216596259", "31204412779"] as any,
   } as ValidatorPerformanceResponse,
+  '/eth/v1alpha1/validators/queue': {
+    churnLimit: "4" as any,
+    activationPublicKeys: [
+      fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
+    ],
+    activationValidatorIndices: [1],
+    exitPublicKeys: [],
+    exitValidatorIndices: [],
+  } as ValidatorQueue,
 };

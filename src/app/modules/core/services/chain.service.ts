@@ -9,7 +9,7 @@ import { BeaconNodeService } from './beacon-node.service';
 import {
   ValidatorParticipationResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
-import { EPOCH_POLLING_INTERVAL } from '../constants';
+import { MILLISECONDS_PER_EPOCH } from '../constants';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class ChainService {
   ) { }
 
   // Chain information.
-  participation$ = interval(EPOCH_POLLING_INTERVAL).pipe(
+  participation$ = interval(MILLISECONDS_PER_EPOCH).pipe(
     startWith(0),
     switchMap(_ => this.beaconService.nodeEndpoint$),
     switchMap((url: string) => {

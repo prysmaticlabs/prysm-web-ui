@@ -1,3 +1,25 @@
-<mat-card class="bg-paper">
-  Hello
+<mat-card class="bg-paper" *ngIf="(queueData$ | async) as data">
+  <div class="text-xl">
+    Validator Queue
+  </div>
+  <div class="my-6 text-primary font-semibold text-2xl">
+    {{data.secondsLeftInQueue | amDuration:'seconds'}} left
+  </div>
+  <div class="text-muted">
+    <mat-icon *ngFor="let i of data.churnLimit" class="mr-1">
+      person
+    </mat-icon>
+  </div>
+  <div>
+    <span>{{data.churnLimit.length}}</span>
+    Validators activated per epoch
+  </div>
+  <div>
+    <span>{{data.activationPublicKeys.size}}</span>
+    Awaiting Activation
+  </div>
+  <div *ngIf="data.exitPublicKeys.size">
+    <span>{{data.exitPublicKeys.size}}</span>
+    Awaiting Exit
+  </div>
 </mat-card>

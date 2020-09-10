@@ -17,6 +17,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
 
 @NgModule({
@@ -45,6 +46,7 @@ import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
     MatPaginatorModule,
     MatSortModule,
     MatStepperModule,
+    MatTooltipModule,
     MatProgressBarModule,
     HexlifyPipe
   ],

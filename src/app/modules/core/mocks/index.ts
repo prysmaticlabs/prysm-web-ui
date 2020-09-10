@@ -10,7 +10,11 @@ import {
   ValidatorBalances,
   ValidatorBalances_Balance,
   ChainHead,
+  ValidatorParticipationResponse,
+  ValidatorPerformanceResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
+import { Peers, Peer, PeerDirection, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
 
 const fromHexString = (hexString: string) =>
   new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
@@ -85,4 +89,53 @@ export const Mocks = {
     finalizedSlot: 960,
     finalizedEpoch: 30,
   } as ChainHead,
+  '/eth/v1alpha1/node/peers': {
+    peers: [
+      {
+        connectionState: ConnectionState.CONNECTED,
+      },
+      {
+        connectionState: ConnectionState.CONNECTED,
+      },
+      {
+        connectionState: ConnectionState.DISCONNECTED,
+      },
+      {
+        connectionState: ConnectionState.DISCONNECTED,
+      },
+      {
+        connectionState: ConnectionState.CONNECTED,
+      },
+      {
+        connectionState: ConnectionState.CONNECTED,
+      },
+    ] as Peer[]
+  } as Peers,
+  '/eth/v1alpha1/validators/participation': {
+    epoch: 32,
+    finalized: true,
+    participation: {
+      currentEpochActiveGwei: "1446418000000000" as any,
+      currentEpochAttestingGwei: "102777000000000" as any,
+      currentEpochTargetAttestingGwei: "101552000000000" as any,
+      eligibleEther: "1446290000000000" as any,
+      globalParticipationRate: 0.7861,
+      previousEpochActiveGwei: "1446290000000000" as any,
+      previousEpochAttestingGwei: "1143101000000000" as any,
+      previousEpochHeadAttestingGwei: "1089546000000000" as any,
+      previousEpochTargetAttestingGwei: "1136975000000000" as any,
+      votedEther: "1136975000000000" as any,
+    } as ValidatorParticipation,
+  } as ValidatorParticipationResponse,
+  '/eth/v1alpha1/validators/performance': {
+    currentEffectiveBalances: ["31000000000", "31000000000", "31000000000"] as any,
+    correctlyVotedHead: [true, true, false],
+    correctlyVotedSource: [true, true, false],
+    correctlyVotedTarget: [true, true, true],
+    averageActiveValidatorBalance: 32,
+    inclusionDistances: [2, 2, 1],
+    inclusionSlots: [1022, 1022, 1021],
+    balancesBeforeEpochTransition: ["31200781367", "31216554607", "31204371127"] as any,
+    balancesAfterEpochTransition: ["31200823019", "31216596259", "31204412779"] as any,
+  } as ValidatorPerformanceResponse,
 };

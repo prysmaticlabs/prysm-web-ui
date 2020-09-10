@@ -13,6 +13,8 @@ import { BeaconNodeStatusComponent } from '../../components/beacon-node-status/b
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { ChainService } from 'src/app/modules/core/services/chain.service';
 import { ENVIRONMENT } from 'src/environments/token';
+import { ValidatorPerformanceSummaryComponent } from '../../components/validator-performance-summary/validator-performance-summary.component';
+import { ValidatorParticipationComponent } from '../../components/validator-participation/validator-participation.component';
 
 describe('GainsAndLossesComponent', () => {
   let component: GainsAndLossesComponent;
@@ -31,6 +33,8 @@ describe('GainsAndLossesComponent', () => {
         MockComponent(BeaconNodeStatusComponent),
         MockComponent(BalancesChartComponent),
         MockComponent(AccountListComponent),
+        MockComponent(ValidatorPerformanceSummaryComponent),
+        MockComponent(ValidatorParticipationComponent),
         GainsAndLossesComponent,
       ],
       providers: [

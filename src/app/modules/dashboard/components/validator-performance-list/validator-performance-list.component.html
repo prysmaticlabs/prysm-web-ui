@@ -1,0 +1,29 @@
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="publicKey">
+    <mat-header-cell *matHeaderCellDef> Account Public Key </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.publicKey}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="attLastIncludedSlot">
+    <mat-header-cell *matHeaderCellDef> Last included slot </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.inclusionSlots}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="correctlyVotedSource">
+    <mat-header-cell *matHeaderCellDef> Correctly voted source </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.correctlyVotedSource}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="correctlyVotedTarget">
+    <mat-header-cell *matHeaderCellDef> Correctly voted target </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.correctlyVotedTarget}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="correctlyVotedHead">
+    <mat-header-cell *matHeaderCellDef> Correctly voted head </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.correctlyVotedHead}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
-import { ValidatorService } from 'src/app/modules/core/services/validator.service';
-import { ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+
 import { map } from 'rxjs/operators';
 import { zip } from 'rxjs';
+import { hexlify } from 'ethers/lib/utils';
+
+import { ValidatorService } from 'src/app/modules/core/services/validator.service';
+import { ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SECONDS_PER_EPOCH } from 'src/app/modules/core/constants';
 
 interface QueueData {
+  originalData: ValidatorQueue;
   churnLimit: Array<number>;
-  activationIndices: Set<number>;
-  activationPublicKeys: Set<Uint8Array>;
-  exitIndices: Set<number>;
-  exitPublicKeys: Set<Uint8Array>;
+  activationPublicKeys: Set<string>;
+  exitPublicKeys: Set<string>;
   secondsLeftInQueue: number;
-  userValidatingPublicKeys: Set<Uint8Array>;
+  userValidatingPublicKeys: Set<string>;
 }
 
 @Component({
@@ -45,42 +47,67 @@ export class ActivationQueueComponent {
 
   userKeysAwaitingActivation(
     queueData: QueueData,
-  ): Set<Uint8Array> {
+  ): Array<string> {
     // We return the set intersection of those keys in the
     // queue with the user's validating public keys.
-    return this.intersect<Uint8Array>(
+    return Array.from(this.intersect<string>(
       queueData.userValidatingPublicKeys, queueData.activationPublicKeys
-    );
+    ));
   }
 
   userKeysAwaitingExit(
     queueData: QueueData,
-  ): Set<Uint8Array> {
+  ): Array<string> {
     // We return the set intersection of those keys in the
     // queue with the user's validating public keys.
-    return this.intersect<Uint8Array>(
+    return Array.from(this.intersect<string>(
       queueData.userValidatingPublicKeys, queueData.exitPublicKeys
-    );
+    ));
   }
 
+  positionInArray(
+    data: Uint8Array[], pubKey: string,
+  ): number {
+    let key = this.fromHexString(pubKey);
+    key = key.slice(1, key.length);
+    let idx = -1;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].toString() === key.toString()) {
+        idx = i;
+        break;
+      }
+    }
+    // Arrays are indexed at 0, but the number will be displayed
+    // as an ordinal number to the user.
+    return idx + 1;
+  }
+
+  activationETAForPosition(position: number, queueData: QueueData): number {
+    const epochsLeft = position / queueData.churnLimit.length;
+    const secondsLeftInQueue = epochsLeft * SECONDS_PER_EPOCH;
+    if (secondsLeftInQueue < SECONDS_PER_EPOCH) {
+      return SECONDS_PER_EPOCH;
+    }
+    return secondsLeftInQueue;
+  }
+
+  fromHexString = (hexString: string) =>
+  new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+
   transformData(validatingKeys: Uint8Array[], queue: ValidatorQueue): QueueData {
-    const userValidatingKeysSet = new Set<Uint8Array>();
-    validatingKeys.forEach((key, idx) => {
-      userValidatingKeysSet.add(key);
+    const userValidatingKeysSet = new Set<string>();
+    validatingKeys.forEach(key => {
+      userValidatingKeysSet.add(hexlify(key));
     });
 
-    const activationKeysSet = new Set<Uint8Array>();
-    const activationIndicesSet = new Set<number>();
-    const exitKeysSet = new Set<Uint8Array>();
-    const exitIndicesSet = new Set<number>();
+    const activationKeysSet = new Set<string>();
+    const exitKeysSet = new Set<string>();
 
     queue.activationPublicKeys.forEach((key, idx) => {
-      activationKeysSet.add(key);
-      activationIndicesSet.add(queue.activationValidatorIndices[idx]);
+      activationKeysSet.add(hexlify(key));
     });
     queue.exitPublicKeys.forEach((key, idx) => {
-      exitKeysSet.add(key);
-      exitIndicesSet.add(queue.exitValidatorIndices[idx]);
+      exitKeysSet.add(hexlify(key));
     });
     let secondsLeftInQueue: number;
     const queueLength = 11323;
@@ -89,11 +116,11 @@ export class ActivationQueueComponent {
     }
     const epochsLeft = queueLength / queue.churnLimit;
     secondsLeftInQueue = epochsLeft * SECONDS_PER_EPOCH;
+
     return {
+      originalData: queue,
       churnLimit: Array.from({ length: queue.churnLimit }),
-      activationIndices: activationIndicesSet,
       activationPublicKeys: activationKeysSet,
-      exitIndices: exitIndicesSet,
       exitPublicKeys: exitKeysSet,
       secondsLeftInQueue,
       userValidatingPublicKeys: userValidatingKeysSet,

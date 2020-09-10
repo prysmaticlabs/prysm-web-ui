@@ -1,92 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ValidatorService } from 'src/app/modules/core/services/validator.service';
+import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
+import { switchMap, takeUntil } from 'rxjs/operators';
+import { ChainHead, ValidatorBalances } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-balances-chart',
   templateUrl: './balances-chart.component.html',
 })
-export class BalancesChartComponent implements OnInit {
-  // options = {
-  //   grid: {
-  //     top: '10%',
-  //     bottom: '10%',
-  //     left: '7%',
-  //     right: '5%'
-  //   },
-  //   legend: {
-  //     itemGap: 20,
-  //     icon: 'circle',
-  //     textStyle: {
-  //       color: '#ff9e43',
-  //       fontSize: 13,
-  //       fontFamily: 'roboto'
-  //     }
-  //   },
-  //   tooltip: {},
-  //   xAxis: {
-  //     type: 'category',
-  //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  //     axisLine: {
-  //       show: false
-  //     },
-  //     axisTick: {
-  //       show: false
-  //     },
-  //     axisLabel: {
-  //       color: '#7467ef',
-  //       fontSize: 14,
-  //       fontFamily: 'roboto'
-  //     }
-  //   },
-  //   yAxis: {
-  //     min: 32.030,
-  //     axisLine: {
-  //       show: false
-  //     },
-  //     axisTick: {
-  //       show: false
-  //     },
-  //     splitLine: {
-  //       lineStyle: {
-  //         color: '#7467ef',
-  //         opacity: 0.15
-  //       }
-  //     },
-  //     axisLabel: {
-  //       color: '#7467ef',
-  //       fontSize: 13,
-  //       fontFamily: 'roboto'
-  //     }
-  //   },
-  //   series: [
-  //     {
-  //       data: [32.032, 32.031, 32.038, 32.036, 32.042, 32.045, 32.044],
-  //       type: 'line',
-  //       stack: 'Your average',
-  //       name: 'Your average',
-  //       smooth: true,
-  //       symbolSize: 4,
-  //       lineStyle: {
-  //         width: 4
-  //       }
-  //     },
-  //     {
-  //       data: [32.031, 32.030, 32.034, 32.037, 32.040, 32.046, 32.047],
-  //       type: 'line',
-  //       stack: 'Global average',
-  //       name: 'Global average',
-  //       smooth: true,
-  //       symbolSize: 4,
-  //       lineStyle: {
-  //         width: 4
-  //       }
-  //     }
-  //   ]
-  // };
+export class BalancesChartComponent implements OnInit, OnDestroy {
+  constructor(
+    private validatorService: ValidatorService,
+    private beaconService: BeaconNodeService,
+  ) { }
 
+  private destroyed$$ = new Subject<void>();
   options: any;
-  constructor() {}
 
   ngOnInit(): void {
+    this.beaconService.chainHead$.pipe(
+      switchMap((head: ChainHead) =>
+        this.validatorService.recentEpochBalances(head.headEpoch, 3 /* lookback */)
+      ),
+      takeUntil(this.destroyed$$),
+    ).subscribe(this.updateData.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$$.next();
+    this.destroyed$$.complete();
+  }
+
+  updateData(balances: ValidatorBalances[]): void {
+    console.log(balances);
     const xAxisData = [];
     const data1 = [];
     const data2 = [];

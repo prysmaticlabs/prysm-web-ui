@@ -1,1 +1,3 @@
-<div echarts [options]="options"></div>
+<div *ngIf="options">
+  <div echarts [options]="options"></div>
+</div>

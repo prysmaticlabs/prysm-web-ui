@@ -15,10 +15,7 @@ export interface PerformanceData {
   averageInclusionDistance: number;
   correctlyVotedHeadPercent: number;
   overallScore: string;
-  numValidatingKeys: number;
   recentEpochGains: number;
-  connectedPeers: number;
-  totalPeers: number;
 }
 
 @Component({
@@ -38,11 +35,11 @@ export class ValidatorPerformanceSummaryComponent {
     effectiveBalance: 'Describes your average validator balance across your active validating keys',
     inclusionDistance: `This is the average number of slots it takes for your validator's attestations to get included in blocks. The lower this number, the better your rewards will be. 1 is the optimal inclusion distance`,
     recentEpochGains: `This summarizes your total gains in ETH over the last epoch (approximately 6 minutes ago), which will give you an approximation of most recent performance`,
-    correctlyVoted: `The number of times in an epoch your validators voted correctly on the chain head vs. the total number of times they voed`,
+    correctlyVoted: `The number of times in an epoch your validators voted correctly on the chain head vs. the total number of times they voted`,
     keys: `Total number of active validating keys in your wallet`,
     score: `A subjective scale from Perfect, Great, Good, to Poor which qualifies how well your validators are performing on average in terms of correct votes in recent epochs`,
     connectedPeers: `Number of connected peers in your beacon node`,
-    totalPeers: `Total number of peers in your beacon node, which includes disconnected, connecting, idle, peers`,
+    totalPeers: `Total number of peers in your beacon node, which includes disconnected, connecting, idle peers`,
   };
 
   validatingKeys$ = this.walletService.validatingPublicKeys$;
@@ -79,7 +76,7 @@ export class ValidatorPerformanceSummaryComponent {
       overallScore = 'Perfect';
     } else if (votedHeadPercentage >= 0.95) {
       overallScore = 'Great';
-    } else if (votedHeadPercentage >= 0.80 && votedHeadPercentage < 0.95) {
+    } else if (votedHeadPercentage >= 0.80) {
       overallScore = 'Good';
     } else {
       overallScore = 'Poor';
@@ -89,7 +86,6 @@ export class ValidatorPerformanceSummaryComponent {
       averageInclusionDistance,
       correctlyVotedHeadPercent: (votedHeadPercentage * 100),
       overallScore,
-      numValidatingKeys: 8,
       recentEpochGains,
     } as PerformanceData;
   }

@@ -18,9 +18,7 @@
           />
         </div>
       </mat-card>
-
       <app-validator-performance-summary></app-validator-performance-summary>
-
       <mat-card class="bg-paper">
         <app-balances-chart></app-balances-chart>
       </mat-card>
@@ -30,21 +28,16 @@
     </div>
     <div class="col-span-12 md:col-span-4">
       <app-beacon-node-status></app-beacon-node-status>
-
       <div class="py-4"></div>
-
       <app-validator-participation></app-validator-participation>
-
       <div class="py-4"></div>
-
       <mat-card class="bg-primary">
         <p class="m-0 text-muted text-base leading-snug">
-          Manage your Prysm validator, analyze your validator performance, and control your wallet all from a simple web interface
+          Want to monitor your system process such as memory/cpu usage and more? Our metrics page has you covered
         </p>
+        <a routerLink="/dashboard/system/metrics"><button mat-stroked-button>View Metrics</button></a>
       </mat-card>
-
       <div class="py-4"></div>
-
       <app-activation-queue></app-activation-queue>
     </div>
   </div>

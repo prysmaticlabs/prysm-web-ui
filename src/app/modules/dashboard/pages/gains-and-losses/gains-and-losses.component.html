@@ -18,6 +18,9 @@
           />
         </div>
       </mat-card>
+
+      <app-validator-performance-summary></app-validator-performance-summary>
+
       <mat-card class="bg-paper">
         <app-balances-chart></app-balances-chart>
       </mat-card>
@@ -30,75 +33,8 @@
 
       <div class="py-4"></div>
 
-      <mat-card class="bg-paper">
-        <div
-          class="bg-paperlight text-center py-8"
-        >
-          <div class="flex justify-center items-center">
-            <img
-              src="/assets/images/eth.svg"
-              alt="upgrade"
-              height="80px"
-              width="80px"
-            />
-          </div>
-          <p class="text-muted m-8 py-4 text-lg leading-relaxed">
-            Join Medalla - the <b>official</b>, eth2 <br/>public testnet
-          </p>
-          <a href="https://docs.prylabs.network/docs/testnet/medalla" target="_blank">
-            <button mat-raised-button color="primary" class="uppercase">
-              Join the Testnet
-            </button>
-          </a>
-        </div>
-      </mat-card>
+      <app-validator-participation></app-validator-participation>
 
-      <div class="py-4"></div>
-
-      <mat-card class="bg-paper">
-        <div class="flex items-center">
-          <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-            <mat-icon>trending_up</mat-icon>
-          </button>
-          <div class="text-muted text-xl font-bold m-0 ml-4">
-            Attestation Effectiveness
-          </div>
-        </div>
-        <div class="pt-4 flex items-center justify-between">
-          <div class="m-0 text-muted text-xl">98.5%</div>
-          <span class="font-size-13 text-green ml-4"> (+11%)</span>
-        </div>
-      </mat-card>
-
-      <div class="py-4"></div>
-
-      <mat-card class="bg-paper">
-        <div class="flex items-center">
-          <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-            <mat-icon>star_outline</mat-icon>
-          </button>
-          <div class="text-error text-xl font-bold m-0 ml-4">
-            Uptime Percentage
-          </div>
-        </div>
-        <div class="pt-4 flex items-center justify-between">
-          <div class="m-0 text-muted text-xl">98.5%</div>
-          <span class="font-size-13 text-green ml-4"> (-2%)</span>
-        </div>
-      </mat-card>
-
-      <div class="py-4"></div>
-
-      <mat-card class="bg-paper">
-        <div class="p-2">
-          <div class="mb-4 text-hint">Achievements</div>
-          <div class="flex items-center mb-12">
-            <img src="/assets/images/badge-1.svg" alt="badge" height="24px" title="Attested" class="">
-            <img class="mx-8" src="/assets/images/badge-2.svg" alt="badge" height="24px" title="Proposed a Block">
-            <img src="/assets/images/badge-3.svg" alt="badge" height="24px" title="Made weekly gains" class="">
-          </div>
-        </div>
-      </mat-card>
     </div>
   </div>
 </div>

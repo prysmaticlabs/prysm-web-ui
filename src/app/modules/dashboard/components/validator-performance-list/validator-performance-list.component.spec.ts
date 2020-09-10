@@ -1,33 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockService } from 'ng-mocks';
-import { ChainService } from '../../../core/services/chain.service';
 import { SharedModule } from '../../../shared/shared.module';
 import {
   ValidatorPerformanceResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorPerformanceListComponent } from './validator-performance-list.component';
 import { Observable, of } from 'rxjs';
+import { ValidatorService } from '../../../core/services/validator.service';
 
 describe('ValidatorListComponent', () => {
   let component: ValidatorPerformanceListComponent;
   let fixture: ComponentFixture<ValidatorPerformanceListComponent>;
-  let service: ChainService = MockService(ChainService);
-  function validatorPerforamcne$(): Observable<ValidatorPerformanceResponse> {
-    return of({
-      currentEffectiveBalances: [],
-      inclusionSlots: [],
-      inclusionDistances: [],
-      correctlyVotedSource: [],
-      correctlyVotedTarget: [],
-      correctlyVotedHead: [],
-      balancesBeforeEpochTransition: [],
-      balancesAfterEpochTransition: [],
-      missingValidators: [],
-      averageActiveValidatorBalance: 0,
-      publicKeys: []
-    } as ValidatorPerformanceResponse)
-  }
-  service.validatorPerforamcne$ = validatorPerforamcne$;
+  let service: ValidatorService = MockService(ValidatorService);
+  service.performance$ = of({
+    currentEffectiveBalances: [],
+    inclusionSlots: [],
+    inclusionDistances: [],
+    correctlyVotedSource: [],
+    correctlyVotedTarget: [],
+    correctlyVotedHead: [],
+    balancesBeforeEpochTransition: [],
+    balancesAfterEpochTransition: [],
+    missingValidators: [],
+    averageActiveValidatorBalance: 0,
+    publicKeys: []
+  } as ValidatorPerformanceResponse);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -35,7 +32,7 @@ describe('ValidatorListComponent', () => {
       ],
       declarations: [ValidatorPerformanceListComponent],
       providers: [
-        { provide: ChainService, useValue: service },
+        { provide: ValidatorService, useValue: service },
       ]
     })
     .compileComponents();

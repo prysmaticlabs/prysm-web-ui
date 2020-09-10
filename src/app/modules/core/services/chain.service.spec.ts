@@ -7,7 +7,6 @@ import { ChainService } from './chain.service';
 import { BeaconNodeService } from './beacon-node.service';
 import { ValidatorParticipationResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { Injectable } from '@angular/core';
-import { WalletService } from './wallet.service';
 
 @Injectable()
 class mockNode {
@@ -23,8 +22,7 @@ describe('ChainService', () => {
         imports: [HttpClientTestingModule],
         providers: [
           ChainService,
-          { provide: BeaconNodeService, useValue: new mockNode() },
-          { provide: WalletService, useValue: new mockNode()}
+          { provide: BeaconNodeService, useValue: new mockNode() }
         ]
     });
     service = TestBed.get(ChainService);

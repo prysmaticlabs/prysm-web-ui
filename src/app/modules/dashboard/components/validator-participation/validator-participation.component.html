@@ -1,0 +1,37 @@
+<mat-card class="bg-paper" *ngIf="(participation$ | async) as data">
+  <div
+    class="bg-paperlight pb-8 py-4 text-right"
+  >
+    <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mr-4 cursor-pointer" [matTooltip]="noFinalityMessage">
+      help_outline
+    </mat-icon>
+    <div class="text-center">
+      <p 
+        class="m-8 font-bold text-3xl leading-relaxed"
+        [class.text-success]="data.rate > 66.6"
+        [class.text-error]="!(data.rate > 66.6)">
+        {{data.rate | number: '1.2-2'}}%
+      </p>
+      <p class="text-lg">
+        Global Validator Participation
+      </p>
+      <div class="mt-6">
+        <mat-progress-bar 
+          mode="determinate" 
+          [color]="updateProgressColor(data.rate)" 
+          [value]="data.rate">
+        </mat-progress-bar>
+      </div>
+      <div class="mt-6">
+        <span class="text-base font-bold">{{data.totalVotedETH}}</span> <span class="font-bold mx-2">/</span>
+        <span class="text-base text-muted">{{data.totalEligibleETH}}</span>
+      </div>
+      <div class="mt-2">
+        Total Voted ETH vs. Eligible ETH
+      </div>
+      <div class="mt-2 text-muted">
+        Epoch {{data.epoch}}
+      </div>
+    </div>
+  </div>
+</mat-card>

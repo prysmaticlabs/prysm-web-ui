@@ -12,6 +12,8 @@ import { BalancesChartComponent } from './components/balances-chart/balances-cha
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-link/sidebar-expandable-link.component';
 import { BeaconNodeStatusComponent } from './components/beacon-node-status/beacon-node-status.component';
+import { ValidatorParticipationComponent } from './components/validator-participation/validator-participation.component';
+import { ValidatorPerformanceSummaryComponent } from './components/validator-performance-summary/validator-performance-summary.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { BeaconNodeStatusComponent } from './components/beacon-node-status/beaco
     SidebarComponent,
     SidebarExpandableLinkComponent,
     BeaconNodeStatusComponent,
+    ValidatorParticipationComponent,
+    ValidatorPerformanceSummaryComponent,
   ],
   imports: [
     CommonModule,

@@ -124,3 +124,14 @@ button:focus {
 .mat-paginator {
   background-color: $paper;
 }
+
+.mat-tooltip {
+  background-color: $primary;
+  color: white;
+  font-size: 14px;
+  padding: 12px !important;
+}
+
+mat-cell, mat-header-cell, mat-footer-cell {
+  justify-content: center;
+}

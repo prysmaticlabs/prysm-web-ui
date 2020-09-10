@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { interval, Observable, empty } from 'rxjs';
 import { flatZipMap } from 'rxjs-pipe-ext';
-import { startWith, mergeMap, catchError, switchMap, map } from 'rxjs/operators';
+import { startWith, mergeMap, catchError, switchMap, map, share } from 'rxjs/operators';
 
 import { Store } from 'src/app/modules/core/utils/simple-store';
 import { select$ } from 'src/app/modules/core/utils/select$';
@@ -15,10 +15,13 @@ import {
 import {
   ChainHead,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import {
+  Peers,
+} from 'src/app/proto/eth/v1alpha1/node';
 
-const POLLING_INTERVAL = 3000;
-const SECONDS_PER_SLOT = 12;
-const BEACON_API_PREFIX = '/eth/v1alpha1';
+export const POLLING_INTERVAL = 3000;
+export const SECONDS_PER_SLOT = 12;
+export const BEACON_API_PREFIX = '/eth/v1alpha1';
 
 interface NodeState {
   nodeConnection: NodeConnectionResponse,
@@ -62,6 +65,9 @@ export class BeaconNodeService {
   readonly genesisTime$: Observable<number> = select$(
     this.checkState(),
     (res: NodeState) => res.nodeConnection?.genesisTime,
+  );
+  readonly peers$: Observable<Peers> = this.nodeEndpoint$.pipe(
+    switchMap((endpoint: string) => this.http.get<Peers>(`${endpoint}/node/peers`)),
   );
   readonly latestClockSlotPoll$: Observable<number> = interval(POLLING_INTERVAL).pipe(
     startWith(0),

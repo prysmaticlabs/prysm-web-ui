@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { hexlify } from 'ethers/lib/utils';
 import { map, take, tap } from 'rxjs/operators';
-import { ChainService } from 'src/app/modules/core/services/chain.service';
+import { ValidatorService } from '../../../core/services/validator.service';
 
 export class ValidatorListItem {
   publicKey: string;
@@ -16,6 +16,7 @@ export class ValidatorListItem {
   correctlyVotedHead: boolean;
   balancesBeforeEpochTransition: number;
   balancesAfterEpochTransition: number;
+  gains: number;
 }
 
 @Component({
@@ -23,15 +24,15 @@ export class ValidatorListItem {
   templateUrl: './validator-performance-list.component.html',
 })
 export class ValidatorPerformanceListComponent implements OnInit {
-  displayedColumns: string[] = ['publicKey', 'attLastIncludedSlot', 'correctlyVotedSource', 'correctlyVotedTarget', 'correctlyVotedHead'];
+  displayedColumns: string[] = ['publicKey', 'attLastIncludedSlot', 'correctlyVotedSource', 'correctlyVotedTarget', 'correctlyVotedHead', 'gains'];
   dataSource: MatTableDataSource<ValidatorListItem>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private chainService: ChainService) {
+  constructor(private validatorService: ValidatorService) {
 
-    this.chainService.validatorPerforamcne$().pipe(
+    this.validatorService.performance$.pipe(
       map(perforamance => {
         let list: ValidatorListItem[] = [];
         if (perforamance) {
@@ -42,11 +43,12 @@ export class ValidatorPerformanceListComponent implements OnInit {
           item.correctlyVotedSource = perforamance.correctlyVotedSource[i];
           item.correctlyVotedHead = perforamance.correctlyVotedHead[i];
           item.correctlyVotedTarget = perforamance.correctlyVotedTarget[i];
-          item.balancesAfterEpochTransition = perforamance.balancesAfterEpochTransition[i];
-          item.balancesBeforeEpochTransition = perforamance.balancesBeforeEpochTransition[i];
-          item.currentEffectiveBalances = perforamance.currentEffectiveBalances[i];
+          item.balancesAfterEpochTransition = perforamance.balancesAfterEpochTransition[i] || 0;
+          item.balancesBeforeEpochTransition = perforamance.balancesBeforeEpochTransition[i] || 0;
+          item.currentEffectiveBalances = perforamance.currentEffectiveBalances[i] || 0;
           item.inclusionDistances = perforamance.inclusionDistances[i];
           item.inclusionSlots = perforamance.inclusionSlots[i];
+          item.gains = item.balancesAfterEpochTransition - item.balancesBeforeEpochTransition;
           list.push(item);
           }
         }

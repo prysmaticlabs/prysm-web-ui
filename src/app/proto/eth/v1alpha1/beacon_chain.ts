@@ -514,7 +514,7 @@ export interface ValidatorPerformanceResponse {
    *  The total number of validators from the request not found in
    *  in the beacon chain.
    */
-  missingValidators: Uint8Array[];
+  missingValidators: string[];
   /**
    *  The average active validator balance in the beacon chain.
    */
@@ -522,7 +522,7 @@ export interface ValidatorPerformanceResponse {
   /**
    *  The public keys in the order they are in of the response.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
 }
 
 export interface ValidatorQueue {
@@ -922,6 +922,8 @@ const baseValidatorPerformanceResponse: object = {
   balancesBeforeEpochTransition: 0,
   balancesAfterEpochTransition: 0,
   averageActiveValidatorBalance: 0,
+  missingValidators: "",
+  publicKeys: ""
 };
 
 const baseValidatorQueue: object = {

@@ -12,12 +12,11 @@ import {
   ChainHead,
   ValidatorParticipationResponse,
   ValidatorPerformanceResponse,
+  ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
-import { Peers, Peer, PeerDirection, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
-
-const fromHexString = (hexString: string) =>
-  new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
+import fromHexString from 'src/app/modules/core/utils/from-hex-string';
 
 export const Mocks = {
   '/v2/validator/login': {
@@ -58,6 +57,10 @@ export const Mocks = {
       {
         validatingPublicKey: fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
         accountName: 'nominally-present-bull',
+      } as Account,
+      {
+        validatingPublicKey: fromHexString('0x28372738748972893748972839748927389478923784972893748927389478293748972389478927348972482734734'),
+        accountName: 'marginally-green-mare',
       } as Account,
     ],
   } as ListAccountsResponse,
@@ -137,6 +140,19 @@ export const Mocks = {
     inclusionSlots: [3022, 1022, 1021],
     balancesBeforeEpochTransition: ["31200781367", "31216554607", "31204371127"] as any,
     balancesAfterEpochTransition: ["31200823019", "31216596259", "31204412779"] as any,
-    publicKeys: ["0x00822e00ec3d8ecc50e037b7ae3eba5486480d1ec49afad69a0d76bfdb158ead9bc389e8defef2c076d080371bf1f0fefc", "0x00ae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b","0x008e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c107071505"]
+    publicKeys: ["0x00822e00ec3d8ecc50e037b7ae3eba5486480d1ec49afad69a0d76bfdb158ead9bc389e8defef2c076d080371bf1f0fefc", "0x00ae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b","0x008e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c107071505"] as any,
+    missingValidators: [],
   } as ValidatorPerformanceResponse,
+  '/eth/v1alpha1/validators/queue': {
+    churnLimit: "4" as any,
+    activationPublicKeys: [
+      fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
+      fromHexString('0x8e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c10707155'),
+    ],
+    activationValidatorIndices: [0, 1],
+    exitPublicKeys: [
+      fromHexString('0xae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b'),
+    ],
+    exitValidatorIndices: [2],
+  } as ValidatorQueue,
 };

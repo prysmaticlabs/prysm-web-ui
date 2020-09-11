@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { ChainService } from 'src/app/modules/core/services/chain.service';
 import { ValidatorParticipationResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('ValidatorParticipationComponent', () => {
   let component: ValidatorParticipationComponent;
@@ -36,6 +37,7 @@ describe('ValidatorParticipationComponent', () => {
       declarations: [ ValidatorParticipationComponent ],
       imports: [
         SharedModule,
+        MatTooltipModule,
       ],
       providers: [
         { provide: ChainService, useValue: service },

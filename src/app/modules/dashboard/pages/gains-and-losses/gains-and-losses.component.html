@@ -1,7 +1,7 @@
 <div class="gains-and-losses">
   <app-breadcrumb></app-breadcrumb>
-  <div class="grid grid-cols-12 gap-8">
-    <div class="col-span-12 md:col-span-8 grid gap-8">
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-12 md:col-span-8">
       <mat-card class="bg-primary">
         <div class="welcome-card flex justify-between px-4 pt-4">
           <div class="pr-12">
@@ -18,23 +18,28 @@
           />
         </div>
       </mat-card>
-
+      <div class="py-3"></div>
       <app-validator-performance-summary></app-validator-performance-summary>
-
+      <div class="py-3"></div>
       <mat-card class="bg-paper">
         <app-balances-chart></app-balances-chart>
       </mat-card>
-      <mat-card class="bg-paper">
-        <app-validator-performance-list></app-validator-performance-list>
-      </mat-card>
+      <div class="py-4"></div>
+      <app-validator-performance-list></app-validator-performance-list>
     </div>
     <div class="col-span-12 md:col-span-4">
       <app-beacon-node-status></app-beacon-node-status>
-
       <div class="py-4"></div>
-
       <app-validator-participation></app-validator-participation>
-
+      <div class="py-4"></div>
+      <mat-card class="bg-primary">
+        <p class="m-0 text-muted text-base leading-snug">
+          Want to monitor your system process such as memory/cpu usage and more? Our metrics page has you covered
+        </p>
+        <a routerLink="/dashboard/system/metrics"><button mat-stroked-button>View Metrics</button></a>
+      </mat-card>
+      <div class="py-4"></div>
+      <app-activation-queue></app-activation-queue>
     </div>
   </div>
 </div>

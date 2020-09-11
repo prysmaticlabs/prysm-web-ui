@@ -15,15 +15,21 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
+
+import { MomentModule } from 'ngx-moment';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
+import { OrdinalPipe } from '../core/pipes/ordinal.pipe';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
-    HexlifyPipe
+    HexlifyPipe,
+    OrdinalPipe,
   ],
   imports: [
     CommonModule,
@@ -43,12 +49,16 @@ import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
     MatProgressSpinnerModule,
     MatIconModule,
     MatTableModule,
+    MatChipsModule,
     MatPaginatorModule,
     MatSortModule,
     MatStepperModule,
     MatTooltipModule,
     MatProgressBarModule,
-    HexlifyPipe
+    MatDividerModule,
+    MomentModule,
+    HexlifyPipe,
+    OrdinalPipe,
   ],
 })
 export class SharedModule { }

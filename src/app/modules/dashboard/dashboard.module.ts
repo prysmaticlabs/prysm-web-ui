@@ -14,6 +14,7 @@ import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-
 import { BeaconNodeStatusComponent } from './components/beacon-node-status/beacon-node-status.component';
 import { ValidatorParticipationComponent } from './components/validator-participation/validator-participation.component';
 import { ValidatorPerformanceSummaryComponent } from './components/validator-performance-summary/validator-performance-summary.component';
+import { ActivationQueueComponent } from './components/activation-queue/activation-queue.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ValidatorPerformanceSummaryComponent } from './components/validator-per
     BeaconNodeStatusComponent,
     ValidatorParticipationComponent,
     ValidatorPerformanceSummaryComponent,
+    ActivationQueueComponent,
   ],
   imports: [
     CommonModule,

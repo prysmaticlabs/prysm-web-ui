@@ -15,6 +15,7 @@ import { ChainService } from 'src/app/modules/core/services/chain.service';
 import { ENVIRONMENT } from 'src/environments/token';
 import { ValidatorPerformanceSummaryComponent } from '../../components/validator-performance-summary/validator-performance-summary.component';
 import { ValidatorParticipationComponent } from '../../components/validator-participation/validator-participation.component';
+import { ActivationQueueComponent } from '../../components/activation-queue/activation-queue.component';
 
 describe('GainsAndLossesComponent', () => {
   let component: GainsAndLossesComponent;
@@ -34,6 +35,7 @@ describe('GainsAndLossesComponent', () => {
         MockComponent(BalancesChartComponent),
         MockComponent(ValidatorPerformanceSummaryComponent),
         MockComponent(ValidatorParticipationComponent),
+        MockComponent(ActivationQueueComponent),
         MockComponent(ValidatorPerformanceListComponent),
         GainsAndLossesComponent,
       ],

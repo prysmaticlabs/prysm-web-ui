@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
+import { SLOTS_PER_EPOCH, MILLISECONDS_PER_SLOT } from 'src/app/modules/core/constants';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { ChainHead, ValidatorBalances } from 'src/app/proto/eth/v1alpha1/beacon_chain';
-import { Subject } from 'rxjs';
+import { Subject, zip } from 'rxjs';
+import { WHITE_ON_BLACK_CSS_CLASS } from '@angular/cdk/a11y/high-contrast-mode/high-contrast-mode-detector';
 
 @Component({
   selector: 'app-balances-chart',
@@ -18,13 +20,17 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
   private destroyed$$ = new Subject<void>();
   options: any;
 
+  balances$ = this.beaconService.chainHead$.pipe(
+    switchMap((head: ChainHead) =>
+      this.validatorService.recentEpochBalances(head.headEpoch, 3 /* lookback */)
+    ),
+  );
+
   ngOnInit(): void {
-    this.beaconService.chainHead$.pipe(
-      switchMap((head: ChainHead) =>
-        this.validatorService.recentEpochBalances(head.headEpoch, 3 /* lookback */)
-      ),
+    const updateData = this.updateData.bind(this);
+    zip(this.beaconService.genesisTime$, this.balances$).pipe(
       takeUntil(this.destroyed$$),
-    ).subscribe(this.updateData.bind(this));
+    ).subscribe(([genesisTime, balances]) => updateData(genesisTime, balances));
   }
 
   ngOnDestroy(): void {
@@ -32,21 +38,41 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
     this.destroyed$$.complete();
   }
 
-  updateData(balances: ValidatorBalances[]): void {
+  randomData() {
+    const now = new Date();
+    const value = Math.random() * 21 - 10;
+    return {
+      name: now.toString(),
+      value: [
+        [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+        Math.round(value)
+      ]
+    };
+  }
+
+  updateData(genesisTime: number, balances: ValidatorBalances[]): void {
     console.log(balances);
+    console.log(genesisTime);
     const xAxisData = [];
     const data1 = [];
-    const data2 = [];
 
-    for (let i = 0; i < 100; i++) {
-      xAxisData.push('category' + i);
-      data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
-      data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
+    for (let i = 0; i < balances.length; i++) {
+      let epoch = balances[i].epoch
+      let totalMilliseconds = epoch * MILLISECONDS_PER_SLOT * SLOTS_PER_EPOCH
+      console.log(totalMilliseconds);
+      let now = new Date(genesisTime*1000 + totalMilliseconds);
+      data1.push({
+        name: now.toString(),
+        value: [
+          now,
+          balances[i].balances[0].balance,
+        ]
+      });
     }
 
     this.options = {
       legend: {
-        data: ['bar', 'bar2'],
+        data: ['bar'],
         align: 'left',
         textStyle: {
           color: 'white',
@@ -54,8 +80,12 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
           fontFamily: 'roboto',
         }
       },
+      textStyle: {
+        color: 'white',
+      },
       tooltip: {},
       xAxis: {
+        type: 'time',
         data: xAxisData,
         silent: false,
         splitLine: {
@@ -65,29 +95,40 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
           color: 'white',
           fontSize: 14,
           fontFamily: 'roboto',
+        },
+        axisLine: {
+          lineStyle: {
+            color: 'white',
+          },
         }
       },
       color: [
         "#7467ef",
-        "#ff9e43",
+        // "#ff9e43",
       ],
-      yAxis: {},
+      yAxis: {
+        type: 'value',
+        splitLine: {
+          show: false
+        },
+        min: '32.27',
+        max: '32.34',
+        axisLine: {
+          lineStyle: {
+            color: 'white',
+          },
+        }
+      },
       series: [
         {
-          name: 'bar',
-          type: 'bar',
+          name: 'Average balance',
+          type: 'line',
           data: data1,
-          animationDelay: (idx) => idx * 10,
-        },
-        {
-          name: 'bar2',
-          type: 'bar',
-          data: data2,
-          animationDelay: (idx) => idx * 10 + 100,
+          animationDelay: (idx: number) => idx * 10,
         },
       ],
       animationEasing: 'elasticOut',
-      animationDelayUpdate: (idx) => idx * 5,
+      animationDelayUpdate: (idx: number) => idx * 5,
     };
   }
 }

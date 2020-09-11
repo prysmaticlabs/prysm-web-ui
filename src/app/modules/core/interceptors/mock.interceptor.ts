@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
-import { Mocks } from '../mocks';
+import { Mocks, generateBalancesForEpoch } from '../mocks';
 import { EnvironmenterService } from '../services/environmenter.service';
 
 export const VALIDATOR_API_PREFIX = '/v2/validator';
@@ -28,6 +28,13 @@ export class MockInterceptor implements HttpInterceptor {
       }
       if (this.contains(request.url, BEACON_API_PREFIX)) {
         endpoint = this.extractEndpoint(request.url, BEACON_API_PREFIX);
+      }
+      const balanceRequest = request.url.indexOf(`${BEACON_API_PREFIX}/validators/balances`);
+      if (balanceRequest !== -1) {
+        return of(new HttpResponse({
+          status: 200,
+          body: generateBalancesForEpoch(request.url),
+        }));
       }
       return of(new HttpResponse({
         status: 200,

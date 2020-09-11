@@ -18,6 +18,31 @@ import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
 import fromHexString from 'src/app/modules/core/utils/from-hex-string';
 
+export const generateBalancesForEpoch = (url: string) => {
+  const params = new URLSearchParams(url.substring(url.indexOf('?'), url.length));
+  const epoch = Number.parseInt(params.get('epoch'));
+  return {
+    epoch: Number.parseInt(params.get('epoch')),
+    balances: [
+      {
+        publicKey: fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
+        index: 0,
+        balance: 32 + (epoch * 0.01),
+      },
+      {
+        publicKey: fromHexString('0x8e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c10707155'),
+        index: 1,
+        balance: 32 + (epoch * 0.01),
+      },
+      {
+        publicKey: fromHexString('0xae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b'),
+        index: 2,
+        balance: 32 + (epoch * 0.01),
+      },
+    ] as ValidatorBalances_Balance[],
+  };
+}
+
 export const Mocks = {
   '/v2/validator/login': {
     token: 'mock.jwt.token',
@@ -64,26 +89,6 @@ export const Mocks = {
       } as Account,
     ],
   } as ListAccountsResponse,
-  '/eth/v1alpha1/validators/balances': {
-    epoch: 7119,
-    balances: [
-      {
-        publicKey: fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
-        index: 0,
-        balance: 32,
-      },
-      {
-        publicKey: fromHexString('0x8e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c10707155'),
-        index: 1,
-        balance: 32,
-      },
-      {
-        publicKey: fromHexString('0xae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b'),
-        index: 2,
-        balance: 32,
-      },
-    ] as ValidatorBalances_Balance[],
-  } as ValidatorBalances,
   '/eth/v1alpha1/beacon/chainhead': {
     headSlot: 1024,
     headEpoch: 32,

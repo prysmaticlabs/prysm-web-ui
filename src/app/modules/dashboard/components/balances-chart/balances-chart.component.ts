@@ -55,6 +55,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
     console.log(genesisTime);
     const xAxisData = [];
     const data1 = [];
+    const data2 = [];
 
     for (let i = 0; i < balances.length; i++) {
       let epoch = balances[i].epoch
@@ -66,6 +67,13 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
         value: [
           now,
           balances[i].balances[0].balance,
+        ]
+      });
+      data2.push({
+        name: now.toString(),
+        value: [
+          now,
+          balances[i].balances[0].balance + (0.02 * i),
         ]
       });
     }
@@ -104,7 +112,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       },
       color: [
         "#7467ef",
-        // "#ff9e43",
+        "#ff9e43",
       ],
       yAxis: {
         type: 'value',
@@ -112,7 +120,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
           show: false
         },
         min: '32.27',
-        max: '32.34',
+        max: '32.4',
         axisLine: {
           lineStyle: {
             color: 'white',
@@ -125,6 +133,12 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
           type: 'line',
           data: data1,
           animationDelay: (idx: number) => idx * 10,
+        },
+        {
+          name: 'Range balance',
+          type: 'line',
+          data: data2,
+          animationDelay: (idx: number) => idx * 20,
         },
       ],
       animationEasing: 'elasticOut',

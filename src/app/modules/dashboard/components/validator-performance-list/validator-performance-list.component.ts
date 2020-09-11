@@ -23,7 +23,7 @@ export class ValidatorListItem {
   selector: 'app-validator-performance-list',
   templateUrl: './validator-performance-list.component.html',
 })
-export class ValidatorPerformanceListComponent implements OnInit {
+export class ValidatorPerformanceListComponent {
   displayedColumns: string[] = ['publicKey', 'attLastIncludedSlot', 'correctlyVotedSource', 'correctlyVotedTarget', 'correctlyVotedHead', 'gains'];
   dataSource: MatTableDataSource<ValidatorListItem>;
 
@@ -63,16 +63,12 @@ export class ValidatorPerformanceListComponent implements OnInit {
     ).subscribe();
   }
 
-  ngOnInit() {
-    //dataSource = ELEMENT_DATA;
-   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-   applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
+  }
 }

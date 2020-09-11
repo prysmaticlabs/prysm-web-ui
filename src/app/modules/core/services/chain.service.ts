@@ -17,7 +17,7 @@ import { EPOCH_POLLING_INTERVAL } from '../constants';
 export class ChainService {
   constructor(
     private http: HttpClient,
-    private beaconService: BeaconNodeService,
+    private beaconService: BeaconNodeService
   ) { }
 
   // Chain information.

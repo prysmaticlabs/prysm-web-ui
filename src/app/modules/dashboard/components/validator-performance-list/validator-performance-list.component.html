@@ -1,0 +1,45 @@
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="publicKey">
+    <mat-header-cell *matHeaderCellDef> Account Public Key </mat-header-cell>
+    <mat-cell *matCellDef="let element"><div class="truncate">{{element.publicKey}}</div></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="attLastIncludedSlot">
+    <mat-header-cell *matHeaderCellDef>Last included slot </mat-header-cell>
+    <mat-cell *matCellDef="let element"><div>{{element.inclusionSlots}}</div></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="correctlyVotedSource">
+    <mat-header-cell *matHeaderCellDef> Correctly voted source </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div [className]="element.correctlyVotedSource ? 'check green' : 'cross red'">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="gains">
+    <mat-header-cell *matHeaderCellDef> Gains </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>{{element.gains}}Gwei</div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="correctlyVotedTarget">
+    <mat-header-cell *matHeaderCellDef> Correctly voted target </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div [className]="element.correctlyVotedTarget ? 'check green' : 'cross red'">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="correctlyVotedHead">
+    <mat-header-cell *matHeaderCellDef> Correctly voted head </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div [className]="element.correctlyVotedHead ? 'check green' : 'cross red'">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

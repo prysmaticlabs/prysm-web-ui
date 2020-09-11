@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { zip, Observable, of } from 'rxjs';
-import { switchMap, mergeMap, concatAll, toArray } from 'rxjs/operators';
+import { switchMap, mergeMap, concatAll, toArray, map, tap } from 'rxjs/operators';
 
 import range from 'src/app/modules/core/utils/range';
 import { BeaconNodeService } from './beacon-node.service';

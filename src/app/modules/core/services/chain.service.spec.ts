@@ -22,7 +22,7 @@ describe('ChainService', () => {
         imports: [HttpClientTestingModule],
         providers: [
           ChainService,
-          { provide: BeaconNodeService, useValue: new mockNode() },
+          { provide: BeaconNodeService, useValue: new mockNode() }
         ]
     });
     service = TestBed.get(ChainService);

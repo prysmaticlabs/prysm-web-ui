@@ -131,11 +131,12 @@ export const Mocks = {
     currentEffectiveBalances: ["31000000000", "31000000000", "31000000000"] as any,
     correctlyVotedHead: [true, true, false],
     correctlyVotedSource: [true, true, false],
-    correctlyVotedTarget: [true, true, true],
+    correctlyVotedTarget: [true, false, true],
     averageActiveValidatorBalance: 32,
     inclusionDistances: [2, 2, 1],
-    inclusionSlots: [1022, 1022, 1021],
+    inclusionSlots: [3022, 1022, 1021],
     balancesBeforeEpochTransition: ["31200781367", "31216554607", "31204371127"] as any,
     balancesAfterEpochTransition: ["31200823019", "31216596259", "31204412779"] as any,
+    publicKeys: ["0x00822e00ec3d8ecc50e037b7ae3eba5486480d1ec49afad69a0d76bfdb158ead9bc389e8defef2c076d080371bf1f0fefc", "0x00ae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b","0x008e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c107071505"]
   } as ValidatorPerformanceResponse,
 };

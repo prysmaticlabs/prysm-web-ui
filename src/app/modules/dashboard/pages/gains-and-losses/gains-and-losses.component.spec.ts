@@ -6,7 +6,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { environment } from '../../../../../environments/environment';
 import { GainsAndLossesComponent } from './gains-and-losses.component';
-import { AccountListComponent }  from  '../../components/account-list/account-list.component';
+import { ValidatorPerformanceListComponent } from '../../components/validator-performance-list/validator-performance-list.component';
 import { BalancesChartComponent }  from  '../../components/balances-chart/balances-chart.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { BeaconNodeStatusComponent } from '../../components/beacon-node-status/beacon-node-status.component';
@@ -32,9 +32,9 @@ describe('GainsAndLossesComponent', () => {
       declarations: [
         MockComponent(BeaconNodeStatusComponent),
         MockComponent(BalancesChartComponent),
-        MockComponent(AccountListComponent),
         MockComponent(ValidatorPerformanceSummaryComponent),
         MockComponent(ValidatorParticipationComponent),
+        MockComponent(ValidatorPerformanceListComponent),
         GainsAndLossesComponent,
       ],
       providers: [

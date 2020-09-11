@@ -51,7 +51,7 @@ describe('ValidatorService', () => {
     it('should return an array of length lookback items', done => {
       service.recentEpochBalances(MAX_EPOCH_LOOKBACK+5, MAX_EPOCH_LOOKBACK).subscribe((result: ValidatorBalances[]) => {
         expect(result).toBeTruthy();
-        expect(result.length).toEqual(5);
+        expect(result.length).toEqual(10);
         expect(result[0].epoch).toEqual(0);
         done();
       });

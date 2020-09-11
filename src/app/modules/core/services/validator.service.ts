@@ -9,10 +9,10 @@ import { BeaconNodeService } from './beacon-node.service';
 import { WalletService } from './wallet.service';
 
 import {
-  ValidatorBalances, ValidatorPerformanceResponse, ValidatorParticipationResponse, ValidatorQueue,
+  ValidatorBalances, ValidatorPerformanceResponse, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
-export const MAX_EPOCH_LOOKBACK = 5;
+export const MAX_EPOCH_LOOKBACK = 10;
 
 @Injectable({
   providedIn: 'root',

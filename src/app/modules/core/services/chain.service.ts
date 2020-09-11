@@ -17,7 +17,7 @@ import { MILLISECONDS_PER_EPOCH } from '../constants';
 export class ChainService {
   constructor(
     private http: HttpClient,
-    private beaconService: BeaconNodeService,
+    private beaconService: BeaconNodeService
   ) { }
 
   // Chain information.

@@ -7,7 +7,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { GainsAndLossesComponent } from './pages/gains-and-losses/gains-and-losses.component';
-import { AccountListComponent } from './components/account-list/account-list.component';
+import { ValidatorPerformanceListComponent } from './components/validator-performance-list/validator-performance-list.component';
 import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-link/sidebar-expandable-link.component';
@@ -20,7 +20,7 @@ import { ActivationQueueComponent } from './components/activation-queue/activati
   declarations: [
     DashboardComponent,
     GainsAndLossesComponent,
-    AccountListComponent,
+    ValidatorPerformanceListComponent,
     BalancesChartComponent,
     SidebarComponent,
     SidebarExpandableLinkComponent,

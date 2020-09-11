@@ -8,3 +8,9 @@
 .min-w-sm {
   min-width: 110px;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

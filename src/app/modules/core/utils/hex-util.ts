@@ -5,7 +5,7 @@ export function hexToBase64(hexstring: string) {
     .replace(/ +$/, '')
     .split(' ');
   const byteString = String.fromCharCode.apply(null, hexArray);
-  return btoa(byteString);
+return btoa(byteString);
 }
 
 export function base64ToHex(base64string: string) {

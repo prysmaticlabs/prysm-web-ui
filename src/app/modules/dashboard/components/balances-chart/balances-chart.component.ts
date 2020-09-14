@@ -23,7 +23,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
 
   balances$ = this.beaconService.chainHead$.pipe(
     switchMap((head: ChainHead) =>
-      this.validatorService.recentEpochBalances(head.headEpoch, 3 /* lookback */)
+      this.validatorService.recentEpochBalances(head.headEpoch, 4 /* lookback */)
     ),
   );
 

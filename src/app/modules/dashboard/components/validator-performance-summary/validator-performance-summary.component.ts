@@ -90,13 +90,13 @@ export class ValidatorPerformanceSummaryComponent {
     } as PerformanceData;
   }
 
-  private computeAverageEffectiveBalance(balances: number[]): number {
+  private computeAverageEffectiveBalance(balances: string[]): number {
     const effBalances = balances.map(num => BigNumber.from(num));
     const total = effBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
     return total.div(BigNumber.from(balances.length)).div(GWEI_PER_ETHER).toNumber();
   }
 
-  private computeEpochGains(pre: number[], post: number[]): number {
+  private computeEpochGains(pre: string[], post: string[]): number {
     const beforeTransition = pre.map(num => BigNumber.from(num));
     const afterTransition = post.map(num => BigNumber.from(num));
     if (beforeTransition.length != afterTransition.length) {

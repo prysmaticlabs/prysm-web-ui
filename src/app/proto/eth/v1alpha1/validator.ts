@@ -373,40 +373,40 @@ export interface ValidatorParticipation {
   /**
    *  The total amount of ether, in gwei, that has been used in voting.
    */
-  votedEther: number;
+  votedEther: string;
   /**
    *  The total amount of ether, in gwei, that is eligible for voting.
    */
-  eligibleEther: number;
+  eligibleEther: string;
   /**
    *  Total staked gwei that was active (i.e. eligible to vote) during the current epoch.
    */
-  currentEpochActiveGwei: number;
+  currentEpochActiveGwei: string;
   /**
    *  Total staked gwei that had attestations included in a block during the current epoch,
    *  attestations by the same validator do not increase this figure.
    */
-  currentEpochAttestingGwei: number;
+  currentEpochAttestingGwei: string;
   /**
    *  Total staked gwei that attested to the majority-elected Casper FFG target epoch during the current epoch.
    */
-  currentEpochTargetAttestingGwei: number;
+  currentEpochTargetAttestingGwei: string;
   /**
    *  Same as current_epoch_active_gwei but for previous epoch.
    */
-  previousEpochActiveGwei: number;
+  previousEpochActiveGwei: string;
   /**
    *  Same as current_epoch_attesting_gwei but for previous epoch.
    */
-  previousEpochAttestingGwei: number;
+  previousEpochAttestingGwei: string;
   /**
    *  Same as current_epoch_target_attesting_gwei but for previous epoch.
    */
-  previousEpochTargetAttestingGwei: number;
+  previousEpochTargetAttestingGwei: string;
   /**
    *  Total staked gwei that attested to a head beacon block that is in the canonical chain.
    */
-  previousEpochHeadAttestingGwei: number;
+  previousEpochHeadAttestingGwei: string;
 }
 
 /**

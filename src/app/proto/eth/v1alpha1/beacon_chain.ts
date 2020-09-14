@@ -330,7 +330,7 @@ export interface ValidatorBalances_Balance {
   /**
    *  Validator's balance in gwei.
    */
-  balance: number;
+  balance: string;
 }
 
 export interface ListValidatorsRequest {
@@ -474,17 +474,17 @@ export interface ValidatorPerformanceResponse {
    *  A list of validator effective balances mapped 1-to-1 with the request's
    *  public keys.
    */
-  currentEffectiveBalances: number[];
+  currentEffectiveBalances: string[];
   /**
    *  The slot of when validator's attestation got included in the chain at previous epoch, the slot
    *  is mapped 1-to-1 with the request's public keys.
    */
-  inclusionSlots: number[];
+  inclusionSlots: string[];
   /**
    *  The distance of when validator submitted and got included in the chain, the distance
    *  is mapped 1-to-1 with the request's public keys.
    */
-  inclusionDistances: number[];
+  inclusionDistances: string[];
   /**
    *  Whether the list of validator recently correctly voted for source at previous epoch, the result
    *  is mapped 1-to-1 with the request's public keys.
@@ -504,12 +504,12 @@ export interface ValidatorPerformanceResponse {
    *  The balance of validators before epoch transition, the balance is mapped 1-to-1 with the requests's
    *  public keys.
    */
-  balancesBeforeEpochTransition: number[];
+  balancesBeforeEpochTransition: string[];
   /**
    *  The balance of validators after epoch transition, the balance is mapped 1-to-1 with the requests's
    *  public keys.
    */
-  balancesAfterEpochTransition: number[];
+  balancesAfterEpochTransition: string[];
   /**
    *  The total number of validators from the request not found in
    *  in the beacon chain.
@@ -518,7 +518,7 @@ export interface ValidatorPerformanceResponse {
   /**
    *  The average active validator balance in the beacon chain.
    */
-  averageActiveValidatorBalance: number;
+  averageActiveValidatorBalance: string;
   /**
    *  The public keys in the order they are in of the response.
    */

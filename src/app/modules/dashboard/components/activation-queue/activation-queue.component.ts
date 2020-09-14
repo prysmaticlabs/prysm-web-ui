@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { hexlify } from 'ethers/lib/utils';
 import intersect from 'src/app/modules/core/utils/intersect';
-import fromHexString from 'src/app/modules/core/utils/from-hex-string';
 
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
@@ -62,12 +61,11 @@ export class ActivationQueueComponent {
   }
 
   positionInArray(
-    data: Uint8Array[], pubKey: string,
+    data: string[], pubKey: string,
   ): number {
-    const key = fromHexString(pubKey);
     let idx = -1;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].toString() === key.toString()) {
+      if (data[i] === pubKey) {
         idx = i;
         break;
       }
@@ -89,17 +87,17 @@ export class ActivationQueueComponent {
   transformData(validatingKeys: string[], queue: ValidatorQueue): QueueData {
     const userValidatingKeysSet = new Set<string>();
     validatingKeys.forEach(key => {
-      userValidatingKeysSet.add(hexlify(key));
+      userValidatingKeysSet.add(key);
     });
 
     const activationKeysSet = new Set<string>();
     const exitKeysSet = new Set<string>();
 
     queue.activationPublicKeys.forEach((key, _) => {
-      activationKeysSet.add(hexlify(key));
+      activationKeysSet.add(key);
     });
     queue.exitPublicKeys.forEach((key, _) => {
-      exitKeysSet.add(hexlify(key));
+      exitKeysSet.add(key);
     });
     let secondsLeftInQueue: number;
     const queueLength = 11323;

@@ -6,6 +6,7 @@ import { switchMap, takeUntil } from 'rxjs/operators';
 import { ChainHead, ValidatorBalances } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { Subject, zip } from 'rxjs';
 import { BigNumber } from 'ethers';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-balances-chart',
@@ -52,7 +53,8 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       const avg = total.div(pureBalances.length).toNumber() / GWEI_PER_ETHER;
 
       avgBalances.push(avg);
-      xAxisData.push(timeSinceGenesis.toString());
+      const formatted = moment(timeSinceGenesis).format('hh:mm:ss');
+      xAxisData.push(formatted);
       data1.push(avg);
     }
     let globalMin = Math.min(...avgBalances);

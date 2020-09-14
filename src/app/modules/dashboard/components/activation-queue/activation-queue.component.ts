@@ -31,7 +31,7 @@ export class ActivationQueueComponent {
     private validatorService: ValidatorService,
     private walletService: WalletService,
   ) { }
-  
+
   validatingPublicKeys$ = this.walletService.validatingPublicKeys$;
 
   queueData$ = zip(
@@ -86,7 +86,7 @@ export class ActivationQueueComponent {
     return secondsLeftInQueue;
   }
 
-  transformData(validatingKeys: Uint8Array[], queue: ValidatorQueue): QueueData {
+  transformData(validatingKeys: string[], queue: ValidatorQueue): QueueData {
     const userValidatingKeysSet = new Set<string>();
     validatingKeys.forEach(key => {
       userValidatingKeysSet.add(hexlify(key));
@@ -95,10 +95,10 @@ export class ActivationQueueComponent {
     const activationKeysSet = new Set<string>();
     const exitKeysSet = new Set<string>();
 
-    queue.activationPublicKeys.forEach((key, idx) => {
+    queue.activationPublicKeys.forEach((key, _) => {
       activationKeysSet.add(hexlify(key));
     });
-    queue.exitPublicKeys.forEach((key, idx) => {
+    queue.exitPublicKeys.forEach((key, _) => {
       exitKeysSet.add(hexlify(key));
     });
     let secondsLeftInQueue: number;

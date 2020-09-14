@@ -28,7 +28,7 @@ export interface ValidatorChangeSet {
   /**
    *  48 byte BLS public keys of validators on which the operation occurs.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
 }
 
 /**
@@ -113,7 +113,7 @@ export interface ListBlocksRequest {
   /**
    *  Block root filter to return a single block.
    */
-  root: Uint8Array | undefined;
+  root: string | undefined;
   /**
    *  Slot to lookup a block. If the slot is not yet finalized, this
    *  criteria may yield multiple valid blocks if the node has seen blocks
@@ -168,7 +168,7 @@ export interface BeaconBlockContainer {
   /**
    *  32 byte merkle tree root of contained beacon block.
    */
-  blockRoot: Uint8Array;
+  blockRoot: string;
 }
 
 /**
@@ -186,7 +186,7 @@ export interface ChainHead {
   /**
    *  32 byte merkle tree root of the canonical head block in the beacon node.
    */
-  headBlockRoot: Uint8Array;
+  headBlockRoot: string;
   /**
    *  Most recent slot that contains the finalized block.
    */
@@ -198,7 +198,7 @@ export interface ChainHead {
   /**
    *  Most recent 32 byte finalized block root.
    */
-  finalizedBlockRoot: Uint8Array;
+  finalizedBlockRoot: string;
   /**
    *  Most recent slot that contains the justified block.
    */
@@ -210,7 +210,7 @@ export interface ChainHead {
   /**
    *  Most recent 32 byte justified block root.
    */
-  justifiedBlockRoot: Uint8Array;
+  justifiedBlockRoot: string;
   /**
    *  Most recent slot that contains the previous justified block.
    */
@@ -222,7 +222,7 @@ export interface ChainHead {
   /**
    *  Previous 32 byte justified block root.
    */
-  previousJustifiedBlockRoot: Uint8Array;
+  previousJustifiedBlockRoot: string;
 }
 
 export interface ListCommitteesRequest {
@@ -283,7 +283,7 @@ export interface ListValidatorBalancesRequest {
    *  Validator 48 byte BLS public keys to filter validators for the given
    *  epoch.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
   /**
    *  Validator indices to filter validators for the given epoch.
    */
@@ -322,7 +322,7 @@ export interface ValidatorBalances_Balance {
   /**
    *  Validator's 48 byte BLS public key.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  Validator's index in the validator set.
    */
@@ -363,7 +363,7 @@ export interface ListValidatorsRequest {
    *  Specify which validators you would like to retrieve by their public keys.
    *  This field is optional.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
   /**
    *  Specify which validators you would like to retrieve by their indices.
    *  This field is optional.
@@ -379,7 +379,7 @@ export interface GetValidatorRequest {
   /**
    *  48 byte validator public key.
    */
-  publicKey: Uint8Array | undefined;
+  publicKey: string | undefined;
 }
 
 export interface Validators {
@@ -427,7 +427,7 @@ export interface ActiveSetChanges {
   /**
    *  48 byte validator public keys that have been activated in the given epoch.
    */
-  activatedPublicKeys: Uint8Array[];
+  activatedPublicKeys: string[];
   /**
    *  Indices of validators activated in the given epoch.
    */
@@ -435,7 +435,7 @@ export interface ActiveSetChanges {
   /**
    *  48 byte validator public keys that have been voluntarily exited in the given epoch.
    */
-  exitedPublicKeys: Uint8Array[];
+  exitedPublicKeys: string[];
   /**
    *  Indices of validators exited in the given epoch.
    */
@@ -443,7 +443,7 @@ export interface ActiveSetChanges {
   /**
    *  48 byte validator public keys that have been slashed in the given epoch.
    */
-  slashedPublicKeys: Uint8Array[];
+  slashedPublicKeys: string[];
   /**
    *  Indices of validators slashed in the given epoch.
    */
@@ -451,7 +451,7 @@ export interface ActiveSetChanges {
   /**
    *  48 byte validator public keys that have been involuntarily ejected in this epoch.
    */
-  ejectedPublicKeys: Uint8Array[];
+  ejectedPublicKeys: string[];
   /**
    *  Indices of validators ejected in the given epoch.
    */
@@ -462,7 +462,7 @@ export interface ValidatorPerformanceRequest {
   /**
    *  A list of 48 byte validator public keys.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
   /**
    *  A list of validator indices to retrieve performance by their indices.
    */
@@ -535,12 +535,12 @@ export interface ValidatorQueue {
    *  Ordered list of 48 byte public keys awaiting activation. 0th index is the
    *  next key to be processed.
    */
-  activationPublicKeys: Uint8Array[];
+  activationPublicKeys: string[];
   /**
    *  Ordered list of public keys awaiting exit. 0th index is the next key to
    *  be processed.
    */
-  exitPublicKeys: Uint8Array[];
+  exitPublicKeys: string[];
   /**
    *  Ordered list of validator indices awaiting activation. 0th item in the list is the
    *  next validator index to be processed.
@@ -565,7 +565,7 @@ export interface ListValidatorAssignmentsRequest {
   /**
    *  48 byte validator public keys to filter assignments for the given epoch.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
   /**
    *  Validator indicies to filter assignments for the given epoch.
    */
@@ -626,7 +626,7 @@ export interface ValidatorAssignments_CommitteeAssignment {
   /**
    *  48 byte BLS public key.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  Validator index in the beacon state.
    */
@@ -719,7 +719,7 @@ export interface IndividualVotesRequest {
   /**
    *  Validator 48 byte BLS public keys to filter validators for the given epoch.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
   /**
    *  Validator indices to filter validators for the given epoch.
    */
@@ -738,7 +738,7 @@ export interface IndividualVotesRespond_IndividualVote {
   /**
    *  The public key of the vote status request.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  The validator index of the request.
    */
@@ -792,220 +792,6 @@ export interface IndividualVotesRespond_IndividualVote {
    */
   inclusionDistance: number;
 }
-
-const baseValidatorChangeSet: object = {
-  action: 0,
-};
-
-const baseListIndexedAttestationsRequest: object = {
-  pageSize: 0,
-  pageToken: "",
-};
-
-const baseListAttestationsRequest: object = {
-  pageSize: 0,
-  pageToken: "",
-};
-
-const baseListAttestationsResponse: object = {
-  nextPageToken: "",
-  totalSize: 0,
-};
-
-const baseListIndexedAttestationsResponse: object = {
-  nextPageToken: "",
-  totalSize: 0,
-};
-
-const baseListBlocksRequest: object = {
-  pageSize: 0,
-  pageToken: "",
-};
-
-const baseListBlocksResponse: object = {
-  nextPageToken: "",
-  totalSize: 0,
-};
-
-const baseBeaconBlockContainer: object = {
-};
-
-const baseChainHead: object = {
-  headSlot: 0,
-  headEpoch: 0,
-  finalizedSlot: 0,
-  finalizedEpoch: 0,
-  justifiedSlot: 0,
-  justifiedEpoch: 0,
-  previousJustifiedSlot: 0,
-  previousJustifiedEpoch: 0,
-};
-
-const baseListCommitteesRequest: object = {
-};
-
-const baseBeaconCommittees: object = {
-  epoch: 0,
-  activeValidatorCount: 0,
-};
-
-const baseBeaconCommittees_CommitteeItem: object = {
-  validatorIndices: 0,
-};
-
-const baseBeaconCommittees_CommitteesList: object = {
-};
-
-const baseBeaconCommittees_CommitteesEntry: object = {
-  key: 0,
-};
-
-const baseListValidatorBalancesRequest: object = {
-  indices: 0,
-  pageSize: 0,
-  pageToken: "",
-};
-
-const baseValidatorBalances: object = {
-  epoch: 0,
-  nextPageToken: "",
-  totalSize: 0,
-};
-
-const baseValidatorBalances_Balance: object = {
-  index: 0,
-  balance: 0,
-};
-
-const baseListValidatorsRequest: object = {
-  active: false,
-  pageSize: 0,
-  pageToken: "",
-  indices: 0,
-};
-
-const baseGetValidatorRequest: object = {
-};
-
-const baseValidators: object = {
-  epoch: 0,
-  nextPageToken: "",
-  totalSize: 0,
-};
-
-const baseValidators_ValidatorContainer: object = {
-  index: 0,
-};
-
-const baseGetValidatorActiveSetChangesRequest: object = {
-};
-
-const baseActiveSetChanges: object = {
-  epoch: 0,
-  activatedIndices: 0,
-  exitedIndices: 0,
-  slashedIndices: 0,
-  ejectedIndices: 0,
-};
-
-const baseValidatorPerformanceRequest: object = {
-  indices: 0,
-};
-
-const baseValidatorPerformanceResponse: object = {
-  currentEffectiveBalances: 0,
-  inclusionSlots: 0,
-  inclusionDistances: 0,
-  correctlyVotedSource: false,
-  correctlyVotedTarget: false,
-  correctlyVotedHead: false,
-  balancesBeforeEpochTransition: 0,
-  balancesAfterEpochTransition: 0,
-  averageActiveValidatorBalance: 0,
-  missingValidators: "",
-  publicKeys: ""
-};
-
-const baseValidatorQueue: object = {
-  churnLimit: 0,
-  activationValidatorIndices: 0,
-  exitValidatorIndices: 0,
-};
-
-const baseListValidatorAssignmentsRequest: object = {
-  indices: 0,
-  pageSize: 0,
-  pageToken: "",
-};
-
-const baseValidatorAssignments: object = {
-  epoch: 0,
-  nextPageToken: "",
-  totalSize: 0,
-};
-
-const baseValidatorAssignments_CommitteeAssignment: object = {
-  beaconCommittees: 0,
-  committeeIndex: 0,
-  attesterSlot: 0,
-  proposerSlots: 0,
-  validatorIndex: 0,
-};
-
-const baseGetValidatorParticipationRequest: object = {
-};
-
-const baseValidatorParticipationResponse: object = {
-  epoch: 0,
-  finalized: false,
-};
-
-const baseAttestationPoolRequest: object = {
-  pageSize: 0,
-  pageToken: "",
-};
-
-const baseAttestationPoolResponse: object = {
-  nextPageToken: "",
-  totalSize: 0,
-};
-
-const baseBeaconConfig: object = {
-};
-
-const baseBeaconConfig_ConfigEntry: object = {
-  key: "",
-  value: "",
-};
-
-const baseSubmitSlashingResponse: object = {
-  slashedIndices: 0,
-};
-
-const baseIndividualVotesRequest: object = {
-  epoch: 0,
-  indices: 0,
-};
-
-const baseIndividualVotesRespond: object = {
-};
-
-const baseIndividualVotesRespond_IndividualVote: object = {
-  epoch: 0,
-  validatorIndex: 0,
-  isSlashed: false,
-  isWithdrawableInCurrentEpoch: false,
-  isActiveInCurrentEpoch: false,
-  isActiveInPreviousEpoch: false,
-  isCurrentEpochAttester: false,
-  isCurrentEpochTargetAttester: false,
-  isPreviousEpochAttester: false,
-  isPreviousEpochTargetAttester: false,
-  isPreviousEpochHeadAttester: false,
-  currentEpochEffectiveBalanceGwei: 0,
-  inclusionSlot: 0,
-  inclusionDistance: 0,
-};
 
 /**  SetAction defines the type of action that should be applied to the keys in a validator change set.
  */

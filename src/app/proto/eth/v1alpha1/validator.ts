@@ -23,7 +23,7 @@ export interface DomainRequest {
   /**
    *  The bytes domain specified by the validator.
    */
-  domain: Uint8Array;
+  domain: string;
 }
 
 export interface DomainResponse {
@@ -31,14 +31,14 @@ export interface DomainResponse {
    *  The signature domain is a byte array used by validators when
    *  signing data related to block proposals and attestations.
    */
-  signatureDomain: Uint8Array;
+  signatureDomain: string;
 }
 
 export interface ValidatorActivationRequest {
   /**
    *  A list of 48 byte validator public keys.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
 }
 
 export interface ValidatorActivationResponse {
@@ -53,7 +53,7 @@ export interface ValidatorActivationResponse_Status {
   /**
    *  A 48 byte validator public key.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  A wrapper representing a validator's status object.
    */
@@ -90,7 +90,7 @@ export interface ValidatorIndexRequest {
   /**
    *  A 48 byte validator public key.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
 }
 
 export interface ValidatorIndexResponse {
@@ -104,7 +104,7 @@ export interface ValidatorStatusRequest {
   /**
    *  A 48 byte validator public key.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
 }
 
 export interface ValidatorStatusResponse {
@@ -137,7 +137,7 @@ export interface MultipleValidatorStatusRequest {
   /**
    *  A list of 48 byte validator public keys.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
   /**
    *  A list of validator indices.
    */
@@ -148,7 +148,7 @@ export interface MultipleValidatorStatusResponse {
   /**
    *  A list of 48 byte validator public keys.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
   /**
    *  A list of ValidatorStatusResponses mapped 1-to-1 with the public keys.
    */
@@ -167,7 +167,7 @@ export interface DutiesRequest {
   /**
    *  Array of byte encoded BLS public keys.
    */
-  publicKeys: Uint8Array[];
+  publicKeys: string[];
 }
 
 export interface DutiesResponse {
@@ -196,7 +196,7 @@ export interface DutiesResponse_Duty {
   /**
    *  48 byte BLS public key for the validator who's assigned to perform a duty.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  The current status of the validator assigned to perform the duty.
    */
@@ -215,25 +215,25 @@ export interface BlockRequest {
   /**
    *  Validator's 32 byte randao reveal secret of the current epoch.
    */
-  randaoReveal: Uint8Array;
+  randaoReveal: string;
   /**
    *  Validator's 32 byte graffiti message for the new block.
    */
-  graffiti: Uint8Array;
+  graffiti: string;
 }
 
 export interface ProposeResponse {
   /**
    *  The block root of the successfully proposed beacon block.
    */
-  blockRoot: Uint8Array;
+  blockRoot: string;
 }
 
 export interface ProposeExitResponse {
   /**
    *  The root of the successfully proposed voluntary exit.
    */
-  exitRoot: Uint8Array;
+  exitRoot: string;
 }
 
 export interface AttestationDataRequest {
@@ -251,7 +251,7 @@ export interface AttestResponse {
   /**
    *  The root of the attestation data successfully submitted to the beacon node.
    */
-  attestationDataRoot: Uint8Array;
+  attestationDataRoot: string;
 }
 
 export interface AggregateSelectionRequest {
@@ -266,12 +266,12 @@ export interface AggregateSelectionRequest {
   /**
    *  48 byte public key of the validator.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  96 byte signature of the validator on the slot. This is used as proof that the validator is
    *  an aggregator for the given slot.
    */
-  slotSignature: Uint8Array;
+  slotSignature: string;
 }
 
 export interface AggregateSelectionResponse {
@@ -292,7 +292,7 @@ export interface SignedAggregateSubmitResponse {
   /**
    *  The 32 byte hash tree root of the aggregated attestation data.
    */
-  attestationDataRoot: Uint8Array;
+  attestationDataRoot: string;
 }
 
 export interface CommitteeSubnetsSubscribeRequest {
@@ -320,11 +320,11 @@ export interface Validator {
   /**
    *  48 byte BLS public key used for the validator's activities.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  32 byte hash of the withdrawal destination public key.
    */
-  withdrawalCredentials: Uint8Array;
+  withdrawalCredentials: string;
   /**
    *  The validators current effective balance in gwei.
    */
@@ -416,7 +416,7 @@ export interface ValidatorInfo {
   /**
    *  The validator's 48 byte BLS public key.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  The validator's index in the beacon state.
    */
@@ -451,144 +451,6 @@ export interface ValidatorInfo {
    */
   effectiveBalance: number;
 }
-
-const baseDomainRequest: object = {
-  epoch: 0,
-};
-
-const baseDomainResponse: object = {
-};
-
-const baseValidatorActivationRequest: object = {
-};
-
-const baseValidatorActivationResponse: object = {
-};
-
-const baseValidatorActivationResponse_Status: object = {
-  index: 0,
-};
-
-const baseChainStartResponse: object = {
-  started: false,
-  genesisTime: 0,
-};
-
-const baseSyncedResponse: object = {
-  synced: false,
-  genesisTime: 0,
-};
-
-const baseValidatorIndexRequest: object = {
-};
-
-const baseValidatorIndexResponse: object = {
-  index: 0,
-};
-
-const baseValidatorStatusRequest: object = {
-};
-
-const baseValidatorStatusResponse: object = {
-  status: 0,
-  eth1DepositBlockNumber: 0,
-  depositInclusionSlot: 0,
-  activationEpoch: 0,
-  positionInActivationQueue: 0,
-};
-
-const baseMultipleValidatorStatusRequest: object = {
-  indices: 0,
-};
-
-const baseMultipleValidatorStatusResponse: object = {
-  indices: 0,
-};
-
-const baseDutiesRequest: object = {
-  epoch: 0,
-};
-
-const baseDutiesResponse: object = {
-};
-
-const baseDutiesResponse_Duty: object = {
-  committee: 0,
-  committeeIndex: 0,
-  attesterSlot: 0,
-  proposerSlots: 0,
-  status: 0,
-  validatorIndex: 0,
-};
-
-const baseBlockRequest: object = {
-  slot: 0,
-};
-
-const baseProposeResponse: object = {
-};
-
-const baseProposeExitResponse: object = {
-};
-
-const baseAttestationDataRequest: object = {
-  slot: 0,
-  committeeIndex: 0,
-};
-
-const baseAttestResponse: object = {
-};
-
-const baseAggregateSelectionRequest: object = {
-  slot: 0,
-  committeeIndex: 0,
-};
-
-const baseAggregateSelectionResponse: object = {
-};
-
-const baseSignedAggregateSubmitRequest: object = {
-};
-
-const baseSignedAggregateSubmitResponse: object = {
-};
-
-const baseCommitteeSubnetsSubscribeRequest: object = {
-  slots: 0,
-  committeeIds: 0,
-  isAggregator: false,
-};
-
-const baseValidator: object = {
-  effectiveBalance: 0,
-  slashed: false,
-  activationEligibilityEpoch: 0,
-  activationEpoch: 0,
-  exitEpoch: 0,
-  withdrawableEpoch: 0,
-};
-
-const baseValidatorParticipation: object = {
-  globalParticipationRate: 0,
-  votedEther: 0,
-  eligibleEther: 0,
-  currentEpochActiveGwei: 0,
-  currentEpochAttestingGwei: 0,
-  currentEpochTargetAttestingGwei: 0,
-  previousEpochActiveGwei: 0,
-  previousEpochAttestingGwei: 0,
-  previousEpochTargetAttestingGwei: 0,
-  previousEpochHeadAttestingGwei: 0,
-};
-
-const baseValidatorInfo: object = {
-  index: 0,
-  epoch: 0,
-  status: 0,
-  transitionTimestamp: 0,
-  balance: 0,
-  effectiveBalance: 0,
-};
 
 export enum ValidatorStatus {
   UNKNOWN_STATUS = 0,

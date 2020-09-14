@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { hexlify } from 'ethers/lib/utils';
 import { BigNumber } from 'ethers';
 import { map, take, tap } from 'rxjs/operators';
 
@@ -49,7 +48,7 @@ export class ValidatorPerformanceListComponent {
         if (performance) {
           for(let i = 0; i < performance.publicKeys.length; i++) {
             let item = new ValidatorListItem();
-            item.publicKey = hexlify(performance.publicKeys[i]);
+            item.publicKey = performance.publicKeys[i];
             item.correctlyVotedSource = performance.correctlyVotedSource[i];
             item.correctlyVotedHead = performance.correctlyVotedHead[i];
             item.correctlyVotedTarget = performance.correctlyVotedTarget[i];

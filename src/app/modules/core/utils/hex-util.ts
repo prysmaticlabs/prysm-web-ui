@@ -1,7 +1,11 @@
 export function hexToBase64(hexstring: string) {
-  return btoa(hexstring.match(/\w{2}/g).map(function(a) {
-      return String.fromCharCode(parseInt(a, 16));
-  }).join(""));
+  const hexArray = hexstring
+    .replace(/\r|\n/g, "")
+    .replace(/([\da-fA-F]{2}) ?/g, "0x$1 ")
+    .replace(/ +$/, "")
+    .split(" ");
+  const byteString = String.fromCharCode.apply(null, hexArray);
+  return btoa(byteString);
 }
 
 export function base64ToHex(base64string: string) {
@@ -10,5 +14,5 @@ export function base64ToHex(base64string: string) {
       if (tmp.length === 1) tmp = '0' + tmp;
       hex[hex.length] = tmp;
   }
-  return hex.join(' ');
+  return '0x' + hex.join('');
 }

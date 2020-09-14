@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { map } from 'rxjs/operators';
 import { zip } from 'rxjs';
-import { hexlify } from 'ethers/lib/utils';
 import intersect from 'src/app/modules/core/utils/intersect';
 
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';

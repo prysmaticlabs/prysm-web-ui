@@ -5,6 +5,7 @@ import { SLOTS_PER_EPOCH, MILLISECONDS_PER_SLOT, GWEI_PER_ETHER } from 'src/app/
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { ChainHead, ValidatorBalances } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { Subject, zip } from 'rxjs';
+import { time } from 'console';
 
 @Component({
   selector: 'app-balances-chart',
@@ -21,7 +22,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
 
   balances$ = this.beaconService.chainHead$.pipe(
     switchMap((head: ChainHead) =>
-      this.validatorService.recentEpochBalances(head.headEpoch, 6 /* lookback */)
+      this.validatorService.recentEpochBalances(head.headEpoch, 4 /* lookback */)
     ),
   );
 
@@ -51,14 +52,10 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       const pureBalances = balances[i].balances.map(b => b.balance / GWEI_PER_ETHER);
       const total = pureBalances.reduce((prev, curr) => prev + curr, 0);
       const avg = total / pureBalances.length;
+
       avgBalances.push(avg);
-      data1.push({
-        name: timeSinceGenesis.toString(),
-        value: [
-          timeSinceGenesis,
-          avg, 
-        ]
-      });
+      xAxisData.push(timeSinceGenesis.toString());
+      data1.push(avg);
     }
     const globalMin = Math.min(...avgBalances);
     const globalMax = Math.max(...avgBalances);
@@ -78,7 +75,6 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       },
       tooltip: {},
       xAxis: {
-        type: 'time',
         data: xAxisData,
         silent: false,
         splitLine: {
@@ -105,7 +101,6 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
           show: false
         },
         min: globalMin,
-        max: globalMax,
         axisLine: {
           lineStyle: {
             color: 'white',
@@ -115,7 +110,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       series: [
         {
           name: 'Average balance',
-          type: 'line',
+          type: 'bar',
           data: data1,
           animationDelay: (idx: number) => idx * 10,
         },

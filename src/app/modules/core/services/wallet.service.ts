@@ -27,7 +27,7 @@ export class WalletService {
   accounts$ = this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts`).pipe(
     shareReplay(1),
   );
-  validatingPublicKeys$: Observable<Uint8Array[]> = this.accounts$.pipe(
+  validatingPublicKeys$: Observable<string[]> = this.accounts$.pipe(
     map((res: ListAccountsResponse) => res.accounts.map((acc: Account) => acc.validatingPublicKey)),
     shareReplay(1),
   );

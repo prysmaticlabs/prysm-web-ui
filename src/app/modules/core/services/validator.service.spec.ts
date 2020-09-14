@@ -8,6 +8,7 @@ import { BeaconNodeService } from './beacon-node.service';
 import { WalletService } from './wallet.service';
 import { of } from 'rxjs';
 import { ValidatorBalances, ValidatorBalances_Balance } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { hexToBase64 } from '../utils/hex-util';
 
 describe('ValidatorService', () => {
   let service: ValidatorService;
@@ -33,8 +34,8 @@ describe('ValidatorService', () => {
       epoch: 0,
       balances: [
         {
-          publicKey: new Uint8Array([1, 2, 3]),
-          balance: 32,
+          publicKey: hexToBase64('0x1234'),
+          balance: '31200823019',
         },
       ] as ValidatorBalances_Balance[],
     } as ValidatorBalances));
@@ -60,7 +61,7 @@ describe('ValidatorService', () => {
 
   describe('balancesByEpoch', () => {
     it('should properly encode a public key for URI inclusion', () => {
-      const key = new Uint8Array([1, 2, 3]);
+      const key = hexToBase64('0x1234');
       const encoded = (service as any).encodePublicKey(key);
       expect(decodeURIComponent(encoded)).toEqual(key.toString());
     });

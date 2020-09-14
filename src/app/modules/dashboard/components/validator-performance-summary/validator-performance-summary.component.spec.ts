@@ -20,18 +20,18 @@ describe('ValidatorPerformanceSummaryComponent', () => {
 
   let transformedData: PerformanceData;
   const defaultPerformanceData = {
-    currentEffectiveBalances: ["31000000000", "31000000000"] as any,
+    currentEffectiveBalances: ['31000000000', '31000000000'],
     correctlyVotedHead: [true, false],
     correctlyVotedSource: [true, false],
     correctlyVotedTarget: [true, true],
-    averageActiveValidatorBalance: 32,
-    inclusionDistances: [2, 1],
-    balancesBeforeEpochTransition: ["31000000000", "31000000000"] as any,
-    balancesAfterEpochTransition: ["32000000000", "32000000000"] as any,
+    averageActiveValidatorBalance: '32000000000',
+    inclusionDistances: ['2', '1'],
+    balancesBeforeEpochTransition: ['31000000000', '31000000000'],
+    balancesAfterEpochTransition: ['32000000000', '32000000000'],
   } as ValidatorPerformanceResponse;
 
-  (service as any)['performance$'] = of(defaultPerformanceData);
-  (walletService as any)['validatingPublicKeys$'] = of([] as Uint8Array[]);
+  service['performance$'] = of(defaultPerformanceData);
+  walletService['validatingPublicKeys$'] = of([] as string[]);
   (beaconNodeService as any)['peers$'] = of({
     peers: [],
   } as Peers);

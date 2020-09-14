@@ -30,11 +30,11 @@ export interface BeaconBlock {
   /**
    *  32 byte root of the parent block.
    */
-  parentRoot: Uint8Array;
+  parentRoot: string;
   /**
    *  32 byte root of the resulting state after processing this block.
    */
-  stateRoot: Uint8Array;
+  stateRoot: string;
   /**
    *  The block body itself.
    */
@@ -52,7 +52,7 @@ export interface SignedBeaconBlock {
   /**
    *  96 byte BLS signature from the validator that produced this block.
    */
-  signature: Uint8Array;
+  signature: string;
 }
 
 /**
@@ -62,7 +62,7 @@ export interface BeaconBlockBody {
   /**
    *  The validators RANDAO reveal 96 byte value.
    */
-  randaoReveal: Uint8Array;
+  randaoReveal: string;
   /**
    *  A reference to the Ethereum 1.x chain.
    */
@@ -71,7 +71,7 @@ export interface BeaconBlockBody {
    *  32 byte field of arbitrary data. This field may contain any data and
    *  is not used for anything other than a fun message.
    */
-  graffiti: Uint8Array;
+  graffiti: string;
   /**
    *  At most MAX_PROPOSER_SLASHINGS.
    */
@@ -131,7 +131,7 @@ export interface Deposit {
   /**
    *  32 byte roots in the deposit tree branch.
    */
-  proof: Uint8Array[];
+  proof: string[];
   data: Deposit_Data | undefined;
 }
 
@@ -139,11 +139,11 @@ export interface Deposit_Data {
   /**
    *  48 byte BLS public key of the validator.
    */
-  publicKey: Uint8Array;
+  publicKey: string;
   /**
    *  A 32 byte hash of the withdrawal address public key.
    */
-  withdrawalCredentials: Uint8Array;
+  withdrawalCredentials: string;
   /**
    *  Deposit amount in gwei.
    */
@@ -151,7 +151,7 @@ export interface Deposit_Data {
   /**
    *  96 byte signature from the validators public key.
    */
-  signature: Uint8Array;
+  signature: string;
 }
 
 /**
@@ -181,7 +181,7 @@ export interface SignedVoluntaryExit {
   /**
    *  Validator's 96 byte signature
    */
-  signature: Uint8Array;
+  signature: string;
 }
 
 /**
@@ -192,7 +192,7 @@ export interface Eth1Data {
    *  The 32 byte deposit tree root for the last deposit included in this
    *  block.
    */
-  depositRoot: Uint8Array;
+  depositRoot: string;
   /**
    *  The total number of deposits included in the beacon chain since genesis
    *  including the deposits in this block.
@@ -202,7 +202,7 @@ export interface Eth1Data {
    *  The 32 byte block hash of the Ethereum 1.x block considered for deposit
    *  inclusion.
    */
-  blockHash: Uint8Array;
+  blockHash: string;
 }
 
 /**
@@ -223,15 +223,15 @@ export interface BeaconBlockHeader {
   /**
    *  32 byte merkle tree root of the parent ssz encoded block.
    */
-  parentRoot: Uint8Array;
+  parentRoot: string;
   /**
    *  32 byte merkle tree root of the resulting ssz encoded state after processing this block.
    */
-  stateRoot: Uint8Array;
+  stateRoot: string;
   /**
    *  32 byte merkle tree root of the ssz encoded block body.
    */
-  bodyRoot: Uint8Array;
+  bodyRoot: string;
 }
 
 export interface SignedBeaconBlockHeader {
@@ -242,7 +242,7 @@ export interface SignedBeaconBlockHeader {
   /**
    *  96 byte BLS signature from the validator that produced this block header.
    */
-  signature: Uint8Array;
+  signature: string;
 }
 
 export interface IndexedAttestation {
@@ -251,53 +251,5 @@ export interface IndexedAttestation {
   /**
    *  96 bytes aggregate signature.
    */
-  signature: Uint8Array;
+  signature: string;
 }
-
-const baseBeaconBlock: object = {
-  slot: 0,
-  proposerIndex: 0,
-};
-
-const baseSignedBeaconBlock: object = {
-};
-
-const baseBeaconBlockBody: object = {
-};
-
-const baseProposerSlashing: object = {
-};
-
-const baseAttesterSlashing: object = {
-};
-
-const baseDeposit: object = {
-};
-
-const baseDeposit_Data: object = {
-  amount: 0,
-};
-
-const baseVoluntaryExit: object = {
-  epoch: 0,
-  validatorIndex: 0,
-};
-
-const baseSignedVoluntaryExit: object = {
-};
-
-const baseEth1Data: object = {
-  depositCount: 0,
-};
-
-const baseBeaconBlockHeader: object = {
-  slot: 0,
-  proposerIndex: 0,
-};
-
-const baseSignedBeaconBlockHeader: object = {
-};
-
-const baseIndexedAttestation: object = {
-  attestingIndices: 0,
-};

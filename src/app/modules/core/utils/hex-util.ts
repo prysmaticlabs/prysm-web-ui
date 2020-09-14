@@ -1,9 +1,9 @@
 export function hexToBase64(hexstring: string) {
   const hexArray = hexstring
-    .replace(/\r|\n/g, "")
-    .replace(/([\da-fA-F]{2}) ?/g, "0x$1 ")
-    .replace(/ +$/, "")
-    .split(" ");
+    .replace(/\r|\n/g, '')
+    .replace(/([\da-fA-F]{2}) ?/g, '0x$1 ')
+    .replace(/ +$/, '')
+    .split(' ');
   const byteString = String.fromCharCode.apply(null, hexArray);
   return btoa(byteString);
 }

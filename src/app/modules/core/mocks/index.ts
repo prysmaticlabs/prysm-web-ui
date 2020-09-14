@@ -34,10 +34,12 @@ export const generateBalancesForEpoch = (url: string) => {
   return {
     epoch: Number.parseInt(params.get('epoch')),
     balances: mockPublicKeys.map((key, idx) => {
+      let bal = 32 * GWEI_PER_ETHER + (epoch * 1000000);
+      bal = bal + (idx+1)*500000;
       return {
         publicKey: key,
         index: idx,
-        balance: `${32 * GWEI_PER_ETHER + (epoch * 1000000)}`,
+        balance: `${bal}`,
       } as ValidatorBalances_Balance
     }),
   };

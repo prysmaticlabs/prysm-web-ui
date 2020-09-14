@@ -23,7 +23,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
 
   balances$ = this.beaconService.chainHead$.pipe(
     switchMap((head: ChainHead) =>
-      this.validatorService.recentEpochBalances(head.headEpoch, 4 /* lookback */)
+      this.validatorService.recentEpochBalances(head.headEpoch, 3 /* lookback */)
     ),
   );
 
@@ -41,8 +41,8 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
 
   updateData(genesisTime: number, balances: ValidatorBalances[]): void {
     const xAxisData = [];
-    const data1 = [];
-
+    const lowest: number[] = [];
+    const highest: number[] = [];
     const avgBalances: number[] = [];
     for (let i = 0; i < balances.length; i++) {
       let epoch = balances[i].epoch
@@ -51,13 +51,17 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       const pureBalances = balances[i].balances.map(b => BigNumber.from(b.balance));
       const total = pureBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
       const avg = total.div(pureBalances.length).toNumber() / GWEI_PER_ETHER;
+      const lowestBal = this.minbigNum(pureBalances).toNumber() / GWEI_PER_ETHER;
+      const highestBal = this.maxBigNum(pureBalances).toNumber() / GWEI_PER_ETHER;
 
-      avgBalances.push(avg);
       const formatted = moment(timeSinceGenesis).format('hh:mm:ss');
-      xAxisData.push(formatted);
-      data1.push(avg);
+      console.log(formatted);
+      xAxisData.push(`epoch ${epoch} ${formatted}`);
+      avgBalances.push(avg);
+      lowest.push(lowestBal);
+      highest.push(highestBal);
     }
-    let globalMin = Math.min(...avgBalances);
+    let globalMin = Math.min(...lowest);
     if (globalMin !== 0) {
       globalMin -= (globalMin * 0.00002);
     }
@@ -65,7 +69,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
  
     this.options = {
       legend: {
-        data: ['Average balance'],
+        data: ['Lowest balance', 'Average balance', 'Highest balance'],
         align: 'left',
         textStyle: {
           color: 'white',
@@ -76,13 +80,24 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       textStyle: {
         color: 'white',
       },
-      tooltip: {},
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+      },
+      toolbox: {
+        show: true,
+        orient: 'vertical',
+        left: 'right',
+        top: 'center',
+        feature: {
+          magicType: {title: 'Bar/Line', show: true, type: ['line', 'bar']},
+          saveAsImage: {title: 'Save', show: true}
+        }
+      },
       xAxis: {
         data: xAxisData,
-        silent: false,
-        splitLine: {
-          show: false,
-        },
         axisLabel: {
           color: 'white',
           fontSize: 14,
@@ -96,7 +111,8 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       },
       color: [
         "#7467ef",
-        // "#ff9e43",
+        "#ff9e43",
+        "rgba(51, 217, 178, 1)",
       ],
       yAxis: {
         type: 'value',
@@ -104,6 +120,9 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
           show: false
         },
         min: globalMinFixed,
+        axisLabel: {
+          formatter: '{value} ETH'
+        },
         axisLine: {
           lineStyle: {
             color: 'white',
@@ -112,20 +131,55 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       },
       series: [
         {
-          name: 'Average balance',
+          name: 'Lowest balance',
           type: 'bar',
-          data: data1,
+          barGap: 0,
+          data: lowest,
           animationDelay: (idx: number) => idx * 10,
         },
-        // {
-        //   name: 'Range balance',
-        //   type: 'line',
-        //   data: data2,
-        //   animationDelay: (idx: number) => idx * 20,
-        // },
+        {
+          name: 'Average balance',
+          type: 'bar',
+          barGap: 0,
+          data: avgBalances,
+          animationDelay: (idx: number) => idx * 10,
+        },
+        {
+          name: 'Highest balance',
+          type: 'bar',
+          barGap: 0,
+          data: highest,
+          animationDelay: (idx: number) => idx * 10,
+        },
       ],
       animationEasing: 'elasticOut',
       animationDelayUpdate: (idx: number) => idx * 5,
     };
+  }
+
+  private minbigNum(balances: BigNumber[]): BigNumber {
+    if (!balances.length) {
+      return BigNumber.from('0');
+    }
+    let min = balances[0];
+    for (let i = 0; i < balances.length; i++) {
+      if (balances[i].lt(min)) {
+        min = balances[i];
+      }
+    }
+    return min;
+  }
+
+  private maxBigNum(balances: BigNumber[]): BigNumber {
+    if (!balances.length) {
+      return BigNumber.from('0');
+    }
+    let max = balances[0];
+    for (let i = 0; i < balances.length; i++) {
+      if (balances[i].gt(max)) {
+        max = balances[i];
+      }
+    }
+    return max;
   }
 }

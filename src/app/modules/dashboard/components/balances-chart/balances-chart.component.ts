@@ -44,11 +44,16 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
     const lowest: number[] = [];
     const highest: number[] = [];
     const avgBalances: number[] = [];
+
+    const epochTimestamps: number[] = [];    
+    const epochBalanceObject: object[] = [];    
     for (let i = 0; i < balances.length; i++) {
       let epoch = balances[i].epoch
       let totalMilliseconds = epoch * MILLISECONDS_PER_SLOT * SLOTS_PER_EPOCH
-      let timeSinceGenesis = new Date(genesisTime*1000 + totalMilliseconds);
+      let epochTimestamp = new Date(genesisTime*1000 + totalMilliseconds);
       const pureBalances = balances[i].balances.map(b => BigNumber.from(b.balance));
+      pur
+
       const total = pureBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
       const avg = total.div(pureBalances.length).toNumber() / GWEI_PER_ETHER;
       const lowestBal = this.minbigNum(pureBalances).toNumber() / GWEI_PER_ETHER;

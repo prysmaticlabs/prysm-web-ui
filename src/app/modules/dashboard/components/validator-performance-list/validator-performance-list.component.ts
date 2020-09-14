@@ -3,8 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { hexlify } from 'ethers/lib/utils';
-import { map, take, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { ValidatorService } from '../../../core/services/validator.service';
+import { LOADING_CONTENT_TYPES } from '../../../shared/loading/loading.component';
 
 export class ValidatorListItem {
   publicKey: string;
@@ -29,6 +31,11 @@ export class ValidatorPerformanceListComponent {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  loading: boolean = true;
+  hasError: boolean = false;
+  noData: boolean = false;
+  loadingContentType: LOADING_CONTENT_TYPES = LOADING_CONTENT_TYPES.LIST;
 
   constructor(private validatorService: ValidatorService) {
 
@@ -58,6 +65,16 @@ export class ValidatorPerformanceListComponent {
         this.dataSource = new MatTableDataSource(result);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        //Just for simulating the loading time for the loading.component - TODO: remove later
+        setTimeout(() => {
+          this.loading = false;
+          this.noData = result.length === 0;
+        },10000)
+      }),
+      catchError(err => {
+        this.loading = false;
+        this.hasError = true;
+        return throwError(err);
       }),
       take(1)
     ).subscribe();

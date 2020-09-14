@@ -24,12 +24,14 @@ import { MomentModule } from 'ngx-moment';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
 import { OrdinalPipe } from '../core/pipes/ordinal.pipe';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
     HexlifyPipe,
     OrdinalPipe,
+    LoadingComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +61,7 @@ import { OrdinalPipe } from '../core/pipes/ordinal.pipe';
     MomentModule,
     HexlifyPipe,
     OrdinalPipe,
+    LoadingComponent
   ],
 })
 export class SharedModule { }

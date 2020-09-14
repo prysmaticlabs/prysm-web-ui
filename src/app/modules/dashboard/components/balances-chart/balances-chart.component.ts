@@ -39,38 +39,28 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
   }
 
   updateData(genesisTime: number, balances: ValidatorBalances[]): void {
-    console.log(balances);
-    console.log(genesisTime);
     const xAxisData = [];
     const data1 = [];
 
-    const avgBalances: BigNumber[] = [];
+    const avgBalances: number[] = [];
     for (let i = 0; i < balances.length; i++) {
       let epoch = balances[i].epoch
       let totalMilliseconds = epoch * MILLISECONDS_PER_SLOT * SLOTS_PER_EPOCH
       let timeSinceGenesis = new Date(genesisTime*1000 + totalMilliseconds);
       const pureBalances = balances[i].balances.map(b => BigNumber.from(b.balance));
       const total = pureBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
-      console.log(total.toString());
-      const avg = total.div(pureBalances.length).div(GWEI_PER_ETHER);
-      console.log(avg.toString());
+      const avg = total.div(pureBalances.length).toNumber() / GWEI_PER_ETHER;
 
       avgBalances.push(avg);
       xAxisData.push(timeSinceGenesis.toString());
-      data1.push(avg.toNumber());
+      data1.push(avg);
     }
-    let globalMin = BigNumber.from('0');
-    if (avgBalances.length) {
-      globalMin = avgBalances[0];
+    let globalMin = Math.min(...avgBalances);
+    if (globalMin !== 0) {
+      globalMin -= (globalMin * 0.00002);
     }
-    avgBalances.forEach((bal: BigNumber, _) => {
-      if (bal.lte(globalMin)) {
-        globalMin = bal;
-      }
-    });
-    console.log(avgBalances);
-    console.log(globalMin.toString());
-
+    const globalMinFixed = globalMin.toFixed(3);
+ 
     this.options = {
       legend: {
         data: ['Average balance'],
@@ -111,7 +101,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
         splitLine: {
           show: false
         },
-        min: globalMin.toNumber(),
+        min: globalMinFixed,
         axisLine: {
           lineStyle: {
             color: 'white',

@@ -5,7 +5,7 @@ import {
   ValidatorPerformanceResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorPerformanceListComponent } from './validator-performance-list.component';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ValidatorService } from '../../../core/services/validator.service';
 
 describe('ValidatorListComponent', () => {
@@ -22,7 +22,7 @@ describe('ValidatorListComponent', () => {
     balancesBeforeEpochTransition: [],
     balancesAfterEpochTransition: [],
     missingValidators: [],
-    averageActiveValidatorBalance: 0,
+    averageActiveValidatorBalance: '',
     publicKeys: []
   } as ValidatorPerformanceResponse);
   beforeEach(async(() => {

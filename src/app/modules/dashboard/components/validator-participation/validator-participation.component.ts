@@ -51,7 +51,7 @@ export class ValidatorParticipationComponent {
     } as ParticipationData;
   }
 
-  private gweiToETH(num: number): BigNumber {
-    return BigNumber.from(num.toString()).div(GWEI_PER_ETHER);
+  private gweiToETH(num: string): BigNumber {
+    return BigNumber.from(num).div(GWEI_PER_ETHER);
   }
 }

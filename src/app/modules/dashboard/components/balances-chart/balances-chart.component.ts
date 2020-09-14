@@ -5,7 +5,7 @@ import { SLOTS_PER_EPOCH, MILLISECONDS_PER_SLOT, GWEI_PER_ETHER } from 'src/app/
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { ChainHead, ValidatorBalances } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { Subject, zip } from 'rxjs';
-import { time } from 'console';
+import { BigNumber } from 'ethers';
 
 @Component({
   selector: 'app-balances-chart',
@@ -44,21 +44,32 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
     const xAxisData = [];
     const data1 = [];
 
-    const avgBalances: number[] = [];
+    const avgBalances: BigNumber[] = [];
     for (let i = 0; i < balances.length; i++) {
       let epoch = balances[i].epoch
       let totalMilliseconds = epoch * MILLISECONDS_PER_SLOT * SLOTS_PER_EPOCH
       let timeSinceGenesis = new Date(genesisTime*1000 + totalMilliseconds);
-      const pureBalances = balances[i].balances.map(b => b.balance / GWEI_PER_ETHER);
-      const total = pureBalances.reduce((prev, curr) => prev + curr, 0);
-      const avg = total / pureBalances.length;
+      const pureBalances = balances[i].balances.map(b => BigNumber.from(b.balance));
+      const total = pureBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
+      console.log(total.toString());
+      const avg = total.div(pureBalances.length).div(GWEI_PER_ETHER);
+      console.log(avg.toString());
 
       avgBalances.push(avg);
       xAxisData.push(timeSinceGenesis.toString());
-      data1.push(avg);
+      data1.push(avg.toNumber());
     }
-    const globalMin = Math.min(...avgBalances);
-    const globalMax = Math.max(...avgBalances);
+    let globalMin = BigNumber.from('0');
+    if (avgBalances.length) {
+      globalMin = avgBalances[0];
+    }
+    avgBalances.forEach((bal: BigNumber, _) => {
+      if (bal.lte(globalMin)) {
+        globalMin = bal;
+      }
+    });
+    console.log(avgBalances);
+    console.log(globalMin.toString());
 
     this.options = {
       legend: {
@@ -100,7 +111,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
         splitLine: {
           show: false
         },
-        min: globalMin,
+        min: globalMin.toNumber(),
         axisLine: {
           lineStyle: {
             color: 'white',

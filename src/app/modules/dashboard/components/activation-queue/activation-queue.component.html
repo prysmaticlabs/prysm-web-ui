@@ -31,7 +31,7 @@
     </div>
     <div *ngFor="let key of (userKeys | slice:0:4)">
       <div class="text-white text-base my-2">
-        {{(key | slice:0:30)+'...'}}
+        {{((key | base64tohex) | slice:0:30)+'...'}}
       </div>
       <div 
         class="flex" 
@@ -55,7 +55,7 @@
     </div>
     <div *ngFor="let key of (userKeys | slice:0:4)">
       <div class="text-white text-base my-2">
-        {{(key | slice:0:30)+'...'}}
+        {{((key | base64tohex) | slice:0:30)+'...'}}
       </div>
       <div 
         class="flex" 

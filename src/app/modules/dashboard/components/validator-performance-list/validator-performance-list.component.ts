@@ -4,8 +4,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { BigNumber } from 'ethers';
-import { map, take, tap } from 'rxjs/operators';
-
 import { ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { throwError } from 'rxjs';
 import { catchError, map, take, tap } from 'rxjs/operators';

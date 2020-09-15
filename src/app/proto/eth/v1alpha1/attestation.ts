@@ -19,12 +19,12 @@ export interface Attestation {
    *  A bitfield representation of validator indices that have voted exactly
    *  the same vote and have been aggregated into this attestation.
    */
-  aggregationBits: Uint8Array;
+  aggregationBits: string;
   data: AttestationData | undefined;
   /**
    *  96 byte BLS aggregate signature.
    */
-  signature: Uint8Array;
+  signature: string;
 }
 
 export interface AggregateAttestationAndProof {
@@ -39,7 +39,7 @@ export interface AggregateAttestationAndProof {
   /**
    *  96 byte selection proof signed by the aggregator, which is the signature of the slot to aggregate.
    */
-  selectionProof: Uint8Array;
+  selectionProof: string;
 }
 
 export interface SignedAggregateAttestationAndProof {
@@ -50,7 +50,7 @@ export interface SignedAggregateAttestationAndProof {
   /**
    *  96 byte BLS aggregate signature signed by the aggregator over the message.
    */
-  signature: Uint8Array;
+  signature: string;
 }
 
 /**
@@ -69,7 +69,7 @@ export interface AttestationData {
   /**
    *  32 byte root of the LMD GHOST block vote.
    */
-  beaconBlockRoot: Uint8Array;
+  beaconBlockRoot: string;
   /**
    *  The most recent justified checkpoint in the beacon state
    */
@@ -92,24 +92,5 @@ export interface Checkpoint {
   /**
    *  Block root of the checkpoint references.
    */
-  root: Uint8Array;
+  root: string;
 }
-
-const baseAttestation: object = {
-};
-
-const baseAggregateAttestationAndProof: object = {
-  aggregatorIndex: 0,
-};
-
-const baseSignedAggregateAttestationAndProof: object = {
-};
-
-const baseAttestationData: object = {
-  slot: 0,
-  committeeIndex: 0,
-};
-
-const baseCheckpoint: object = {
-  epoch: 0,
-};

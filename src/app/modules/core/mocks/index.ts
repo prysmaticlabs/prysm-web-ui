@@ -16,7 +16,15 @@ import {
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
-import fromHexString from 'src/app/modules/core/utils/from-hex-string';
+import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
+
+const mockPublicKeys: string[] = [
+  hexToBase64('0xaadaf653799229200378369ee7d6d9fdbdcdc2788143ed44f1ad5f2367c735e83a37c5bb80d7fb917de73a61bbcf00c4'),
+  hexToBase64('0xb9a7565e5daaabf7e5656b64201685c6c0241df7195a64dcfc82f94b39826562208ea663dc8e340994fe5e2eef05967a'),
+  hexToBase64('0xa74a19ce0c8a7909cb38e6645738c8d3f85821e371ecc273f16d02ec8b279153607953522c61e0d9c16c73e4e106dd31'),
+  hexToBase64('0x8d4d65e320ebe3f8f45c1941a7f340eef43ff233400253a5532ad40313b4c5b3652ad84915c7ab333d8afb336e1b7407'),
+  hexToBase64('0x93b283992d2db593c40d0417ccf6302ed5a26180555ec401c858232dc224b7e5c92aca63646bbf4d0d61df1584459d90'),
+]
 
 export const Mocks = {
   '/v2/validator/login': {
@@ -43,23 +51,23 @@ export const Mocks = {
   '/v2/validator/accounts': {
     accounts: [
       {
-        validatingPublicKey: fromHexString('0x822e00ec3d8ecc50e037b7ae3eba5486480d1ec49afad69a0d76bfdb158ead9bc389e8defef2c076d080371bf1f0fefc'),
+        validatingPublicKey: mockPublicKeys[0],
         accountName: 'merely-brief-gator',
       } as Account,
       {
-        validatingPublicKey: fromHexString('0xae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b'),
+        validatingPublicKey: mockPublicKeys[1],
         accountName: 'personally-conscious-echidna',
       } as Account,
       {
-        validatingPublicKey: fromHexString('0x8e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c10707155'),
+        validatingPublicKey: mockPublicKeys[2],
         accountName: 'slightly-amused-goldfish',
       } as Account,
       {
-        validatingPublicKey: fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
+        validatingPublicKey: mockPublicKeys[3],
         accountName: 'nominally-present-bull',
       } as Account,
       {
-        validatingPublicKey: fromHexString('0x28372738748972893748972839748927389478923784972893748927389478293748972389478927348972482734734'),
+        validatingPublicKey: mockPublicKeys[4],
         accountName: 'marginally-green-mare',
       } as Account,
     ],
@@ -68,19 +76,19 @@ export const Mocks = {
     epoch: 7119,
     balances: [
       {
-        publicKey: fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
+        publicKey: mockPublicKeys[0],
         index: 0,
-        balance: 32,
+        balance: '31200823019',
       },
       {
-        publicKey: fromHexString('0x8e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c10707155'),
+        publicKey: mockPublicKeys[1],
         index: 1,
-        balance: 32,
+        balance: '31200823019',
       },
       {
-        publicKey: fromHexString('0xae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b'),
+        publicKey: mockPublicKeys[2],
         index: 2,
-        balance: 32,
+        balance: '31200823019',
       },
     ] as ValidatorBalances_Balance[],
   } as ValidatorBalances,
@@ -118,40 +126,40 @@ export const Mocks = {
     epoch: 32,
     finalized: true,
     participation: {
-      currentEpochActiveGwei: "1446418000000000" as any,
-      currentEpochAttestingGwei: "102777000000000" as any,
-      currentEpochTargetAttestingGwei: "101552000000000" as any,
-      eligibleEther: "1446290000000000" as any,
+      currentEpochActiveGwei: '1446418000000000',
+      currentEpochAttestingGwei: '102777000000000',
+      currentEpochTargetAttestingGwei: '101552000000000',
+      eligibleEther: '1446290000000000',
       globalParticipationRate: 0.7861,
-      previousEpochActiveGwei: "1446290000000000" as any,
-      previousEpochAttestingGwei: "1143101000000000" as any,
-      previousEpochHeadAttestingGwei: "1089546000000000" as any,
-      previousEpochTargetAttestingGwei: "1136975000000000" as any,
-      votedEther: "1136975000000000" as any,
+      previousEpochActiveGwei: '1446290000000000',
+      previousEpochAttestingGwei: '1143101000000000',
+      previousEpochHeadAttestingGwei: '1089546000000000',
+      previousEpochTargetAttestingGwei: '1136975000000000',
+      votedEther: '1136975000000000',
     } as ValidatorParticipation,
   } as ValidatorParticipationResponse,
   '/eth/v1alpha1/validators/performance': {
-    currentEffectiveBalances: ["31000000000", "31000000000", "31000000000"] as any,
+    currentEffectiveBalances: ['31000000000', '31000000000', '31000000000'],
     correctlyVotedHead: [true, true, false],
     correctlyVotedSource: [true, true, false],
     correctlyVotedTarget: [true, false, true],
-    averageActiveValidatorBalance: 32,
-    inclusionDistances: [2, 2, 1],
-    inclusionSlots: [3022, 1022, 1021],
-    balancesBeforeEpochTransition: ["31200781367", "31216554607", "31204371127"] as any,
-    balancesAfterEpochTransition: ["31200823019", "31216596259", "31204412779"] as any,
-    publicKeys: ["0x00822e00ec3d8ecc50e037b7ae3eba5486480d1ec49afad69a0d76bfdb158ead9bc389e8defef2c076d080371bf1f0fefc", "0x00ae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b","0x008e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c107071505"] as any,
+    averageActiveValidatorBalance: '31000000000',
+    inclusionDistances: ['2', '2', '1'],
+    inclusionSlots: ['3022', '1022', '1021'],
+    balancesBeforeEpochTransition: ['31200781367', '31216554607', '31204371127'],
+    balancesAfterEpochTransition: ['31200823019', '31216596259', '31204412779'],
+    publicKeys: mockPublicKeys,
     missingValidators: [],
   } as ValidatorPerformanceResponse,
   '/eth/v1alpha1/validators/queue': {
-    churnLimit: "4" as any,
+    churnLimit: 4,
     activationPublicKeys: [
-      fromHexString('0xb94f7dcf3b39b221585384880b0eb0e278c15a70e80cfad8606d787a207e2a789b54ecf669f082f2b55a2a0f34643b5'),
-      fromHexString('0x8e557d66788bfd895c9b3676c2dd6d17c9d4bed3fd249482042f8906f2fc8c790900e96ee169c56b858108c10707155'),
+      mockPublicKeys[0],
+      mockPublicKeys[1],
     ],
     activationValidatorIndices: [0, 1],
     exitPublicKeys: [
-      fromHexString('0xae5155ebd98c00194b3b969d60dc32385c55f6b1378e7d7175ce026402edbe02080dc4a3619b1eb38096cecd73947d0b'),
+      mockPublicKeys[2],
     ],
     exitValidatorIndices: [2],
   } as ValidatorQueue,

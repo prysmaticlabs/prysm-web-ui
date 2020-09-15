@@ -16,6 +16,7 @@ import { SecurityModule } from './modules/security/security.module';
 import { OnboardingModule } from './modules/onboarding/onboarding.module';
 import { SystemProcessModule } from './modules/system-process/system-process.module';
 import { MockInterceptor } from './modules/core/interceptors/mock.interceptor';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MockInterceptor } from './modules/core/interceptors/mock.interceptor';
     HttpClientModule,
     AuthModule,
     DashboardModule,
+    NgxSkeletonLoaderModule,
     WalletModule,
     OnboardingModule,
     SystemProcessModule,

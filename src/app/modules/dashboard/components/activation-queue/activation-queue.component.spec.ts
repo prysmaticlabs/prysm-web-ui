@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
 import { MockService } from 'ng-mocks';
-import { hexlify } from 'ethers/lib/utils';
 
 import { ActivationQueueComponent, QueueData } from './activation-queue.component';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
@@ -10,6 +9,7 @@ import { ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SECONDS_PER_EPOCH } from 'src/app/modules/core/constants';
+import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
 
 describe('ActivationQueueComponent', () => {
   let component: ActivationQueueComponent;
@@ -17,16 +17,16 @@ describe('ActivationQueueComponent', () => {
   let service: ValidatorService = MockService(ValidatorService);
   let walletService: WalletService = MockService(WalletService);
   const defaultQueueResponse = {
-    churnLimit: "4" as any,
+    churnLimit: 4,
     activationPublicKeys: [
-      new Uint8Array([1, 2, 3]),
+      hexToBase64('0x123456'),
     ],
     activationValidatorIndices: [1],
     exitPublicKeys: [],
     exitValidatorIndices: [],
   } as ValidatorQueue;
   const defaultKeysResponse = [
-    new Uint8Array([1, 2, 3]),
+    hexToBase64('0x123456'),
   ];
   service['activationQueue$'] = of(defaultQueueResponse);
   walletService['validatingPublicKeys$'] = of(defaultKeysResponse);
@@ -54,12 +54,12 @@ describe('ActivationQueueComponent', () => {
   describe('Position in queue', () => {
     it('should determine position in activation array', () => {
       const arr = [
-        new Uint8Array([3, 4, 5]),
+        hexToBase64('0x234'),
         defaultQueueResponse.activationPublicKeys[0],
-        new Uint8Array([6, 7, 8]),
+        hexToBase64('0x678')
       ];
-      const hex = hexlify(defaultQueueResponse.activationPublicKeys[0]);
-      const position = component.positionInArray(arr, hex);
+      const key = defaultQueueResponse.activationPublicKeys[0];
+      const position = component.positionInArray(arr, key);
       expect(position).toEqual(2);
     });
     it('should determine proper activation ETA in seconds if position < churn limit', () => {

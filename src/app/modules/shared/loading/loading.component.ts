@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
-export enum LOADING_CONTENT_TYPES {
-  LIST = "list.svg",
-  CHART  = "chart.svg"
+export const LOADING_IMAGE_FOR_CONTENT_TYPE = {
+  INFO_BOX: "/assets/images/skeletons/info_box.svg",
+  LIST: "/assets/images/skeletons/list.svg",
+  LIST_VERTICAL: "/assets/images/skeletons/list_vertical.svg",
+  CHART:"/assets/images/skeletons/chart.svg",
+  TABLE: "/assets/images/skeletons/table.svg"
 };
 
 @Component({
@@ -19,10 +22,15 @@ export class LoadingComponent implements OnInit {
   @Input() errorMessage: string;
   @Input() noDataMessage: string;
 
-  @Input() loadingContentType: LOADING_CONTENT_TYPES;
+  @Input() errorImage: string;
+  @Input() noDataImage: string;
+  @Input() loadingImage: string;
+
+  @Input() loadingTemplate: TemplateRef<any>;
 
   @Input() minHeight: string = "200px";
   @Input() minWidth: string = "100%";
+
 
   constructor() { }
 
@@ -32,7 +40,7 @@ export class LoadingComponent implements OnInit {
   getMessage(): string {
     let message: string;
     if (this.loading) {
-      message = this.loadingMessage || "Loading data";
+      message = this.loadingMessage;
     }
     else if (this.errorMessage) {
       message = this.errorMessage || "An error occured.";

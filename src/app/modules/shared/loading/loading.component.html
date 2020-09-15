@@ -1,10 +1,14 @@
 <div [style.minWidth]="minWidth" [style.minHeight]="minHeight">
   <div class="overlay" *ngIf="loading || hasError || noData">
     <div class="message" *ngIf="getMessage()">{{getMessage()}}</div>
-    <div *ngIf="loading" class="loader"></div>
-    <img *ngIf="!loading && hasError" class="noData" src="/assets/images/undraw/warning.svg" alt="error" />
-    <img *ngIf="noData && !loading && !hasError" class="noData" src="/assets/images/undraw/empty.svg" alt="no data" />
-    <img *ngIf="loading && loadingContentType" class="loadingBackground" src="/assets/images/undraw/{{loadingContentType}}" alt="loading background" />
+    <img *ngIf="!loading && hasError" class="noData" [src]="errorImage || '/assets/images/undraw/warning.svg'" alt="error" />
+    <img *ngIf="noData && !loading && !hasError" class="noData" [src]="noDataImage || 'noData/assets/images/undraw/empty.svg'" alt="no data" />
+    <img *ngIf="loading && loadingImage" class="loadingBackground" src="{{loadingImage}}" alt="loading background" />
+    <div class="loading-template-container" *ngIf="loading">
+      <ng-container [ngTemplateOutlet]="loadingTemplate"></ng-container>
+    </div>
   </div>
-  <ng-content></ng-content>
+  <div class="content-container" [class.loading]="loading">
+    <ng-content></ng-content>
+  </div>
 </div>

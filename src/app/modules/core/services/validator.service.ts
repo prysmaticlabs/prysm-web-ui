@@ -35,7 +35,7 @@ export class ValidatorService {
     this.beaconNodeService.nodeEndpoint$,
     this.walletService.validatingPublicKeys$
   ).pipe(
-    switchMap((result: [string, Uint8Array[]]) => {
+    switchMap((result: [string, string[]]) => {
       const endpoint = result[0];
       const publicKeys = result[1];
       let params = `?publicKeys=`;
@@ -68,7 +68,7 @@ export class ValidatorService {
           this.beaconNodeService.nodeEndpoint$,
           this.walletService.validatingPublicKeys$
         ).pipe(
-          switchMap((result: [string, Uint8Array[]]) => {
+          switchMap((result: [string, string[]]) => {
             const endpoint = result[0];
             const publicKeys = result[1];
             return this.balancesByEpoch(endpoint, publicKeys, epoch);
@@ -81,7 +81,7 @@ export class ValidatorService {
 
   balancesByEpoch(
     apiUrl: string,
-    publicKeys: Uint8Array[],
+    publicKeys: string[],
     epoch: number,
   ): Observable<ValidatorBalances> {
     let params = `?epoch=${epoch}&publicKeys=`;
@@ -91,7 +91,7 @@ export class ValidatorService {
     return this.http.get<ValidatorBalances>(`${apiUrl}/validators/balances${params}`);
   }
 
-  private encodePublicKey(key: Uint8Array): string {
-    return encodeURIComponent(key.toString());
+  private encodePublicKey(key: string): string {
+    return encodeURIComponent(key);
   }
 }

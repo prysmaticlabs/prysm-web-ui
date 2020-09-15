@@ -33,6 +33,7 @@
     "ngx-echarts": "^5.1.2",
     "ngx-file-drop": "^9.0.1",
     "ngx-moment": "^5.0.0",
+    "ngx-skeleton-loader": "^2.4.4",
     "rxjs": "~6.5.5",
     "rxjs-pipe-ext": "^2.1.0",
     "tslib": "^2.0.0",

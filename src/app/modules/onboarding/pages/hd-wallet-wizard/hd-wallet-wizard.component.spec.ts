@@ -77,6 +77,6 @@ describe('HdWalletWizardComponent', () => {
       expect(walletService.createWallet).toHaveBeenCalled();
       expect(authService.signup).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['/dashboard/gains-and-losses']);
-    })
+    });
   });
 });

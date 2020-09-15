@@ -38,7 +38,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
 
   // Properties.
   private passwordValidator = new PasswordValidator();
-  states = WizardState
+  states = WizardState;
   isSmallScreen = false;
   loading = false;
   mnemonicFormGroup = this.formBuilder.group({

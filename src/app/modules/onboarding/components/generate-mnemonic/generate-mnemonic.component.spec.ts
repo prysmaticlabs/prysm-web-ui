@@ -41,7 +41,7 @@ describe('GenerateMnemonicComponent', () => {
   it('should display generated mnemonic from service', fakeAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      const text: HTMLElement = fixture.nativeElement
+      const text: HTMLElement = fixture.nativeElement;
       expect(text.textContent).toContain('hello');
     });
   }));

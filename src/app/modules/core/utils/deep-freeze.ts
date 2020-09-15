@@ -1,12 +1,11 @@
-export default function deepFreeze<T>(inObj: T): T {
-  Object.freeze(inObj);
-  Object.getOwnPropertyNames(inObj).forEach(function (prop) {
-    if (inObj.hasOwnProperty(prop)
-      && inObj[prop] != null
-      && typeof inObj[prop] === 'object'
-      && !Object.isFrozen(inObj[prop])) {
-        deepFreeze(inObj[prop]);
-      }
-  });
-  return inObj;
-}
+export type primitive = string | number | boolean | undefined | null;
+export type DeepReadonly<T> =
+  T extends primitive ? T :
+  T extends Array<infer U> ? DeepReadonlyArray<U> :
+  DeepReadonlyObject<T>;
+
+export interface DeepReadonlyArray<T> extends ReadonlyArray<DeepReadonly<T>> {}
+
+export type DeepReadonlyObject<T> = {
+  readonly [P in keyof T]: DeepReadonly<T[P]>
+};

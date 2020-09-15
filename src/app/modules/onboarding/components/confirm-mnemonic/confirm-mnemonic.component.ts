@@ -9,13 +9,13 @@ import { Subject } from 'rxjs';
   templateUrl: './confirm-mnemonic.component.html',
 })
 export class ConfirmMnemonicComponent implements OnInit, OnDestroy {
-  @Input() formGroup: FormGroup
-  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+  @Input() formGroup: FormGroup | null = null;
+  @ViewChild('autosize') autosize?: CdkTextareaAutosize;
 
   destroyed$$ = new Subject<void>();
 
   constructor(
-    private _ngZone: NgZone,
+    private ngZone: NgZone,
   ) { }
 
   ngOnInit(): void {
@@ -27,10 +27,10 @@ export class ConfirmMnemonicComponent implements OnInit, OnDestroy {
     this.destroyed$$.complete();
   }
 
-  triggerResize() {
+  triggerResize(): void {
     // Wait for changes to be applied, then trigger textarea resize.
-    this._ngZone.onStable.pipe(
-      tap(() => this.autosize.resizeToFitContent(true)),
+    this.ngZone.onStable.pipe(
+      tap(() => this.autosize?.resizeToFitContent(true)),
       takeUntil(this.destroyed$$),
     ).subscribe();
   }

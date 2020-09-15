@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { interval, Observable, empty } from 'rxjs';
-import { flatZipMap } from 'rxjs-pipe-ext';
-import { startWith, mergeMap, catchError, switchMap, map, share } from 'rxjs/operators';
+import { flatZipMap } from 'rxjs-pipe-ext/lib';
+import { startWith, mergeMap, catchError, switchMap, map } from 'rxjs/operators';
 
 import { Store } from 'src/app/modules/core/utils/simple-store';
+import { DeepReadonly } from 'src/app/modules/core/utils/deep-freeze';
 import { select$ } from 'src/app/modules/core/utils/select$';
 import { EnvironmenterService } from './environmenter.service';
 
@@ -39,9 +40,11 @@ export class BeaconNodeService {
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
-  // Create a reliable, immutable store for storing the 
+  // Create a reliable, immutable store for storing the
   // connection response with replayability.
-  private beaconNodeState$ = new Store({} as NodeState);
+  private beaconNodeState$: Store<DeepReadonly<NodeState>> = new Store(
+    {} as DeepReadonly<NodeState>,
+  );
 
   // State field access.
   readonly nodeEndpoint$: Observable<string> = select$(
@@ -106,7 +109,7 @@ export class BeaconNodeService {
 
   private updateState(): Observable<NodeState> {
     return this.fetchNodeStatus().pipe(
-      flatZipMap((res: NodeConnectionResponse) => 
+      flatZipMap((res: NodeConnectionResponse) =>
         this.fetchChainHead('http://' + res.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
           catchError(_ => empty()),
         )
@@ -122,9 +125,9 @@ export class BeaconNodeService {
     );
   }
 
-  private isEmpty(obj: object) {
+  private isEmpty(obj: object): false {
     for (let key in obj) {
-      if(obj.hasOwnProperty(key)) {
+      if (obj.hasOwnProperty(key)) {
         return false;
       }
     }

@@ -9,7 +9,7 @@ import { map, take, tap } from 'rxjs/operators';
 import { ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorService } from '../../../core/services/validator.service';
 
-export class ValidatorListItem {
+export interface ValidatorListItem {
   publicKey: string;
   currentEffectiveBalances: string;
   inclusionSlots: string;
@@ -35,19 +35,19 @@ export class ValidatorPerformanceListComponent {
     'correctlyVotedHead',
     'gains'
   ];
-  dataSource: MatTableDataSource<ValidatorListItem>;
+  dataSource?: MatTableDataSource<ValidatorListItem>;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
 
   constructor(private validatorService: ValidatorService) {
 
     this.validatorService.performance$.pipe(
       map((performance: ValidatorPerformanceResponse) => {
-        let list: ValidatorListItem[] = [];
+        const list: ValidatorListItem[] = [];
         if (performance) {
-          for(let i = 0; i < performance.publicKeys.length; i++) {
-            let item = new ValidatorListItem();
+          for (let i = 0; i < performance.publicKeys.length; i++) {
+            const item = {} as ValidatorListItem;
             item.publicKey = performance.publicKeys[i];
             item.correctlyVotedSource = performance.correctlyVotedSource[i];
             item.correctlyVotedHead = performance.correctlyVotedHead[i];
@@ -73,11 +73,11 @@ export class ValidatorPerformanceListComponent {
     ).subscribe();
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    if (this.dataSource) {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+      this.dataSource.paginator?.firstPage();
     }
   }
 }

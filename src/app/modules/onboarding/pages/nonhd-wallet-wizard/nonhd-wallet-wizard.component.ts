@@ -20,26 +20,14 @@ enum WizardState {
   UnlockAccounts,
 }
 
+type voidFunc = () => void;
+
 @Component({
   selector: 'app-nonhd-wallet-wizard',
   templateUrl: './nonhd-wallet-wizard.component.html',
 })
 export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
-  @Input() resetOnboarding: () => void | null = null;
-  // Properties.
-  states = WizardState;
-  loading = false;
-  isSmallScreen = false;
-  importFormGroup: FormGroup | null = null;
-  unlockFormGroup: FormGroup  | null = null;
-  passwordFormGroup: FormGroup  | null = null;
-  private passwordValidator = new PasswordValidator();
-
-  // View children.
-  @ViewChild('stepper') stepper: MatStepper;
-
-  // Observables and subjects.
-  destroyed$ = new Subject();
+  @Input() resetOnboarding: voidFunc | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,41 +37,49 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     private walletService: WalletService,
   ) {}
 
+  // Properties.
+  private passwordValidator = new PasswordValidator();
+  states = WizardState;
+  loading = false;
+  isSmallScreen = false;
+  importFormGroup = this.formBuilder.group({
+    keystoresImported: [
+      [] as string[],
+    ]
+  }, {
+    validators: this.validateImportedKeystores,
+  });
+  unlockFormGroup = this.formBuilder.group({
+    keystoresPassword: ['', Validators.required]
+  });
+  passwordFormGroup = this.formBuilder.group({
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
+    passwordConfirmation: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
+  }, {
+    validators: this.passwordValidator.matchingPasswordConfirmation,
+  });
+
+  // View children.
+  @ViewChild('stepper') stepper?: MatStepper;
+
+  // Observables and subjects.
+  destroyed$ = new Subject();
+
   ngOnInit(): void {
-    this.registerFormGroups();
     this.registerBreakpointObserver();
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
-  }
-
-  registerFormGroups(): void {
-    this.importFormGroup = this.formBuilder.group({
-      keystoresImported: [
-        [] as string[],
-      ]
-    }, {
-      validators: this.validateImportedKeystores,
-    });
-    this.unlockFormGroup = this.formBuilder.group({
-      keystoresPassword: ['', Validators.required]
-    });
-    this.passwordFormGroup = this.formBuilder.group({
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        this.passwordValidator.strongPassword,
-      ]),
-      passwordConfirmation: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        this.passwordValidator.strongPassword,
-      ]),
-    }, {
-      validators: this.passwordValidator.matchingPasswordConfirmation,
-    });
   }
 
   registerBreakpointObserver(): void {
@@ -119,7 +115,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
         this.unlockFormGroup.markAllAsTouched();
         break;
     }
-    this.stepper.next();
+    this.stepper?.next();
   }
 
   createWallet(event: Event): void {

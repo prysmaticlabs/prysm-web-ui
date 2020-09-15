@@ -6,5 +6,5 @@ import SidebarLink from '../../types/sidebar-link';
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {
-  @Input() links: SidebarLink[];
+  @Input() links: SidebarLink[] | null = null;
 }

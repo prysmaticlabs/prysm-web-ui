@@ -1,0 +1,12 @@
+.security {
+  position: relative;
+  .mat-card:not(.bg-primary) {
+    background-color: $paper;
+  }
+  .mat-card.bg-primary {
+    background-color: $primary;
+  }
+  .mat-form-field {
+    width: 100% !important;
+  }
+}

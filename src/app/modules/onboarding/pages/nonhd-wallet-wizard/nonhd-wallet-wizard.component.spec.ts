@@ -18,8 +18,8 @@ import { WalletResponse, AuthResponse } from 'src/app/proto/validator/accounts/v
 describe('NonhdWalletWizardComponent', () => {
   let component: NonhdWalletWizardComponent;
   let fixture: ComponentFixture<NonhdWalletWizardComponent>;
-  let walletService: jasmine.SpyObj<WalletService>;
-  let authService: jasmine.SpyObj<AuthenticationService>;
+  let walletService: WalletService;
+  let authService: AuthenticationService;
   let router: Router;
 
   beforeEach(async(() => {
@@ -27,7 +27,7 @@ describe('NonhdWalletWizardComponent', () => {
     const authSpy = jasmine.createSpyObj('AuthenticationService', ['signup']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         MockComponent(ImportAccountsComponent),
         MockComponent(GenerateAccountsComponent),
         MockComponent(ChooseWalletPasswordComponent),
@@ -46,9 +46,9 @@ describe('NonhdWalletWizardComponent', () => {
       ]
     })
     .compileComponents();
-    walletService = TestBed.get(WalletService);
-    authService = TestBed.get(AuthenticationService);
-    router = TestBed.get(Router);
+    walletService = TestBed.inject(WalletService);
+    authService = TestBed.inject(AuthenticationService);
+    router = TestBed.inject(Router);
   }));
 
   beforeEach(() => {

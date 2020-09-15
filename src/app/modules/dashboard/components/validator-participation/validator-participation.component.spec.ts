@@ -13,7 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 describe('ValidatorParticipationComponent', () => {
   let component: ValidatorParticipationComponent;
   let fixture: ComponentFixture<ValidatorParticipationComponent>;
-  let service: ChainService = MockService(ChainService);
+  const service: ChainService = MockService(ChainService);
   const defaultParticipationResponse = {
     epoch: 32,
     finalized: true,
@@ -29,7 +29,7 @@ describe('ValidatorParticipationComponent', () => {
       previousEpochTargetAttestingGwei: '1136975000000000' as any,
       votedEther: '1136975000000000' as any,
     } as ValidatorParticipation,
-  } as ValidatorParticipationResponse
+  } as ValidatorParticipationResponse;
   (service as any)['participation$'] = of(defaultParticipationResponse);
 
   beforeEach(async(() => {
@@ -63,8 +63,8 @@ describe('ValidatorParticipationComponent', () => {
   });
 
   it('should display the voted eth vs. eligible eth', () => {
-    const votedETH = (component as any).gweiToETH(defaultParticipationResponse.participation.votedEther);
-    const eligibleETH = (component as any).gweiToETH(defaultParticipationResponse.participation.eligibleEther);
+    const votedETH = (component as any).gweiToETH(defaultParticipationResponse?.participation?.votedEther);
+    const eligibleETH = (component as any).gweiToETH(defaultParticipationResponse?.participation?.eligibleEther);
     const elem: HTMLElement = fixture.nativeElement;
     expect(elem.textContent).toContain(votedETH);
     expect(elem.textContent).toContain(eligibleETH);

@@ -5,7 +5,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { WalletService } from '../../../core/services/wallet.service';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
-import { ListAccountsResponse } from '../../../../proto/validator/accounts/v2/web_api';
+import { ListAccountsResponse, Account } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -13,11 +13,11 @@ describe('AccountListComponent', () => {
   let service: WalletService = MockService(WalletService);
   service.accounts$ = of({
     accounts: [{
-      validatingPublicKey: null,
+      validatingPublicKey: '',
       accountName: 'Fritz',
-      depositTxData: null,
+      depositTxData: '',
       derivationPath: 'somepath'
-    }]
+    }] as Account[],
   } as ListAccountsResponse);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('AccountListComponent', () => {
       ]
     })
       .compileComponents();
-    service = TestBed.get(WalletService);
+    service = TestBed.inject(WalletService);
   }));
 
   beforeEach(() => {

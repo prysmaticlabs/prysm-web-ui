@@ -14,7 +14,7 @@ class MockRouterStateSnapshot {
 
 describe('NoWalletFoundGuard', () => {
   let guard: NoWalletFoundGuard;
-  let service: jasmine.SpyObj<WalletService>;
+  let service: WalletService;
   let router: Router;
   let next: ActivatedRouteSnapshot;
   let state: RouterStateSnapshot;
@@ -35,6 +35,7 @@ describe('NoWalletFoundGuard', () => {
     guard = TestBed.inject(NoWalletFoundGuard);
     router = TestBed.inject(Router);
     next = TestBed.inject(ActivatedRouteSnapshot);
+    service = TestBed.inject(WalletService);
     state = TestBed.inject(RouterStateSnapshot);
   });
 

@@ -8,7 +8,7 @@ describe('select$', () => {
     const item = {
       title: 'Foo',
       subtitle: 'Bar',
-    }
+    };
     const store = new Store(item);
     const title$ = select$(
       store,
@@ -18,12 +18,14 @@ describe('select$', () => {
       take(1),
     ).subscribe(title => {
       expect(title).toEqual(item.title);
-    }, null, done);
+      done();
+    });
     title$.pipe(
       take(1),
     ).subscribe(title => {
       expect(title).toEqual(item.title);
-    }, null, done);
+      done();
+    });
 
     // We expect no events to fire in the super class (BehaviorSubject)
     // if the data remains the same.

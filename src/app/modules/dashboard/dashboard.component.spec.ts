@@ -14,7 +14,7 @@ import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
-  let serviceMock = MockService(BeaconNodeService);
+  const serviceMock = MockService(BeaconNodeService);
   (serviceMock as any)['nodeStatusPoll$'] = of({} as NodeConnectionResponse);
 
   beforeEach(async(() => {

@@ -6,7 +6,7 @@ import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { of } from 'rxjs';
 
 describe('GenerateMnemonicComponent', () => {
-  let walletService: jasmine.SpyObj<WalletService>;
+  let walletService: WalletService;
   const spy = jasmine.createSpyObj('WalletService', ['generateMnemonic$']);
 
   let component: GenerateMnemonicComponent;
@@ -23,7 +23,7 @@ describe('GenerateMnemonicComponent', () => {
       ]
     })
     .compileComponents();
-    walletService = TestBed.get(WalletService);
+    walletService = TestBed.inject(WalletService);
   }));
 
   beforeEach(() => {
@@ -44,5 +44,5 @@ describe('GenerateMnemonicComponent', () => {
       const text: HTMLElement = fixture.nativeElement
       expect(text.textContent).toContain('hello');
     });
-  }))
+  }));
 });

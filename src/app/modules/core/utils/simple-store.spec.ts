@@ -5,14 +5,16 @@ describe('Store', () => {
     const item = {
       title: 'Foo',
       subtitle: 'Bar',
-    }
-    const store = new Store(item)
+    };
+    const store = new Store(item);
     store.subscribe(res => {
       expect(res).toEqual(item);
-    }, null, done);
+      done();
+    });
     store.subscribe(res => {
       expect(res).toEqual(item);
-    }, null, done);
+      done();
+    });
     expect(store.observers.length).toEqual(2);
 
     // We spy on the superclass 'next' method (BehaviorSubject).

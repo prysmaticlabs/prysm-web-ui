@@ -27,9 +27,9 @@ describe('ValidatorService', () => {
         { provide: WalletService, useValue: walletService },
       ]
     });
-    service = TestBed.get(ValidatorService);
-    beaconNodeService = TestBed.get(BeaconNodeService);
-    walletService = TestBed.get(WalletService);
+    service = TestBed.inject(ValidatorService);
+    beaconNodeService = TestBed.inject(BeaconNodeService);
+    walletService = TestBed.inject(WalletService);
     spyOn(service, 'balancesByEpoch').and.returnValue(of({
       epoch: 0,
       balances: [
@@ -44,13 +44,13 @@ describe('ValidatorService', () => {
   describe('recentEpochBalances', () => {
     it('should disallow lookback > MAX_EPOCH_LOOKBACK', () => {
       const badCall = () => {
-        service.recentEpochBalances(0, MAX_EPOCH_LOOKBACK+1);
+        service.recentEpochBalances(0, MAX_EPOCH_LOOKBACK + 1);
       };
       expect(badCall).toThrowError();
     });
 
     it('should return an array of length lookback items', done => {
-      service.recentEpochBalances(MAX_EPOCH_LOOKBACK+5, MAX_EPOCH_LOOKBACK).subscribe((result: ValidatorBalances[]) => {
+      service.recentEpochBalances(MAX_EPOCH_LOOKBACK + 5, MAX_EPOCH_LOOKBACK).subscribe((result: ValidatorBalances[]) => {
         expect(result).toBeTruthy();
         expect(result.length).toEqual(5);
         expect(result[0].epoch).toEqual(0);

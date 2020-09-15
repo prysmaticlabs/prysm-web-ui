@@ -35,12 +35,12 @@ export interface Genesis {
   /**
    *  Address of the deposit contract in the Ethereum 1 chain.
    */
-  depositContractAddress: Uint8Array;
+  depositContractAddress: string;
   /**
    *  Root of the genesis validators deposits; used for domain separation
    *  when signing data structures for this chain.
    */
-  genesisValidatorsRoot: Uint8Array;
+  genesisValidatorsRoot: string;
 }
 
 /**
@@ -121,43 +121,6 @@ export interface HostData {
    */
   enr: string;
 }
-
-const baseSyncStatus: object = {
-  syncing: false,
-};
-
-const baseGenesis: object = {
-};
-
-const baseVersion: object = {
-  version: "",
-  metadata: "",
-};
-
-const baseImplementedServices: object = {
-  services: "",
-};
-
-const basePeerRequest: object = {
-  peerId: "",
-};
-
-const basePeers: object = {
-};
-
-const basePeer: object = {
-  address: "",
-  direction: 0,
-  connectionState: 0,
-  peerId: "",
-  enr: "",
-};
-
-const baseHostData: object = {
-  addresses: "",
-  peerId: "",
-  enr: "",
-};
 
 /**  PeerDirection states the direction of the connection to a peer.
  */

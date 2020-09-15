@@ -16,7 +16,7 @@
       <!-- Validating Public key Column -->
       <ng-container matColumnDef="validatingPublicKey">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Validating Public key </th>
-        <td mat-cell *matCellDef="let row"> {{row.validatingPublicKey | hexlify}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.validatingPublicKey | base64tohex}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

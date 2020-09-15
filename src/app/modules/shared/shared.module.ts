@@ -22,15 +22,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MomentModule } from 'ngx-moment';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
-import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
-import { OrdinalPipe } from '../core/pipes/ordinal.pipe';
+import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
+import { OrdinalPipe } from './pipes/ordinal.pipe';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
-    HexlifyPipe,
+    Base64ToHexPipe,
     OrdinalPipe,
     LoadingComponent,
   ],
@@ -60,7 +60,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatProgressBarModule,
     MatDividerModule,
     MomentModule,
-    HexlifyPipe,
+    Base64ToHexPipe,
     OrdinalPipe,
     LoadingComponent,
     NgxSkeletonLoaderModule

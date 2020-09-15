@@ -6,15 +6,15 @@ import { Directive, HostListener } from '@angular/core';
 export class BlockCopyPasteDirective {
   constructor() { }
 
-  @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+  @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent): void {
     e.preventDefault();
   }
 
-  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent): void {
     e.preventDefault();
   }
 
-  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent): void {
     e.preventDefault();
   }
 }

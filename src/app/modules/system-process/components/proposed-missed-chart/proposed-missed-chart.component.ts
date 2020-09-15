@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 export class ProposedMissedChartComponent {
   options = {
     barGap: 50,
-    barMaxWidth: "6px",
+    barMaxWidth: '6px',
 
     grid: {
       top: 24,
@@ -20,20 +20,20 @@ export class ProposedMissedChartComponent {
       itemGap: 32,
       top: -4,
       left: -4,
-      icon: "circle",
-      width: "auto",
-      data: ["Atts Included", "Missed Atts", "Orphaned"],
+      icon: 'circle',
+      width: 'auto',
+      data: ['Atts Included', 'Missed Atts', 'Orphaned'],
       textStyle: {
-        color: "white",
+        color: 'white',
         fontSize: 12,
-        fontFamily: "roboto",
-        align: "center"
+        fontFamily: 'roboto',
+        align: 'center'
       }
     },
     tooltip: {},
     xAxis: {
-      type: "category",
-      data: ["Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      type: 'category',
+      data: ['Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       showGrid: false,
       boundaryGap: false,
       axisLine: {
@@ -43,9 +43,9 @@ export class ProposedMissedChartComponent {
         show: false
       },
       axisLabel: {
-        color: "white",
+        color: 'white',
         fontSize: 12,
-        fontFamily: "roboto",
+        fontFamily: 'roboto',
         margin: 16
       },
       axisTick: {
@@ -53,12 +53,12 @@ export class ProposedMissedChartComponent {
       }
     },
     color: [
-      "#7467ef",
-      "#e95455",
-      "#ff9e43",
+      '#7467ef',
+      '#e95455',
+      '#ff9e43',
     ],
     yAxis: {
-      type: "value",
+      type: 'value',
       show: false,
       axisLine: {
         show: false
@@ -69,28 +69,28 @@ export class ProposedMissedChartComponent {
     },
     series: [
       {
-        name: "Atts Included",
+        name: 'Atts Included',
         data: [70, 80, 80, 80, 60, 70, 40],
-        type: "bar",
+        type: 'bar',
         itemStyle: {
           barBorderRadius: [0, 0, 10, 10]
         },
-        stack: "one"
+        stack: 'one'
       },
       {
-        name: "Missed Atts",
+        name: 'Missed Atts',
         data: [40, 90, 100, 70, 80, 65, 50],
-        type: "bar",
-        stack: "one"
+        type: 'bar',
+        stack: 'one'
       },
       {
-        name: "Orphaned",
+        name: 'Orphaned',
         data: [30, 70, 100, 90, 70, 55, 40],
-        type: "bar",
+        type: 'bar',
         itemStyle: {
           barBorderRadius: [10, 10, 0, 0]
         },
-        stack: "one"
+        stack: 'one'
       }
     ]
   };

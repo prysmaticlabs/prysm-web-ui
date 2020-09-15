@@ -7,7 +7,6 @@ describe('OrdinalPipe', () => {
     expect(pipe.transform(2)).toEqual('2nd');
     expect(pipe.transform(3)).toEqual('3rd');
   });
-  
   it('transforms other numbers into ordinal form', () => {
     const pipe = new OrdinalPipe();
     expect(pipe.transform(20)).toEqual('20th');

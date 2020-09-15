@@ -7,8 +7,8 @@ import { Subject } from 'rxjs';
   templateUrl: './choose-wallet-kind.component.html',
 })
 export class ChooseWalletKindComponent {
-  @Input() walletSelections: WalletSelection[];
-  @Input() selectedWallet$: Subject<WalletKind>;
+  @Input() walletSelections: WalletSelection[] | null = null;
+  @Input() selectedWallet$: Subject<WalletKind> | null = null;
   selectedCard = 1; // We select card with index 1 as the default.
   constructor() { }
 

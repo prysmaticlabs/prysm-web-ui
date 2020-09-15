@@ -6,6 +6,6 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './choose-wallet-password.component.html',
 })
 export class ChooseWalletPasswordComponent {
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: FormGroup | null = null;
   constructor() { }
 }

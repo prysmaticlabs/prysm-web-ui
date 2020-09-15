@@ -48,12 +48,11 @@ export class ValidatorPerformanceSummaryComponent {
     shareReplay(1),
   );
   connectedPeers$ = this.peers$.pipe(
-    map(peers => peers.filter(p => p.connectionState.toString() === 'CONNECTED')), 
+    map(peers => peers.filter(p => p.connectionState.toString() === 'CONNECTED')),
   );
   performanceData$: Observable<PerformanceData> = this.validatorService.performance$.pipe(
     map(this.transformPerformanceData.bind(this)),
   );
-
 
   private transformPerformanceData(perf: ValidatorPerformanceResponse): PerformanceData {
     const recentEpochGains = this.computeEpochGains(
@@ -62,14 +61,14 @@ export class ValidatorPerformanceSummaryComponent {
     const averageEffectiveBalance = this.computeAverageEffectiveBalance(
       perf.currentEffectiveBalances
     );
-    const votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length / 
+    const votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length /
       perf.correctlyVotedHead.length;
 
     const averageInclusionDistance = perf.inclusionDistances.reduce((prev, curr) => {
       if (curr.toString() === FAR_FUTURE_EPOCH) {
         return prev;
       }
-      return prev + Number.parseInt(curr.toString());
+      return prev + Number.parseInt(curr, 10);
     }, 0) / perf.inclusionDistances.length;
     let overallScore;
     if (votedHeadPercentage === 1) {
@@ -99,12 +98,12 @@ export class ValidatorPerformanceSummaryComponent {
   private computeEpochGains(pre: string[], post: string[]): number {
     const beforeTransition = pre.map(num => BigNumber.from(num));
     const afterTransition = post.map(num => BigNumber.from(num));
-    if (beforeTransition.length != afterTransition.length) {
+    if (beforeTransition.length !== afterTransition.length) {
       throw new Error('Number of balances before and after epoch transition are different');
     }
     const diffInEth = afterTransition.map((num: BigNumber, idx: number) => {
       return num.sub(beforeTransition[idx]);
-    })
+    });
     const gainsInGwei = diffInEth.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
     return gainsInGwei.toNumber() / GWEI_PER_ETHER;
   }

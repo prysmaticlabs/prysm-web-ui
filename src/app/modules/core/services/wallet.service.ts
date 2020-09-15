@@ -23,8 +23,8 @@ export class WalletService {
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   // Observables.
-  walletConfig$ = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`);
-  accounts$ = this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts`).pipe(
+  walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`);
+  accounts$: Observable<ListAccountsResponse> = this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts`).pipe(
     shareReplay(1),
   );
   validatingPublicKeys$: Observable<string[]> = this.accounts$.pipe(

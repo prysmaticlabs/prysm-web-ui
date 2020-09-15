@@ -1,23 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-wallet-config',
   templateUrl: './wallet-config.component.html',
 })
-export class WalletConfigComponent implements OnInit {
+export class WalletConfigComponent {
+  constructor(private formBuilder: FormBuilder) {}
+
   isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
-  constructor(private _formBuilder: FormBuilder) {}
-
-  ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
-  }
+  firstFormGroup = this.formBuilder.group({
+    firstCtrl: ['', Validators.required]
+  });
+  secondFormGroup = this.formBuilder.group({
+    secondCtrl: ['', Validators.required]
+  });
 }

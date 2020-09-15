@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import SidebarLink from './types/sidebar-link';
 import { BeaconNodeService } from '../core/services/beacon-node.service';
 import { Subject } from 'rxjs';
@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private beaconNodeService: BeaconNodeService,
   ) { }
@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   destroyed$$ = new Subject<void>();
-  
+
   ngOnInit(): void {
     this.beaconNodeService.nodeStatusPoll$.pipe(
       takeUntil(this.destroyed$$),

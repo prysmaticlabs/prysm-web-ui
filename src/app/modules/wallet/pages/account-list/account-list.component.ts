@@ -3,9 +3,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { take, tap } from 'rxjs/operators';
-import { Account } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
-
+import {
+  ListAccountsResponse,
+  Account,
+} from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Component({
   selector: 'app-account-list',
@@ -13,38 +15,30 @@ import { WalletService } from '../../../core/services/wallet.service';
 })
 export class AccountListComponent implements OnInit {
   displayedColumns: string[] = ['accountName', 'validatingPublicKey'];
-  dataSource: MatTableDataSource<Account>;
+  dataSource: MatTableDataSource<Account> | null = null;
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
 
   constructor(private walletService: WalletService) {
-    // Create 100 users.
+  }
 
-    // Assign the data to the data source for the table to render.
-
-    walletService.accounts$.pipe(
-      tap(result => {
-        this.dataSource = new MatTableDataSource(result.accounts.map((account, index) => {
-          account.validatingPublicKey
-          return account;
-        }));
+  ngOnInit(): void {
+    this.walletService.accounts$.pipe(
+      tap((result: ListAccountsResponse) => {
+        this.dataSource = new MatTableDataSource(result?.accounts);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }),
       take(1)
     ).subscribe();
   }
 
-  ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    if (this.dataSource) {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+      this.dataSource.paginator?.firstPage();
     }
   }
 }

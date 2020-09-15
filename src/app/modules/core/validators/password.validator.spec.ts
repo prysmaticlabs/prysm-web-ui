@@ -5,8 +5,8 @@ import { PasswordValidator } from './password.validator';
 describe('PasswordValidator', () => {
   describe('Password strength checks', () => {
     it('should error if password does not contain uppercase characters', () => {
-      let validator = new PasswordValidator();
-      const validationFunc = validator.strongPassword
+      const validator = new PasswordValidator();
+      const validationFunc = validator.strongPassword;
       const formControl = {
         value: 'passwordpassword123$',
       };
@@ -17,8 +17,8 @@ describe('PasswordValidator', () => {
     });
 
     it('should error if password does not contain at least one number', () => {
-      let validator = new PasswordValidator();
-      const validationFunc = validator.strongPassword
+      const validator = new PasswordValidator();
+      const validationFunc = validator.strongPassword;
       const formControl = {
         value: 'Passwordpassword$',
       };
@@ -29,8 +29,8 @@ describe('PasswordValidator', () => {
     });
 
     it('should error if password does not contain at least one special character', () => {
-      let validator = new PasswordValidator();
-      const validationFunc = validator.strongPassword
+      const validator = new PasswordValidator();
+      const validationFunc = validator.strongPassword;
       const formControl = {
         value: 'Passwordpassword2020',
       };
@@ -41,8 +41,8 @@ describe('PasswordValidator', () => {
     });
 
     it('should error if password meets all requirements but is too short', () => {
-      let validator = new PasswordValidator();
-      const validationFunc = validator.strongPassword
+      const validator = new PasswordValidator();
+      const validationFunc = validator.strongPassword;
       const formControl = {
         value: '1Pass$',
       };
@@ -53,8 +53,8 @@ describe('PasswordValidator', () => {
     });
 
     it('should not error if password meets all requirements', () => {
-      let validator = new PasswordValidator();
-      const validationFunc = validator.strongPassword
+      const validator = new PasswordValidator();
+      const validationFunc = validator.strongPassword;
       const formControl = {
         value: '%%Str0ngpAsswordz2020%%',
       };
@@ -72,11 +72,11 @@ describe('PasswordValidator', () => {
         password: new FormControl('Passw0rdz0202$', []),
         passwordConfirmation: new FormControl('Passw0rdz0202$$', []),
       });
-      const validationFunc = validator.matchingPasswordConfirmation
-      const res = validationFunc(
+      const validationFunc = validator.matchingPasswordConfirmation;
+      validationFunc(
         formControl as AbstractControl,
       );
-      expect(formControl.get('passwordConfirmation').errors).not.toBeNull();
+      expect(formControl?.get('passwordConfirmation')?.errors).not.toBeNull();
     });
 
     it('should not error if password matches confirmation', () => {
@@ -86,11 +86,11 @@ describe('PasswordValidator', () => {
         password: new FormControl(password, []),
         passwordConfirmation: new FormControl(password, []),
       });
-      const validationFunc = validator.matchingPasswordConfirmation
-      const res = validationFunc(
+      const validationFunc = validator.matchingPasswordConfirmation;
+      validationFunc(
         formControl as AbstractControl,
       );
-      expect(formControl.get('passwordConfirmation').errors).toBeNull();
+      expect(formControl?.get('passwordConfirmation')?.errors).toBeNull();
     });
   });
 });

@@ -5,14 +5,14 @@ import { map, distinctUntilChanged, shareReplay } from 'rxjs/operators';
 type MappingFunction<T, R> = (mappable: T) => R;
 type MemoizationFunction<R> = (previousResult: R, currentResult: R) => boolean;
 
-function defaultMemoization(previousValue: any, currentValue: any): boolean {
+function defaultMemoization<T>(previousValue: T, currentValue: T): boolean {
   if (typeof previousValue === 'object' && typeof currentValue === 'object') {
     return naiveObjectComparison(previousValue, currentValue);
   }
   return previousValue === currentValue;
 }
 
-export function select$<T, R> (
+export function select$<T, R>(
   source$: Observable<T>,
   mappingFunction: MappingFunction<T, R>,
   memoizationFunction?: MemoizationFunction<R>

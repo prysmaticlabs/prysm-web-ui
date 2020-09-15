@@ -14,10 +14,10 @@
       name="numAccounts"
       type="number"
     />
-    <mat-error *ngIf="formGroup.controls.numAccounts.hasError('required')">
+    <mat-error *ngIf="formGroup && formGroup.controls.numAccounts.hasError('required')">
       Num accounts is required
     </mat-error>
-    <mat-error *ngIf="formGroup.controls.numAccounts.hasError('min')">
+    <mat-error *ngIf="formGroup && formGroup.controls.numAccounts.hasError('min')">
       Must create at least 0 accounts
     </mat-error>
   </mat-form-field>

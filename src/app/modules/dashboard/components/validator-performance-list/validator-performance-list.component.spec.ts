@@ -11,7 +11,7 @@ import { ValidatorService } from '../../../core/services/validator.service';
 describe('ValidatorListComponent', () => {
   let component: ValidatorPerformanceListComponent;
   let fixture: ComponentFixture<ValidatorPerformanceListComponent>;
-  let service: ValidatorService = MockService(ValidatorService);
+  const service: ValidatorService = MockService(ValidatorService);
   service.performance$ = of({
     currentEffectiveBalances: [],
     inclusionSlots: [],

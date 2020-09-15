@@ -6,6 +6,6 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './generate-accounts.component.html',
 })
 export class GenerateAccountsComponent {
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: FormGroup | null = null;
   constructor() { }
 }

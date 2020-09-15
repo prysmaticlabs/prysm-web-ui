@@ -13,10 +13,10 @@ import { AuthenticationService } from '../../core/services/auth.service';
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  submitted: boolean;
   loginForm: FormGroup;
-  returnUrl: string;
+  returnUrl = '';
   loading = false;
+  submitted = false;
   destroyed$ = new Subject();
   private passwordValidator = new PasswordValidator();
 
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginForm.controls.password.errors) {
       return;
     }
-    const password = this.loginForm.get('password').value as string;
+    const password = this.loginForm.get('password')?.value as string;
     this.loading = true;
     this.authService.login(password).pipe(
       tap(() => {

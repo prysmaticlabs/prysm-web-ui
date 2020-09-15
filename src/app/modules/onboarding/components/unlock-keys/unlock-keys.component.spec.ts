@@ -39,26 +39,26 @@ describe('UnlockKeysComponent', () => {
 
   it('should render input elements', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const input = compiled.querySelector('input[name='keystoresPassword']');
+    const input = compiled.querySelector(`input[name='keystoresPassword']`);
     expect(input).toBeTruthy();
   });
 
   it('should check validity is falsy for empty form', () => {
     const form = component.formGroup;
-    expect(form.valid).toBeFalsy();
+    expect(form?.valid).toBeFalsy();
   });
 
   it('should test form invalidity', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('input[name='keystoresPassword']');
+    const input = fixture.nativeElement.querySelector(`input[name='keystoresPassword']`);
 
     input.value = '';
     input.dispatchEvent(new Event('input'));
-    component.formGroup.markAllAsTouched();
+    component.formGroup?.markAllAsTouched();
     fixture.detectChanges();
     expect(input.value).toBeFalsy();
-    expect(form.valid).toBeFalsy();
-    expect(form.controls.keystoresPassword.errors).toBeTruthy();
+    expect(form?.valid).toBeFalsy();
+    expect(form?.controls.keystoresPassword.errors).toBeTruthy();
 
     const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
@@ -66,14 +66,14 @@ describe('UnlockKeysComponent', () => {
 
   it('should test form validity', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('input[name='keystoresPassword']');
+    const input = fixture.nativeElement.querySelector(`input[name='keystoresPassword']`);
 
     input.value = '10';
     input.dispatchEvent(new Event('input'));
-    component.formGroup.markAllAsTouched();
+    component.formGroup?.markAllAsTouched();
     fixture.detectChanges();
     expect(input.value).toContain('10');
-    expect(form.valid).toBeTruthy();
+    expect(form?.valid).toBeTruthy();
 
     const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toEqual([]);

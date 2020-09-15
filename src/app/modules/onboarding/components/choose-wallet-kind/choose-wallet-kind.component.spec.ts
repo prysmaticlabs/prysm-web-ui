@@ -58,7 +58,7 @@ describe('ChooseWalletKindComponent', () => {
   });
 
   it('should fire wallet kind selection over subject on button submission', (done) => {
-    component.selectedWallet$.subscribe(kind => {
+    component.selectedWallet$?.subscribe(kind => {
       expect(kind).toEqual(WalletKind.Direct);
       done();
     });

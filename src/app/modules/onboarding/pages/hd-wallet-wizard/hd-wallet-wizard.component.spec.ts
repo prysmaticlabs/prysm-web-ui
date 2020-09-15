@@ -3,8 +3,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { of } from 'rxjs';
-import { MockComponent } from 'ng-mocks';
+import { Observable, of } from 'rxjs';
+import { MockComponent, MockService } from 'ng-mocks';
 
 import { HdWalletWizardComponent } from './hd-wallet-wizard.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
@@ -14,7 +14,7 @@ import { GenerateAccountsComponent } from '../../components/generate-accounts/ge
 import { ChooseWalletPasswordComponent } from '../../components/choose-wallet-password/choose-wallet-password.component';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
-import { WalletResponse, AuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletResponse, AuthResponse, CreateWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('HdWalletWizardComponent', () => {
   let component: HdWalletWizardComponent;
@@ -24,8 +24,14 @@ describe('HdWalletWizardComponent', () => {
   let router: Router;
 
   beforeEach(async(() => {
-    const walletSpy = jasmine.createSpyObj('WalletService', ['createWallet']);
-    const authSpy = jasmine.createSpyObj('AuthenticationService', ['signup']);
+    walletService = MockService(WalletService);
+    authService = MockService(AuthenticationService);
+    walletService.createWallet = (req: CreateWalletRequest): Observable<WalletResponse> => {
+      return of({ walletPath: 'hello' } as WalletResponse);
+    };
+    authService.signup = (password: string): Observable<AuthResponse> => {
+      return of({ token: 'hello' } as AuthResponse);
+    };
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     TestBed.configureTestingModule({
       declarations: [
@@ -42,8 +48,8 @@ describe('HdWalletWizardComponent', () => {
         HttpClientTestingModule,
       ],
       providers: [
-        { provide: WalletService, useValue: walletSpy },
-        { provide: AuthenticationService, useValue: authSpy },
+        { provide: WalletService, useValue: walletService },
+        { provide: AuthenticationService, useValue: authService },
         { provide: Router, useValue: routerSpy },
       ]
     })
@@ -65,17 +71,12 @@ describe('HdWalletWizardComponent', () => {
 
   describe('Create wallet', () => {
     it('should redirect to dashboard upon wallet creation and signup', () => {
-      component.registerFormGroups();
       component.passwordFormGroup.controls.password.setValue('Passw0rdz2020$');
       component.passwordFormGroup.controls.passwordConfirmation.setValue('Passw0rdz2020$');
       component.accountsFormGroup.controls.numAccounts.setValue(5);
       component.mnemonicFormGroup.controls.mnemonic.setValue('hello fish');
-      walletService.createWallet.and.returnValue(of({ walletPath: 'hello' } as WalletResponse));
-      authService.signup.and.returnValue(of({ token: 'hello' } as AuthResponse));
       component.createWallet(new Event('submit'));
       fixture.detectChanges();
-      expect(walletService.createWallet).toHaveBeenCalled();
-      expect(authService.signup).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['/dashboard/gains-and-losses']);
     });
   });

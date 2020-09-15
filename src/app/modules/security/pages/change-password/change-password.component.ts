@@ -15,6 +15,10 @@ export class ChangePasswordComponent implements OnInit {
   private passwordValidator = new PasswordValidator();
 
   ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  initializeForm(): void {
     this.formGroup = this.formBuilder.group({
       password: new FormControl('', [
         Validators.required,

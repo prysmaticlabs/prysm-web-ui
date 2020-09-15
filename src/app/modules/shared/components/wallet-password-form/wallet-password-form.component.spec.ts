@@ -1,20 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChooseWalletPasswordComponent } from './choose-wallet-password.component';
-import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { WalletPasswordFormComponent } from './wallet-password-form.component';
 import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Input } from '@angular/core';
 
-describe('ChooseWalletPasswordComponent', () => {
-  let component: ChooseWalletPasswordComponent;
-  let fixture: ComponentFixture<ChooseWalletPasswordComponent>;
+describe('WalletPasswordFormComponent', () => {
+  let component: WalletPasswordFormComponent;
+  let fixture: ComponentFixture<WalletPasswordFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChooseWalletPasswordComponent ],
+      declarations: [ WalletPasswordFormComponent ],
       imports: [
-        SharedModule,
         FormsModule,
         ReactiveFormsModule,
       ]
@@ -23,7 +20,7 @@ describe('ChooseWalletPasswordComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChooseWalletPasswordComponent);
+    fixture = TestBed.createComponent(WalletPasswordFormComponent);
     component = fixture.componentInstance;
     const builder = new FormBuilder();
     component.formGroup = builder.group({
@@ -71,7 +68,7 @@ describe('ChooseWalletPasswordComponent', () => {
     const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
   });
-  
+
   it('should test form invalidity for password not containing a number nor special character', () => {
     const form = component.formGroup;
     const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');

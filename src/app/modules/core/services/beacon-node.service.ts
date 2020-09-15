@@ -25,8 +25,8 @@ export const SECONDS_PER_SLOT = 12;
 export const BEACON_API_PREFIX = '/eth/v1alpha1';
 
 interface NodeState {
-  nodeConnection: NodeConnectionResponse,
-  chainHead: ChainHead,
+  nodeConnection: NodeConnectionResponse;
+  chainHead: ChainHead;
 }
 
 @Injectable({
@@ -49,25 +49,25 @@ export class BeaconNodeService {
   // State field access.
   readonly nodeEndpoint$: Observable<string> = select$(
     this.checkState(),
-    (res: NodeState) => {
+    (res: DeepReadonly<NodeState>) => {
       return 'http://' + res.nodeConnection.beaconNodeEndpoint + BEACON_API_PREFIX;
     }
   );
   readonly connected$: Observable<boolean> = select$(
     this.checkState(),
-    (res: NodeState) => res.nodeConnection?.connected,
+    (res: DeepReadonly<NodeState>) => res.nodeConnection?.connected,
   );
   readonly syncing$: Observable<boolean> = select$(
     this.checkState(),
-    (res: NodeState) => res.nodeConnection?.syncing,
+    (res: DeepReadonly<NodeState>) => res.nodeConnection?.syncing,
   );
   readonly chainHead$: Observable<ChainHead> = select$(
     this.checkState(),
-    (res: NodeState) => res.chainHead,
+    (res: DeepReadonly<NodeState>) => res.chainHead,
   );
   readonly genesisTime$: Observable<number> = select$(
     this.checkState(),
-    (res: NodeState) => res.nodeConnection?.genesisTime,
+    (res: DeepReadonly<NodeState>) => res.nodeConnection?.genesisTime,
   );
   readonly peers$: Observable<Peers> = this.nodeEndpoint$.pipe(
     switchMap((endpoint: string) => this.http.get<Peers>(`${endpoint}/node/peers`)),
@@ -77,7 +77,7 @@ export class BeaconNodeService {
     mergeMap(
       _ => select$(
         this.checkState(),
-        (res: NodeState) => res.nodeConnection?.genesisTime,
+        (res: DeepReadonly<NodeState>) => res.nodeConnection?.genesisTime,
       )
     ),
     map((genesisTimeUnix: number) => {
@@ -100,14 +100,14 @@ export class BeaconNodeService {
   }
 
   // Initializers.
-  private checkState(): Observable<NodeState> {
+  private checkState(): Observable<DeepReadonly<NodeState>> {
     if (this.isEmpty(this.beaconNodeState$.getValue())) {
       return this.updateState();
     }
-    return this.beaconNodeState$;
+    return this.beaconNodeState$.asObservable();
   }
 
-  private updateState(): Observable<NodeState> {
+  private updateState(): Observable<DeepReadonly<NodeState>> {
     return this.fetchNodeStatus().pipe(
       flatZipMap((res: NodeConnectionResponse) =>
         this.fetchChainHead('http://' + res.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
@@ -115,9 +115,9 @@ export class BeaconNodeService {
         )
       ),
       switchMap(([connStatus, chainHead]) => {
-        const state: NodeState = {
+        const state: DeepReadonly<NodeState> = {
           nodeConnection: connStatus,
-          chainHead: chainHead,
+          chainHead,
         };
         this.beaconNodeState$.next(state);
         return this.beaconNodeState$;
@@ -125,8 +125,8 @@ export class BeaconNodeService {
     );
   }
 
-  private isEmpty(obj: object): false {
-    for (let key in obj) {
+  private isEmpty(obj: object): boolean {
+    for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         return false;
       }

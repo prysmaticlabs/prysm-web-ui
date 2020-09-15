@@ -3,7 +3,8 @@ export function hexToBase64(hexstring: string): string {
     .replace(/\r|\n/g, '')
     .replace(/([\da-fA-F]{2}) ?/g, '0x$1 ')
     .replace(/ +$/, '')
-    .split(' ');
+    .split(' ')
+    .map(s => Number(s));
   const byteString = String.fromCharCode.apply(null, hexArray);
   return btoa(byteString);
 }

@@ -12,7 +12,7 @@ function defaultMemoization(previousValue: any, currentValue: any): boolean {
   return previousValue === currentValue;
 }
 
-export function select$<T, R> (
+export function select$<T, R>(
   source$: Observable<T>,
   mappingFunction: MappingFunction<T, R>,
   memoizationFunction?: MemoizationFunction<R>

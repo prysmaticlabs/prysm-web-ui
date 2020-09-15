@@ -16,7 +16,7 @@ export class AuthenticationService {
     private environmenter: EnvironmenterService,
   ) {
   }
-  token: string;
+  token = '';
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   login(password: string): Observable<AuthResponse> {
@@ -38,7 +38,7 @@ export class AuthenticationService {
   }
 
   // Logout the user and navigate to the application root.
-  logout() {
+  logout(): void {
     this.token = '';
     this.router.navigateByUrl('/');
   }

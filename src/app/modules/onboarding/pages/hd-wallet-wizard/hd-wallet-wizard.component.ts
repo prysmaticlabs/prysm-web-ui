@@ -38,9 +38,9 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState
   isSmallScreen = false;
   loading = false;
-  mnemonicFormGroup: FormGroup;
-  accountsFormGroup: FormGroup;
-  passwordFormGroup: FormGroup;
+  mnemonicFormGroup: FormGroup | null = null;
+  accountsFormGroup: FormGroup | null = null;
+  passwordFormGroup: FormGroup | null = null;
   private passwordValidator = new PasswordValidator();
 
   // View children.
@@ -121,14 +121,14 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
 
   createWallet(event: Event): void {
     event.stopPropagation();
-    if (this.passwordFormGroup.invalid) {
+    if (this.passwordFormGroup?.invalid) {
       return;
     }
     const request = {
       keymanager: CreateWalletRequest_KeymanagerKind.DERIVED,
-      walletPassword: this.passwordFormGroup.controls.password.value,
-      numAccounts: this.accountsFormGroup.controls.numAccounts.value,
-      mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
+      walletPassword: this.passwordFormGroup?.controls.password.value,
+      numAccounts: this.accountsFormGroup?.controls.numAccounts.value,
+      mnemonic: this.mnemonicFormGroup?.controls.mnemonic.value,
     } as CreateWalletRequest;
     this.loading = true;
     // We attempt to create a wallet followed by a call to

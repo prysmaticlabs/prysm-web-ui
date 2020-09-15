@@ -15,7 +15,7 @@ describe('ValidatorService', () => {
   let beaconNodeService: BeaconNodeService = MockService(BeaconNodeService);
   let walletService: WalletService = MockService(WalletService);
   (beaconNodeService as any)['nodeEndpoint$'] = of('endpoint');
-  (walletService as any)['validatingPublicKeys$'] = of([] as Uint8Array[]);
+  walletService['validatingPublicKeys$'] = of([] as string[]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({

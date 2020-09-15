@@ -31,7 +31,7 @@ export class AuthenticationService {
   // from the response object. Uses take to prevent multiple calls to the backend.
   authenticate(method: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(method, { password } as AuthRequest).pipe(
-      tap((res: any) => {
+      tap((res: AuthResponse) => {
         this.token = res.token;
       }),
     );

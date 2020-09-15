@@ -9,6 +9,7 @@ import { GWEI_PER_ETHER, FAR_FUTURE_EPOCH } from 'src/app/modules/core/constants
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import { ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
+import { LOADING_IMAGE_FOR_CONTENT_TYPE } from '../../../shared/loading/loading.component';
 
 export interface PerformanceData {
   averageEffectiveBalance: number;
@@ -29,7 +30,16 @@ export class ValidatorPerformanceSummaryComponent {
     private validatorService: ValidatorService,
     private walletService: WalletService,
     private beaconNodeService: BeaconNodeService,
-  ) { }
+  ) {
+    setTimeout(() => {
+      this.loading = false;
+    }, 5000);
+  }
+
+  loading: boolean = true;
+  hasError: boolean = false;
+  noData: boolean = false;
+  loadingImage: string = LOADING_IMAGE_FOR_CONTENT_TYPE.LIST;
 
   tooltips = {
     effectiveBalance: 'Describes your average validator balance across your active validating keys',

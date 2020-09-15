@@ -25,6 +25,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { HexlifyPipe } from '../core/pipes/hexlify.pipe';
 import { OrdinalPipe } from '../core/pipes/ordinal.pipe';
 import { LoadingComponent } from './loading/loading.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { LoadingComponent } from './loading/loading.component';
     MomentModule,
     HexlifyPipe,
     OrdinalPipe,
-    LoadingComponent
+    LoadingComponent,
+    NgxSkeletonLoaderModule
   ],
 })
 export class SharedModule { }

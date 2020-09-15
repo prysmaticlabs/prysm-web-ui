@@ -6,7 +6,7 @@ import { hexlify } from 'ethers/lib/utils';
 import { throwError } from 'rxjs';
 import { catchError, map, take, tap } from 'rxjs/operators';
 import { ValidatorService } from '../../../core/services/validator.service';
-import { LOADING_CONTENT_TYPES } from '../../../shared/loading/loading.component';
+import { LOADING_IMAGE_FOR_CONTENT_TYPE } from '../../../shared/loading/loading.component';
 
 export class ValidatorListItem {
   publicKey: string;
@@ -35,7 +35,7 @@ export class ValidatorPerformanceListComponent {
   loading: boolean = true;
   hasError: boolean = false;
   noData: boolean = false;
-  loadingContentType: LOADING_CONTENT_TYPES = LOADING_CONTENT_TYPES.LIST;
+  loadingImage: string = LOADING_IMAGE_FOR_CONTENT_TYPE.TABLE;
 
   constructor(private validatorService: ValidatorService) {
 

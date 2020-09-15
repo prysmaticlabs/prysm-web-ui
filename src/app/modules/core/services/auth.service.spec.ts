@@ -22,9 +22,9 @@ describe('AuthenticationService', () => {
           { provide: EnvironmenterService, useValue: serviceSpy },
         ]
     });
-    environmenter = TestBed.get(EnvironmenterService);
-    service = TestBed.get(AuthenticationService);
-    httpMock = TestBed.get(HttpTestingController);
+    environmenter = TestBed.inject(EnvironmenterService);
+    service = TestBed.inject(AuthenticationService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

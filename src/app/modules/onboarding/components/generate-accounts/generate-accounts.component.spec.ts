@@ -39,7 +39,7 @@ describe('GenerateAccountsComponent', () => {
 
   it('should render input elements', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const input = compiled.querySelector('input[name="numAccounts"]');
+    const input = compiled.querySelector('input[name='numAccounts']');
     expect(input).toBeTruthy();
   });
 
@@ -50,7 +50,7 @@ describe('GenerateAccountsComponent', () => {
 
   it('should test form invalidity', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('input[name="numAccounts"]');
+    const input = fixture.nativeElement.querySelector('input[name='numAccounts']');
 
     input.value = '';
     input.dispatchEvent(new Event('input'));
@@ -65,7 +65,7 @@ describe('GenerateAccountsComponent', () => {
 
   it('should test form validity', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('input[name="numAccounts"]');
+    const input = fixture.nativeElement.querySelector('input[name='numAccounts']');
 
     input.value = '10';
     input.dispatchEvent(new Event('input'));

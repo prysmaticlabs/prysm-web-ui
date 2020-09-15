@@ -15,7 +15,7 @@ describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let serviceMock = MockService(BeaconNodeService);
-  (serviceMock as any)["nodeStatusPoll$"] = of({} as NodeConnectionResponse);
+  (serviceMock as any)['nodeStatusPoll$'] = of({} as NodeConnectionResponse);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { 
-  CanActivate, 
-  ActivatedRouteSnapshot, 
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
@@ -24,7 +24,7 @@ export class NoWalletFoundGuard implements CanActivate {
   ): Observable<boolean> {
     return this.walletService.walletConfig$.pipe(
       map((resp: WalletResponse) => {
-        // If the user does not have a wallet, we redirect 
+        // If the user does not have a wallet, we redirect
         // them to the onboarding page.
         if (!resp.walletPath) {
           this.router.navigateByUrl('/onboarding');

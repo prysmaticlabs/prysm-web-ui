@@ -121,8 +121,8 @@ export class BalancesChartComponent implements OnInit {
         }
       },
       color: [
-        "#7467ef",
-        "#ff9e43",
+        '#7467ef',
+        '#ff9e43',
       ],
       yAxis: {},
       series: [

@@ -39,7 +39,7 @@ describe('UnlockKeysComponent', () => {
 
   it('should render input elements', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const input = compiled.querySelector('input[name="keystoresPassword"]');
+    const input = compiled.querySelector('input[name='keystoresPassword']');
     expect(input).toBeTruthy();
   });
 
@@ -50,7 +50,7 @@ describe('UnlockKeysComponent', () => {
 
   it('should test form invalidity', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('input[name="keystoresPassword"]');
+    const input = fixture.nativeElement.querySelector('input[name='keystoresPassword']');
 
     input.value = '';
     input.dispatchEvent(new Event('input'));
@@ -66,7 +66,7 @@ describe('UnlockKeysComponent', () => {
 
   it('should test form validity', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('input[name="keystoresPassword"]');
+    const input = fixture.nativeElement.querySelector('input[name='keystoresPassword']');
 
     input.value = '10';
     input.dispatchEvent(new Event('input'));

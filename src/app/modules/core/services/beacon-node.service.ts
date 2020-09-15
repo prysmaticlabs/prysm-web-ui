@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { interval, Observable, empty } from 'rxjs';
+import { interval, Observable, EMPTY } from 'rxjs';
 import { flatZipMap } from 'rxjs-pipe-ext/lib';
 import { startWith, mergeMap, catchError, switchMap, map } from 'rxjs/operators';
 
@@ -81,7 +81,7 @@ export class BeaconNodeService {
       )
     ),
     map((genesisTimeUnix: number) => {
-      const currentTime = Math.floor(Date.now() / 1000)
+      const currentTime = Math.floor(Date.now() / 1000);
       return Math.floor((currentTime - genesisTimeUnix) / SECONDS_PER_SLOT);
     }),
   );
@@ -111,7 +111,7 @@ export class BeaconNodeService {
     return this.fetchNodeStatus().pipe(
       flatZipMap((res: NodeConnectionResponse) =>
         this.fetchChainHead('http://' + res.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
-          catchError(_ => empty()),
+          catchError(_ => EMPTY),
         )
       ),
       switchMap(([connStatus, chainHead]) => {

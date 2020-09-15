@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 const ordinals: string[] = ['th','st','nd','rd'];
 
 /*
- * Append ordinal to number (e.g. "1st" position)
+ * Append ordinal to number (e.g. '1st' position)
  * Usage:
  *   value | ordinal
  * Example:

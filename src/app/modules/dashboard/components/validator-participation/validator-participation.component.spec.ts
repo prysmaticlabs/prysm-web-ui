@@ -18,16 +18,16 @@ describe('ValidatorParticipationComponent', () => {
     epoch: 32,
     finalized: true,
     participation: {
-      currentEpochActiveGwei: "1446418000000000" as any,
-      currentEpochAttestingGwei: "102777000000000" as any,
-      currentEpochTargetAttestingGwei: "101552000000000" as any,
-      eligibleEther: "1446290000000000" as any,
+      currentEpochActiveGwei: '1446418000000000' as any,
+      currentEpochAttestingGwei: '102777000000000' as any,
+      currentEpochTargetAttestingGwei: '101552000000000' as any,
+      eligibleEther: '1446290000000000' as any,
       globalParticipationRate: 0.7861,
-      previousEpochActiveGwei: "1446290000000000" as any,
-      previousEpochAttestingGwei: "1143101000000000" as any,
-      previousEpochHeadAttestingGwei: "1089546000000000" as any,
-      previousEpochTargetAttestingGwei: "1136975000000000" as any,
-      votedEther: "1136975000000000" as any,
+      previousEpochActiveGwei: '1446290000000000' as any,
+      previousEpochAttestingGwei: '1143101000000000' as any,
+      previousEpochHeadAttestingGwei: '1089546000000000' as any,
+      previousEpochTargetAttestingGwei: '1136975000000000' as any,
+      votedEther: '1136975000000000' as any,
     } as ValidatorParticipation,
   } as ValidatorParticipationResponse
   (service as any)['participation$'] = of(defaultParticipationResponse);
@@ -54,12 +54,12 @@ describe('ValidatorParticipationComponent', () => {
 
   it('should display the participation rate', () => {
     const elem: HTMLElement = fixture.nativeElement;
-    expect(elem.textContent).toContain("78");
+    expect(elem.textContent).toContain('78');
   });
 
   it('should display the epoch', () => {
     const elem: HTMLElement = fixture.nativeElement;
-    expect(elem.textContent).toContain("32");
+    expect(elem.textContent).toContain('32');
   });
 
   it('should display the voted eth vs. eligible eth', () => {

@@ -53,7 +53,7 @@ describe('ConfirmMnemonicComponent', () => {
 
   it('should render input elements', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const input = compiled.querySelector('textarea[name="mnemonic"]');
+    const input = compiled.querySelector('textarea[name='mnemonic']');
     expect(input).toBeTruthy();
   });
 
@@ -64,7 +64,7 @@ describe('ConfirmMnemonicComponent', () => {
 
   it('should test form invalidity', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('textarea[name="mnemonic"]');
+    const input = fixture.nativeElement.querySelector('textarea[name='mnemonic']');
 
     input.value = '1234';
     input.dispatchEvent(new Event('input'));
@@ -80,7 +80,7 @@ describe('ConfirmMnemonicComponent', () => {
 
   it('should test form validity for properly formatted mnemonic', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('textarea[name="mnemonic"]');
+    const input = fixture.nativeElement.querySelector('textarea[name='mnemonic']');
     input.value = SAMPLE_MNEMONIC;
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
@@ -103,7 +103,7 @@ describe('ConfirmMnemonicComponent', () => {
     );
     fixture.detectChanges();
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('textarea[name="mnemonic"]');
+    const input = fixture.nativeElement.querySelector('textarea[name='mnemonic']');
 
     input.value = SAMPLE_MNEMONIC;
     input.dispatchEvent(new Event('input'));

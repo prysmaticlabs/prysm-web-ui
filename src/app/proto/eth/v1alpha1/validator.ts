@@ -1,14 +1,14 @@
 /* eslint-disable */
 //  Copyright 2020 Prysmatic Labs.
 //
-//  Licensed under the Apache License, Version 2.0 (the "License");
+//  Licensed under the Apache License, Version 2.0 (the 'License');
 //  you may not use this file except in compliance with the License.
 //  You may obtain a copy of the License at
 //
 //      http://www.apache.org/licenses/LICENSE-2.0
 //
 //  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
+//  distributed under the License is distributed on an 'AS IS' BASIS,
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
@@ -468,34 +468,34 @@ export enum ValidatorStatus {
 export function validatorStatusFromJSON(object: any): ValidatorStatus {
   switch (object) {
     case 0:
-    case "UNKNOWN_STATUS":
+    case 'UNKNOWN_STATUS':
       return ValidatorStatus.UNKNOWN_STATUS;
     case 1:
-    case "DEPOSITED":
+    case 'DEPOSITED':
       return ValidatorStatus.DEPOSITED;
     case 2:
-    case "PENDING":
+    case 'PENDING':
       return ValidatorStatus.PENDING;
     case 3:
-    case "ACTIVE":
+    case 'ACTIVE':
       return ValidatorStatus.ACTIVE;
     case 4:
-    case "EXITING":
+    case 'EXITING':
       return ValidatorStatus.EXITING;
     case 5:
-    case "SLASHING":
+    case 'SLASHING':
       return ValidatorStatus.SLASHING;
     case 6:
-    case "EXITED":
+    case 'EXITED':
       return ValidatorStatus.EXITED;
     case 7:
-    case "INVALID":
+    case 'INVALID':
       return ValidatorStatus.INVALID;
     case 8:
-    case "PARTIALLY_DEPOSITED":
+    case 'PARTIALLY_DEPOSITED':
       return ValidatorStatus.PARTIALLY_DEPOSITED;
     case -1:
-    case "UNRECOGNIZED":
+    case 'UNRECOGNIZED':
     default:
       return ValidatorStatus.UNRECOGNIZED;
   }
@@ -504,24 +504,24 @@ export function validatorStatusFromJSON(object: any): ValidatorStatus {
 export function validatorStatusToJSON(object: ValidatorStatus): string {
   switch (object) {
     case ValidatorStatus.UNKNOWN_STATUS:
-      return "UNKNOWN_STATUS";
+      return 'UNKNOWN_STATUS';
     case ValidatorStatus.DEPOSITED:
-      return "DEPOSITED";
+      return 'DEPOSITED';
     case ValidatorStatus.PENDING:
-      return "PENDING";
+      return 'PENDING';
     case ValidatorStatus.ACTIVE:
-      return "ACTIVE";
+      return 'ACTIVE';
     case ValidatorStatus.EXITING:
-      return "EXITING";
+      return 'EXITING';
     case ValidatorStatus.SLASHING:
-      return "SLASHING";
+      return 'SLASHING';
     case ValidatorStatus.EXITED:
-      return "EXITED";
+      return 'EXITED';
     case ValidatorStatus.INVALID:
-      return "INVALID";
+      return 'INVALID';
     case ValidatorStatus.PARTIALLY_DEPOSITED:
-      return "PARTIALLY_DEPOSITED";
+      return 'PARTIALLY_DEPOSITED';
     default:
-      return "UNKNOWN";
+      return 'UNKNOWN';
   }
 }

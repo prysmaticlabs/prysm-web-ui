@@ -9,7 +9,7 @@ import { WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 class MockActivatedRouteSnapshot {}
 
 class MockRouterStateSnapshot {
-  url: string = '/';
+  url = '/';
 }
 
 describe('NoWalletFoundGuard', () => {
@@ -32,8 +32,7 @@ describe('NoWalletFoundGuard', () => {
       ]
     });
 
-    guard = TestBed.get(NoWalletFoundGuard);
-    service = TestBed.get(WalletService);
+    guard = TestBed.inject(NoWalletFoundGuard);
     router = TestBed.inject(Router);
     next = TestBed.inject(ActivatedRouteSnapshot);
     state = TestBed.inject(RouterStateSnapshot);

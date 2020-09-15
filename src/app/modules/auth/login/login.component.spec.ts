@@ -45,7 +45,7 @@ describe('LoginComponent', () => {
 
   it('should render input elements', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const passwordInput = compiled.querySelector('input[name="password"]');
+    const passwordInput = compiled.querySelector('input[name='password']');
     expect(passwordInput).toBeTruthy();
   });
 
@@ -56,8 +56,8 @@ describe('LoginComponent', () => {
 
   it('should test form invalidity for password', () => {
     const form = component.loginForm;
-    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
-    const submitButton = fixture.nativeElement.querySelector('button[name="submit"]');
+    const passwordInput = fixture.nativeElement.querySelector('input[name='password']');
+    const submitButton = fixture.nativeElement.querySelector('button[name='submit']');
 
     passwordInput.value = '1234';
     passwordInput.dispatchEvent(new Event('input'));
@@ -66,18 +66,18 @@ describe('LoginComponent', () => {
     expect(passwordInput.value).toContain('1234');
     expect(form.valid).toBeFalsy();
 
-    const invalidPasswordText = fixture.nativeElement.querySelector('div[name="passwordReq"]');
+    const invalidPasswordText = fixture.nativeElement.querySelector('div[name='passwordReq']');
     expect(invalidPasswordText).toBeTruthy();
   });
 
   it('should not show warnings on an empty form on start', () => {
-    const reqPasswordText = fixture.nativeElement.querySelector('div[name="passwordReq"]');
+    const reqPasswordText = fixture.nativeElement.querySelector('div[name='passwordReq']');
     expect(reqPasswordText).toBeFalsy();
   });
 
   it('should show required warnings after click', () => {
-    const reqPasswordText = fixture.nativeElement.querySelector('div[name="passwordReq"]');
-    const submitButton = fixture.nativeElement.querySelector('button[name="submit"]');
+    const reqPasswordText = fixture.nativeElement.querySelector('div[name='passwordReq']');
+    const submitButton = fixture.nativeElement.querySelector('button[name='submit']');
     submitButton.click();
     fixture.detectChanges();
     expect(reqPasswordText).toBeFalsy();

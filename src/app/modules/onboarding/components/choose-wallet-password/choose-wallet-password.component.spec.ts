@@ -45,8 +45,8 @@ describe('ChooseWalletPasswordComponent', () => {
 
   it('should render input elements', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const passwordInput = compiled.querySelector('input[name="password"]');
-    const confirmationInput = compiled.querySelector('input[name="passwordConfirmation"]');
+    const passwordInput = compiled.querySelector('input[name='password']');
+    const confirmationInput = compiled.querySelector('input[name='passwordConfirmation']');
     expect(passwordInput).toBeTruthy();
     expect(confirmationInput).toBeTruthy();
   });
@@ -58,7 +58,7 @@ describe('ChooseWalletPasswordComponent', () => {
 
   it('should test form invalidity for password too short', () => {
     const form = component.formGroup;
-    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
+    const passwordInput = fixture.nativeElement.querySelector('input[name='password']');
 
     // Length requirement.
     passwordInput.value = '1234';
@@ -71,10 +71,10 @@ describe('ChooseWalletPasswordComponent', () => {
     const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
   });
-  
+
   it('should test form invalidity for password not containing a number nor special character', () => {
     const form = component.formGroup;
-    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
+    const passwordInput = fixture.nativeElement.querySelector('input[name='password']');
 
     // No number nor special character
     passwordInput.value = 'Passworddddddd';
@@ -90,8 +90,8 @@ describe('ChooseWalletPasswordComponent', () => {
 
   it('should test form validity for password meeting all requirements', () => {
     const form = component.formGroup;
-    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
-    const passwordConfirmation = fixture.nativeElement.querySelector('input[name="passwordConfirmation"]');
+    const passwordInput = fixture.nativeElement.querySelector('input[name='password']');
+    const passwordConfirmation = fixture.nativeElement.querySelector('input[name='passwordConfirmation']');
 
     passwordInput.value = 'Password2$';
     passwordConfirmation.value = 'Password2$';
@@ -108,8 +108,8 @@ describe('ChooseWalletPasswordComponent', () => {
 
   it('should test form invalidity for password mismatch', () => {
     const form = component.formGroup;
-    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
-    const passwordConfirmation = fixture.nativeElement.querySelector('input[name="passwordConfirmation"]');
+    const passwordInput = fixture.nativeElement.querySelector('input[name='password']');
+    const passwordConfirmation = fixture.nativeElement.querySelector('input[name='passwordConfirmation']');
 
     passwordInput.value = 'Passw0rddddd!';
     passwordConfirmation.value = 'Passw0rdddd!!';

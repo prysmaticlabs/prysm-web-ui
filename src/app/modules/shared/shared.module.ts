@@ -24,12 +24,15 @@ import { MomentModule } from 'ngx-moment';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
 import { OrdinalPipe } from './pipes/ordinal.pipe';
+import { LoadingComponent } from './loading/loading.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
     Base64ToHexPipe,
     OrdinalPipe,
+    LoadingComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +62,8 @@ import { OrdinalPipe } from './pipes/ordinal.pipe';
     MomentModule,
     Base64ToHexPipe,
     OrdinalPipe,
+    LoadingComponent,
+    NgxSkeletonLoaderModule
   ],
 })
 export class SharedModule { }

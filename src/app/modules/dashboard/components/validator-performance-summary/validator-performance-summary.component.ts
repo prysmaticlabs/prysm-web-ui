@@ -29,7 +29,11 @@ export class ValidatorPerformanceSummaryComponent {
     private validatorService: ValidatorService,
     private walletService: WalletService,
     private beaconNodeService: BeaconNodeService,
-  ) { }
+  ) {}
+
+  loading = true;
+  hasError = false;
+  noData = false;
 
   tooltips = {
     effectiveBalance: 'Describes your average validator balance across your active validating keys',
@@ -80,6 +84,7 @@ export class ValidatorPerformanceSummaryComponent {
     } else {
       overallScore = 'Poor';
     }
+    this.loading = false;
     return {
       averageEffectiveBalance,
       averageInclusionDistance,

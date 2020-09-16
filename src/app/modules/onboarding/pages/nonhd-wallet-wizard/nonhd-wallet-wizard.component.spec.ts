@@ -9,7 +9,6 @@ import { MockComponent, MockService } from 'ng-mocks';
 import { NonhdWalletWizardComponent } from './nonhd-wallet-wizard.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { GenerateAccountsComponent } from '../../components/generate-accounts/generate-accounts.component';
-import { ChooseWalletPasswordComponent } from '../../components/choose-wallet-password/choose-wallet-password.component';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 import { ImportAccountsComponent } from '../../components/import-accounts/import-accounts.component';
@@ -36,7 +35,6 @@ describe('NonhdWalletWizardComponent', () => {
       declarations: [
         MockComponent(ImportAccountsComponent),
         MockComponent(GenerateAccountsComponent),
-        MockComponent(ChooseWalletPasswordComponent),
         NonhdWalletWizardComponent,
       ],
       imports: [

@@ -18,12 +18,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MomentModule } from 'ngx-moment';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
 import { OrdinalPipe } from './pipes/ordinal.pipe';
+import { WalletPasswordFormComponent } from './components/wallet-password-form/wallet-password-form.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
@@ -32,11 +34,17 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     BreadcrumbComponent,
     Base64ToHexPipe,
     OrdinalPipe,
+    WalletPasswordFormComponent,
     LoadingComponent,
   ],
   imports: [
     CommonModule,
     MatIconModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   exports: [
     BreadcrumbComponent,
@@ -62,6 +70,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MomentModule,
     Base64ToHexPipe,
     OrdinalPipe,
+    WalletPasswordFormComponent,
     LoadingComponent,
     NgxSkeletonLoaderModule
   ],

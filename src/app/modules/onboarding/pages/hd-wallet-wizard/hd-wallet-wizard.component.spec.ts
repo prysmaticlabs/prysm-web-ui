@@ -11,7 +11,6 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { GenerateMnemonicComponent } from '../../components/generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from '../../components/confirm-mnemonic/confirm-mnemonic.component';
 import { GenerateAccountsComponent } from '../../components/generate-accounts/generate-accounts.component';
-import { ChooseWalletPasswordComponent } from '../../components/choose-wallet-password/choose-wallet-password.component';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 import { WalletResponse, AuthResponse, CreateWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -38,7 +37,6 @@ describe('HdWalletWizardComponent', () => {
         MockComponent(GenerateMnemonicComponent),
         MockComponent(ConfirmMnemonicComponent),
         MockComponent(GenerateAccountsComponent),
-        MockComponent(ChooseWalletPasswordComponent),
         HdWalletWizardComponent,
       ],
       imports: [

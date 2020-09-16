@@ -3,6 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WalletPasswordFormComponent } from './wallet-password-form.component';
 import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('WalletPasswordFormComponent', () => {
   let component: WalletPasswordFormComponent;
@@ -12,8 +15,11 @@ describe('WalletPasswordFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ WalletPasswordFormComponent ],
       imports: [
+        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
       ]
     })
     .compileComponents();
@@ -118,10 +124,5 @@ describe('WalletPasswordFormComponent', () => {
 
     const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
-  });
-
-  it('should not show warnings on an empty form on pristine', () => {
-    const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
-    expect(warnings).toEqual([]);
   });
 });

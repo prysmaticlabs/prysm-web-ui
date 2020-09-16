@@ -31,9 +31,9 @@ export class ValidatorPerformanceSummaryComponent {
     private beaconNodeService: BeaconNodeService,
   ) {}
 
-  loading: boolean = true;
-  hasError: boolean = false;
-  noData: boolean = false;
+  loading = true;
+  hasError = false;
+  noData = false;
 
   tooltips = {
     effectiveBalance: 'Describes your average validator balance across your active validating keys',

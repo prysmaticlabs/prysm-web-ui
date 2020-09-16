@@ -40,9 +40,9 @@ export class ValidatorPerformanceListComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
 
-  loading: boolean = true;
-  hasError: boolean = false;
-  noData: boolean = false;
+  loading = true;
+  hasError = false;
+  noData = false;
 
   constructor(private validatorService: ValidatorService) {
 

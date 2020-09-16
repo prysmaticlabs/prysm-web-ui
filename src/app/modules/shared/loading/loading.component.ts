@@ -6,9 +6,9 @@ import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core'
 })
 export class LoadingComponent implements OnInit {
 
-  @Input() loading: boolean = false;
-  @Input() hasError: boolean = false;
-  @Input() noData: boolean = false;
+  @Input() loading = false;
+  @Input() hasError = false;
+  @Input() noData = false;
 
   @Input() loadingMessage: string | null = null;
   @Input() errorMessage: string | null = null;
@@ -20,8 +20,8 @@ export class LoadingComponent implements OnInit {
 
   @Input() loadingTemplate: TemplateRef<any> | null = null;
 
-  @Input() minHeight: string = "200px";
-  @Input() minWidth: string = "100%";
+  @Input() minHeight = '200px';
+  @Input() minWidth = '100%';
 
 
   constructor() { }
@@ -35,10 +35,10 @@ export class LoadingComponent implements OnInit {
       message = this.loadingMessage;
     }
     else if (this.errorMessage) {
-      message = this.errorMessage || "An error occured.";
+      message = this.errorMessage || 'An error occured.';
     }
     else if (this.noData) {
-      message = this.noDataMessage || "No data was loaded";
+      message = this.noDataMessage || 'No data was loaded';
     }
     return message;
   }

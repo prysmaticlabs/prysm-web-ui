@@ -23,20 +23,20 @@
       <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" accept=".json">
           <ng-template
             ngx-file-drop-content-tmp
-            let-openFileSelector="openFileSelector" 
+            let-openFileSelector="openFileSelector"
             class="text-center"
             (click)="openFileSelector()">
             <div class="flex items-center justify-center mb-4">
-              <img src="/assets/images/upload.svg"/>  
+              <img src="/assets/images/upload.svg"/>
             </div>
             <button mat-stroked-button (click)="openFileSelector()" [disabled]="uploading">Browse Files</button>
           </ng-template>
       </ngx-file-drop>
       <div class="mt-4 -mb-1">
-        <mat-error *ngIf="formGroup.touched && formGroup.controls.keystoresImported.hasError('noKeystoresUploaded')">
+        <mat-error *ngIf="formGroup && formGroup.touched && formGroup.controls.keystoresImported.hasError('noKeystoresUploaded')">
           Please upload at least 1 valid keystore file
         </mat-error>
-        <mat-error *ngIf="formGroup.touched && formGroup.controls.keystoresImported.hasError('tooManyKeystores')">
+        <mat-error *ngIf="formGroup && formGroup.touched && formGroup.controls.keystoresImported.hasError('tooManyKeystores')">
           Max 50 keystore files allowed. If you have more than that, we recommend an HD wallet instead
         </mat-error>
       </div>

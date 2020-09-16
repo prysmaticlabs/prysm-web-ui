@@ -7,7 +7,7 @@ import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/ro
 class MockActivatedRouteSnapshot {}
 
 class MockRouterStateSnapshot {
-  url: string = '/';
+  url = '/';
 }
 
 describe('AuthredirectGuard', () => {

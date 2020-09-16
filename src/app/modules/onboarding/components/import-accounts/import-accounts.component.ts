@@ -7,24 +7,24 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './import-accounts.component.html',
 })
 export class ImportAccountsComponent {
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: FormGroup | null = null;
 
   constructor() { }
 
   // Properties.
   MAX_FILES_BEFORE_PREVIEW = 3;
-  filesPreview: NgxFileDropEntry[];
+  filesPreview: NgxFileDropEntry[] = [];
   files: NgxFileDropEntry[] = [];
-  totalFiles: number;
-  numFilesUploaded: number = 0;
+  totalFiles = 0;
+  numFilesUploaded = 0;
   uploading = false;
 
-  updateImportedKeystores(jsonFile: object) {
-    const imported = this.formGroup.get('keystoresImported').value;
-    this.formGroup.get('keystoresImported').setValue([...imported, JSON.stringify(jsonFile)]);
+  updateImportedKeystores(jsonFile: object): void {
+    const imported = this.formGroup?.get('keystoresImported')?.value;
+    this.formGroup?.get('keystoresImported')?.setValue([...imported, JSON.stringify(jsonFile)]);
   }
 
-  dropped(files: NgxFileDropEntry[]) {
+  dropped(files: NgxFileDropEntry[]): void {
     this.files = this.files.concat(files);
     this.filesPreview = this.files.slice(0, this.MAX_FILES_BEFORE_PREVIEW);
     this.totalFiles = this.files.length;

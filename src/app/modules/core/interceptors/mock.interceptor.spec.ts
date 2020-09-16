@@ -7,7 +7,7 @@ import { MockInterceptor, VALIDATOR_API_PREFIX, BEACON_API_PREFIX } from './mock
 import { EnvironmenterService } from '../services/environmenter.service';
 import { Mocks } from '../mocks';
 
-class mockEnv {
+class MockEnv {
   env = { production: false };
 }
 
@@ -25,7 +25,7 @@ describe('MockInterceptor', () => {
           multi: true
         },
         {
-          provide: EnvironmenterService, useValue: new mockEnv(),
+          provide: EnvironmenterService, useValue: new MockEnv(),
         },
       ]
     });

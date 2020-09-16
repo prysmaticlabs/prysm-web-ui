@@ -14,7 +14,7 @@ import { WalletService } from '../../core/services/wallet.service';
 export class MnemonicValidator {
   constructor(private walletService: WalletService) {}
 
-  properFormatting(control: AbstractControl): ValidationErrors {
+  properFormatting(control: AbstractControl): ValidationErrors | null {
     let mnemonic: string = control.value;
     if (!control.value) {
       return null;

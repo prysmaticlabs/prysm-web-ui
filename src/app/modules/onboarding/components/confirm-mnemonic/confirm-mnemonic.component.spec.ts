@@ -8,8 +8,8 @@ import { BlockCopyPasteDirective } from '../../directives/block-copy-paste.direc
 
 const SAMPLE_MNEMONIC = 'tape hungry front clump chapter blush alien sauce spawn victory mother salt purpose drop mask hour foil physical daughter narrow sheriff agree master survey';
 
-function matchingMnemonicValidator(control: AbstractControl) {
-  return control.get('mnemonic').setErrors({ mnemonicMismatch: true });
+function matchingMnemonicValidator(control: AbstractControl): void {
+  control?.get('mnemonic')?.setErrors({ mnemonicMismatch: true });
 }
 
 describe('ConfirmMnemonicComponent', () => {
@@ -53,26 +53,26 @@ describe('ConfirmMnemonicComponent', () => {
 
   it('should render input elements', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const input = compiled.querySelector('textarea[name="mnemonic"]');
+    const input = compiled.querySelector(`textarea[name='mnemonic']`);
     expect(input).toBeTruthy();
   });
 
   it('should check validity is falsy for empty form', () => {
     const form = component.formGroup;
-    expect(form.valid).toBeFalsy();
+    expect(form?.valid).toBeFalsy();
   });
 
   it('should test form invalidity', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('textarea[name="mnemonic"]');
+    const input = fixture.nativeElement.querySelector(`textarea[name='mnemonic']`);
 
     input.value = '1234';
     input.dispatchEvent(new Event('input'));
-    component.formGroup.markAsTouched();
+    component.formGroup?.markAsTouched();
     fixture.detectChanges();
     expect(input.value).toContain('1234');
-    expect(form.valid).toBeFalsy();
-    expect(form.controls.mnemonic.errors.pattern).toBeTruthy();
+    expect(form?.valid).toBeFalsy();
+    expect(form?.controls?.mnemonic?.errors?.pattern).toBeTruthy();
 
     const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
@@ -80,11 +80,11 @@ describe('ConfirmMnemonicComponent', () => {
 
   it('should test form validity for properly formatted mnemonic', () => {
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('textarea[name="mnemonic"]');
+    const input = fixture.nativeElement.querySelector(`textarea[name='mnemonic']`);
     input.value = SAMPLE_MNEMONIC;
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
-    expect(form.valid).toBeTruthy();
+    expect(form?.valid).toBeTruthy();
   });
 
   it('it should show errors on a mismatched mnemonic', () => {
@@ -103,7 +103,7 @@ describe('ConfirmMnemonicComponent', () => {
     );
     fixture.detectChanges();
     const form = component.formGroup;
-    const input = fixture.nativeElement.querySelector('textarea[name="mnemonic"]');
+    const input = fixture.nativeElement.querySelector(`textarea[name='mnemonic']`);
 
     input.value = SAMPLE_MNEMONIC;
     input.dispatchEvent(new Event('input'));
@@ -111,7 +111,7 @@ describe('ConfirmMnemonicComponent', () => {
     fixture.detectChanges();
     expect(input.value).toContain(SAMPLE_MNEMONIC);
     expect(form.valid).toBeFalsy();
-    expect(form.controls.mnemonic.errors.mnemonicMismatch).toBeTruthy();
+    expect(form?.controls?.mnemonic?.errors?.mnemonicMismatch).toBeTruthy();
     const warnings = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(warnings).toBeTruthy();
   });

@@ -9,7 +9,7 @@ import { ValidatorParticipationResponse } from 'src/app/proto/eth/v1alpha1/beaco
 import { Injectable } from '@angular/core';
 
 @Injectable()
-class mockNode {
+class MockNode {
   nodeEndpoint$ = of('/eth/v1alpha1');
 }
 
@@ -22,11 +22,11 @@ describe('ChainService', () => {
         imports: [HttpClientTestingModule],
         providers: [
           ChainService,
-          { provide: BeaconNodeService, useValue: new mockNode() }
+          { provide: BeaconNodeService, useValue: new MockNode() }
         ]
     });
-    service = TestBed.get(ChainService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.inject(ChainService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

@@ -27,6 +27,7 @@
     "@angular/platform-browser": "~10.0.6",
     "@angular/platform-browser-dynamic": "~10.0.6",
     "@angular/router": "~10.0.6",
+    "@types/echarts": "^4.6.5",
     "echarts": "^4.8.0",
     "ethers": "^5.0.12",
     "moment": "^2.27.0",

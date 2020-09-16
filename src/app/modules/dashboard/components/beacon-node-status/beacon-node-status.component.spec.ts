@@ -27,7 +27,7 @@ describe('BeaconNodeStatusComponent', () => {
       ]
     })
     .compileComponents();
-    service = TestBed.get(BeaconNodeService);
+    service = TestBed.inject(BeaconNodeService);
   }));
 
   beforeEach(() => {
@@ -59,7 +59,7 @@ describe('BeaconNodeStatusComponent', () => {
     fixture.detectChanges();
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Not Connected');
   });
-  
+
   it('it should display sync process bar if synchronizing', () => {
     let bar = fixture.debugElement.query(By.css('.mat-progress-bar'));
     expect(bar.nativeElement).toBeTruthy();
@@ -91,7 +91,7 @@ describe('BeaconNodeStatusComponent', () => {
         finalizedEpoch: 30,
       } as ChainHead);
       fixture.detectChanges();
-      const content: HTMLElement  = fixture.nativeElement
+      const content: HTMLElement = fixture.nativeElement;
       expect(content.textContent).toContain('1024');
       expect(content.textContent).toContain('31');
       expect(content.textContent).toContain('30');
@@ -105,7 +105,7 @@ describe('BeaconNodeStatusComponent', () => {
         finalizedEpoch: 20,
       } as ChainHead);
       fixture.detectChanges();
-      const content: HTMLElement  = fixture.nativeElement
+      const content: HTMLElement = fixture.nativeElement;
       expect(content.textContent).toContain('Warning');
     });
   });

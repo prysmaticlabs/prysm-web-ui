@@ -1,14 +1,14 @@
 /* eslint-disable */
 //  Copyright 2020 Prysmatic Labs.
 //
-//  Licensed under the Apache License, Version 2.0 (the "License");
+//  Licensed under the Apache License, Version 2.0 (the 'License');
 //  you may not use this file except in compliance with the License.
 //  You may obtain a copy of the License at
 //
 //      http://www.apache.org/licenses/LICENSE-2.0
 //
 //  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
+//  distributed under the License is distributed on an 'AS IS' BASIS,
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
@@ -134,16 +134,16 @@ export enum PeerDirection {
 export function peerDirectionFromJSON(object: any): PeerDirection {
   switch (object) {
     case 0:
-    case "UNKNOWN":
+    case 'UNKNOWN':
       return PeerDirection.UNKNOWN;
     case 1:
-    case "INBOUND":
+    case 'INBOUND':
       return PeerDirection.INBOUND;
     case 2:
-    case "OUTBOUND":
+    case 'OUTBOUND':
       return PeerDirection.OUTBOUND;
     case -1:
-    case "UNRECOGNIZED":
+    case 'UNRECOGNIZED':
     default:
       return PeerDirection.UNRECOGNIZED;
   }
@@ -152,13 +152,13 @@ export function peerDirectionFromJSON(object: any): PeerDirection {
 export function peerDirectionToJSON(object: PeerDirection): string {
   switch (object) {
     case PeerDirection.UNKNOWN:
-      return "UNKNOWN";
+      return 'UNKNOWN';
     case PeerDirection.INBOUND:
-      return "INBOUND";
+      return 'INBOUND';
     case PeerDirection.OUTBOUND:
-      return "OUTBOUND";
+      return 'OUTBOUND';
     default:
-      return "UNKNOWN";
+      return 'UNKNOWN';
   }
 }
 
@@ -175,19 +175,19 @@ export enum ConnectionState {
 export function connectionStateFromJSON(object: any): ConnectionState {
   switch (object) {
     case 0:
-    case "DISCONNECTED":
+    case 'DISCONNECTED':
       return ConnectionState.DISCONNECTED;
     case 1:
-    case "DISCONNECTING":
+    case 'DISCONNECTING':
       return ConnectionState.DISCONNECTING;
     case 2:
-    case "CONNECTED":
+    case 'CONNECTED':
       return ConnectionState.CONNECTED;
     case 3:
-    case "CONNECTING":
+    case 'CONNECTING':
       return ConnectionState.CONNECTING;
     case -1:
-    case "UNRECOGNIZED":
+    case 'UNRECOGNIZED':
     default:
       return ConnectionState.UNRECOGNIZED;
   }
@@ -196,14 +196,14 @@ export function connectionStateFromJSON(object: any): ConnectionState {
 export function connectionStateToJSON(object: ConnectionState): string {
   switch (object) {
     case ConnectionState.DISCONNECTED:
-      return "DISCONNECTED";
+      return 'DISCONNECTED';
     case ConnectionState.DISCONNECTING:
-      return "DISCONNECTING";
+      return 'DISCONNECTING';
     case ConnectionState.CONNECTED:
-      return "CONNECTED";
+      return 'CONNECTED';
     case ConnectionState.CONNECTING:
-      return "CONNECTING";
+      return 'CONNECTING';
     default:
-      return "UNKNOWN";
+      return 'UNKNOWN';
   }
 }

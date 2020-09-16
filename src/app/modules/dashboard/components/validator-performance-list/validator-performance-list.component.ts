@@ -8,7 +8,6 @@ import { ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_
 import { throwError } from 'rxjs';
 import { catchError, map, take, tap } from 'rxjs/operators';
 import { ValidatorService } from '../../../core/services/validator.service';
-import { LOADING_IMAGE_FOR_CONTENT_TYPE } from '../../../shared/loading/loading.component';
 
 export interface ValidatorListItem {
   publicKey: string;
@@ -44,7 +43,6 @@ export class ValidatorPerformanceListComponent {
   loading: boolean = true;
   hasError: boolean = false;
   noData: boolean = false;
-  loadingImage: string = LOADING_IMAGE_FOR_CONTENT_TYPE.TABLE;
 
   constructor(private validatorService: ValidatorService) {
 
@@ -74,11 +72,8 @@ export class ValidatorPerformanceListComponent {
         this.dataSource = new MatTableDataSource(result);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        //Just for simulating the loading time for the loading.component - TODO: remove later
-        setTimeout(() => {
-          this.loading = false;
-          this.noData = result.length === 0;
-        },10000)
+        this.loading = false;
+        this.noData = result.length === 0;
       }),
       catchError(err => {
         this.loading = false;

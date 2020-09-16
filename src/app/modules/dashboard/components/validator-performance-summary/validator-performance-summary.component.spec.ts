@@ -55,6 +55,7 @@ describe('ValidatorPerformanceSummaryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ValidatorPerformanceSummaryComponent);
     component = fixture.componentInstance;
+    component.loading = false;
     fixture.detectChanges();
     transformedData = (component as any).transformPerformanceData(defaultPerformanceData);
   });

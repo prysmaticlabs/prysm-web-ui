@@ -1,49 +1,57 @@
-<app-loading [loading]="loading" [loadingImage]="loadingImage"
+<app-loading [loading]="loading" [loadingTemplate]="loadingTemplate"
              [hasError]="hasError" [errorMessage]="'Error loading the validator performance'"
              [noData]="noData" [noDataMessage]="'No validator performance information available'">
+  <ng-template #loadingTemplate>
+    <div style="width:90%; margin:5%;">
+      <ngx-skeleton-loader count="6"
+                           [theme]="{ 'border-radius': '6px', height: '20px', 'margin-top': '10px'}"></ngx-skeleton-loader>
+    </div>
+  </ng-template>
   <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="publicKey">
-      <th mat-header-cell *matHeaderCellDef>Public key</th>
-      <td mat-cell *matCellDef="let element">
-        {{element.publicKey | base64tohex | slice:0:20}}...
-      </td>
-    </ng-container>
+    <tr style="display:none!important">
+      <ng-container matColumnDef="publicKey">
+        <th mat-header-cell *matHeaderCellDef>Public key</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.publicKey | base64tohex | slice:0:20}}...
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="attLastIncludedSlot">
-      <th mat-header-cell *matHeaderCellDef>Last included slot</th>
-      <td mat-cell *matCellDef="let element"> {{element.inclusionSlots}} </td>
-    </ng-container>
+      <ng-container matColumnDef="attLastIncludedSlot">
+        <th mat-header-cell *matHeaderCellDef>Last included slot</th>
+        <td mat-cell *matCellDef="let element"> {{element.inclusionSlots}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="correctlyVotedSource">
-      <th mat-header-cell *matHeaderCellDef>Correctly voted source</th>
-      <td mat-cell *matCellDef="let element">
-        <div [className]="element.correctlyVotedSource ? 'check green' : 'cross red'">
-        </div>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="correctlyVotedSource">
+        <th mat-header-cell *matHeaderCellDef>Correctly voted source</th>
+        <td mat-cell *matCellDef="let element">
+          <div [className]="element.correctlyVotedSource ? 'check green' : 'cross red'">
+          </div>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="gains">
-      <th mat-header-cell *matHeaderCellDef>Gains</th>
-      <td mat-cell *matCellDef="let element">
-        {{element.gains}} Gwei
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="gains">
+        <th mat-header-cell *matHeaderCellDef>Gains</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.gains}} Gwei
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="correctlyVotedTarget">
-      <th mat-header-cell *matHeaderCellDef>Voted target</th>
-      <td mat-cell *matCellDef="let element">
-        <div [className]="element.correctlyVotedTarget ? 'check green' : 'cross red'">
-        </div>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="correctlyVotedTarget">
+        <th mat-header-cell *matHeaderCellDef>Voted target</th>
+        <td mat-cell *matCellDef="let element">
+          <div [className]="element.correctlyVotedTarget ? 'check green' : 'cross red'">
+          </div>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="correctlyVotedHead">
-      <th mat-header-cell *matHeaderCellDef>Voted head</th>
-      <td mat-cell *matCellDef="let element">
-        <div [className]="element.correctlyVotedHead ? 'check green' : 'cross red'">
-        </div>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="correctlyVotedHead">
+        <th mat-header-cell *matHeaderCellDef>Voted head</th>
+        <td mat-cell *matCellDef="let element">
+          <div [className]="element.correctlyVotedHead ? 'check green' : 'cross red'">
+          </div>
+        </td>
+      </ng-container>
+    </tr>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

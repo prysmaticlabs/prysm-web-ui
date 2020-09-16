@@ -9,7 +9,7 @@ import { Subject, throwError } from 'rxjs';
 
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
+import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { CreateWalletRequest, CreateWalletRequest_KeymanagerKind } from 'src/app/proto/validator/accounts/v2/web_api';
 
 const MAX_ALLOWED_KEYSTORES = 50;

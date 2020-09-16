@@ -7,7 +7,7 @@ import { Overlay } from '@angular/cdk/overlay';
 
 import { LoginComponent } from './login.component';
 import { SharedModule } from '../../shared/shared.module';
-import { AuthenticationService } from '../../core/services/auth.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;

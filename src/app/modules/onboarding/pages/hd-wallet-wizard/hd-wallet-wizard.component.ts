@@ -7,7 +7,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
-import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
+import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';

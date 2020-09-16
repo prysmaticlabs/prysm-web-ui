@@ -4,9 +4,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { BigNumber } from 'ethers';
-import { map, take, tap } from 'rxjs/operators';
-
 import { ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { throwError } from 'rxjs';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { ValidatorService } from '../../../core/services/validator.service';
 
 export interface ValidatorListItem {
@@ -40,6 +40,10 @@ export class ValidatorPerformanceListComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
 
+  loading = true;
+  hasError = false;
+  noData = false;
+
   constructor(private validatorService: ValidatorService) {
 
     this.validatorService.performance$.pipe(
@@ -68,6 +72,13 @@ export class ValidatorPerformanceListComponent {
         this.dataSource = new MatTableDataSource(result);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.loading = false;
+        this.noData = result.length === 0;
+      }),
+      catchError(err => {
+        this.loading = false;
+        this.hasError = true;
+        return throwError(err);
       }),
       take(1)
     ).subscribe();

@@ -26,6 +26,8 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
 import { OrdinalPipe } from './pipes/ordinal.pipe';
 import { WalletPasswordFormComponent } from './components/wallet-password-form/wallet-password-form.component';
+import { LoadingComponent } from './loading/loading.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { WalletPasswordFormComponent } from './components/wallet-password-form/w
     Base64ToHexPipe,
     OrdinalPipe,
     WalletPasswordFormComponent,
+    LoadingComponent,
   ],
   imports: [
     CommonModule,
@@ -68,6 +71,8 @@ import { WalletPasswordFormComponent } from './components/wallet-password-form/w
     Base64ToHexPipe,
     OrdinalPipe,
     WalletPasswordFormComponent,
+    LoadingComponent,
+    NgxSkeletonLoaderModule
   ],
 })
 export class SharedModule { }

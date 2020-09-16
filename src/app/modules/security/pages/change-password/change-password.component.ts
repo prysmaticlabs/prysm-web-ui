@@ -27,6 +27,5 @@ export class ChangePasswordComponent {
   });
 
   resetPassword(): void {
-    console.log(this.formGroup);
   }
 }

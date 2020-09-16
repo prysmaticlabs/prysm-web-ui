@@ -17,7 +17,7 @@
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">
@@ -47,7 +47,10 @@
                 </div>
               </div>
               <div *ngIf="!loading">
-                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <app-wallet-password-form
+                  title="Pick a strong wallet password"
+                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                   <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>
@@ -62,7 +65,7 @@
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">
@@ -92,7 +95,10 @@
                 </div>
               </div>
               <div *ngIf="!loading">
-                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <app-wallet-password-form
+                  title="Pick a strong wallet password"
+                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                   <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>

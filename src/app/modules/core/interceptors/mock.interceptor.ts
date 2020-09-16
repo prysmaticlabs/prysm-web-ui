@@ -22,12 +22,15 @@ export class MockInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.environmenter.env.production) {
-      let endpoint: string;
+      let endpoint = '';
       if (this.contains(request.url, VALIDATOR_API_PREFIX)) {
         endpoint = this.extractEndpoint(request.url, VALIDATOR_API_PREFIX);
       }
       if (this.contains(request.url, BEACON_API_PREFIX)) {
         endpoint = this.extractEndpoint(request.url, BEACON_API_PREFIX);
+      }
+      if (!endpoint) {
+        return next.handle(request);
       }
       return of(new HttpResponse({
         status: 200,

@@ -163,16 +163,16 @@ export enum CreateWalletRequest_KeymanagerKind {
 export function createWalletRequest_KeymanagerKindFromJSON(object: any): CreateWalletRequest_KeymanagerKind {
   switch (object) {
     case 0:
-    case "DERIVED":
+    case 'DERIVED':
       return CreateWalletRequest_KeymanagerKind.DERIVED;
     case 1:
-    case "DIRECT":
+    case 'DIRECT':
       return CreateWalletRequest_KeymanagerKind.DIRECT;
     case 2:
-    case "REMOTE":
+    case 'REMOTE':
       return CreateWalletRequest_KeymanagerKind.REMOTE;
     case -1:
-    case "UNRECOGNIZED":
+    case 'UNRECOGNIZED':
     default:
       return CreateWalletRequest_KeymanagerKind.UNRECOGNIZED;
   }
@@ -181,12 +181,12 @@ export function createWalletRequest_KeymanagerKindFromJSON(object: any): CreateW
 export function createWalletRequest_KeymanagerKindToJSON(object: CreateWalletRequest_KeymanagerKind): string {
   switch (object) {
     case CreateWalletRequest_KeymanagerKind.DERIVED:
-      return "DERIVED";
+      return 'DERIVED';
     case CreateWalletRequest_KeymanagerKind.DIRECT:
-      return "DIRECT";
+      return 'DIRECT';
     case CreateWalletRequest_KeymanagerKind.REMOTE:
-      return "REMOTE";
+      return 'REMOTE';
     default:
-      return "UNKNOWN";
+      return 'UNKNOWN';
   }
 }

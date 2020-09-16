@@ -37,13 +37,11 @@ describe('ErrorInterceptor', () => {
   describe('intercept HTTP requests', () => {
     it('should logout user upon 401 response', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
-        http.get('/').subscribe({
-          error(actualError) {
-            expect(actualError).toBeTruthy();
-            expect(actualError).not.toBeNull();
-            expect(actualError).not.toBeUndefined();
-          },
-        });
+        http.get('/').subscribe(() => {}, actualError => {
+          expect(actualError).toBeTruthy();
+          expect(actualError).not.toBeNull();
+          expect(actualError).not.toBeUndefined();
+        }, () => {});
 
         const req = mock.expectOne('/');
         expect(req.request.method).toEqual('GET');
@@ -56,13 +54,11 @@ describe('ErrorInterceptor', () => {
 
     it('should not logout user if response is != 401', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
-        http.get('/').subscribe({
-          error(actualError) {
-            expect(actualError).toBeTruthy();
-            expect(actualError).not.toBeNull();
-            expect(actualError).not.toBeUndefined();
-          },
-        });
+        http.get('/').subscribe(() => {}, actualError => {
+          expect(actualError).toBeTruthy();
+          expect(actualError).not.toBeNull();
+          expect(actualError).not.toBeUndefined();
+        }, () => {});
 
         const req = mock.expectOne('/');
         expect(req.request.method).toEqual('GET');

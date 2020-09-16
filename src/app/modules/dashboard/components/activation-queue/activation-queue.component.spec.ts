@@ -14,8 +14,8 @@ import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
 describe('ActivationQueueComponent', () => {
   let component: ActivationQueueComponent;
   let fixture: ComponentFixture<ActivationQueueComponent>;
-  let service: ValidatorService = MockService(ValidatorService);
-  let walletService: WalletService = MockService(WalletService);
+  const service: ValidatorService = MockService(ValidatorService);
+  const walletService: WalletService = MockService(WalletService);
   const defaultQueueResponse = {
     churnLimit: 4,
     activationPublicKeys: [
@@ -65,17 +65,17 @@ describe('ActivationQueueComponent', () => {
     it('should determine proper activation ETA in seconds if position < churn limit', () => {
       const data = {
         churnLimit: Array.from({ length: 4 })
-      } as QueueData
+      } as QueueData;
       const estimatedTime = component.activationETAForPosition(0, data);
       expect(estimatedTime).toEqual(SECONDS_PER_EPOCH);
     });
     it('should determine proper activation ETA in seconds if position > churn limit', () => {
       const data = {
         churnLimit: Array.from({ length: 1 })
-      } as QueueData
+      } as QueueData;
       const estimatedTime = component.activationETAForPosition(2, data);
       // Expect two epochs for activation if churn limit is 1.
-      expect(estimatedTime).toEqual(SECONDS_PER_EPOCH*2);
+      expect(estimatedTime).toEqual(SECONDS_PER_EPOCH * 2);
     });
   });
 });

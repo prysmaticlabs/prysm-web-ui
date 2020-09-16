@@ -7,7 +7,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { environment } from '../../../../../environments/environment';
 import { GainsAndLossesComponent } from './gains-and-losses.component';
 import { ValidatorPerformanceListComponent } from '../../components/validator-performance-list/validator-performance-list.component';
-import { BalancesChartComponent }  from  '../../components/balances-chart/balances-chart.component';
+import { BalancesChartComponent } from '../../components/balances-chart/balances-chart.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { BeaconNodeStatusComponent } from '../../components/beacon-node-status/beacon-node-status.component';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
@@ -40,12 +40,12 @@ describe('GainsAndLossesComponent', () => {
         GainsAndLossesComponent,
       ],
       providers: [
-        { 
-          provider: ValidatorService, 
+        {
+          provider: ValidatorService,
           useValue: jasmine.createSpyObj('ValidatorService', ['recentEpochBalances']),
         },
-        { 
-          provider: ChainService, 
+        {
+          provider: ChainService,
           useValue: jasmine.createSpyObj('ChainService', ['chainHead$']),
         },
         { provide: ENVIRONMENT, useValue: environment },

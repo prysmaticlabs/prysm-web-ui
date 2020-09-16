@@ -7,7 +7,7 @@ import { AuthenticationService } from '../services/auth.service';
 class MockActivatedRouteSnapshot {}
 
 class MockRouterStateSnapshot {
-  url: string = '/';
+  url = '/';
 }
 
 describe('AuthGuard', () => {

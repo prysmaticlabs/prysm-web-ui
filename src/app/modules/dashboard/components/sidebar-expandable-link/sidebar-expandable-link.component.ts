@@ -6,10 +6,10 @@ import SidebarLink from '../../types/sidebar-link';
   templateUrl: './sidebar-expandable-link.component.html',
 })
 export class SidebarExpandableLinkComponent {
-  @Input() link: SidebarLink;
+  @Input() link: SidebarLink | null = null;
   collapsed = true;
 
-  toggleCollapsed() {
+  toggleCollapsed(): void {
     this.collapsed = !this.collapsed;
   }
 }

@@ -11,7 +11,7 @@ export class ErrorService {
     private snackBar: MatSnackBar,
   ) { }
 
-  handleHTTPError(err: HttpErrorResponse) {
+  handleHTTPError(err: HttpErrorResponse): void {
     let formattedError: string;
     if (err.status >= 500) {
       switch (err.status) {

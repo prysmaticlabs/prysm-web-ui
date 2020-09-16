@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuthGuard } from './auth.guard';
-import { AuthenticationService } from '../services/auth.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 class MockActivatedRouteSnapshot {}
 

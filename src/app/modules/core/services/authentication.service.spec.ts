@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { AuthenticationService } from './auth.service';
+import { AuthenticationService } from './authentication.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { EnvironmenterService } from './environmenter.service';

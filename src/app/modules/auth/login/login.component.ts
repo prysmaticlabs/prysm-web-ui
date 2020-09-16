@@ -6,7 +6,7 @@ import { takeUntil, tap, catchError } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
 
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
-import { AuthenticationService } from '../../core/services/auth.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Component({
   selector: 'app-login',

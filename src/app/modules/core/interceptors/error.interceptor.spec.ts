@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { ErrorInterceptor } from './error.interceptor';
-import { AuthenticationService } from '../services/auth.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { ErrorService } from '../services/error.service';
 import { RouterTestingModule } from '@angular/router/testing';
 

@@ -8,7 +8,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { AuthenticationService } from '../services/auth.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 // This redirect guard prevents users from visiting the login page by default
 // if they are authenticated and instead redirects them to the dashboard.

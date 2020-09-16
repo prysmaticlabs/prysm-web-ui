@@ -3,7 +3,7 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { AuthenticationService } from '../services/auth.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { ErrorService } from '../services/error.service';
 
 @Injectable()

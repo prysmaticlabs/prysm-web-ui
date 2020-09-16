@@ -10,6 +10,7 @@ import { BalancesChartComponent } from './components/balances-chart/balances-cha
 import { ProposedMissedChartComponent } from './components/proposed-missed-chart/proposed-missed-chart.component';
 import { DoubleBarChartComponent } from './components/double-bar-chart/double-bar-chart.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { ValidatorLogsStreamComponent } from './components/validator-logs-stream/validator-logs-stream.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
     ProposedMissedChartComponent,
     DoubleBarChartComponent,
     PieChartComponent,
+    ValidatorLogsStreamComponent,
   ],
   imports: [
     CommonModule,

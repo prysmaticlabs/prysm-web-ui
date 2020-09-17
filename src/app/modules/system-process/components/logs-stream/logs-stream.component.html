@@ -1,0 +1,10 @@
+<mat-card class="bg-paper">
+  <div class="logs-card overflow-y-auto" #scrollFrame>
+    <div 
+      *ngFor="let msg of messages" 
+      [innerHTML]="formatLog(msg)"
+      class="log-item"
+      #item>
+    </div>
+  </div>
+</mat-card>

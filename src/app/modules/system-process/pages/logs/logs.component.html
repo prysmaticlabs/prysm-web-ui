@@ -2,62 +2,62 @@
   <app-breadcrumb></app-breadcrumb>
   <div class="grid grid-cols-3 gap-8">
     <div class="col-span-2">
-        <mat-card class="pt-20 logs-card bg-paper">
-          <app-validator-logs-stream></app-validator-logs-stream>
-        </mat-card>
+      <app-logs-stream [messages]="validatorMessages"></app-logs-stream>
+      <div class="py-4"></div>
+      <app-logs-stream [messages]="beaconMessages"></app-logs-stream>
     </div>
     <div class="col-span-1 grid grid-cols-1 gap-8">
-        <mat-card class="bg-paper p-16">
-          <div class="flex items-center">
-            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-              <mat-icon>memory</mat-icon>
-            </button>
-            <div class="text-white text-xl ml-4">
-              Process Health
-            </div>
+      <mat-card class="bg-paper p-16">
+        <div class="flex items-center">
+          <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+            <mat-icon>memory</mat-icon>
+          </button>
+          <div class="text-white text-xl ml-4">
+            Process Health
           </div>
-          <div class="pt-8 flex items-center justify-between">
-            <div className="m-0 text-muted">OK!</div>
-            <button
-              mat-button
-              raised
-              className="uppercase bg-error"
-            >
-              Stop Process
-            </button> 
+        </div>
+        <div class="pt-8 flex items-center justify-between">
+          <div className="m-0 text-muted">OK!</div>
+          <button
+            mat-button
+            raised
+            className="uppercase bg-error"
+          >
+            Stop Process
+          </button> 
+        </div>
+      </mat-card>
+      
+      <mat-card class="bg-paper">
+        <div class="card-title mb-8 text-lg text-muted">Log Percentage Summary</div>
+        <div class="text-muted">Today</div>
+        <div class="pt-4"></div>
+        <div class="mb-6">
+          <div>
+            <mat-progress-bar mode="determinate" value="70" color="primary"></mat-progress-bar>
           </div>
-        </mat-card>
-        
-        <mat-card class="bg-paper">
-          <div class="card-title mb-8 text-lg text-muted">Log Percentage Summary</div>
-          <div class="text-muted">Today</div>
-          <div class="pt-4"></div>
-          <div class="mb-6">
-            <div>
-              <mat-progress-bar mode="determinate" value="70" color="primary"></mat-progress-bar>
-            </div>
-            <div class="my-2 text-muted">
-              <small>70% Info Logs</small>
-            </div>
+          <div class="my-2 text-muted">
+            <small>70% Info Logs</small>
           </div>
-          <div class="mb-6">
-            <div>
-              <mat-progress-bar mode="determinate" value="10" color="accent"></mat-progress-bar>
-            </div>
-            <div class="my-2 text-muted">
-              <small>10% Warning Logs</small>
-            </div>
+        </div>
+        <div class="mb-6">
+          <div>
+            <mat-progress-bar mode="determinate" value="10" color="accent"></mat-progress-bar>
           </div>
-          <div class="mb-6">
-            <div>
-              <mat-progress-bar mode="determinate" value="20" color="warn"></mat-progress-bar>
-            </div>
-            <div class="my-2 text-muted">
-              <small>20% Error Logs</small>
-            </div>
+          <div class="my-2 text-muted">
+            <small>10% Warning Logs</small>
           </div>
+        </div>
+        <div class="mb-6">
+          <div>
+            <mat-progress-bar mode="determinate" value="20" color="warn"></mat-progress-bar>
+          </div>
+          <div class="my-2 text-muted">
+            <small>20% Error Logs</small>
+          </div>
+        </div>
 
-        </mat-card>
+      </mat-card>
     </div>
   </div>
 </div>

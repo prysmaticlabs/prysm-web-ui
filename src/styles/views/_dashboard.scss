@@ -23,25 +23,8 @@
   }
 }
 
-.logs {
-  .logs-card {
-    padding: 0;
-  }
-  .code {
-    background-color: #121212;
-    font-family: 'Source Code Pro', monospace;
-    padding: 16px 24px;
-    color: white;
-    .highlight {
-      color: #00C228;
-    }
-    .blue {
-      color: #00C5C7;
-    }
-    .gray {
-      color: #686868;
-    }
-  }
+.logs-card {
+  height: 400px;
 }
 
 .usage-card {

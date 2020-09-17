@@ -1,1 +1,3 @@
-<p>validator-logs-stream works!</p>
+<div *ngFor="let msg of messages">
+  <div [innerHTML]="formatLog(msg)"></div>
+</div>

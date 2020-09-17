@@ -11,6 +11,7 @@ import { ProposedMissedChartComponent } from './components/proposed-missed-chart
 import { DoubleBarChartComponent } from './components/double-bar-chart/double-bar-chart.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { ValidatorLogsStreamComponent } from './components/validator-logs-stream/validator-logs-stream.component';
+import { LogsService } from './services/logs.service';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,9 @@ import { ValidatorLogsStreamComponent } from './components/validator-logs-stream
     DoubleBarChartComponent,
     PieChartComponent,
     ValidatorLogsStreamComponent,
+  ],
+  providers: [
+    LogsService,
   ],
   imports: [
     CommonModule,

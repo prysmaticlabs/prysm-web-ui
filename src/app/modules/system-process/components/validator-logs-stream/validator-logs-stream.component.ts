@@ -23,10 +23,7 @@ export class ValidatorLogsStreamComponent implements OnInit, OnDestroy {
   messages: string[] = [];
 
   ngOnInit(): void {
-    webSocket({
-      url: 'ws://localhost:8081/logs',
-      deserializer: msg => msg,
-    }).pipe(
+    this.logsService.validatorLogs().pipe(
       takeUntil(this.destroyed$$),
     ).subscribe((msg: MessageEvent) => {
       this.messages.push(msg.data);
@@ -36,7 +33,6 @@ export class ValidatorLogsStreamComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$$.next();
     this.destroyed$$.complete();
-    this.logsService.close();
   }
 
   formatLog(msg: string): SafeHtml {

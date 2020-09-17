@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, timer } from 'rxjs';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { Observable, timer } from 'rxjs';
+import { webSocket } from 'rxjs/webSocket';
 import { delayWhen, retryWhen, tap } from 'rxjs/operators';
 
-const WS_ENDPOINT = 'ws://localhost:8081/logs';
+const VALIDATOR_WS_ENDPOINT = 'ws://localhost:8081/logs';
+const BEACON_WS_ENDPOINT = 'ws://localhost:8080/logs';
 const RECONNECT_INTERVAL = 3000;
 
 @Injectable({
@@ -11,37 +12,25 @@ const RECONNECT_INTERVAL = 3000;
 })
 export class LogsService {
   constructor() { }
-  private socket$: WebSocketSubject<string> | null = null;
 
-  connect(): Observable<string> {
-    if (!this.socket$ || this.socket$.closed) {
-      // console.log('nonexistent');
-      // this.socket$ = this.getNewWebSocket();
-      return this.getNewWebSocket();
-    }
-    return this.socket$;
-    // return this.socket$.pipe(
-    //   this.reconnect,
-    // );
+  validatorLogs(): Observable<MessageEvent> {
+    return this.connect(VALIDATOR_WS_ENDPOINT);
   }
 
-  close(): void {
-    this.socket$?.complete();
+  beaconLogs(): Observable<MessageEvent> {
+    return this.connect(BEACON_WS_ENDPOINT);
   }
 
-  private getNewWebSocket(): WebSocketSubject<string> {
-    return webSocket(WS_ENDPOINT);
-    //   url: WS_ENDPOINT,
-    //   closeObserver: {
-    //     next: () => {
-    //       console.log('LogsService websocket connection closed');
-    //       this.connect();
-    //     }
-    //   },
-    // });
+  private connect(url: string): Observable<MessageEvent> {
+    return webSocket({
+      url,
+      deserializer: msg => msg,
+    }).pipe(
+      this.reconnect,
+    );
   }
 
-  private reconnect(observable: Observable<string>): Observable<string> {
+  private reconnect(observable: Observable<MessageEvent>): Observable<MessageEvent> {
     return observable.pipe(
       retryWhen(errors =>
         errors.pipe(

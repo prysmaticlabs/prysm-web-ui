@@ -98,7 +98,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
-  overflow: hidden;
   position: relative;
   color: $white;
 }
@@ -130,6 +129,14 @@ button:focus {
   color: white;
   font-size: 14px;
   padding: 12px !important;
+}
+
+mat-sidenav {
+  width: 280px;
+}
+
+.mat-drawer-side {
+  border: none;
 }
 
 mat-cell, mat-header-cell, mat-footer-cell {

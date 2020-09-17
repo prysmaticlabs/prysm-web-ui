@@ -2,7 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import SidebarLink from './types/sidebar-link';
 import { BeaconNodeService } from '../core/services/beacon-node.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+
+const MOBILE_BREAKPOINT = 640; // Pixels.
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private beaconNodeService: BeaconNodeService,
+    private breakpointObserver: BreakpointObserver,
   ) { }
   links: SidebarLink[] = [
     {
@@ -68,16 +72,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
     },
   ];
 
-  destroyed$$ = new Subject<void>();
+  isSmallScreen = false;
+  private destroyed$$ = new Subject<void>();
 
   ngOnInit(): void {
     this.beaconNodeService.nodeStatusPoll$.pipe(
       takeUntil(this.destroyed$$),
     ).subscribe();
+    this.registerBreakpointObserver();
   }
 
   ngOnDestroy(): void {
     this.destroyed$$.next();
     this.destroyed$$.complete();
   }
+
+  registerBreakpointObserver(): void {
+    this.breakpointObserver.observe([
+      Breakpoints.XSmall,
+      Breakpoints.Small
+    ]).pipe(
+      tap(result => {
+        this.isSmallScreen = result.matches;
+      }),
+      takeUntil(this.destroyed$$),
+    ).subscribe();
+  }
 }
+
+
+
+

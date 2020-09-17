@@ -18,6 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MomentModule } from 'ngx-moment';
@@ -67,6 +70,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatTooltipModule,
     MatProgressBarModule,
     MatDividerModule,
+    MatSidenavModule,
+    MatToolbarModule,
     MomentModule,
     Base64ToHexPipe,
     OrdinalPipe,

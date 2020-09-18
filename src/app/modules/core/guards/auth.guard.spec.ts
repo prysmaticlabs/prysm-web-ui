@@ -3,6 +3,7 @@ import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/ro
 
 import { AuthGuard } from './auth.guard';
 import { AuthenticationService } from '../services/authentication.service';
+import { EnvironmenterService } from '../services/environmenter.service';
 
 class MockActivatedRouteSnapshot {}
 
@@ -13,6 +14,7 @@ class MockRouterStateSnapshot {
 describe('AuthGuard', () => {
   let guard: AuthGuard;
   let authService: AuthenticationService;
+  let env: EnvironmenterService;
   let router: Router;
   let next: ActivatedRouteSnapshot;
   let state: RouterStateSnapshot;
@@ -20,6 +22,8 @@ describe('AuthGuard', () => {
   beforeEach(() => {
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const serviceSpy = jasmine.createSpyObj('AuthenticationService', ['login']);
+    const envSpy = jasmine.createSpyObj('EnvironmenterService', ['env']);
+
     TestBed.configureTestingModule({
       providers: [
         AuthGuard,
@@ -27,6 +31,7 @@ describe('AuthGuard', () => {
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRouteSnapshot, useValue: MockActivatedRouteSnapshot },
         { provide: RouterStateSnapshot, useValue: MockRouterStateSnapshot },
+        { provide: EnvironmenterService, useValue: envSpy },
       ],
     });
     router = TestBed.inject(Router);
@@ -34,6 +39,7 @@ describe('AuthGuard', () => {
     authService = TestBed.inject(AuthenticationService);
     next = TestBed.inject(ActivatedRouteSnapshot);
     state = TestBed.inject(RouterStateSnapshot);
+    env = TestBed.inject(EnvironmenterService);
   });
 
   describe('canActivate', () => {
@@ -44,6 +50,7 @@ describe('AuthGuard', () => {
 
     it('should return false for an unauthenticated user', () => {
       authService.token = '';
+      env.env.production = true;
       expect(guard.canActivate(next, state)).toEqual(false);
       expect(router.navigate).toHaveBeenCalledWith(['/']);
     });

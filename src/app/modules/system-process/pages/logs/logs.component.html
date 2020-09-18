@@ -1,13 +1,13 @@
 <div class="logs m-sm-30">
   <app-breadcrumb></app-breadcrumb>
+
   <div class="flex gap-x-6">
     <div class="w-full md:w-2/3">
-      <div class="text-xl px-2 pb-3">
+      <div class="text-xl px-2 pb-6">
         Validator client logs
       </div>
       <app-logs-stream [messages]="validatorMessages"></app-logs-stream>
-      <div class="py-3"></div>
-      <div class="text-xl px-2 pb-3">
+      <div class="text-xl px-2 pt-6 pb-6">
         Beacon node logs
       </div>
       <app-logs-stream [messages]="beaconMessages"></app-logs-stream>
@@ -38,20 +38,20 @@
         <div class="card-title mb-8 text-lg text-muted">Log Percentage Summary</div>
         <div class="text-muted">Today</div>
         <div class="pt-4"></div>
-        <div class="mb-6">
+        <div class="mb-6" *ngIf="(percentInfo$ | async) as pi">
           <div>
-            <mat-progress-bar mode="determinate" value="70" color="primary"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" [value]="pi" color="primary"></mat-progress-bar>
           </div>
           <div class="my-2 text-muted">
-            <small>70% Info Logs</small>
+            <small>{{pi}}% Info Logs</small>
           </div>
         </div>
-        <div class="mb-6">
+        <div class="mb-6" *ngIf="(percentDebug$ | async) as pi">
           <div>
-            <mat-progress-bar mode="determinate" value="10" color="accent"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" [value]="pi" color="accent"></mat-progress-bar>
           </div>
           <div class="my-2 text-muted">
-            <small>10% Warning Logs</small>
+            <small>{{pi}}% Debug Logs</small>
           </div>
         </div>
         <div class="mb-6">

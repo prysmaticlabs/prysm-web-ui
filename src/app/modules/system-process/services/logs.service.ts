@@ -3,7 +3,7 @@ import { Observable, of, timer } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 import { concatMap, delay, delayWhen, mergeAll, retryWhen, tap } from 'rxjs/operators';
 import { EnvironmenterService } from '../../core/services/environmenter.service';
-import { mockBeaconLogs } from 'src/app/modules/core/mocks/logs';
+import { mockBeaconLogs, mockValidatorLogs } from 'src/app/modules/core/mocks/logs';
 
 const VALIDATOR_WS_ENDPOINT = 'ws://localhost:8081/logs';
 const BEACON_WS_ENDPOINT = 'ws://localhost:8080/logs';
@@ -19,7 +19,7 @@ export class LogsService {
 
   validatorLogs(): Observable<MessageEvent> {
     if (!this.environmenter.env.production) {
-      const data = mockBeaconLogs.split('\n').map((v, _) => {
+      const data = mockValidatorLogs.split('\n').map((v, _) => {
         return { data: v } as MessageEvent;
       });
       return of(data).pipe(

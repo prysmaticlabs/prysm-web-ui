@@ -23,8 +23,13 @@
   }
 }
 
+.mat-card.bg-black {
+  background-color: black;
+}
+
 .logs-card {
   height: 400px;
+  line-height: 24px;
 }
 
 .usage-card {

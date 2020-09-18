@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, timer } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
-import { delayWhen, retryWhen, tap } from 'rxjs/operators';
+import { concatMap, delay, delayWhen, mergeAll, retryWhen, tap } from 'rxjs/operators';
+import { EnvironmenterService } from '../../core/services/environmenter.service';
+import { mockBeaconLogs } from 'src/app/modules/core/mocks/logs';
 
 const VALIDATOR_WS_ENDPOINT = 'ws://localhost:8081/logs';
 const BEACON_WS_ENDPOINT = 'ws://localhost:8080/logs';
@@ -11,13 +13,37 @@ const RECONNECT_INTERVAL = 3000;
   providedIn: 'root'
 })
 export class LogsService {
-  constructor() { }
+  constructor(
+    private environmenter: EnvironmenterService,
+  ) { }
 
   validatorLogs(): Observable<MessageEvent> {
+    if (!this.environmenter.env.production) {
+      const data = mockBeaconLogs.split('\n').map((v, _) => {
+        return { data: v } as MessageEvent;
+      });
+      return of(data).pipe(
+        mergeAll(),
+        concatMap(x => of(x).pipe(
+          delay(1500),
+        ))
+      );
+    }
     return this.connect(VALIDATOR_WS_ENDPOINT);
   }
 
   beaconLogs(): Observable<MessageEvent> {
+    if (!this.environmenter.env.production) {
+      const data = mockBeaconLogs.split('\n').map((v, _) => {
+        return { data: v } as MessageEvent;
+      });
+      return of(data).pipe(
+        mergeAll(),
+        concatMap(x => of(x).pipe(
+          delay(1500),
+        ))
+      );
+    }
     return this.connect(BEACON_WS_ENDPOINT);
   }
 

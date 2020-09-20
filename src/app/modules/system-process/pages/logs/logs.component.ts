@@ -1,7 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { LogsService } from '../../services/logs.service';
+
+interface LogMetrics {
+  percentInfo: string;
+  percentDebug: string;
+}
 
 @Component({
   selector: 'app-logs',
@@ -14,13 +19,14 @@ export class LogsComponent implements OnInit, OnDestroy {
   private destroyed$$ = new Subject<void>();
   validatorMessages: string[] = [];
   beaconMessages: string[] = [];
-  percentInfo$ = new Subject<number>();
-  percentDebug$ = new Subject<number>();
-  totalLogs = 0;
   totalInfo = 0;
   totalDebug = 0;
   totalWarn = 0;
-  totalError = 0;
+  totalLogs = 0;
+  logMetrics$ = new BehaviorSubject<LogMetrics>({
+    percentInfo: '0',
+    percentDebug: '0',
+  });
 
   ngOnInit(): void {
     this.subscribeLogs();
@@ -36,29 +42,35 @@ export class LogsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroyed$$),
       tap((msg: MessageEvent) => {
         this.validatorMessages.push(msg.data);
-        this.countLogLevels(msg.data);
+        this.countLogMetrics(msg.data);
       })
     ).subscribe();
     this.logsService.beaconLogs().pipe(
       takeUntil(this.destroyed$$),
       tap((msg: MessageEvent) => {
         this.beaconMessages.push(msg.data);
-        this.countLogLevels(msg.data);
+        this.countLogMetrics(msg.data);
       })
     ).subscribe();
   }
 
-  private countLogLevels(log: string): void {
+  private countLogMetrics(log: string): void {
+    const val = this.logMetrics$.getValue();
     if (log.indexOf('INFO') !== -1) {
       this.totalInfo++;
       this.totalLogs++;
-      this.percentInfo$.next((this.totalInfo / this.totalLogs) * 100);
     } else if (log.indexOf('DEBUG') !== -1) {
       this.totalDebug++;
       this.totalLogs++;
-      this.percentDebug$.next((this.totalDebug / this.totalLogs) * 100);
     } else {
       console.log('does not have info');
     }
+    val.percentDebug = this.formatPercent(this.totalDebug);
+    val.percentInfo = this.formatPercent(this.totalInfo);
+    this.logMetrics$.next(val);
+  }
+
+  private formatPercent(count: number): string {
+    return ((count / this.totalLogs) * 100).toFixed(0);
   }
 }

@@ -34,24 +34,24 @@
         </div>
       </mat-card>
       <div class="py-3"></div>
-      <mat-card class="bg-paper">
+      <mat-card class="bg-paper" *ngIf="(logMetrics$ | async) as metrics">
         <div class="card-title mb-8 text-lg text-muted">Log Percentage Summary</div>
         <div class="text-muted">Today</div>
         <div class="pt-4"></div>
-        <div class="mb-6" *ngIf="(percentInfo$ | async) as pi">
+        <div class="mb-6">
           <div>
-            <mat-progress-bar mode="determinate" [value]="pi" color="primary"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" [value]="metrics.percentInfo" color="primary"></mat-progress-bar>
           </div>
           <div class="my-2 text-muted">
-            <small>{{pi}}% Info Logs</small>
+            <small>{{metrics.percentInfo}}% Info Logs</small>
           </div>
         </div>
-        <div class="mb-6" *ngIf="(percentDebug$ | async) as pi">
+        <div class="mb-6">
           <div>
-            <mat-progress-bar mode="determinate" [value]="pi" color="accent"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" [value]="metrics.percentDebug" color="accent"></mat-progress-bar>
           </div>
           <div class="my-2 text-muted">
-            <small>{{pi}}% Debug Logs</small>
+            <small>{{metrics.percentDebug}}% Debug Logs</small>
           </div>
         </div>
         <div class="mb-6">
@@ -62,7 +62,10 @@
             <small>20% Error Logs</small>
           </div>
         </div>
-
+      </mat-card>
+      <div class="py-3"></div>
+      <mat-card class="bg-primary">
+        Hello
       </mat-card>
     </div>
   </div>

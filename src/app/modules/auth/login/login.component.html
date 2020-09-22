@@ -8,7 +8,7 @@
         <form class="w-7/12 signup-form-container flex items-center px-8" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div>
             <mat-form-field appearance="outline">
-              <mat-label>Password</mat-label>
+              <mat-label>Wallet Password</mat-label>
               <input
                 matInput
                 formControlName="password"
@@ -24,9 +24,7 @@
             </div>
             <div class="flex">
               <div class="btn-container">
-                <button mat-raised-button color="primary" name="submit" [disabled]="loading">
-                  Sign in to Web UI
-                </button>
+                <button mat-raised-button color="primary" name="submit" [disabled]="loading || loginForm.invalid">Sign in to dashboard</button>
                 <div class="btn-progress" *ngIf="loading">
                   <mat-spinner color="primary" [diameter]="25"></mat-spinner>
                 </div>

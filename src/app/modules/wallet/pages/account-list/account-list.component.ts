@@ -2,12 +2,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { WalletService } from '../../../core/services/wallet.service';
 import {
   ListAccountsResponse,
   Account,
 } from 'src/app/proto/validator/accounts/v2/web_api';
+import {
+  Validators,
+} from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 
 @Component({
   selector: 'app-account-list',
@@ -20,16 +24,25 @@ export class AccountListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
 
-  constructor(private walletService: WalletService) {
+  constructor(
+    private walletService: WalletService,
+    private validatorService: ValidatorService,
+  ) {
   }
 
   ngOnInit(): void {
     this.walletService.accounts$.pipe(
-      tap((result: ListAccountsResponse) => {
-        this.dataSource = new MatTableDataSource(result?.accounts);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }),
+      map(accs => accs.accounts?.map(account => account.validatingPublicKey)),
+      switchMap((pubKeys: string[]) =>
+        this.validatorService.listValidators(pubKeys).pipe(
+          tap((result) => {
+            console.log(result);
+            // this.dataSource = new MatTableDataSource(result?.accounts);
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          }),
+        )
+      ),
       take(1)
     ).subscribe();
   }

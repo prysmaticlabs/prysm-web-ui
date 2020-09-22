@@ -11,6 +11,7 @@ import { WalletService } from './wallet.service';
 import {
   ValidatorBalances, ValidatorPerformanceResponse, ValidatorParticipationResponse, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { Validators } from '@angular/forms';
 
 export const MAX_EPOCH_LOOKBACK = 5;
 
@@ -89,6 +90,12 @@ export class ValidatorService {
       params += `${this.encodePublicKey(key)}&publicKeys=`;
     });
     return this.http.get<ValidatorBalances>(`${apiUrl}/validators/balances${params}`);
+  }
+
+  listValidators(
+    publicKeys: string[],
+  ): Observable<Validators> {
+    return of();
   }
 
   private encodePublicKey(key: string): string {

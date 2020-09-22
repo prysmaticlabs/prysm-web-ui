@@ -18,9 +18,9 @@
               />
             </mat-form-field>
             <div *ngIf="submitted && loginForm.controls['password'].errors" class="mb-6">
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.required" class="text-error">Password is required</div>
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.minlength" class="text-error">Passwords needs at least 8 characters</div>
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.pattern" class="text-error">Needs at least 1 uppercase letter, 1 number, and 1 special char</div>
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.required" class="text-error">Password is required</div>
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.minlength" class="text-error">Passwords needs at least 8 characters</div>
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.pattern" class="text-error">Needs at least 1 uppercase letter, 1 number, and 1 special char</div>
             </div>
             <div class="flex">
               <div class="btn-container">

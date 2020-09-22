@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { zip, Observable, of } from 'rxjs';
-import { switchMap, mergeMap, concatAll, toArray, map, tap } from 'rxjs/operators';
+import { switchMap, mergeMap, concatAll, toArray } from 'rxjs/operators';
 
 import range from 'src/app/modules/core/utils/range';
 import { BeaconNodeService } from './beacon-node.service';
@@ -91,7 +91,7 @@ export class ValidatorService {
     return this.http.get<ValidatorBalances>(`${apiUrl}/validators/balances${params}`);
   }
 
-  listValidators(
+  validatorList(
     publicKeys: string[],
   ): Observable<Validators> {
     return this.beaconNodeService.nodeEndpoint$.pipe(
@@ -101,6 +101,20 @@ export class ValidatorService {
           params += `${this.encodePublicKey(key)}&publicKeys=`;
         });
         return this.http.get<Validators>(`${endpoint}/validators${params}`);
+      })
+    );
+  }
+
+  balances(
+    publicKeys: string[],
+  ): Observable<ValidatorBalances> {
+    return this.beaconNodeService.nodeEndpoint$.pipe(
+      switchMap((endpoint: string) => {
+        let params = `?publicKeys=`;
+        publicKeys.forEach((key, _) => {
+          params += `${this.encodePublicKey(key)}&publicKeys=`;
+        });
+        return this.http.get<ValidatorBalances>(`${endpoint}/validators/balances${params}`);
       })
     );
   }

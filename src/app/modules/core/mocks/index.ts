@@ -14,8 +14,9 @@ import {
   ValidatorPerformanceResponse,
   ValidatorQueue,
   Validators,
+  Validators_ValidatorContainer
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
-import { Validator, ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
+import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
 import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
 
@@ -79,23 +80,13 @@ export const Mocks: IMocks = {
   } as ListAccountsResponse,
   '/eth/v1alpha1/validators/balances': {
     epoch: 7119,
-    balances: [
-      {
-        publicKey: mockPublicKeys[0],
-        index: 0,
+    balances: mockPublicKeys.map((key, idx) => {
+      return {
+        publicKey: key,
+        index: idx,
         balance: '31200823019',
-      },
-      {
-        publicKey: mockPublicKeys[1],
-        index: 1,
-        balance: '31200823019',
-      },
-      {
-        publicKey: mockPublicKeys[2],
-        index: 2,
-        balance: '31200823019',
-      },
-    ] as ValidatorBalances_Balance[],
+      };
+    }),
   } as ValidatorBalances,
   '/eth/v1alpha1/beacon/chainhead': {
     headSlot: 1024,
@@ -169,13 +160,17 @@ export const Mocks: IMocks = {
     exitValidatorIndices: [2],
   } as ValidatorQueue,
   '/eth/v1alpha1/validators': {
-    validatorList: mockPublicKeys.map(key => {
+    validatorList: mockPublicKeys.map((key, idx) => {
       return {
-        publicKey: key,
-        effectiveBalance: '31200823019',
-        activationEpoch: 1000,
-        slashed: false,
-      } as Partial<Validator>;
+        index: idx,
+        validator: {
+          publicKey: key,
+          effectiveBalance: '31200823019',
+          activationEpoch: 1000,
+          slashed: false,
+          exitEpoch: 23020302,
+        },
+      } as Validators_ValidatorContainer;
     }),
     nextPageToken: '1',
     totalSize: mockPublicKeys.length,

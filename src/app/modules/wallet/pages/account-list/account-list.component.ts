@@ -4,10 +4,20 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { WalletService } from '../../../core/services/wallet.service';
-import {
-  Validators, Validators_ValidatorContainer,
-} from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
+import { zip } from 'rxjs';
+import { zipMap } from 'rxjs-pipe-ext/lib';
+
+interface TableData {
+  accountName: string;
+  index: number;
+  publicKey: string;
+  balance: string;
+  effectiveBalance: string;
+  status: string;
+  activationEpoch: number;
+  exitEpoch: number;
+}
 
 @Component({
   selector: 'app-account-list',
@@ -15,12 +25,16 @@ import { ValidatorService } from 'src/app/modules/core/services/validator.servic
 })
 export class AccountListComponent implements OnInit {
   displayedColumns: string[] = [
+    'accountName',
     'publicKey',
+    'index',
+    'balance',
     'effectiveBalance',
+    'status',
     'activationEpoch',
-    'slashed',
+    'exitEpoch',
   ];
-  dataSource: MatTableDataSource<Validators_ValidatorContainer> | null = null;
+  dataSource: MatTableDataSource<TableData> | null = null;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
@@ -28,16 +42,35 @@ export class AccountListComponent implements OnInit {
   constructor(
     private walletService: WalletService,
     private validatorService: ValidatorService,
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.walletService.accounts$.pipe(
-      map(accs => accs.accounts?.map(account => account.validatingPublicKey)),
-      switchMap((pubKeys: string[]) =>
-        this.validatorService.listValidators(pubKeys).pipe(
-          tap((result: Validators) => {
-            this.dataSource = new MatTableDataSource(result.validatorList);
+      zipMap(accs => accs.accounts?.map(account => account.validatingPublicKey)),
+      switchMap(([accountsResponse, pubKeys]) =>
+        zip(
+          this.validatorService.validatorList(pubKeys),
+          this.validatorService.balances(pubKeys)
+        ).pipe(
+          map(([validators, balances]) => {
+            return validators.validatorList.map((val, idx) => {
+              const accName = accountsResponse.accounts.find(
+                acc => acc.validatingPublicKey === val?.validator?.publicKey
+              );
+              return {
+                accountName: accName?.accountName,
+                index: val?.index,
+                publicKey: val?.validator?.publicKey,
+                balance: balances?.balances[idx].balance,
+                effectiveBalance: val?.validator?.effectiveBalance,
+                status: 'active',
+                activationEpoch: val?.validator?.activationEpoch,
+                exitEpoch: val?.validator?.exitEpoch,
+              } as TableData;
+            });
+          }),
+          tap((data: TableData[]) => {
+            this.dataSource = new MatTableDataSource(data);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }),

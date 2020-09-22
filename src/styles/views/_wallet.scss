@@ -1,0 +1,15 @@
+.search-bar {
+  width: 700px;
+}
+
+.mat-raised-button.large-btn {
+  margin-top: -20px;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  .search-bar {
+    width: 100%;
+  }
+}

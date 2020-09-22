@@ -5,11 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { WalletService } from '../../../core/services/wallet.service';
 import {
-  ListAccountsResponse,
-  Account,
-} from 'src/app/proto/validator/accounts/v2/web_api';
-import {
-  Validators,
+  Validators, Validators_ValidatorContainer,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 
@@ -18,8 +14,13 @@ import { ValidatorService } from 'src/app/modules/core/services/validator.servic
   templateUrl: './account-list.component.html',
 })
 export class AccountListComponent implements OnInit {
-  displayedColumns: string[] = ['accountName', 'validatingPublicKey'];
-  dataSource: MatTableDataSource<Account> | null = null;
+  displayedColumns: string[] = [
+    'publicKey',
+    'effectiveBalance',
+    'activationEpoch',
+    'slashed',
+  ];
+  dataSource: MatTableDataSource<Validators_ValidatorContainer> | null = null;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
@@ -35,11 +36,10 @@ export class AccountListComponent implements OnInit {
       map(accs => accs.accounts?.map(account => account.validatingPublicKey)),
       switchMap((pubKeys: string[]) =>
         this.validatorService.listValidators(pubKeys).pipe(
-          tap((result) => {
-            console.log(result);
-            // this.dataSource = new MatTableDataSource(result?.accounts);
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
+          tap((result: Validators) => {
+            this.dataSource = new MatTableDataSource(result.validatorList);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
           }),
         )
       ),

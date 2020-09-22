@@ -13,8 +13,9 @@ import {
   ValidatorParticipationResponse,
   ValidatorPerformanceResponse,
   ValidatorQueue,
+  Validators,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
-import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
+import { Validator, ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
 import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
 
@@ -167,4 +168,16 @@ export const Mocks: IMocks = {
     ],
     exitValidatorIndices: [2],
   } as ValidatorQueue,
+  '/eth/v1alpha1/validators': {
+    validatorList: mockPublicKeys.map(key => {
+      return {
+        publicKey: key,
+        effectiveBalance: '31200823019',
+        activationEpoch: 1000,
+        slashed: false,
+      } as Partial<Validator>;
+    }),
+    nextPageToken: '1',
+    totalSize: mockPublicKeys.length,
+  } as Validators,
 };

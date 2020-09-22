@@ -30,15 +30,29 @@
     <table mat-table [dataSource]="dataSource" matSort>
 
       <!-- Account name Column -->
-      <ng-container matColumnDef="accountName">
+      <!-- <ng-container matColumnDef="accountName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Account name </th>
         <td mat-cell *matCellDef="let row"> {{row.accountName}} </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="publicKey">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Validating Public key </th>
+        <td mat-cell *matCellDef="let row"> {{row.publicKey | base64tohex}} </td>
       </ng-container>
 
-      <!-- Validating Public key Column -->
-      <ng-container matColumnDef="validatingPublicKey">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Validating Public key </th>
-        <td mat-cell *matCellDef="let row"> {{row.validatingPublicKey | base64tohex}} </td>
+      <ng-container matColumnDef="effectiveBalance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Effective Balance</th>
+        <td mat-cell *matCellDef="let row"> {{row.effectiveBalance}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="activationEpoch">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Activation Epoch</th>
+        <td mat-cell *matCellDef="let row"> {{row.activationEpoch}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="slashed">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Slashed</th>
+        <td mat-cell *matCellDef="let row"> {{row.slashed}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -328,7 +328,7 @@ export interface Validator {
   /**
    *  The validators current effective balance in gwei.
    */
-  effectiveBalance: number;
+  effectiveBalance: string;
   /**
    *  Whether or not the validator has been slashed.
    */

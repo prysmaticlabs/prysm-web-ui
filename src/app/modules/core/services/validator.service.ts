@@ -9,9 +9,8 @@ import { BeaconNodeService } from './beacon-node.service';
 import { WalletService } from './wallet.service';
 
 import {
-  ValidatorBalances, ValidatorPerformanceResponse, ValidatorParticipationResponse, ValidatorQueue,
+  ValidatorBalances, ValidatorPerformanceResponse, Validators, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
-import { Validators } from '@angular/forms';
 
 export const MAX_EPOCH_LOOKBACK = 5;
 
@@ -95,7 +94,15 @@ export class ValidatorService {
   listValidators(
     publicKeys: string[],
   ): Observable<Validators> {
-    return of();
+    return this.beaconNodeService.nodeEndpoint$.pipe(
+      switchMap((endpoint: string) => {
+        let params = `?publicKeys=`;
+        publicKeys.forEach((key, _) => {
+          params += `${this.encodePublicKey(key)}&publicKeys=`;
+        });
+        return this.http.get<Validators>(`${endpoint}/validators${params}`);
+      })
+    );
   }
 
   private encodePublicKey(key: string): string {

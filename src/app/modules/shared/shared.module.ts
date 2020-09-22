@@ -19,7 +19,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -72,6 +74,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatDividerModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatCheckboxModule,
+    MatSelectModule,
     MomentModule,
     Base64ToHexPipe,
     OrdinalPipe,

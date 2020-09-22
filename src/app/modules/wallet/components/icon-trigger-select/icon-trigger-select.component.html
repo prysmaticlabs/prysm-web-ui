@@ -1,0 +1,13 @@
+<div class="relative cursor-pointer">
+  <mat-icon (click)="select.open()">{{icon}}</mat-icon>
+  <mat-select #select class="icon-select">
+    <mat-optgroup 
+      *ngFor="let optGroup of groups" 
+      [label]="optGroup.name"
+      [disabled]="optGroup.disabled">
+      <mat-option *ngFor="let opt of optGroup.options" [value]="opt.value" [class.text-error]="opt.danger">
+        {{opt.viewValue}}
+      </mat-option>
+    </mat-optgroup>
+  </mat-select>
+</div>

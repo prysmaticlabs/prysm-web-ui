@@ -142,3 +142,15 @@ mat-sidenav {
 mat-cell, mat-header-cell, mat-footer-cell {
   justify-content: center;
 }
+
+.icon-select div.mat-select-arrow-wrapper {
+  display: none;
+}
+
+.icon-select.mat-select {
+  display: inline;
+}
+
+.mat-option.text-error {
+  color: #e95455;
+}

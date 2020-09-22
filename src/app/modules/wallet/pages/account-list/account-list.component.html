@@ -10,10 +10,10 @@
   </div>
   <div class="relative flex justify-start flex-wrap items-center md:justify-between mb-4">
     <mat-form-field class="search-bar text-base" appearance="fill">
-      <mat-label>Search by title</mat-label>
+      <mat-label>Search by public key, validator index, or account name</mat-label>
       <input
         matInput
-        placeholder="Plastic love..."
+        placeholder="0x004a19ce..."
         color="primary"
         (keyup)="applyFilter($event)">
       <mat-icon matSuffix>search</mat-icon>
@@ -29,14 +29,29 @@
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
 
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="accountName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Name </th>
         <td mat-cell *matCellDef="let row"> {{row.accountName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="publicKey">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Validating Public Key </th>
-        <td mat-cell *matCellDef="let row"> {{row.publicKey | base64tohex | slice:0:24}}... </td>
+        <th mat-header-cell *matHeaderCellDef> Validating Public Key </th>
+        <td mat-cell *matCellDef="let row"> {{row.publicKey | base64tohex | slice:0:12}}... </td>
       </ng-container>
 
       <ng-container matColumnDef="index">
@@ -45,12 +60,12 @@
       </ng-container>
 
       <ng-container matColumnDef="balance">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ETH Balance</th>
         <td mat-cell *matCellDef="let row"> {{row.balance}} </td>
       </ng-container>
 
       <ng-container matColumnDef="effectiveBalance">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Effective Balance</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ETH Effective Balance</th>
         <td mat-cell *matCellDef="let row"> {{row.effectiveBalance}} </td>
       </ng-container>
 
@@ -69,6 +84,18 @@
         <td mat-cell *matCellDef="let row"> {{row.exitEpoch}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <app-icon-trigger-select
+            [groups]="optionGroups"
+            icon="more_horiz"></app-icon-trigger-select>
+        </td>
+      </ng-container>
+
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
@@ -78,6 +105,6 @@
       </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 50, 100, 250]"></mat-paginator>
   </div>
 </div>

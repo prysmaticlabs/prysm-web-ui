@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { BigNumber } from 'ethers';
-import { BehaviorSubject, Subject, zip } from 'rxjs';
-import { debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Subject, throwError, zip } from 'rxjs';
+import { catchError, debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { zipMap } from 'rxjs-pipe-ext/lib';
 
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
@@ -44,7 +44,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
     private validatorService: ValidatorService,
   ) { }
 
-  pageSizes: number[] = [5, 50, 100, 250];
+  loading = false;
+  pageSizes: number[] = [5, 10, 50, 100, 250];
   totalData = 0;
   displayedColumns: string[] = [
     'select',
@@ -133,6 +134,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   // Event handles.
   handlePageEvent(event: PageEvent): void {
+    this.loading = true;
     this.pageChanged$.next(event);
   }
 
@@ -144,6 +146,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   private fetchData(): void {
+    this.loading = true;
     this.pageChanged$.pipe(
       // Debounce to prevent spamming the paginator component.
       debounceTime(500),
@@ -165,6 +168,11 @@ export class AccountListComponent implements OnInit, OnDestroy {
           )
         ),
       )),
+      tap(() => this.loading = false),
+      catchError(err => {
+        this.loading = false;
+        return throwError(err);
+      }),
       takeUntil(this.destroyed$),
     ).subscribe();
   }

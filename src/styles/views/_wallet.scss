@@ -8,6 +8,24 @@
   font-size: 16px;
 }
 
+.table-container {
+  min-height: 300px;
+}
+
+.table-loading-shade {
+  height: 100%;
+  min-height: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 640px) {
   .search-bar {
     width: 100%;

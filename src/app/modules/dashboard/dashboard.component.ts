@@ -25,18 +25,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {
       name: 'Wallet & Accounts',
       icon: 'account_balance_wallet',
-      children: [
-        {
-          name: 'Account list',
-          icon: 'list',
-          path: '/dashboard/wallet/accounts',
-        },
-        {
-          name: 'Wallet configuration',
-          path: '/dashboard/wallet/config',
-          icon: 'settings_applications',
-        },
-      ],
+      path: '/dashboard/wallet',
     },
     {
       name: 'Process Analytics',

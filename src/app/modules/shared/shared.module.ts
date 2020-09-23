@@ -20,6 +20,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -72,6 +74,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatDividerModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatTabsModule,
+    MatExpansionModule,
     MomentModule,
     Base64ToHexPipe,
     OrdinalPipe,

@@ -1,0 +1,137 @@
+<div class="wallet m-sm-30">
+  <app-breadcrumb></app-breadcrumb>
+  <div class="mb-8">
+    <div class="text-2xl mb-2 text-white leading-snug">
+      Wallet Information
+    </div>
+    <p class="m-0 text-muted text-base leading-snug">
+      Information about your current wallet and its configuration options
+    </p>
+  </div>
+  <div class="flex items-center gap-x-6">
+    <div class="w-1/2">
+      <mat-card class="bg-primary">
+        <div class="welcome-card flex justify-between px-4 pt-4">
+          <div class="pr-4">
+            <div class="text-2xl mb-4 text-white leading-snug">
+              HD Wallet
+            </div>
+            <p class="m-0 text-muted text-base leading-snug">
+              Hierarchical-deterministic (HD) wallets are secure blockchain wallets derived from a seed phrase (a 24 word mnemonic)
+            </p>
+            <div>
+              <button mat-raised-button color="accent">
+                Read More
+              </button>
+            </div>
+          </div>
+          <img
+            src="/assets/images/onboarding/server.svg"
+            alt="wallet"
+            style="height: 80px; width: 80px;"
+          />
+        </div>
+      </mat-card>
+    </div>
+    <div class="w-1/2 px-0 md:px-6">
+      <mat-tab-group animationDuration="0ms">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-4">folder</mat-icon>
+            File Info
+          </ng-template>
+
+          <div class="grid grid-cols-2 gap-y-6 gap-x-6">
+
+            <div>
+              <div class="flex justify-between">
+                <div class="text-muted uppercase">Wallet Directory</div>
+                <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+                  help_outline
+                </mat-icon>
+              </div>
+              <div class="text-primary font-semibold text-2xl mt-2">
+                22 ETH
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between">
+                <div class="text-muted uppercase">Avg Effective <br />Balance</div>
+                <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+                  help_outline
+                </mat-icon>
+              </div>
+              <div class="text-primary font-semibold text-2xl mt-2">
+                22 ETH
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between">
+                <div class="text-muted uppercase">Avg Effective <br />Balance</div>
+                <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+                  help_outline
+                </mat-icon>
+              </div>
+              <div class="text-primary font-semibold text-2xl mt-2">
+                22 ETH
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between">
+                <div class="text-muted uppercase">Avg Effective <br />Balance</div>
+                <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+                  help_outline
+                </mat-icon>
+              </div>
+              <div class="text-primary font-semibold text-2xl mt-2">
+                22 ETH
+              </div>
+            </div>
+
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-4">settings</mat-icon>
+            Configuration
+          </ng-template>
+          Hello
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-4">help</mat-icon>
+            Help
+          </ng-template>
+          <mat-accordion>
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  This is the expansion title
+                </mat-panel-title>
+                <mat-panel-description>
+                  This is a summary of the content
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p>This is the primary content of the panel.</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Self aware panel
+                </mat-panel-title>
+                <mat-panel-description>
+                  Hi
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-tab>
+      </mat-tab-group>
+
+    </div>
+  </div>
+</div>

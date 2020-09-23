@@ -6,7 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { BigNumber } from 'ethers';
 import { BehaviorSubject, Subject, zip } from 'rxjs';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { zipMap } from 'rxjs-pipe-ext/lib';
 
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
@@ -45,6 +45,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   ) { }
 
   pageSizes: number[] = [5, 50, 100, 250];
+  totalData = 0;
   displayedColumns: string[] = [
     'select',
     'accountName',
@@ -86,7 +87,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   // Lifecycle methods.
   ngOnInit(): void {
     this.initializeSelections();
-    this.initializeAccounts();
+    this.fetchData();
   }
 
   ngOnDestroy(): void {
@@ -142,18 +143,24 @@ export class AccountListComponent implements OnInit, OnDestroy {
     this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
   }
 
-  private initializeAccounts(): void {
+  private fetchData(): void {
     this.pageChanged$.pipe(
+      // Debounce to prevent spamming the paginator component.
+      debounceTime(500),
       switchMap((ev: PageEvent) => this.walletService.accounts$.pipe(
+        // Extract the validating public keys.
         zipMap(accs => accs.accounts?.map(account => account.validatingPublicKey)),
         switchMap(([accountsResponse, pubKeys]) =>
+          // Combine the list of validators and their balances to display in the table.
           zip(
             this.validatorService.validatorList(pubKeys, ev.pageIndex, ev.pageSize),
             this.validatorService.balances(pubKeys, ev.pageIndex, ev.pageSize)
           ).pipe(
             map(([validators, balances]) =>
+              // Transform the data into a pretty format for our table.
               this.transformTableData(accountsResponse, validators, balances)
             ),
+            // Initialize the Angular material data source.
             tap(this.initializeDataSource.bind(this)),
           )
         ),
@@ -162,12 +169,15 @@ export class AccountListComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-
   private transformTableData(
     accountsResponse: ListAccountsResponse,
     validators: Validators,
     balances: ValidatorBalances
   ): TableData[] {
+    if (validators.totalSize !== balances.totalSize) {
+      throw new Error('Mismatched total page size for validators and balances responses');
+    }
+    this.totalData = validators.totalSize;
     return validators.validatorList.map((val, idx) => {
       const accName = accountsResponse.accounts.find(
         acc => acc.validatingPublicKey === val?.validator?.publicKey
@@ -192,7 +202,6 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   private initializeDataSource(data: TableData[]): void {
     this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.searchFields;
   }

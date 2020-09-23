@@ -119,6 +119,7 @@
 
     <mat-paginator 
       (page)="handlePageEvent($event)" 
+      [length]="totalData"
       [pageSizeOptions]="pageSizes">
     </mat-paginator>
   </div>

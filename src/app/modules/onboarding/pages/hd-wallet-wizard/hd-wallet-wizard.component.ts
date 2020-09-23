@@ -116,9 +116,6 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
 
   createWallet(event: Event): void {
     event.stopPropagation();
-    if (this.passwordFormGroup.invalid) {
-      return;
-    }
     const request = {
       keymanager: CreateWalletRequest_KeymanagerKind.DERIVED,
       walletPassword: this.passwordFormGroup.controls.password.value,
@@ -128,9 +125,9 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.walletService.createWallet(request).pipe(
+    this.authService.signup(request.walletPassword).pipe(
       switchMap(() => {
-        return this.authService.signup(request.walletPassword).pipe(
+        return this.walletService.createWallet(request).pipe(
           tap(() => {
             this.router.navigate(['/dashboard/gains-and-losses']);
           }),

@@ -53,7 +53,15 @@
                   [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>
+                  <span class="ml-4">
+                    <button
+                      color="primary"
+                      mat-raised-button
+                      (click)="createWallet($event)"
+                      [disabled]="passwordFormGroup.invalid">
+                      Create Wallet
+                    </button>
+                  </span>
                 </div>
               </div>
             </mat-step>
@@ -101,7 +109,15 @@
                   [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>
+                  <span class="ml-4">
+                    <button
+                      color="primary"
+                      mat-raised-button
+                      (click)="createWallet($event)"
+                      [disabled]="passwordFormGroup.invalid">
+                      Create Wallet
+                    </button>
+                  </span>
                 </div>
               </div>
             </mat-step>

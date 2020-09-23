@@ -9,6 +9,7 @@ import {
   CreateWalletRequest,
   ListAccountsResponse,
   Account,
+  ChangePasswordRequest
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -42,6 +43,10 @@ export class WalletService {
   );
 
   createWallet(request: CreateWalletRequest): Observable<WalletResponse> {
-    return this.http.post<WalletResponse>(`${this.apiUrl}/wallet/create`, request).pipe();
+    return this.http.post<WalletResponse>(`${this.apiUrl}/wallet/create`, request);
+  }
+
+  changeWalletPassword(request: ChangePasswordRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/wallet/password/edit`, request);
   }
 }

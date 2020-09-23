@@ -15,7 +15,7 @@
         matInput
         placeholder="0x004a19ce..."
         color="primary"
-        (keyup)="applyFilter($event)">
+        (keyup)="applySearchFilter($event)">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <button mat-raised-button color="primary" class="large-btn">
@@ -117,6 +117,9 @@
       </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 50, 100, 250]"></mat-paginator>
+    <mat-paginator 
+      (page)="handlePageEvent($event)" 
+      [pageSizeOptions]="pageSizes">
+    </mat-paginator>
   </div>
 </div>

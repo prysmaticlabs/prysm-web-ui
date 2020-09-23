@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { BigNumber } from 'ethers';
-import { Subject, zip } from 'rxjs';
+import { BehaviorSubject, Subject, zip } from 'rxjs';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { zipMap } from 'rxjs-pipe-ext/lib';
 
@@ -44,6 +44,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
     private validatorService: ValidatorService,
   ) { }
 
+  pageSizes: number[] = [5, 50, 100, 250];
   displayedColumns: string[] = [
     'select',
     'accountName',
@@ -75,16 +76,22 @@ export class AccountListComponent implements OnInit, OnDestroy {
     },
   ];
 
-  private destroyed$$ = new Subject<void>();
+  // Observables.
+  private pageChanged$ = new BehaviorSubject<PageEvent>({
+    pageIndex: 0,
+    pageSize: this.pageSizes[0],
+  } as PageEvent);
+  private destroyed$ = new Subject<void>();
 
+  // Lifecycle methods.
   ngOnInit(): void {
     this.initializeSelections();
     this.initializeAccounts();
   }
 
   ngOnDestroy(): void {
-    this.destroyed$$.next();
-    this.destroyed$$.complete();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   isAllSelected(): boolean {
@@ -93,13 +100,14 @@ export class AccountListComponent implements OnInit, OnDestroy {
     return numSelected === numRows;
   }
 
+  // UI helpers for our template.
   masterToggle(): void {
     this.isAllSelected() ?
         this.selection?.clear() :
         this.dataSource?.data.forEach(row => this.selection?.select(row.select));
   }
 
-  applyFilter(event: Event): void {
+  applySearchFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     if (this.dataSource) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -122,6 +130,12 @@ export class AccountListComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Event handles.
+  handlePageEvent(event: PageEvent): void {
+    this.pageChanged$.next(event);
+  }
+
+  // Initialization logic and private methods.
   private initializeSelections(): void {
     const initialSelection: any[] = [];
     const allowMultiSelect = true;
@@ -129,20 +143,22 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   private initializeAccounts(): void {
-    this.walletService.accounts$.pipe(
-      zipMap(accs => accs.accounts?.map(account => account.validatingPublicKey)),
-      switchMap(([accountsResponse, pubKeys]) =>
-        zip(
-          this.validatorService.validatorList(pubKeys),
-          this.validatorService.balances(pubKeys)
-        ).pipe(
-          map(([validators, balances]) =>
-            this.transformTableData(accountsResponse, validators, balances)
-          ),
-          tap(this.initializeDataSource.bind(this)),
-        )
-      ),
-      takeUntil(this.destroyed$$),
+    this.pageChanged$.pipe(
+      switchMap((ev: PageEvent) => this.walletService.accounts$.pipe(
+        zipMap(accs => accs.accounts?.map(account => account.validatingPublicKey)),
+        switchMap(([accountsResponse, pubKeys]) =>
+          zip(
+            this.validatorService.validatorList(pubKeys, ev.pageIndex, ev.pageSize),
+            this.validatorService.balances(pubKeys, ev.pageIndex, ev.pageSize)
+          ).pipe(
+            map(([validators, balances]) =>
+              this.transformTableData(accountsResponse, validators, balances)
+            ),
+            tap(this.initializeDataSource.bind(this)),
+          )
+        ),
+      )),
+      takeUntil(this.destroyed$),
     ).subscribe();
   }
 

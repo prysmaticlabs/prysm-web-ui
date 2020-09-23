@@ -93,13 +93,12 @@ export class ValidatorService {
 
   validatorList(
     publicKeys: string[],
+    pageIndex: number,
+    pageSize: number,
   ): Observable<Validators> {
     return this.beaconNodeService.nodeEndpoint$.pipe(
       switchMap((endpoint: string) => {
-        let params = `?publicKeys=`;
-        publicKeys.forEach((key, _) => {
-          params += `${this.encodePublicKey(key)}&publicKeys=`;
-        });
+        const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
         return this.http.get<Validators>(`${endpoint}/validators${params}`);
       })
     );
@@ -107,16 +106,28 @@ export class ValidatorService {
 
   balances(
     publicKeys: string[],
+    pageIndex: number,
+    pageSize: number,
   ): Observable<ValidatorBalances> {
     return this.beaconNodeService.nodeEndpoint$.pipe(
       switchMap((endpoint: string) => {
-        let params = `?publicKeys=`;
-        publicKeys.forEach((key, _) => {
-          params += `${this.encodePublicKey(key)}&publicKeys=`;
-        });
+        const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
         return this.http.get<ValidatorBalances>(`${endpoint}/validators/balances${params}`);
       })
     );
+  }
+
+  private formatURIParameters(
+    publicKeys: string[],
+    pageIndex: number,
+    pageSize: number,
+  ): string {
+    let params = `?pageSize=${pageSize}&pageToken=${pageIndex}`;
+    params += `&publicKeys=`;
+    publicKeys.forEach((key, _) => {
+      params += `${this.encodePublicKey(key)}&publicKeys=`;
+    });
+    return params;
   }
 
   private encodePublicKey(key: string): string {

@@ -2,7 +2,7 @@
   <app-breadcrumb></app-breadcrumb>
   <div class="mb-8">
     <div class="text-2xl mb-2 text-white leading-snug">
-      Your validator accounts list
+      Your Validator Accounts List
     </div>
     <p class="m-0 text-muted text-base leading-snug">
       Full list of all validating public keys managed by your Prysm wallet
@@ -26,6 +26,41 @@
     </button>
   </div>
 
+  <div class="account-selections mb-6" *ngIf="selection?.selected.length">
+    <div class="text-muted text-lg">
+      Selected {{selection?.selected.length}} Accounts
+    </div>
+    <div class="my-6">
+      <mat-chip-list>
+        <mat-chip *ngFor="let account of selection?.selected">
+          {{account.publicKey | base64tohex | slice:0:16}}...
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <div class="flex">
+      <button mat-stroked-button color="primary">
+        <span class="flex items-center">
+          <span class="mr-2">View in Block Explorer</span>
+          <mat-icon>open_in_new</mat-icon>
+        </span>
+      </button>
+      <div class="mx-2"></div>
+      <button mat-stroked-button color="accent">
+        <span class="flex items-center">
+          <span class="mr-2">Backup All</span>
+          <mat-icon>get_app</mat-icon>
+        </span>
+      </button>
+      <div class="mx-2"></div>
+      <button mat-stroked-button color="warn">
+        <span class="flex items-center">
+          <span class="mr-2">Delete All</span>
+          <mat-icon>delete_forever</mat-icon>
+        </span>
+      </button>
+    </div>
+  </div>
+
   <div class="mat-elevation-z8 relative">
     <div class="table-loading-shade" *ngIf="loading">
       <mat-spinner></mat-spinner>
@@ -36,14 +71,14 @@
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
             <mat-checkbox (change)="$event ? masterToggle() : null"
-                          [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+                          [checked]="selection?.hasValue() && isAllSelected()"
+                          [indeterminate]="selection?.hasValue() && !isAllSelected()">
             </mat-checkbox>
           </th>
           <td mat-cell *matCellDef="let row">
             <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)">
+                          (change)="$event ? selection?.toggle(row) : null"
+                          [checked]="selection?.isSelected(row)">
             </mat-checkbox>
           </td>
         </ng-container>

@@ -60,19 +60,19 @@ export class AccountListComponent implements OnInit, OnDestroy {
     'options',
   ];
   dataSource: MatTableDataSource<TableData> | null = null;
-  selection: SelectionModel<number> | null = null;
+  selection: SelectionModel<TableData> | null = null;
   optionGroups: OptionGroup[] = [
     {
       name: 'Details',
       options: [
         {value: 'view-beaconchain', viewValue: 'View in Explorer'},
         {value: 'deposit-data', viewValue: 'View Deposit Data'},
+        {value: 'backup', viewValue: 'Backup Account'},
       ]
     },
     {
       name: 'Danger Zone',
       options: [
-        {value: 'backup', viewValue: 'Backup Account'},
         {value: 'delete', viewValue: 'Delete Account', danger: true},
       ]
     },
@@ -106,7 +106,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   masterToggle(): void {
     this.isAllSelected() ?
         this.selection?.clear() :
-        this.dataSource?.data.forEach(row => this.selection?.select(row.select));
+        this.dataSource?.data.forEach(row => this.selection?.select(row));
   }
 
   applySearchFilter(event: Event): void {
@@ -140,9 +140,9 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   // Initialization logic and private methods.
   private initializeSelections(): void {
-    const initialSelection: any[] = [];
+    const initialSelection: TableData[] = [];
     const allowMultiSelect = true;
-    this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
+    this.selection = new SelectionModel<TableData>(allowMultiSelect, initialSelection);
   }
 
   private fetchData(): void {

@@ -14,6 +14,8 @@ import { ValidatorService } from 'src/app/modules/core/services/validator.servic
 import { WalletService } from '../../../core/services/wallet.service';
 import { OptionGroup } from '../../components/icon-trigger-select/icon-trigger-select.component';
 import { GWEI_PER_ETHER } from 'src/app/modules/core/constants';
+import { ValidatorBalances, Validators } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 interface TableData {
   select: number;
@@ -25,6 +27,7 @@ interface TableData {
   status: string;
   activationEpoch: number;
   exitEpoch: number;
+  lowBalance: boolean;
   options: string;
 }
 
@@ -75,55 +78,13 @@ export class AccountListComponent implements OnInit, OnDestroy {
   private destroyed$$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.initializeSelections();
     this.initializeAccounts();
   }
 
   ngOnDestroy(): void {
     this.destroyed$$.next();
     this.destroyed$$.complete();
-  }
-
-  initializeAccounts(): void {
-    const initialSelection: any[] = [];
-    const allowMultiSelect = true;
-    this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
-
-    this.walletService.accounts$.pipe(
-      zipMap(accs => accs.accounts?.map(account => account.validatingPublicKey)),
-      switchMap(([accountsResponse, pubKeys]) =>
-        zip(
-          this.validatorService.validatorList(pubKeys),
-          this.validatorService.balances(pubKeys)
-        ).pipe(
-          map(([validators, balances]) => {
-            return validators.validatorList.map((val, idx) => {
-              const accName = accountsResponse.accounts.find(
-                acc => acc.validatingPublicKey === val?.validator?.publicKey
-              );
-              return {
-                select: idx,
-                accountName: accName?.accountName,
-                index: val?.index,
-                publicKey: val?.validator?.publicKey,
-                balance: BigNumber.from(balances?.balances[idx].balance).toNumber() / GWEI_PER_ETHER,
-                effectiveBalance: BigNumber.from(val?.validator?.effectiveBalance).toNumber() / GWEI_PER_ETHER,
-                status: 'active',
-                activationEpoch: val?.validator?.activationEpoch,
-                exitEpoch: val?.validator?.exitEpoch,
-                options: val?.validator?.publicKey,
-              } as TableData;
-            });
-          }),
-          tap((data: TableData[]) => {
-            this.dataSource = new MatTableDataSource(data);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            this.dataSource.filterPredicate = this.searchFields;
-          }),
-        )
-      ),
-      takeUntil(this.destroyed$$),
-    ).subscribe();
   }
 
   isAllSelected(): boolean {
@@ -144,6 +105,80 @@ export class AccountListComponent implements OnInit, OnDestroy {
       this.dataSource.filter = filterValue.trim().toLowerCase();
       this.dataSource.paginator?.firstPage();
     }
+  }
+
+  formatStatusColor(validatorStatus: string): string {
+    switch (validatorStatus.trim().toLowerCase()) {
+      case 'active':
+        return 'primary';
+      case 'pending':
+        return 'accent';
+      case 'exited':
+        return 'warn';
+      case 'slashed':
+        return 'warn';
+      default:
+        return '';
+    }
+  }
+
+  private initializeSelections(): void {
+    const initialSelection: any[] = [];
+    const allowMultiSelect = true;
+    this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
+  }
+
+  private initializeAccounts(): void {
+    this.walletService.accounts$.pipe(
+      zipMap(accs => accs.accounts?.map(account => account.validatingPublicKey)),
+      switchMap(([accountsResponse, pubKeys]) =>
+        zip(
+          this.validatorService.validatorList(pubKeys),
+          this.validatorService.balances(pubKeys)
+        ).pipe(
+          map(([validators, balances]) =>
+            this.transformTableData(accountsResponse, validators, balances)
+          ),
+          tap(this.initializeDataSource.bind(this)),
+        )
+      ),
+      takeUntil(this.destroyed$$),
+    ).subscribe();
+  }
+
+
+  private transformTableData(
+    accountsResponse: ListAccountsResponse,
+    validators: Validators,
+    balances: ValidatorBalances
+  ): TableData[] {
+    return validators.validatorList.map((val, idx) => {
+      const accName = accountsResponse.accounts.find(
+        acc => acc.validatingPublicKey === val?.validator?.publicKey
+      );
+      const balance = BigNumber.from(balances?.balances[idx].balance).toNumber() / GWEI_PER_ETHER;
+      const effectiveBalance = BigNumber.from(val?.validator?.effectiveBalance).toNumber() / GWEI_PER_ETHER;
+      return {
+        select: idx,
+        accountName: accName?.accountName,
+        index: val?.index,
+        publicKey: val?.validator?.publicKey,
+        balance,
+        effectiveBalance,
+        status: 'active',
+        activationEpoch: val?.validator?.activationEpoch,
+        exitEpoch: val?.validator?.exitEpoch,
+        lowBalance: balance < 32,
+        options: val?.validator?.publicKey,
+      } as TableData;
+    });
+  }
+
+  private initializeDataSource(data: TableData[]): void {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = this.searchFields;
   }
 
   private searchFields(el: TableData, filter: string): boolean {

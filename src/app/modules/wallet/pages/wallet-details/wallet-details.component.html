@@ -1,2 +1,43 @@
-<app-wallet-config></app-wallet-config>
-<app-account-list></app-account-list>
+<div class="wallet m-sm-30">
+  <app-breadcrumb></app-breadcrumb>
+  <div class="mb-4">
+    <div class="text-2xl mb-2 text-white leading-snug">
+      Wallet Information
+    </div>
+    <p class="m-0 text-muted text-base leading-snug">
+      Information about your current wallet and its configuration options
+    </p>
+  </div>
+  <div class="flex items-center gap-x-6">
+    <div class="w-1/2">
+      <app-wallet-kind></app-wallet-kind>
+    </div>
+    <div class="w-1/2 px-0 md:px-6">
+      <mat-tab-group animationDuration="0ms" backgroundColor="primary">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-4">help</mat-icon>
+            Help
+          </ng-template>
+          <app-wallet-help></app-wallet-help>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-4">folder</mat-icon>
+            Files & Directories
+          </ng-template>
+          <app-files-and-directories></app-files-and-directories>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-4">settings</mat-icon>
+            Configuration
+          </ng-template>
+          <app-wallet-config></app-wallet-config>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+  <app-account-list></app-account-list>
+</div>

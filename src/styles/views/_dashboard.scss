@@ -48,6 +48,11 @@
   .mat-card.bg-primary {
     background-color: $primary;
   }
+  .wallet-kind-card {
+    img {
+      width: 230px;
+    }
+  }
 }
 
 .usage-card {

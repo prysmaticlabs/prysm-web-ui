@@ -32,7 +32,6 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
       tap((res) => {
         this.loading = false;
         this.config = res;
-        console.log(res);
       }),
       catchError((err) => {
         this.loading = false;

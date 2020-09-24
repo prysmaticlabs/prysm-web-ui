@@ -154,3 +154,7 @@ mat-cell, mat-header-cell, mat-footer-cell {
 .mat-option.text-error {
   color: #e95455;
 }
+
+.mat-expansion-panel {
+  background-color: $paper;
+}

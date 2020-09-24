@@ -1,0 +1,11 @@
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let item of items">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{item.title}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p [innerHTML]="item.content" class="text-base leading-snug">
+    </p>
+  </mat-expansion-panel>
+</mat-accordion>

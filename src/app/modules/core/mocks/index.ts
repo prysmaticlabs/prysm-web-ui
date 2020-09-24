@@ -5,6 +5,7 @@ import {
   NodeConnectionResponse,
   ListAccountsResponse,
   Account,
+  HasWalletResponse, KeymanagerKind
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ValidatorBalances,
@@ -39,11 +40,17 @@ export const Mocks: IMocks = {
   '/v2/validator/signup': {
     token: 'mock.jwt.token',
   } as AuthResponse,
+  '/v2/validator/wallet/exists': {
+    walletExists: true,
+  } as HasWalletResponse,
   '/v2/validator/wallet': {
-    walletPath: '/home/ubuntu',
+    keymanagerConfig: { direct_eip_version: 'EIP-2335' },
+    keymanagerKind: KeymanagerKind.DERIVED,
+    walletPath: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2'
   } as WalletResponse,
   '/v2/validator/wallet/create': {
-    walletPath: '/home/ubuntu',
+    walletPath: '/Users/johndoe/Library/Eth2Validators/prysm-wallet-v2',
+    keymanagerKind: KeymanagerKind.DERIVED,
   } as WalletResponse,
   '/v2/validator/mnemonic/generate': {
     mnemonic: 'grape harvest method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra',

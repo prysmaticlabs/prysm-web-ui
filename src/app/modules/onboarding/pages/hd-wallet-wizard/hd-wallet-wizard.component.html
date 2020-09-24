@@ -50,6 +50,8 @@
                 <app-wallet-password-form
                   title="Pick a strong wallet password"
                   subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  label="Wallet password"
+                  confirmationLabel="Confirm wallet password"
                   [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
@@ -106,6 +108,8 @@
                 <app-wallet-password-form
                   title="Pick a strong wallet password"
                   subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  label="Wallet password"
+                  confirmationLabel="Confirm wallet password"
                   [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>

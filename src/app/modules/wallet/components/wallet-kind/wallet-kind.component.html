@@ -1,0 +1,30 @@
+<mat-card class="bg-primary">
+  <div 
+    *ngIf="parseKeymanagerKind() as key"
+    class="wallet-kind-card relative flex items-center justify-between px-4 pt-4">
+    <div class="pr-4 w-3/4">
+      <p class="m-0 uppercase text-muted text-sm leading-snug">
+          YOUR WALLET KIND
+      </p>
+      <div class="text-2xl mb-4 text-white leading-snug">
+        {{info[key].name}}
+      </div>
+      <p class="m-0 text-muted text-base leading-snug">
+        {{info[key].description}}
+      </p>
+      <div class="mt-6 mb-4">
+        <a [href]="info[key].docsLink" target="_blank">
+          <button mat-raised-button color="accent">
+            Read More
+          </button>
+        </a>
+      </div>
+    </div>
+    <div class="w-1/4">
+      <img
+          src="/assets/images/undraw/wallet.svg"
+          alt="wallet"
+      />
+    </div>
+  </div>
+</mat-card>

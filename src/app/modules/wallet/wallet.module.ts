@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
-import { AccountListComponent } from './components/account-list/account-list.component';
+import { AccountListComponent } from './pages/account-list/account-list.component';
 import { WalletConfigComponent } from './components/wallet-config/wallet-config.component';
 import { WalletDetailsComponent } from './pages/wallet-details/wallet-details.component';
 import { WalletHelpComponent } from './components/wallet-help/wallet-help.component';

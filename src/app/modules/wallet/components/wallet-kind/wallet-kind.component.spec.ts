@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { WalletKindComponent } from './wallet-kind.component';
 
@@ -8,7 +9,10 @@ describe('WalletKindComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WalletKindComponent ]
+      declarations: [ WalletKindComponent ],
+      imports: [
+        SharedModule,
+      ]
     })
     .compileComponents();
   }));

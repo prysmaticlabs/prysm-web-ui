@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { FilesAndDirectoriesComponent } from './files-and-directories.component';
 
@@ -8,7 +9,10 @@ describe('FilesAndDirectoriesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FilesAndDirectoriesComponent ]
+      declarations: [ FilesAndDirectoriesComponent ],
+      imports: [
+        SharedModule,
+      ]
     })
     .compileComponents();
   }));

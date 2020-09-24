@@ -151,6 +151,17 @@ export interface NodeConnectionResponse {
   depositContractAddress: string;
 }
 
+export interface ChangePasswordRequest {
+  /**
+   *  New password a user wishes to set.
+   */
+  password: string;
+  /**
+   *  Confirmation of the new password.
+   */
+  passwordConfirmation: string;
+}
+
 /**  Type of key manager for the wallet, either direct, derived, or remote.
  */
 export enum CreateWalletRequest_KeymanagerKind {

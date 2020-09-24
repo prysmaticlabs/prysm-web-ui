@@ -10,7 +10,7 @@
   </div>
   <div class="flex items-center gap-x-6" *ngIf="!loading && config">
     <div class="w-1/2">
-      <app-wallet-kind></app-wallet-kind>
+      <app-wallet-kind [kind]="config?.keymanagerKind"></app-wallet-kind>
     </div>
     <div class="w-1/2 px-0 md:px-6">
       <mat-tab-group animationDuration="0ms" backgroundColor="primary">

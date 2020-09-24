@@ -8,7 +8,7 @@
       Information about your current wallet and its configuration options
     </p>
   </div>
-  <div class="flex items-center gap-x-6">
+  <div class="flex items-center gap-x-6" *ngIf="!loading && config">
     <div class="w-1/2">
       <app-wallet-kind></app-wallet-kind>
     </div>

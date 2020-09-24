@@ -57,6 +57,7 @@ export interface GenerateMnemonicResponse {
 
 export interface WalletResponse {
   walletPath: string;
+  keymanagerKind: string;
   keymanagerConfig: WalletResponse_KeymanagerConfig | undefined;
 }
 

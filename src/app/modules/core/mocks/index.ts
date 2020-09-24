@@ -41,7 +41,8 @@ export const Mocks: IMocks = {
     walletPath: '/home/ubuntu',
   } as WalletResponse,
   '/v2/validator/wallet/create': {
-    walletPath: '/home/ubuntu',
+    walletPath: '/Users/johndoe/Library/Eth2Validators/prysm-wallet-v2',
+    keymanagerKind: 'derived',
   } as WalletResponse,
   '/v2/validator/mnemonic/generate': {
     mnemonic: 'grape harvest method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra',

@@ -8,12 +8,12 @@ import { NoWalletFoundGuard } from './modules/core/guards/nowalletfound.guard';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { GainsAndLossesComponent } from './modules/dashboard/pages/gains-and-losses/gains-and-losses.component';
-import { AccountListComponent } from './modules/wallet/pages/account-list/account-list.component';
-import { WalletConfigComponent } from './modules/wallet/pages/wallet-config/wallet-config.component';
 import { LogsComponent } from './modules/system-process/pages/logs/logs.component';
 import { MetricsComponent } from './modules/system-process/pages/metrics/metrics.component';
 import { ChangePasswordComponent } from './modules/security/pages/change-password/change-password.component';
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
+import { WalletDetailsComponent } from './modules/wallet/pages/wallet-details/wallet-details.component';
+import { AccountListComponent } from './modules/wallet/pages/account-list/account-list.component';
 
 const routes: Routes = [
   {
@@ -48,8 +48,8 @@ const routes: Routes = [
             component: AccountListComponent,
           },
           {
-            path: 'config',
-            component: WalletConfigComponent,
+            path: 'details',
+            component: WalletDetailsComponent,
           },
         ]
       },

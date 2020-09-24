@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 import { NoWalletFoundGuard } from './nowalletfound.guard';
 import { WalletService } from '../services/wallet.service';
-import { WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { HasWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 class MockActivatedRouteSnapshot {}
 
@@ -20,7 +20,7 @@ describe('NoWalletFoundGuard', () => {
   let state: RouterStateSnapshot;
 
   beforeEach(() => {
-    const serviceSpy = jasmine.createSpyObj('WalletService', ['walletConfig$']);
+    const serviceSpy = jasmine.createSpyObj('WalletService', ['walletExists$']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
     TestBed.configureTestingModule({
       providers: [
@@ -45,9 +45,9 @@ describe('NoWalletFoundGuard', () => {
 
   it('should return false when the user does not have a wallet', done => {
     const resp = {
-      walletPath: '',
-    } as WalletResponse;
-    service.walletConfig$ = of(resp);
+      walletExists: false,
+    } as HasWalletResponse;
+    service.walletExists$ = of(resp);
     guard.canActivate(next, state).subscribe(canActivate => {
       expect(canActivate).toBe(false);
       expect(router.navigateByUrl).toHaveBeenCalledWith('/onboarding');
@@ -57,9 +57,9 @@ describe('NoWalletFoundGuard', () => {
 
   it('should return true when the user does has a wallet', done => {
     const resp = {
-      walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
-    } as WalletResponse;
-    service.walletConfig$ = of(resp);
+      walletExists: true,
+    } as HasWalletResponse;
+    service.walletExists$ = of(resp);
     guard.canActivate(next, state).subscribe(canActivate => {
       expect(canActivate).toBe(true);
       expect(router.navigateByUrl).toHaveBeenCalledTimes(0);

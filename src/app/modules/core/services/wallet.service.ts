@@ -9,7 +9,7 @@ import {
   CreateWalletRequest,
   ListAccountsResponse,
   Account,
-  ChangePasswordRequest
+  ChangePasswordRequest, HasWalletResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -24,6 +24,7 @@ export class WalletService {
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   // Observables.
+  walletExists$: Observable<HasWalletResponse> = this.http.get<HasWalletResponse>(`${this.apiUrl}/wallet/exists`);
   walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`);
   accounts$: Observable<ListAccountsResponse> = this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts`).pipe(
     shareReplay(1),

@@ -3,5 +3,6 @@ export default interface SidebarLink {
   icon: string;
   path?: string;
   externalUrl?: string;
+  comingSoon?: boolean;
   children?: SidebarLink[];
 }

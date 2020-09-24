@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         {
           name: 'Metrics',
           icon: 'insert_chart',
-          path: '/dashboard/system/metrics',
+          comingSoon: true,
         },
         {
           name: 'System Logs',

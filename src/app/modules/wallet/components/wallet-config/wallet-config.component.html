@@ -1,21 +1,14 @@
 <mat-card>
-  <div class="py-4">
+  <div class="pt-4">
     <div class="text-white text-lg">Keymanager Config</div>
     <div class="text-muted my-2 text-base">
       Prysm-specific configuration options for your type of wallet
     </div>
   </div>
-  <div class="flex items-center gap-x-4 pr-12">
-    <div class="w-3/5 bg-black rounded p-4 text-success text-base">
-      <div [innerHTML]="config | prettyjson"></div>
-    </div>
-    <div class="w-2/5">
-      <div class="uppercase text-white text-lg">
-        File Path
-      </div>
-      <div class="text-muted my-2 text-base">
-        /Users/me/wallet-v2/direct/keymanageropts.json
-      </div>
-    </div>
+  <div class="text-primary mb-4 text-base lowercase">
+    {{wallet?.walletPath}}/{{toString(wallet?.keymanagerKind)}}/keymanageropts.json
+  </div>
+  <div class="bg-black rounded p-4 text-success text-base">
+    <div [innerHTML]="wallet?.keymanagerConfig | prettyjson"></div>
   </div>
 </mat-card>

@@ -14,7 +14,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   ) { }
   private destroyed$ = new Subject<void>();
   loading = false;
-  config: WalletResponse | null = null;
+  wallet: WalletResponse | null = null;
 
   ngOnInit(): void {
     this.fetchData();
@@ -29,9 +29,9 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.walletService.walletConfig$.pipe(
       takeUntil(this.destroyed$),
-      tap((res) => {
+      tap((res: WalletResponse) => {
         this.loading = false;
-        this.config = res;
+        this.wallet = res;
         console.log(res);
       }),
       catchError((err) => {

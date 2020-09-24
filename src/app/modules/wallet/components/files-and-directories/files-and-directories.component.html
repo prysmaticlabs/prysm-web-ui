@@ -8,10 +8,10 @@
         </mat-icon>
       </div>
       <div class="text-primary text-base mt-2">
-        /Users/me/Library/Eth2Validators/prysm-wallet-v2
+        {{wallet?.walletPath}}
       </div>
     </div>
-    <div>
+    <div *ngIf="wallet?.keymanagerKind === Kinds.DIRECT">
       <div class="flex justify-between">
         <div class="text-white uppercase">Accounts Keystore File</div>
         <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
@@ -19,7 +19,18 @@
         </mat-icon>
       </div>
       <div class="text-primary text-base mt-2">
-        /Users/me/Library/Eth2Validators/prysm-wallet-v2/direct/all-accounts.keystore.json
+        {{wallet?.walletPath}}/direct/all-accounts.keystore.json
+      </div>
+    </div>
+    <div *ngIf="wallet?.keymanagerKind === Kinds.DERIVED">
+      <div class="flex justify-between">
+        <div class="text-white uppercase">Encrypted Seed File</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+          help_outline
+        </mat-icon>
+      </div>
+      <div class="text-primary text-base mt-2">
+        {{wallet?.walletPath}}/derived/seed.encrypted.json
       </div>
     </div>
   </div>

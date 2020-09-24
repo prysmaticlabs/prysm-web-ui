@@ -20,7 +20,7 @@ export class WalletKindComponent {
   info: KeymanagerInfo = {
     DIRECT: {
       name: 'Imported Wallet',
-      description: 'Hierarchical-deterministic (HD) wallets are secure blockchain wallets derived from a seed phrase (a 24 word mnemonic)',
+      description: 'Imported (non-deterministic) wallets are the recommended wallets to use with Prysm when coming from the official eth2 launchpad',
       docsLink: 'https://docs.prylabs.network/docs/wallet/nondeterministic',
     },
     DERIVED: {
@@ -30,7 +30,7 @@ export class WalletKindComponent {
     },
     REMOTE: {
       name: 'Remote Signing Wallet',
-      description: 'Hierarchical-deterministic (HD) wallets are secure blockchain wallets derived from a seed phrase (a 24 word mnemonic)',
+      description: 'Remote wallets are the most secure, as they keep your private keys away from your validator',
       docsLink: 'https://docs.prylabs.network/docs/wallet/remote',
     },
     UNKNOWN: {

@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
 })
 export class WalletConfigComponent {
   constructor() {}
+
+  config = `{
+    "direct_eip_version": "EIP-2335"
+  }`;
 }

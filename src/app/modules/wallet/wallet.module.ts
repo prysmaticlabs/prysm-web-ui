@@ -25,7 +25,7 @@ import { FilesAndDirectoriesComponent } from './components/files-and-directories
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    SharedModule
-  ]
+    SharedModule,
+  ],
 })
 export class WalletModule { }

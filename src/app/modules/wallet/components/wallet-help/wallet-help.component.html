@@ -5,8 +5,7 @@
         {{item.title}}
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p>
-      {{item.content}}
+    <p [innerHTML]="item.content" class="text-base leading-snug">
     </p>
   </mat-expansion-panel>
 </mat-accordion>

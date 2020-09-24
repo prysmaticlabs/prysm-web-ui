@@ -30,6 +30,7 @@ import { MomentModule } from 'ngx-moment';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
 import { OrdinalPipe } from './pipes/ordinal.pipe';
+import { PrettyjsonPipe } from './pipes/pretty-json.pipe';
 import { WalletPasswordFormComponent } from './components/wallet-password-form/wallet-password-form.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -39,6 +40,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     BreadcrumbComponent,
     Base64ToHexPipe,
     OrdinalPipe,
+    PrettyjsonPipe,
     WalletPasswordFormComponent,
     LoadingComponent,
   ],
@@ -79,6 +81,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MomentModule,
     Base64ToHexPipe,
     OrdinalPipe,
+    PrettyjsonPipe,
     WalletPasswordFormComponent,
     LoadingComponent,
     NgxSkeletonLoaderModule

@@ -1,17 +1,20 @@
 <mat-card>
-  <div class="flex gap-x-6">
-    <div class="w-2/3 bg-black rounded">
-      {{config}}
+  <div class="py-4">
+    <div class="text-white text-lg">Keymanager Config</div>
+    <div class="text-muted my-2 text-base">
+      Prysm-specific configuration options for your type of wallet
     </div>
-    <div class="w-1/3">
-      <div class="flex justify-between">
-        <div class="text-muted uppercase">Keystore File</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
-          help_outline
-        </mat-icon>
+  </div>
+  <div class="flex items-center gap-x-4 pr-12">
+    <div class="w-3/5 bg-black rounded p-4 text-success text-base">
+      <div [innerHTML]="config | prettyjson"></div>
+    </div>
+    <div class="w-2/5">
+      <div class="uppercase text-white text-lg">
+        File Path
       </div>
-      <div class="text-primary font-semibold text-2xl mt-2">
-        22 ETH
+      <div class="text-muted my-2 text-base">
+        /Users/me/wallet-v2/direct/keymanageropts.json
       </div>
     </div>
   </div>

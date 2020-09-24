@@ -1,6 +1,6 @@
 <div class="wallet m-sm-30">
   <app-breadcrumb></app-breadcrumb>
-  <div class="mb-4">
+  <div class="mb-6">
     <div class="text-2xl mb-2 text-white leading-snug">
       Wallet Information
     </div>
@@ -16,17 +16,17 @@
       <mat-tab-group animationDuration="0ms" backgroundColor="primary">
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon class="mr-4">settings</mat-icon>
-            Configuration
-          </ng-template>
-          <app-wallet-config></app-wallet-config>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
             <mat-icon class="mr-4">help</mat-icon>
             Help
           </ng-template>
           <app-wallet-help></app-wallet-help>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-4">settings</mat-icon>
+            Configuration
+          </ng-template>
+          <app-wallet-config></app-wallet-config>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>

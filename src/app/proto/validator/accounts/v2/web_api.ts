@@ -1,11 +1,15 @@
 /* eslint-disable */
 
+export interface HasWalletResponse {
+  walletExists: boolean;
+}
+
 export interface CreateWalletRequest {
   /**
    *  Path on disk where the wallet will be stored.
    */
   walletPath: string;
-  keymanager: CreateWalletRequest_KeymanagerKind;
+  keymanager: KeymanagerKind;
   /**
    *  Password for the wallet.
    */
@@ -58,20 +62,7 @@ export interface GenerateMnemonicResponse {
 export interface WalletResponse {
   walletPath: string;
   keymanagerKind: string;
-  keymanagerConfig: WalletResponse_KeymanagerConfig | undefined;
-}
-
-/**
- *  Key manager configs, this is meant to be some what generic.
- *  It'll later be encoded with json to represent in front end UI.
- */
-export interface WalletResponse_KeymanagerConfig {
-  configs: { [key: string]: string };
-}
-
-export interface WalletResponse_KeymanagerConfig_ConfigsEntry {
-  key: string;
-  value: string;
+  keymanagerConfig: { [key: string]: string };
 }
 
 export interface CreateAccountResponse {
@@ -165,38 +156,38 @@ export interface ChangePasswordRequest {
 
 /**  Type of key manager for the wallet, either direct, derived, or remote.
  */
-export enum CreateWalletRequest_KeymanagerKind {
+export enum KeymanagerKind {
   DERIVED = 0,
   DIRECT = 1,
   REMOTE = 2,
   UNRECOGNIZED = -1,
 }
 
-export function createWalletRequest_KeymanagerKindFromJSON(object: any): CreateWalletRequest_KeymanagerKind {
+export function KeymanagerKindFromJSON(object: any): KeymanagerKind {
   switch (object) {
     case 0:
     case 'DERIVED':
-      return CreateWalletRequest_KeymanagerKind.DERIVED;
+      return KeymanagerKind.DERIVED;
     case 1:
     case 'DIRECT':
-      return CreateWalletRequest_KeymanagerKind.DIRECT;
+      return KeymanagerKind.DIRECT;
     case 2:
     case 'REMOTE':
-      return CreateWalletRequest_KeymanagerKind.REMOTE;
+      return KeymanagerKind.REMOTE;
     case -1:
     case 'UNRECOGNIZED':
     default:
-      return CreateWalletRequest_KeymanagerKind.UNRECOGNIZED;
+      return KeymanagerKind.UNRECOGNIZED;
   }
 }
 
-export function createWalletRequest_KeymanagerKindToJSON(object: CreateWalletRequest_KeymanagerKind): string {
+export function KeymanagerKindToJSON(object: KeymanagerKind): string {
   switch (object) {
-    case CreateWalletRequest_KeymanagerKind.DERIVED:
+    case KeymanagerKind.DERIVED:
       return 'DERIVED';
-    case CreateWalletRequest_KeymanagerKind.DIRECT:
+    case KeymanagerKind.DIRECT:
       return 'DIRECT';
-    case CreateWalletRequest_KeymanagerKind.REMOTE:
+    case KeymanagerKind.REMOTE:
       return 'REMOTE';
     default:
       return 'UNKNOWN';

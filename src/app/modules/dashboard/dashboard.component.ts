@@ -43,9 +43,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: 'whatshot',
       children: [
         {
-          name: 'Performance metrics',
+          name: 'Metrics',
           icon: 'insert_chart',
-          path: '/dashboard/system/metrics',
+          comingSoon: true,
         },
         {
           name: 'System logs',

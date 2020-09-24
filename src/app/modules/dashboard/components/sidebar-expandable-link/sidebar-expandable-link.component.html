@@ -10,7 +10,7 @@
   </button>
   <div *ngIf="!collapsed" class="submenu">
     <div *ngFor="let child of link?.children">
-      <a class="nav-item" [routerLink]="child.path" routerLinkActive="active">
+      <a *ngIf="!child.comingSoon" class="nav-item" [routerLink]="child.path" routerLinkActive="active">
         <button mat-button class="nav-button">
           <div class="content flex items-center">
             <mat-icon aria-hidden="false" class="ml-1" aria-label="Example home icon">
@@ -19,6 +19,19 @@
             <span class="ml-8">
               {{child.name}}
             </span>
+          </div>
+        </button>
+      </a>
+      <a *ngIf="child.comingSoon" class="nav-item">
+        <button mat-button class="nav-button">
+          <div class="content flex items-center">
+            <mat-icon aria-hidden="false" class="ml-1" aria-label="Example home icon">
+              {{child.icon}}
+            </mat-icon>
+            <span class="ml-8">
+              {{child.name}}
+            </span>
+            <div class="bg-primary ml-4 px-4 py-0 text-white rounded-lg text-xs content-center">Coming Soon</div>
           </div>
         </button>
       </a>

@@ -1,16 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountsComponent } from './accounts.component';
+import { MockComponent, MockService } from 'ng-mocks';
+import { of } from 'rxjs';
+
+import { ListAccountsResponse, Account } from 'src/app/proto/validator/accounts/v2/web_api';
+import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { WalletService } from '../../../core/services/wallet.service';
-import { MockService } from 'ng-mocks';
-import { of } from 'rxjs';
-import { ListAccountsResponse, Account } from 'src/app/proto/validator/accounts/v2/web_api';
+import { AccountSelectionsComponent } from '../../components/account-selections/account-selections.component';
+import { AccountActionsComponent } from '../../components/account-actions/account-actions.component';
+import { AccountsTableComponent } from '../../components/accounts-table/accounts-table.component';
+import { AccountsComponent } from './accounts.component';
 
 describe('AccountsComponent', () => {
   let component: AccountsComponent;
   let fixture: ComponentFixture<AccountsComponent>;
   let service: WalletService = MockService(WalletService);
+  const valService: ValidatorService = MockService(ValidatorService);
   service.accounts$ = of({
     accounts: [{
       validatingPublicKey: '',
@@ -24,9 +30,15 @@ describe('AccountsComponent', () => {
       imports: [
         SharedModule,
       ],
-      declarations: [AccountsComponent],
+      declarations: [
+        AccountsComponent,
+        MockComponent(AccountSelectionsComponent),
+        MockComponent(AccountActionsComponent),
+        MockComponent(AccountsTableComponent),
+      ],
       providers: [
         { provide: WalletService, useValue: service },
+        { provide: ValidatorService, useValue: valService },
       ]
     })
       .compileComponents();

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { IconTriggerSelectComponent } from './icon-trigger-select.component';
 
@@ -8,7 +9,10 @@ describe('IconTriggerSelectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IconTriggerSelectComponent ]
+      declarations: [IconTriggerSelectComponent],
+      imports: [
+        SharedModule,
+      ]
     })
     .compileComponents();
   }));

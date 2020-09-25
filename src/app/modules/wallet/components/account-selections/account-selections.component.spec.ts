@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { AccountSelectionsComponent } from './account-selections.component';
 
@@ -8,7 +9,10 @@ describe('AccountSelectionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountSelectionsComponent ]
+      declarations: [AccountSelectionsComponent],
+      imports: [
+        SharedModule,
+      ]
     })
     .compileComponents();
   }));

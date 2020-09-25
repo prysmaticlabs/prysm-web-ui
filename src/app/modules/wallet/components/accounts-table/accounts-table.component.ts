@@ -66,17 +66,21 @@ export class AccountsTableComponent implements AfterViewInit {
     }
   }
 
-  // UI helpers for our template.
   masterToggle(): void {
-    // this.isAllSelected() ?
-    //     this.selection?.clear() :
-    //     this.dataSource?.data.forEach(row => this.selection?.select(row));
+    if (this.dataSource && this.selection) {
+      const sel = this.selection;
+      this.isAllSelected() ?
+        sel.clear() :
+        this.dataSource.data.forEach(row => sel.select(row));
+    }
   }
 
   isAllSelected(): boolean {
-    // const numSelected = this.selection?.selected.length;
-    // // const numRows = this.dataSource?.data.length;
-    // return numSelected === numRows;
+    if (this.selection && this.dataSource) {
+      const numSelected = this.selection.selected.length;
+      const numRows = this.dataSource.data.length;
+      return numSelected === numRows;
+    }
     return false;
   }
 

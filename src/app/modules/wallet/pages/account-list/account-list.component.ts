@@ -12,24 +12,10 @@ import { zipMap } from 'rxjs-pipe-ext/lib';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { WalletService } from '../../../core/services/wallet.service';
-import { OptionGroup } from '../../components/icon-trigger-select/icon-trigger-select.component';
 import { GWEI_PER_ETHER } from 'src/app/modules/core/constants';
 import { ValidatorBalances, Validators } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-
-interface TableData {
-  select: number;
-  accountName: string;
-  index: number;
-  publicKey: string;
-  balance: number;
-  effectiveBalance: number;
-  status: string;
-  activationEpoch: number;
-  exitEpoch: number;
-  lowBalance: boolean;
-  options: string;
-}
+import { TableData } from '../../components/accounts-table/accounts-table.component';
 
 @Component({
   selector: 'app-account-list',
@@ -47,36 +33,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
   loading = false;
   pageSizes: number[] = [5, 10, 50, 100, 250];
   totalData = 0;
-  displayedColumns: string[] = [
-    'select',
-    'accountName',
-    'publicKey',
-    'index',
-    'balance',
-    'effectiveBalance',
-    'activationEpoch',
-    'exitEpoch',
-    'status',
-    'options',
-  ];
   dataSource: MatTableDataSource<TableData> | null = null;
   selection: SelectionModel<TableData> | null = null;
-  optionGroups: OptionGroup[] = [
-    {
-      name: 'Details',
-      options: [
-        {value: 'view-beaconchain', viewValue: 'View in Explorer'},
-        {value: 'deposit-data', viewValue: 'View Deposit Data'},
-        {value: 'backup', viewValue: 'Backup Account'},
-      ]
-    },
-    {
-      name: 'Danger Zone',
-      options: [
-        {value: 'delete', viewValue: 'Delete Account', danger: true},
-      ]
-    },
-  ];
 
   // Observables.
   private pageChanged$ = new BehaviorSubject<PageEvent>({
@@ -114,21 +72,6 @@ export class AccountListComponent implements OnInit, OnDestroy {
     if (this.dataSource) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
       this.dataSource.paginator?.firstPage();
-    }
-  }
-
-  formatStatusColor(validatorStatus: string): string {
-    switch (validatorStatus.trim().toLowerCase()) {
-      case 'active':
-        return 'primary';
-      case 'pending':
-        return 'accent';
-      case 'exited':
-        return 'warn';
-      case 'slashed':
-        return 'warn';
-      default:
-        return '';
     }
   }
 

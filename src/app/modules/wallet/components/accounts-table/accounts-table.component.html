@@ -1,0 +1,88 @@
+<table mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="select">
+    <!-- <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection?.hasValue() && isAllSelected()"
+                    [indeterminate]="selection?.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection?.toggle(row) : null"
+                    [checked]="selection?.isSelected(row)">
+      </mat-checkbox>
+    </td> -->
+  </ng-container>
+
+  <ng-container matColumnDef="accountName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Name </th>
+    <td mat-cell *matCellDef="let row"> {{row.accountName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="publicKey">
+    <th mat-header-cell *matHeaderCellDef> Validating Public Key </th>
+    <td mat-cell *matCellDef="let row"> {{row.publicKey | base64tohex | slice:0:12}}... </td>
+  </ng-container>
+
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Validator Index</th>
+    <td mat-cell *matCellDef="let row"> {{row.index}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="balance">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ETH Balance</th>
+    <td mat-cell *matCellDef="let row">
+      <span [class.text-error]="row.lowBalance" [class.text-success]="!row.lowBalance">
+        {{row.balance}}
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="effectiveBalance">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> ETH Effective Balance</th>
+    <td mat-cell *matCellDef="let row">
+      <span [class.text-error]="row.lowBalance" [class.text-success]="!row.lowBalance">
+        {{row.effectiveBalance}}
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+    <td mat-cell *matCellDef="let row">
+      <mat-chip-list aria-label="Validator status">
+        <mat-chip [color]="formatStatusColor(row.status)" selected>{{row.status}}</mat-chip>
+      </mat-chip-list>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="activationEpoch">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Activation Epoch</th>
+    <td mat-cell *matCellDef="let row"> {{row.activationEpoch}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="exitEpoch">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Exit Epoch</th>
+    <td mat-cell *matCellDef="let row"> {{row.exitEpoch}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="options">
+    <th mat-header-cell *matHeaderCellDef>
+      Actions
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <app-icon-trigger-select
+        [groups]="optionGroups"
+        icon="more_horiz"></app-icon-trigger-select>
+    </td>
+  </ng-container>
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  <!-- Row shown when there is no matching data. -->
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data matching the filter</td>
+  </tr>
+</table>

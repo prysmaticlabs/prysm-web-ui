@@ -11,6 +11,7 @@ import { WalletDetailsComponent } from './pages/wallet-details/wallet-details.co
 import { WalletHelpComponent } from './components/wallet-help/wallet-help.component';
 import { WalletKindComponent } from './components/wallet-kind/wallet-kind.component';
 import { FilesAndDirectoriesComponent } from './components/files-and-directories/files-and-directories.component';
+import { AccountsTableComponent } from './components/accounts-table/accounts-table.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FilesAndDirectoriesComponent } from './components/files-and-directories
     WalletHelpComponent,
     WalletKindComponent,
     FilesAndDirectoriesComponent,
+    AccountsTableComponent,
   ],
   imports: [
     CommonModule,

@@ -2,9 +2,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subject } from 'rxjs';
 
-import { OptionGroup } from '../icon-trigger-select/icon-trigger-select.component';
+import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
 
 export interface TableData {
   select: number;
@@ -41,20 +40,23 @@ export class AccountsTableComponent implements AfterViewInit {
     'status',
     'options',
   ];
-  optionGroups: OptionGroup[] = [
+  menuItems: MenuItem[] = [
     {
-      name: 'Details',
-      options: [
-        {value: 'view-beaconchain', viewValue: 'View in Explorer'},
-        {value: 'deposit-data', viewValue: 'View Deposit Data'},
-        {value: 'backup', viewValue: 'Backup Account'},
-      ]
+      name: 'View in Explorer',
+      icon: 'open_in_new',
     },
     {
-      name: 'Danger Zone',
-      options: [
-        {value: 'delete', viewValue: 'Delete Account', danger: true},
-      ]
+      name: 'View Deposit Data',
+      icon: 'pageview',
+    },
+    {
+      name: 'Backup Account',
+      icon: 'get_app',
+    },
+    {
+      name: 'Delete Account',
+      icon: 'delete',
+      danger: true,
     },
   ];
 

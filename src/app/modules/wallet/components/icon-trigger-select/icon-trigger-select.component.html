@@ -1,13 +1,11 @@
 <div class="relative cursor-pointer">
-  <mat-icon (click)="select.open()">{{icon}}</mat-icon>
-  <mat-select #select class="icon-select">
-    <mat-optgroup 
-      *ngFor="let optGroup of groups" 
-      [label]="optGroup.name"
-      [disabled]="optGroup.disabled">
-      <mat-option *ngFor="let opt of optGroup.options" [value]="opt.value" [class.text-error]="opt.danger">
-        {{opt.viewValue}}
-      </mat-option>
-    </mat-optgroup>
-  </mat-select>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>{{icon}}</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button *ngFor="let item of menuItems" mat-menu-item>
+      <mat-icon>{{item.icon}}</mat-icon>
+      <span [class.text-error]="item.danger">{{item.name}}</span>
+    </button>
+  </mat-menu>
 </div>

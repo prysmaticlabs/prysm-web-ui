@@ -1,15 +1,10 @@
 import { Component, Input } from '@angular/core';
 
-export interface Option {
-  value: string;
-  viewValue: string;
-  danger?: boolean;
-}
-
-export interface OptionGroup {
+export interface MenuItem {
   disabled?: boolean;
+  danger?: boolean;
   name: string;
-  options: Option[];
+  icon: string;
 }
 
 @Component({
@@ -18,7 +13,6 @@ export interface OptionGroup {
 })
 export class IconTriggerSelectComponent {
   @Input() icon: string | null = null;
-  @Input() groups: OptionGroup[] | null = null;
+  @Input() menuItems: MenuItem[] | null = null;
   constructor() { }
-  show = false;
 }

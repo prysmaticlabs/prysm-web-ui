@@ -13,7 +13,7 @@ import { MetricsComponent } from './modules/system-process/pages/metrics/metrics
 import { ChangePasswordComponent } from './modules/security/pages/change-password/change-password.component';
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { WalletDetailsComponent } from './modules/wallet/pages/wallet-details/wallet-details.component';
-import { AccountListComponent } from './modules/wallet/pages/account-list/account-list.component';
+import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.component';
 
 const routes: Routes = [
   {
@@ -45,7 +45,7 @@ const routes: Routes = [
         children: [
           {
             path: 'accounts',
-            component: AccountListComponent,
+            component: AccountsComponent,
           },
           {
             path: 'details',

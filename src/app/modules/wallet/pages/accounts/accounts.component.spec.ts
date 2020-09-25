@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountListComponent } from './account-list.component';
+import { AccountsComponent } from './accounts.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { WalletService } from '../../../core/services/wallet.service';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
 import { ListAccountsResponse, Account } from 'src/app/proto/validator/accounts/v2/web_api';
 
-describe('AccountListComponent', () => {
-  let component: AccountListComponent;
-  let fixture: ComponentFixture<AccountListComponent>;
+describe('AccountsComponent', () => {
+  let component: AccountsComponent;
+  let fixture: ComponentFixture<AccountsComponent>;
   let service: WalletService = MockService(WalletService);
   service.accounts$ = of({
     accounts: [{
@@ -24,7 +24,7 @@ describe('AccountListComponent', () => {
       imports: [
         SharedModule,
       ],
-      declarations: [AccountListComponent],
+      declarations: [AccountsComponent],
       providers: [
         { provide: WalletService, useValue: service },
       ]
@@ -34,7 +34,7 @@ describe('AccountListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccountListComponent);
+    fixture = TestBed.createComponent(AccountsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

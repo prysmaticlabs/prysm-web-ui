@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
 
 import { OptionGroup } from '../icon-trigger-select/icon-trigger-select.component';
 
@@ -21,10 +24,11 @@ export interface TableData {
   selector: 'app-accounts-table',
   templateUrl: './accounts-table.component.html',
 })
-export class AccountsTableComponent implements OnInit {
-
-  constructor() { }
+export class AccountsTableComponent implements AfterViewInit {
   @Input() dataSource: MatTableDataSource<TableData> | null = null;
+  @Input() selection: SelectionModel<TableData> | null = null;
+  @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
+  constructor() { }
   displayedColumns: string[] = [
     'select',
     'accountName',
@@ -54,9 +58,25 @@ export class AccountsTableComponent implements OnInit {
     },
   ];
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    if (this.dataSource) {
+      this.dataSource.sort = this.sort;
+    }
   }
 
+  // UI helpers for our template.
+  masterToggle(): void {
+    // this.isAllSelected() ?
+    //     this.selection?.clear() :
+    //     this.dataSource?.data.forEach(row => this.selection?.select(row));
+  }
+
+  isAllSelected(): boolean {
+    // const numSelected = this.selection?.selected.length;
+    // // const numRows = this.dataSource?.data.length;
+    // return numSelected === numRows;
+    return false;
+  }
 
   formatStatusColor(validatorStatus: string): string {
     switch (validatorStatus.trim().toLowerCase()) {

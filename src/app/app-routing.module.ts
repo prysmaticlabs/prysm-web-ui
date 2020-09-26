@@ -23,51 +23,84 @@ const routes: Routes = [
   },
   {
     path: 'onboarding',
+    data: { 
+      breadcrumb: 'Onboarding'
+    },
     component: OnboardingComponent,
     canActivate: [AuthredirectGuard],
   },
   {
     path: 'login',
+    data: { 
+      breadcrumb: 'Login'
+    },
     component: LoginComponent,
     canActivate: [NoWalletFoundGuard, AuthredirectGuard],
   },
   {
     path: 'dashboard',
+    data: { 
+      breadcrumb: 'Dashboard'
+    },
     component: DashboardComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: 'gains-and-losses',
+        data: { 
+          breadcrumb: 'Gains & Losses'
+        },
         component: GainsAndLossesComponent,
       },
       {
         path: 'wallet',
+        data: { 
+          breadcrumb: 'Wallet'
+        },
         children: [
           {
             path: 'accounts',
+            data: { 
+              breadcrumb: 'Accounts'
+            },
             component: AccountListComponent,
           },
           {
             path: 'details',
+            data: { 
+              breadcrumb: 'Details'
+            },
             component: WalletDetailsComponent,
           },
         ]
       },
       {
         path: 'system',
+        data: { 
+          breadcrumb: 'System'
+        },
         children: [
           {
             path: 'logs',
+            data: { 
+              breadcrumb: 'Logs'
+            },
             component: LogsComponent,
           },
           {
             path: 'metrics',
+            data: { 
+              breadcrumb: 'Metrics'
+            },
             component: MetricsComponent,
           },
         ]
       },
       {
         path: 'security',
+        data: { 
+          breadcrumb: 'Security'
+        },
         children: [
           {
             path: 'change-password',

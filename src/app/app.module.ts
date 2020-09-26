@@ -17,6 +17,7 @@ import { OnboardingModule } from './modules/onboarding/onboarding.module';
 import { SystemProcessModule } from './modules/system-process/system-process.module';
 import { MockInterceptor } from './modules/core/interceptors/mock.interceptor';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { BreadcrumbService } from './modules/shared/components/breadcrumb/breadcrumb.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
     { provide: ENVIRONMENT, useValue: environment },
+    BreadcrumbService
   ],
   bootstrap: [AppComponent]
 })

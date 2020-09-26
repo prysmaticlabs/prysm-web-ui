@@ -1,14 +1,21 @@
-<div class="flex items-center position-relative mb-8 mt-1">
-  <div class="m-0 text-lg capitalize text-white text-center">Dashboard</div>
-  <div class="m-0 ml-4 text-hint">|</div>
-  <mat-icon 
-    aria-hidden="false" 
-    aria-label="Example home icon"
-    class="text-center ml-2 text-primary"
-  >
-    home
-  </mat-icon>
-  <span class="capitalize text-muted ml-4">
-    Gains &amp; Losses
-  </span>
-</div>
+<nav class="flex items-center position-relative mb-8 mt-1">
+  <ol>              
+    <li 
+      *ngFor="let breadcrumb of breadcrumbs; let i=index" 
+      class="inline items-baseline"
+      [ngClass]="{'text-lg': i === 0, 'text-muted': i > 0}">
+      <span *ngIf="i > 0" class="ml-4 mr-4">|</span>
+      <a [routerLink]="breadcrumb.url">
+        {{ breadcrumb.displayName }}
+        <!-- <mat-icon 
+          *ngIf="i === 0"
+          aria-hidden="false" 
+          aria-label="Home icon"
+          class="ml-2 text-primary"
+        >
+          home
+        </mat-icon> -->
+      </a>
+    </li>
+  </ol>
+</nav>

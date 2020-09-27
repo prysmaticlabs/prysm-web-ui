@@ -5,17 +5,18 @@
       class="inline items-baseline"
       [ngClass]="{'text-lg': i === 0, 'text-muted': i > 0}">
       <span *ngIf="i > 0" class="ml-4 mr-4">|</span>
-      <a [routerLink]="breadcrumb.url">
+      <a [routerLink]="[breadcrumb.url]">
         {{ breadcrumb.displayName }}
-        <!-- <mat-icon 
-          *ngIf="i === 0"
-          aria-hidden="false" 
-          aria-label="Home icon"
-          class="ml-2 text-primary"
-        >
-          home
-        </mat-icon> -->
       </a>
     </li>
   </ol>
 </nav>
+
+<!-- <mat-icon 
+  *ngIf="i === 0"
+  aria-hidden="false" 
+  aria-label="Home icon"
+  class="ml-2 text-primary"
+>
+  home
+</mat-icon> -->

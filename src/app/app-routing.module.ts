@@ -54,9 +54,6 @@ const routes: Routes = [
       },
       {
         path: 'wallet',
-        data: { 
-          breadcrumb: 'Wallet'
-        },
         children: [
           {
             path: 'accounts',
@@ -68,7 +65,7 @@ const routes: Routes = [
           {
             path: 'details',
             data: { 
-              breadcrumb: 'Details'
+              breadcrumb: 'Wallet Details'
             },
             component: WalletDetailsComponent,
           },
@@ -76,21 +73,18 @@ const routes: Routes = [
       },
       {
         path: 'system',
-        data: { 
-          breadcrumb: 'System'
-        },
         children: [
           {
             path: 'logs',
             data: { 
-              breadcrumb: 'Logs'
+              breadcrumb: 'System Logs'
             },
             component: LogsComponent,
           },
           {
             path: 'metrics',
             data: { 
-              breadcrumb: 'Metrics'
+              breadcrumb: 'System Metrics'
             },
             component: MetricsComponent,
           },
@@ -98,12 +92,12 @@ const routes: Routes = [
       },
       {
         path: 'security',
-        data: { 
-          breadcrumb: 'Security'
-        },
         children: [
           {
             path: 'change-password',
+            data: {
+              breadcrumb: 'Change Password'
+            },
             component: ChangePasswordComponent,
           },
         ]

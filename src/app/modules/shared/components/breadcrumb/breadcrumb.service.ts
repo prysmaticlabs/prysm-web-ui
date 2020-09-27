@@ -37,7 +37,7 @@ export class BreadcrumbService {
 
     // Reassign with new breadcrumb and emit change
     this.breadcrumbs = newCrumbs;
-    this.breadcrumbChanged.emit(this.breadcrumbs)
+    this.breadcrumbChanged.emit(this.breadcrumbs);
   }
 
   createBreadcrumb(route: ActivatedRouteSnapshot, url: string): Breadcrumb {

@@ -11,11 +11,11 @@ export class BreadcrumbComponent {
 
   constructor(private breadcrumbService: BreadcrumbService) {
     this.breadcrumbService.breadcrumbChanged.subscribe((crumbs: Breadcrumb[]) => {
-      this.onBreadcrumbChange(crumbs)
+      this.onBreadcrumbChange(crumbs);
     })
   }
 
   private onBreadcrumbChange(crumbs: Breadcrumb[]) {
-    this.breadcrumbs = crumbs
+    this.breadcrumbs = crumbs;
   }
 }

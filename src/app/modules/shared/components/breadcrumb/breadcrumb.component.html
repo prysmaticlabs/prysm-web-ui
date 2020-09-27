@@ -5,9 +5,10 @@
       class="inline items-baseline"
       [ngClass]="{'text-lg': i === 0, 'text-muted': i > 0}">
       <span *ngIf="i > 0" class="ml-4 mr-4">|</span>
-      <a [routerLink]="[breadcrumb.url]">
+      <a *ngIf="i < breadcrumbs.length - 1; else workingRoute" [href]="breadcrumb.url" >
         {{ breadcrumb.displayName }}
       </a>
+      <ng-template #workingRoute>{{ breadcrumb.displayName }}</ng-template>
     </li>
   </ol>
 </nav>

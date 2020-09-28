@@ -9,7 +9,7 @@ import {
   CreateWalletRequest,
   ListAccountsResponse,
   Account,
-  ChangePasswordRequest, HasWalletResponse
+  ChangePasswordRequest, HasWalletResponse, ImportKeystoresRequest, ImportKeystoresResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -49,5 +49,9 @@ export class WalletService {
 
   changeWalletPassword(request: ChangePasswordRequest): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/wallet/password/edit`, request);
+  }
+
+  importKeystores(request: ImportKeystoresRequest): Observable<ImportKeystoresResponse> {
+    return this.http.post<ImportKeystoresResponse>(`${this.apiUrl}/wallet/keystores/import`, request);
   }
 }

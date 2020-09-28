@@ -15,6 +15,8 @@ import { AccountsTableComponent } from './components/accounts-table/accounts-tab
 import { AccountSelectionsComponent } from './components/account-selections/account-selections.component';
 import { AccountActionsComponent } from './components/account-actions/account-actions.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
+import { ImportComponent } from './pages/import/import.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { CreateAccountComponent } from './pages/create-account/create-account.co
     AccountSelectionsComponent,
     AccountActionsComponent,
     CreateAccountComponent,
+    ImportComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +39,7 @@ import { CreateAccountComponent } from './pages/create-account/create-account.co
     ReactiveFormsModule,
     RouterModule,
     SharedModule,
+    NgxFileDropModule
   ],
 })
 export class WalletModule { }

@@ -11,8 +11,7 @@ import { PasswordValidator } from 'src/app/modules/core/validators/password.vali
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { CreateWalletRequest, KeymanagerKind } from 'src/app/proto/validator/accounts/v2/web_api';
-
-const MAX_ALLOWED_KEYSTORES = 50;
+import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
 
 enum WizardState {
   Overview,

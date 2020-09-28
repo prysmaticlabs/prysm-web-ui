@@ -3,10 +3,10 @@ import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-import-accounts',
-  templateUrl: './import-accounts.component.html',
+  selector: 'app-import-accounts-form',
+  templateUrl: './import-accounts-form.component.html',
 })
-export class ImportAccountsComponent {
+export class ImportAccountsFormComponent {
   @Input() formGroup: FormGroup | null = null;
 
   constructor() { }

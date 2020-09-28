@@ -142,3 +142,7 @@ mat-sidenav {
 mat-cell, mat-header-cell, mat-footer-cell {
   justify-content: center;
 }
+
+.mat-expansion-panel {
+  background-color: $paper;
+}

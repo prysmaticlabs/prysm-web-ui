@@ -4,7 +4,7 @@ import { WalletService } from './wallet.service';
 import {
   GenerateMnemonicResponse,
   WalletResponse,
-  CreateWalletRequest_KeymanagerKind,
+  KeymanagerKind,
   CreateWalletRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import { EnvironmenterService } from './environmenter.service';
@@ -60,7 +60,7 @@ describe('WalletService', () => {
         walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
       } as WalletResponse;
       const request = {
-        keymanager: CreateWalletRequest_KeymanagerKind.DERIVED,
+        keymanager: KeymanagerKind.DERIVED,
         walletPassword: 'password',
         numAccounts: 4,
       } as CreateWalletRequest;

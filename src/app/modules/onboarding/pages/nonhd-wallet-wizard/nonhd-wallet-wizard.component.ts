@@ -10,7 +10,7 @@ import { Subject, throwError } from 'rxjs';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { CreateWalletRequest, CreateWalletRequest_KeymanagerKind } from 'src/app/proto/validator/accounts/v2/web_api';
+import { CreateWalletRequest, KeymanagerKind } from 'src/app/proto/validator/accounts/v2/web_api';
 
 const MAX_ALLOWED_KEYSTORES = 50;
 
@@ -120,11 +120,8 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
 
   createWallet(event: Event): void {
     event.stopPropagation();
-    if (this.passwordFormGroup.invalid) {
-      return;
-    }
     const request = {
-      keymanager: CreateWalletRequest_KeymanagerKind.DIRECT,
+      keymanager: KeymanagerKind.DIRECT,
       walletPassword: this.passwordFormGroup.get('password')?.value,
       keystoresPassword: this.unlockFormGroup.get('keystoresPassword')?.value,
       keystoresImported: this.importFormGroup.get('keystoresImported')?.value,
@@ -132,9 +129,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.walletService.createWallet(request).pipe(
+    this.authService.signup(request.walletPassword).pipe(
       switchMap(() => {
-        return this.authService.signup(request.walletPassword).pipe(
+        return this.walletService.createWallet(request).pipe(
           tap(() => {
             this.router.navigate(['/dashboard/gains-and-losses']);
           }),

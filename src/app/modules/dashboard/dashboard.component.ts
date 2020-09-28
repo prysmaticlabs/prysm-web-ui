@@ -5,8 +5,6 @@ import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
-const MOBILE_BREAKPOINT = 640; // Pixels.
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -27,13 +25,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: 'account_balance_wallet',
       children: [
         {
-          name: 'Account list',
+          name: 'Account List',
           icon: 'list',
           path: '/dashboard/wallet/accounts',
         },
         {
-          name: 'Wallet configuration',
-          path: '/dashboard/wallet/config',
+          name: 'Wallet Information',
+          path: '/dashboard/wallet/details',
           icon: 'settings_applications',
         },
       ],
@@ -43,12 +41,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: 'whatshot',
       children: [
         {
-          name: 'Performance metrics',
+          name: 'Metrics',
           icon: 'insert_chart',
-          path: '/dashboard/system/metrics',
+          comingSoon: true,
         },
         {
-          name: 'System logs',
+          name: 'System Logs',
           icon: 'memory',
           path: '/dashboard/system/logs',
         },
@@ -59,7 +57,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: 'https',
       children: [
         {
-          name: 'Change password',
+          name: 'Change Password',
           path: '/dashboard/security/change-password',
           icon: 'settings',
         },

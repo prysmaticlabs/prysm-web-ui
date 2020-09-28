@@ -8,6 +8,8 @@ import { FormGroup } from '@angular/forms';
 export class WalletPasswordFormComponent {
   @Input() title: string | null = null;
   @Input() subtitle: string | null = null;
+  @Input() label: string | null = null;
+  @Input() confirmationLabel: string | null = null;
   @Input() formGroup: FormGroup | null = null;
   @Input() showSubmitButton: boolean | null = null;
   @Input() submit: () => void = () => {};

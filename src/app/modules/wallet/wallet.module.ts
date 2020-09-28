@@ -5,16 +5,27 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { AccountListComponent } from './pages/account-list/account-list.component';
-import { WalletConfigComponent } from './pages/wallet-config/wallet-config.component';
+import { WalletConfigComponent } from './components/wallet-config/wallet-config.component';
+import { WalletDetailsComponent } from './pages/wallet-details/wallet-details.component';
+import { WalletHelpComponent } from './components/wallet-help/wallet-help.component';
+import { WalletKindComponent } from './components/wallet-kind/wallet-kind.component';
+import { FilesAndDirectoriesComponent } from './components/files-and-directories/files-and-directories.component';
 
 @NgModule({
-  declarations: [AccountListComponent, WalletConfigComponent],
+  declarations: [
+    AccountListComponent,
+    WalletConfigComponent,
+    WalletDetailsComponent,
+    WalletHelpComponent,
+    WalletKindComponent,
+    FilesAndDirectoriesComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    SharedModule
-  ]
+    SharedModule,
+  ],
 })
 export class WalletModule { }

@@ -158,3 +158,10 @@ mat-cell, mat-header-cell, mat-footer-cell {
 .mat-expansion-panel {
   background-color: $paper;
 }
+
+.mat-stepper-horizontal {
+  background-color: transparent !important;
+}
+.mat-stepper-vertical {
+  background-color: transparent !important;
+}

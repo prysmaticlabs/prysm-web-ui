@@ -47,8 +47,11 @@ const routes: Routes = [
         children: [
           {
             path: 'accounts',
-            component: AccountsComponent,
             children: [
+              {
+                path: '',
+                component: AccountsComponent,
+              },
               {
                 path: 'create',
                 component: CreateAccountComponent,

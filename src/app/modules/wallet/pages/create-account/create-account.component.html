@@ -1,1 +1,42 @@
-<p>create-account works!</p>
+<app-breadcrumb></app-breadcrumb>
+<div class="md:w-2/3">
+  <mat-card class="bg-paper">
+    <div class="">
+      <mat-horizontal-stepper linear #stepper>
+        <mat-step label="Create Accounts">
+          <!-- <div class="text-white text-xl mt-4">
+            Create New Validator Accounts
+          </div>
+          <div class="my-4 text-hint text-lg leading-snug">
+            Generate new accounts in your wallet and obtain the deposit
+            data you need to activate them into the deposit contract via the
+            <a href="https://medalla.launchpad.ethereum.org/" target="_blank" class="text-primary">eth2 launchpad</a>
+          </div> -->
+          <app-create-accounts-form [formGroup]="accountsFormGroup"></app-create-accounts-form>
+          <div class="mt-6">
+            <a routerLink="/dashboard/wallet/accounts">
+              <button color="accent" mat-raised-button>Back to Accounts</button>
+            </a>
+            <span class="mx-3"></span>
+            <button color="primary" mat-raised-button>Continue</button>
+          </div>
+        </mat-step>
+        <mat-step label="Deposit Data">
+          <div class="text-white text-xl mt-4">
+            Creating an Wallet By Importing Keys
+          </div>
+          <div class="my-4 text-hint text-lg leading-snug">
+            Hello world this is my creation panel
+          </div>
+          <div class="overview-img">
+            <img src="/assets/images/launchpad.png"/>
+          </div>
+          <div class="mt-6">
+            <button color="accent" mat-raised-button>Back</button>
+            <span class="ml-4"><button color="primary" mat-raised-button>Continue</button></span>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </mat-card>
+</div>

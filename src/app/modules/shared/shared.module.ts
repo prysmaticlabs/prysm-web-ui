@@ -39,6 +39,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     WalletPasswordFormComponent,
     LoadingComponent,
     ImportAccountsFormComponent,
+    CreateAccountsFormComponent,
   ],
   imports: [
     CommonModule,
@@ -97,6 +99,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     LoadingComponent,
     NgxSkeletonLoaderModule,
     ImportAccountsFormComponent,
+    CreateAccountsFormComponent,
   ],
 })
 export class SharedModule { }

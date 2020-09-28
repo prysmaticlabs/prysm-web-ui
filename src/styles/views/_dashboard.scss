@@ -67,6 +67,15 @@
   }
 }
 
+.create-accounts {
+  .mat-form-field {
+    width: 80%;
+  }
+  .mat-input-element {
+    color: $white;
+  }
+}
+
 .import-keys-form {
   .ngx-file-drop__drop-zone {
     border: 4px dashed $primary !important;

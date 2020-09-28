@@ -1,17 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { GenerateAccountsComponent } from './generate-accounts.component';
-import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { FormBuilder, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { SharedModule } from '../../shared.module';
 
-describe('GenerateAccountsComponent', () => {
-  let component: GenerateAccountsComponent;
-  let fixture: ComponentFixture<GenerateAccountsComponent>;
+import { CreateAccountsFormComponent } from './create-accounts-form.component';
+
+describe('CreateAccountsFormComponent', () => {
+  let component: CreateAccountsFormComponent;
+  let fixture: ComponentFixture<CreateAccountsFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GenerateAccountsComponent ],
+      declarations: [ CreateAccountsFormComponent ],
       imports: [
         SharedModule,
         ReactiveFormsModule,
@@ -22,7 +22,7 @@ describe('GenerateAccountsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GenerateAccountsComponent);
+    fixture = TestBed.createComponent(CreateAccountsFormComponent);
     component = fixture.componentInstance;
     const builder = new FormBuilder();
     component.formGroup = builder.group({

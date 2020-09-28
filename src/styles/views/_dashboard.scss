@@ -60,3 +60,28 @@
   background-size: 100% !important;
   background-repeat: no-repeat !important;
 }
+
+.import-accounts {
+  .mat-form-field {
+    width: 80%;
+  }
+}
+
+.import-keys-form {
+  .ngx-file-drop__drop-zone {
+    border: 4px dashed $primary !important;
+    border-radius: 0px !important;
+    height: 170px !important;
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+  .ngx-file-drop__content {
+    color: $white !important;
+    text-align: center !important;
+    display: block !important;
+    height: 170px !important;
+    img {
+      height: 50px !important;
+    }
+  }
+}

@@ -11,7 +11,6 @@ import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choos
 import { GenerateAccountsComponent } from './components/generate-accounts/generate-accounts.component';
 import { GenerateMnemonicComponent } from './components/generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from './components/confirm-mnemonic/confirm-mnemonic.component';
-import { ImportAccountsComponent } from './components/import-accounts/import-accounts.component';
 import { UnlockKeysComponent } from './components/unlock-keys/unlock-keys.component';
 
 import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive';
@@ -30,7 +29,6 @@ import { NonhdWalletWizardComponent } from './pages/nonhd-wallet-wizard/nonhd-wa
     GenerateMnemonicComponent,
     ConfirmMnemonicComponent,
     NonhdWalletWizardComponent,
-    ImportAccountsComponent,
     UnlockKeysComponent,
   ],
   providers: [MnemonicValidator],

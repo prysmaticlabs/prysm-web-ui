@@ -37,6 +37,8 @@ import { PrettyjsonPipe } from './pipes/pretty-json.pipe';
 import { WalletPasswordFormComponent } from './components/wallet-password-form/wallet-password-form.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     PrettyjsonPipe,
     WalletPasswordFormComponent,
     LoadingComponent,
+    ImportAccountsFormComponent,
   ],
   imports: [
     CommonModule,
@@ -55,6 +58,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    NgxFileDropModule,
+    MatProgressBarModule,
   ],
   exports: [
     BreadcrumbComponent,
@@ -90,7 +95,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     PrettyjsonPipe,
     WalletPasswordFormComponent,
     LoadingComponent,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    ImportAccountsFormComponent,
   ],
 })
 export class SharedModule { }

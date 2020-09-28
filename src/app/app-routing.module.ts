@@ -14,6 +14,7 @@ import { ChangePasswordComponent } from './modules/security/pages/change-passwor
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { WalletDetailsComponent } from './modules/wallet/pages/wallet-details/wallet-details.component';
 import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.component';
+import { CreateAccountComponent } from './modules/wallet/pages/create-account/create-account.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,12 @@ const routes: Routes = [
           {
             path: 'accounts',
             component: AccountsComponent,
+            children: [
+              {
+                path: 'create',
+                component: CreateAccountComponent,
+              }
+            ],
           },
           {
             path: 'details',

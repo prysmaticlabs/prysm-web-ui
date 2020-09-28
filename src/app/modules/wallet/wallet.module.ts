@@ -14,6 +14,7 @@ import { FilesAndDirectoriesComponent } from './components/files-and-directories
 import { AccountsTableComponent } from './components/accounts-table/accounts-table.component';
 import { AccountSelectionsComponent } from './components/account-selections/account-selections.component';
 import { AccountActionsComponent } from './components/account-actions/account-actions.component';
+import { CreateAccountComponent } from './pages/create-account/create-account.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AccountActionsComponent } from './components/account-actions/account-ac
     AccountsTableComponent,
     AccountSelectionsComponent,
     AccountActionsComponent,
+    CreateAccountComponent,
   ],
   imports: [
     CommonModule,

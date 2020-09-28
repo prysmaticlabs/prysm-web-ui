@@ -54,7 +54,7 @@ describe('ImportComponent', () => {
     const req: ImportKeystoresRequest = {
       keystoresImported,
       keystoresPassword,
-    }
+    };
     expect(service.importKeystores).toHaveBeenCalledWith(req);
   });
 });

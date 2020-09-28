@@ -5,7 +5,7 @@ import {
   NodeConnectionResponse,
   ListAccountsResponse,
   Account,
-  HasWalletResponse, KeymanagerKind
+  HasWalletResponse, KeymanagerKind, ImportKeystoresResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ValidatorBalances,
@@ -33,6 +33,11 @@ const mockPublicKeys: string[] = [
   hexToBase64('0x93b283992d2db593c40d0417ccf6302ed5a26180555ec401c858232dc224b7e5c92aca63646bbf4d0d61df1584459d90'),
 ];
 
+const mockImportedKeys: string[] = [
+  hexToBase64('0x80027c7b2213480672caf8503b82d41ff9533ba3698c2d70d33fa6c1840b2c115691dfb6de791f415db9df8b0176b9e4'),
+  hexToBase64('0x800212f3ac97227ac9e4418ce649f386d90bbc1a95c400b6e0dbbe04da2f9b970e85c32ae89c4fdaaba74b5a2934ed5e'),
+];
+
 export const Mocks: IMocks = {
   '/v2/validator/login': {
     token: 'mock.jwt.token',
@@ -52,6 +57,9 @@ export const Mocks: IMocks = {
     walletPath: '/Users/johndoe/Library/Eth2Validators/prysm-wallet-v2',
     keymanagerKind: KeymanagerKind.DERIVED,
   } as WalletResponse,
+  '/v2/validator/wallet/keystores/import': {
+    importedPublicKeys: mockImportedKeys,
+  } as ImportKeystoresResponse,
   '/v2/validator/mnemonic/generate': {
     mnemonic: 'grape harvest method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra',
   } as GenerateMnemonicResponse,

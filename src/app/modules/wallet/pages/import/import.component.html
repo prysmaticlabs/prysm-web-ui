@@ -30,7 +30,20 @@
       <div class="flex">
         <a routerLink="/dashboard/wallet/accounts"><button mat-raised-button color="accent">Back to Accounts</button></a>
         <div class="mx-3"></div>
-        <button mat-raised-button color="primary">Submit Imported Files</button>
+        <div class="flex">
+          <div class="btn-container">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="submit()"
+              [disabled]="loading || importFormGroup.invalid || passwordFormGroup.invalid">
+              Submit Keystores
+            </button>
+            <div class="btn-progress" *ngIf="loading">
+              <mat-spinner color="primary" [diameter]="25"></mat-spinner>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </mat-card>

@@ -154,6 +154,24 @@ export interface ChangePasswordRequest {
   passwordConfirmation: string;
 }
 
+export interface ImportKeystoresRequest {
+  /**
+   *  JSON encoded keystore list.
+   */
+  keystoresImported: string[];
+  /**
+   *  Password to unlock the keystores.
+   */
+  keystoresPassword: string;
+}
+
+export interface ImportKeystoresResponse {
+  /**
+   *  Public keys successfully imported.
+   */
+  importedPublicKeys: string[];
+}
+
 /**  Type of key manager for the wallet, either direct, derived, or remote.
  */
 export enum KeymanagerKind {

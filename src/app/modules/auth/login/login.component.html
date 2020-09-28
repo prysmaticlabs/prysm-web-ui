@@ -8,7 +8,7 @@
         <form class="w-7/12 signup-form-container flex items-center px-8" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div>
             <mat-form-field appearance="outline">
-              <mat-label>Password</mat-label>
+              <mat-label>Wallet Password</mat-label>
               <input
                 matInput
                 formControlName="password"
@@ -18,15 +18,13 @@
               />
             </mat-form-field>
             <div *ngIf="submitted && loginForm.controls['password'].errors" class="mb-6">
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.required" class="text-error">Password is required</div>
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.minlength" class="text-error">Passwords needs at least 8 characters</div>
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors.pattern" class="text-error">Needs at least 1 uppercase letter, 1 number, and 1 special char</div>
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.required" class="text-error">Password is required</div>
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.minlength" class="text-error">Passwords needs at least 8 characters</div>
+              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.pattern" class="text-error">Needs at least 1 uppercase letter, 1 number, and 1 special char</div>
             </div>
             <div class="flex">
               <div class="btn-container">
-                <button mat-raised-button color="primary" name="submit" [disabled]="loading">
-                  Sign in to Web UI
-                </button>
+                <button mat-raised-button color="primary" name="submit" [disabled]="loading || loginForm.invalid">Sign in to dashboard</button>
                 <div class="btn-progress" *ngIf="loading">
                   <mat-spinner color="primary" [diameter]="25"></mat-spinner>
                 </div>

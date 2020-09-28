@@ -20,6 +20,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -28,6 +30,7 @@ import { MomentModule } from 'ngx-moment';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
 import { OrdinalPipe } from './pipes/ordinal.pipe';
+import { PrettyjsonPipe } from './pipes/pretty-json.pipe';
 import { WalletPasswordFormComponent } from './components/wallet-password-form/wallet-password-form.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -37,6 +40,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     BreadcrumbComponent,
     Base64ToHexPipe,
     OrdinalPipe,
+    PrettyjsonPipe,
     WalletPasswordFormComponent,
     LoadingComponent,
   ],
@@ -72,9 +76,12 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatDividerModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatTabsModule,
+    MatExpansionModule,
     MomentModule,
     Base64ToHexPipe,
     OrdinalPipe,
+    PrettyjsonPipe,
     WalletPasswordFormComponent,
     LoadingComponent,
     NgxSkeletonLoaderModule

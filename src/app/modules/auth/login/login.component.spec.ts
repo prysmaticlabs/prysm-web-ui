@@ -57,17 +57,13 @@ describe('LoginComponent', () => {
   it('should test form invalidity for password', () => {
     const form = component.loginForm;
     const passwordInput = fixture.nativeElement.querySelector(`input[name='password']`);
-    const submitButton = fixture.nativeElement.querySelector(`button[name='submit']`);
 
     passwordInput.value = '1234';
     passwordInput.dispatchEvent(new Event('input'));
-    submitButton.click();
+    component.loginForm.markAllAsTouched();
     fixture.detectChanges();
     expect(passwordInput.value).toContain('1234');
     expect(form.valid).toBeFalsy();
-
-    const invalidPasswordText = fixture.nativeElement.querySelector(`div[name='passwordReq']`);
-    expect(invalidPasswordText).toBeTruthy();
   });
 
   it('should not show warnings on an empty form on start', () => {

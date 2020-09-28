@@ -113,24 +113,6 @@
           color: $white;
         }
       }
-      .import-keys-form {
-        .ngx-file-drop__drop-zone {
-          border: 4px dashed $primary;
-          border-radius: 0px;
-          height: 170px;
-          padding-top: 30px;
-          padding-bottom: 30px;
-        }
-        .ngx-file-drop__content {
-          color: $white;
-          text-align: center;
-          display: block;
-          height: 170px;
-          img {
-            height: 50px;
-          }
-        }
-      }
     }
     .btn-container {
       position: relative;

@@ -1,1 +1,37 @@
-<app-import-accounts-form [formGroup]="importFormGroup"></app-import-accounts-form>
+<app-breadcrumb></app-breadcrumb>
+<div class="md:w-2/3">
+  <mat-card class="bg-paper import-accounts">
+    <div class="px-6 pb-4">
+      <app-import-accounts-form [formGroup]="importFormGroup"></app-import-accounts-form>
+      <div class="my-3"></div>
+      <form class="generate-accounts-form" [formGroup]="passwordFormGroup">
+        <div class="text-white text-xl mt-4">
+          Unlock Keystores
+        </div>
+        <div class="my-4 text-hint text-lg leading-snug">
+          Enter the password to unlock the keystores you are uploading.
+          This is the password you set when you created the keystores using a tool such as the eth2.0-deposit-cli.
+        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Password to unlock keystores</mat-label>
+          <input
+            matInput
+            formControlName="keystoresPassword"
+            placeholder="Enter the password you used to originally create the keystores"
+            name="keystoresPassword"
+            type="password"
+          />
+          <mat-error class="warning" *ngIf="passwordFormGroup?.controls.keystoresPassword.hasError('required')">
+            Password for keystores is required
+          </mat-error>
+        </mat-form-field>
+      </form>
+      <div class="my-4"></div>
+      <div class="flex">
+        <a routerLink="/dashboard/wallet/accounts"><button mat-raised-button color="accent">Back to Accounts</button></a>
+        <div class="mx-3"></div>
+        <button mat-raised-button color="primary">Submit Imported Files</button>
+      </div>
+    </div>
+  </mat-card>
+</div>

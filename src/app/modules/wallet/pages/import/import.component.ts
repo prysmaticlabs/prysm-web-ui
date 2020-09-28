@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-import',
@@ -13,5 +13,8 @@ export class ImportComponent {
     keystoresImported: [
       [] as string[],
     ]
+  });
+  passwordFormGroup = this.fb.group({
+    keystoresPassword: ['', Validators.required]
   });
 }

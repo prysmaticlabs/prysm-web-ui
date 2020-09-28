@@ -1,0 +1,11 @@
+<div class="relative cursor-pointer">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>{{icon}}</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button *ngFor="let item of menuItems" mat-menu-item>
+      <mat-icon>{{item.icon}}</mat-icon>
+      <span [class.text-error]="item.danger">{{item.name}}</span>
+    </button>
+  </mat-menu>
+</div>

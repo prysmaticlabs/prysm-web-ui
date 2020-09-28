@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { zip, Observable, of } from 'rxjs';
-import { switchMap, mergeMap, concatAll, toArray, map, tap } from 'rxjs/operators';
+import { switchMap, mergeMap, concatAll, toArray } from 'rxjs/operators';
 
 import range from 'src/app/modules/core/utils/range';
 import { BeaconNodeService } from './beacon-node.service';
 import { WalletService } from './wallet.service';
 
 import {
-  ValidatorBalances, ValidatorPerformanceResponse, ValidatorParticipationResponse, ValidatorQueue,
+  ValidatorBalances, ValidatorPerformanceResponse, Validators, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 
 export const MAX_EPOCH_LOOKBACK = 5;
@@ -89,6 +89,45 @@ export class ValidatorService {
       params += `${this.encodePublicKey(key)}&publicKeys=`;
     });
     return this.http.get<ValidatorBalances>(`${apiUrl}/validators/balances${params}`);
+  }
+
+  validatorList(
+    publicKeys: string[],
+    pageIndex: number,
+    pageSize: number,
+  ): Observable<Validators> {
+    return this.beaconNodeService.nodeEndpoint$.pipe(
+      switchMap((endpoint: string) => {
+        const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
+        return this.http.get<Validators>(`${endpoint}/validators${params}`);
+      })
+    );
+  }
+
+  balances(
+    publicKeys: string[],
+    pageIndex: number,
+    pageSize: number,
+  ): Observable<ValidatorBalances> {
+    return this.beaconNodeService.nodeEndpoint$.pipe(
+      switchMap((endpoint: string) => {
+        const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
+        return this.http.get<ValidatorBalances>(`${endpoint}/validators/balances${params}`);
+      })
+    );
+  }
+
+  private formatURIParameters(
+    publicKeys: string[],
+    pageIndex: number,
+    pageSize: number,
+  ): string {
+    let params = `?pageSize=${pageSize}&pageToken=${pageIndex}`;
+    params += `&publicKeys=`;
+    publicKeys.forEach((key, _) => {
+      params += `${this.encodePublicKey(key)}&publicKeys=`;
+    });
+    return params;
   }
 
   private encodePublicKey(key: string): string {

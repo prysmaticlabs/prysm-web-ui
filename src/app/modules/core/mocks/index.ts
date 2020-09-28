@@ -14,6 +14,8 @@ import {
   ValidatorParticipationResponse,
   ValidatorPerformanceResponse,
   ValidatorQueue,
+  Validators,
+  Validators_ValidatorContainer
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
@@ -43,7 +45,7 @@ export const Mocks: IMocks = {
   } as HasWalletResponse,
   '/v2/validator/wallet': {
     keymanagerConfig: { direct_eip_version: 'EIP-2335' },
-    keymanagerKind: KeymanagerKind.DERIVED,
+    keymanagerKind: KeymanagerKind.DIRECT,
     walletPath: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2'
   } as WalletResponse,
   '/v2/validator/wallet/create': {
@@ -85,23 +87,14 @@ export const Mocks: IMocks = {
   } as ListAccountsResponse,
   '/eth/v1alpha1/validators/balances': {
     epoch: 7119,
-    balances: [
-      {
-        publicKey: mockPublicKeys[0],
-        index: 0,
+    balances: mockPublicKeys.map((key, idx) => {
+      return {
+        publicKey: key,
+        index: idx,
         balance: '31200823019',
-      },
-      {
-        publicKey: mockPublicKeys[1],
-        index: 1,
-        balance: '31200823019',
-      },
-      {
-        publicKey: mockPublicKeys[2],
-        index: 2,
-        balance: '31200823019',
-      },
-    ] as ValidatorBalances_Balance[],
+      };
+    }),
+    totalSize: mockPublicKeys.length,
   } as ValidatorBalances,
   '/eth/v1alpha1/beacon/chainhead': {
     headSlot: 1024,
@@ -174,4 +167,20 @@ export const Mocks: IMocks = {
     ],
     exitValidatorIndices: [2],
   } as ValidatorQueue,
+  '/eth/v1alpha1/validators': {
+    validatorList: mockPublicKeys.map((key, idx) => {
+      return {
+        index: idx ? idx * 3000 : idx + 2000,
+        validator: {
+          publicKey: key,
+          effectiveBalance: '31200823019',
+          activationEpoch: 1000,
+          slashed: false,
+          exitEpoch: 23020302,
+        },
+      } as Validators_ValidatorContainer;
+    }),
+    nextPageToken: '1',
+    totalSize: mockPublicKeys.length,
+  } as Validators,
 };

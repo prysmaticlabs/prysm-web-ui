@@ -172,6 +172,27 @@ export interface ImportKeystoresResponse {
   importedPublicKeys: string[];
 }
 
+export interface CreateAccountRequest {
+  /**
+   *  Number of accounts to create.
+   */
+  numAccounts: number;
+}
+
+export interface DepositDataResponse {
+  depositDataList: DepositDataResponse_DepositData[];
+}
+
+export interface DepositDataResponse_DepositData {
+  pubkey: string;
+  withdrawalCredentials: string;
+  amount: number;
+  signature: string;
+  depositMessageRoot: string;
+  depositDataRoot: string;
+  forkVersion: string;
+}
+
 /**  Type of key manager for the wallet, either direct, derived, or remote.
  */
 export enum KeymanagerKind {

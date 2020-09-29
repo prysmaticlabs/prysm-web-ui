@@ -8,7 +8,6 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { SharedModule } from '../shared/shared.module';
 import { OnboardingComponent } from './onboarding.component';
 import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choose-wallet-kind.component';
-import { GenerateAccountsComponent } from './components/generate-accounts/generate-accounts.component';
 import { GenerateMnemonicComponent } from './components/generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from './components/confirm-mnemonic/confirm-mnemonic.component';
 import { UnlockKeysComponent } from './components/unlock-keys/unlock-keys.component';
@@ -25,7 +24,6 @@ import { NonhdWalletWizardComponent } from './pages/nonhd-wallet-wizard/nonhd-wa
     OnboardingComponent,
     ChooseWalletKindComponent,
     HdWalletWizardComponent,
-    GenerateAccountsComponent,
     GenerateMnemonicComponent,
     ConfirmMnemonicComponent,
     NonhdWalletWizardComponent,

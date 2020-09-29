@@ -25,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -39,6 +40,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     WalletPasswordFormComponent,
     LoadingComponent,
     ImportAccountsFormComponent,
+    CreateAccountsFormComponent,
   ],
   imports: [
     CommonModule,
@@ -96,7 +99,9 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     WalletPasswordFormComponent,
     LoadingComponent,
     NgxSkeletonLoaderModule,
+    ClipboardModule,
     ImportAccountsFormComponent,
+    CreateAccountsFormComponent,
   ],
 })
 export class SharedModule { }

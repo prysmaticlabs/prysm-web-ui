@@ -1,6 +1,8 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BEACONCHAIN_EXPLORER, DIALOG_WIDTH } from 'src/app/modules/core/constants';
@@ -34,6 +36,8 @@ export class AccountsTableComponent implements AfterViewInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
   constructor(
     private dialog: MatDialog,
+    private clipboard: Clipboard,
+    private snackBar: MatSnackBar,
   ) { }
 
   displayedColumns: string[] = [
@@ -89,6 +93,14 @@ export class AccountsTableComponent implements AfterViewInit {
       return numSelected === numRows;
     }
     return false;
+  }
+
+  copyKeyToClipboard(publicKey: string): void {
+    const hex = base64ToHex(publicKey);
+    this.clipboard.copy(hex);
+    this.snackBar.open(`Copied ${hex.slice(0, 16)}... to Clipboard`, 'Close', {
+      duration: 4000,
+    });
   }
 
   formatStatusColor(validatorStatus: string): string {

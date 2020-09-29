@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import * as FileSaver from 'file-saver';
 import { throwError } from 'rxjs';
-import { catchError, delay, take, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
@@ -40,7 +40,6 @@ export class BackupSelectedAccountsComponent {
     };
     this.loading = true;
     this.walletService.backupAccounts(req).pipe(
-      delay(3000),
       take(1),
       tap((res: BackupAccountsResponse) => {
         this.loading = false;

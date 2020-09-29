@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { throwError } from 'rxjs';
-import { catchError, delay, take, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { DeleteAccountsRequest, DeleteAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -44,7 +44,6 @@ export class DeleteSelectedAccountsComponent {
     this.loading = true;
     this.walletService.deleteAccounts(req).pipe(
       take(1),
-      delay(3000),
       tap((res: DeleteAccountsResponse) => {
         this.loading = false;
         if (!res || !res.deletedKeys) {

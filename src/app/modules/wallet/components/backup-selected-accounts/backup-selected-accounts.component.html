@@ -1,9 +1,17 @@
-<div mat-dialog-title *ngIf="!loading">
+<div mat-dialog-title *ngIf="!loading && !backupFile">
   <div class="text-white font-normal text-xl">
     Backup Selected Accounts 
   </div>
   <div class="mt-2 text-muted font-normal text-base leading-snug">
     We'll convert your selected accounts into individual, EIP-2335 compliant, password protected files compressed into a zip file
+  </div>
+</div>
+<div mat-dialog-title *ngIf="!loading && backupFile">
+  <div class="text-white font-normal text-xl">
+    Your Backup File is Ready
+  </div>
+  <div class="mt-2 text-muted font-normal text-base leading-snug">
+    Download a zip file containing your encrypted accounts as EIP-2335 keystores
   </div>
 </div>
 <div mat-dialog-title *ngIf="loading">
@@ -18,6 +26,19 @@
 </div>
 <mat-dialog-content>
   <ng-container *ngIf="!backupFile">
+    <div class="text-muted text-lg">
+      Selected {{publicKeys.length}} Accounts
+    </div>
+    <div class="my-6">
+      <mat-chip-list>
+        <mat-chip *ngFor="let pubKey of publicKeys.slice(0, 5)">
+          {{pubKey | base64tohex | slice:0:16}}...
+        </mat-chip>
+        <mat-chip *ngIf="publicKeys.length > 5">
+          ...{{publicKeys.length - 3}} more
+        </mat-chip>
+      </mat-chip-list>
+    </div>
     <form [formGroup]="passwordGroup">
       <mat-form-field appearance="outline">
         <mat-label>Encryption password</mat-label>
@@ -41,10 +62,17 @@
     </form>
   </ng-container>
   <ng-container *ngIf="backupFile">
-    Backup file
+    <div class="content-center text-center">
+      <div class="my-8 backup-img flex text-center justify-center">
+        <img src="/assets/images/backup.svg"/>
+      </div>
+      <button mat-stroked-button (click)="downloadBackup()">
+        Download Backup.zip
+      </button>
+    </div>
   </ng-container>
 </mat-dialog-content>
 <mat-dialog-actions align="start">
   <button mat-button mat-dialog-close>Close Popup</button>
-  <button mat-raised-button color="primary" (click)="backup()">Create Backup</button>
+  <button *ngIf="!backupFile" mat-raised-button color="primary" (click)="backup()">Create Backup</button>
 </mat-dialog-actions>

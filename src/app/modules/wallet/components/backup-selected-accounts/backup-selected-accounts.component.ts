@@ -1,8 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import * as FileSaver from 'file-saver';
 import { throwError } from 'rxjs';
 import { catchError, delay, take, tap } from 'rxjs/operators';
+
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { BackupAccountsRequest, BackupAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -14,6 +17,7 @@ import { BackupAccountsRequest, BackupAccountsResponse } from 'src/app/proto/val
 export class BackupSelectedAccountsComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public publicKeys: string[],
+    private dialogRef: MatDialogRef<BackupSelectedAccountsComponent>,
     private fb: FormBuilder,
     private walletService: WalletService,
   ) { }
@@ -47,5 +51,14 @@ export class BackupSelectedAccountsComponent {
         return throwError(err);
       })
     ).subscribe();
+  }
+
+  downloadBackup(): void {
+    if (!this.backupFile) {
+      return;
+    }
+    const blob = new Blob([this.backupFile], { type: 'text/plain;charset=utf-8'});
+    FileSaver.saveAs(blob, `backup-${Date.now()}.zip`);
+    this.dialogRef.close();
   }
 }

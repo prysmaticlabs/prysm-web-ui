@@ -22,8 +22,11 @@
   </div>
   <div class="my-6">
     <mat-chip-list>
-      <mat-chip *ngFor="let pubKey of publicKeys">
+      <mat-chip *ngFor="let pubKey of publicKeys.slice(0, 5)">
         {{pubKey | base64tohex | slice:0:16}}...
+      </mat-chip>
+      <mat-chip *ngIf="publicKeys.length > 5">
+        ...{{publicKeys.length - 3}} more
       </mat-chip>
     </mat-chip-list>
   </div>

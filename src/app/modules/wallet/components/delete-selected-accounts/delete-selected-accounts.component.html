@@ -3,7 +3,7 @@
     Delete Selected Account(s)
   </div>
   <div class="mt-2 text-muted font-normal text-base leading-snug">
-    Delete the file(s) from your keystore
+    Delete selected accounts from your wallet forever, <span class="text-error">this cannot be reverted!</span> 
   </div>
 </div>
 <div mat-dialog-title *ngIf="loading">
@@ -31,7 +31,7 @@
     </mat-chip-list>
   </div>
   <div class="mb-6 text-base text-white leading-snug">
-    Type in the words "delete selected" to confirm deletion of your account(s). This cannot be reversed
+    Type in the words "delete selected" to confirm deletion of your account(s). <span class="text-error">This cannot be reversed!</span>
   </div>
   <form [formGroup]="confirmGroup">
     <mat-form-field appearance="outline">
@@ -54,5 +54,9 @@
 </mat-dialog-content>
 <mat-dialog-actions align="start">
   <button mat-button mat-dialog-close>Close Popup</button>
-  <button mat-raised-button color="primary" (click)="deleteAccounts()">Delete Account(s)</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    [disabled]="loading"
+    (click)="deleteAccounts()">Delete Account(s)</button>
 </mat-dialog-actions>

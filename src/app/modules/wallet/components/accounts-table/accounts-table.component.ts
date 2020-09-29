@@ -3,6 +3,8 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { BEACONCHAIN_EXPLORER, DIALOG_WIDTH } from 'src/app/modules/core/constants';
+import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { BackupSelectedAccountsComponent } from '../backup-selected-accounts/backup-selected-accounts.component';
 import { DeleteSelectedAccountsComponent } from '../delete-selected-accounts/delete-selected-accounts.component';
 
@@ -48,13 +50,8 @@ export class AccountsTableComponent implements AfterViewInit {
   ];
   menuItems: MenuItem[] = [
     {
-      name: 'View in Explorer',
+      name: 'View On Beaconcha.in Explorer',
       icon: 'open_in_new',
-      action: this.openExplorer.bind(this),
-    },
-    {
-      name: 'View Deposit Data',
-      icon: 'pageview',
       action: this.openExplorer.bind(this),
     },
     {
@@ -109,21 +106,25 @@ export class AccountsTableComponent implements AfterViewInit {
     }
   }
 
-  private openExplorer(publicKeys: string): void {
-    return;
+  private openExplorer(publicKey: string): void {
+    if (window !== undefined) {
+      let hex = base64ToHex(publicKey);
+      hex = hex.replace('0x', '');
+      window.open(`${BEACONCHAIN_EXPLORER}/validator/${hex}`, '_blank');
+    }
   }
 
   private openBackupDialog(publicKey: string): void {
     this.dialog.open(BackupSelectedAccountsComponent, {
       data: [publicKey],
-      width: '600px',
+      width: DIALOG_WIDTH,
     });
   }
 
   private openDeleteDialog(publicKey: string): void {
     this.dialog.open(DeleteSelectedAccountsComponent, {
       data: [publicKey],
-      width: '600px',
+      width: DIALOG_WIDTH,
     });
   }
 }

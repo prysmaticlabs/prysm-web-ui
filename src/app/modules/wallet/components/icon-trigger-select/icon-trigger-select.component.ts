@@ -5,6 +5,7 @@ export interface MenuItem {
   danger?: boolean;
   name: string;
   icon: string;
+  action: (publicKey: string) => void;
 }
 
 @Component({
@@ -12,6 +13,7 @@ export interface MenuItem {
   templateUrl: './icon-trigger-select.component.html',
 })
 export class IconTriggerSelectComponent {
+  @Input() data: string | null = null;
   @Input() icon: string | null = null;
   @Input() menuItems: MenuItem[] | null = null;
   constructor() { }

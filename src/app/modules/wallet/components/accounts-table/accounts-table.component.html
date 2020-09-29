@@ -74,6 +74,7 @@
       <td mat-cell *matCellDef="let row">
         <app-icon-trigger-select
           [menuItems]="menuItems"
+          [data]="row.publicKey"
           icon="more_horiz"></app-icon-trigger-select>
       </td>
     </ng-container>

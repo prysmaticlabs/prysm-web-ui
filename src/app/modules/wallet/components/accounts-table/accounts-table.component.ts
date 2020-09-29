@@ -1,7 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { BackupSelectedAccountsComponent } from '../backup-selected-accounts/backup-selected-accounts.component';
+import { DeleteSelectedAccountsComponent } from '../delete-selected-accounts/delete-selected-accounts.component';
 
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
 
@@ -27,7 +30,10 @@ export class AccountsTableComponent implements AfterViewInit {
   @Input() dataSource: MatTableDataSource<TableData> | null = null;
   @Input() selection: SelectionModel<TableData> | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
-  constructor() { }
+  constructor(
+    private dialog: MatDialog,
+  ) { }
+
   displayedColumns: string[] = [
     'select',
     'accountName',
@@ -44,19 +50,23 @@ export class AccountsTableComponent implements AfterViewInit {
     {
       name: 'View in Explorer',
       icon: 'open_in_new',
+      action: this.openExplorer.bind(this),
     },
     {
       name: 'View Deposit Data',
       icon: 'pageview',
+      action: this.openExplorer.bind(this),
     },
     {
       name: 'Backup Account',
       icon: 'get_app',
+      action: this.openBackupDialog.bind(this),
     },
     {
       name: 'Delete Account',
       icon: 'delete',
       danger: true,
+      action: this.openDeleteDialog.bind(this),
     },
   ];
 
@@ -97,5 +107,23 @@ export class AccountsTableComponent implements AfterViewInit {
       default:
         return '';
     }
+  }
+
+  private openExplorer(publicKeys: string): void {
+    return;
+  }
+
+  private openBackupDialog(publicKey: string): void {
+    this.dialog.open(BackupSelectedAccountsComponent, {
+      data: [publicKey],
+      width: '600px',
+    });
+  }
+
+  private openDeleteDialog(publicKey: string): void {
+    this.dialog.open(DeleteSelectedAccountsComponent, {
+      data: [publicKey],
+      width: '600px',
+    });
   }
 }

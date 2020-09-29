@@ -32,6 +32,7 @@ export class BackupSelectedAccountsComponent {
   backup(): void {
     const req: BackupAccountsRequest = {
       publicKeys: this.publicKeys,
+      keystoresPassword: this.passwordGroup.controls.password.value,
     };
     this.loading = true;
     this.walletService.backupAccounts(req).pipe(

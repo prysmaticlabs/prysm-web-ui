@@ -18,15 +18,15 @@ export class AccountSelectionsComponent {
 
   openBackupDialog(): void {
     this.dialog.open(BackupSelectedAccountsComponent, {
-      data: ['hello'],
-      width: '800px',
+      data: this.selection?.selected.map((d: TableData) => d.publicKey),
+      width: '600px',
     });
   }
 
   openDeleteDialog(): void {
     this.dialog.open(DeleteSelectedAccountsComponent, {
-      data: ['hello'],
-      width: '800px',
+      data: this.selection?.selected.map((d: TableData) => d.publicKey),
+      width: '600px',
     });
   }
 }

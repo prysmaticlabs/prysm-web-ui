@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { throwError } from 'rxjs';
 import { catchError, delay, take, tap } from 'rxjs/operators';
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { DeleteAccountsRequest, DeleteAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Component({
@@ -16,21 +16,21 @@ import { DeleteAccountsRequest, DeleteAccountsResponse } from 'src/app/proto/val
 export class DeleteSelectedAccountsComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public publicKeys: string[],
+    private dialogRef: MatDialogRef<DeleteSelectedAccountsComponent>,
     private fb: FormBuilder,
     private walletService: WalletService,
+    private snackBar: MatSnackBar,
   ) { }
 
-  private passwordValidator = new PasswordValidator();
   loading = false;
-  passwordGroup = this.fb.group({
-    password: new FormControl('', [
+  confirmGroup = this.fb.group({
+    confirmation: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
-      this.passwordValidator.strongPassword,
+      this.validateConfirmation,
     ]),
   });
 
-  backup(): void {
+  deleteAccounts(): void {
     const req: DeleteAccountsRequest = {
       publicKeys: this.publicKeys,
     };
@@ -40,11 +40,25 @@ export class DeleteSelectedAccountsComponent {
       delay(3000),
       tap((res: DeleteAccountsResponse) => {
         this.loading = false;
+        this.snackBar.open('Accounts successfully deleted', 'Close', {
+          duration: 4000,
+        });
+        this.dialogRef.close();
       }),
       catchError(err => {
         this.loading = false;
         return throwError(err);
       })
     ).subscribe();
+  }
+
+  private validateConfirmation(control: AbstractControl): {[key: string]: any} | null {
+    if (control.value) {
+      const str = control.value as string;
+      if (str.trim().toLowerCase() !== 'delete selected') {
+        return { wrongValue: true };
+      }
+    }
+    return null;
   }
 }

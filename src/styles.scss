@@ -168,6 +168,9 @@ mat-cell, mat-header-cell, mat-footer-cell {
 
 .mat-dialog-container {
   background-color: $paper !important;
+  .mat-form-field {
+    width: 80%;
+  }
   .mat-dialog-actions {
     padding: 20px 0px !important;
   }

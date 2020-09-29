@@ -198,6 +198,10 @@ export interface BackupAccountsRequest {
    *  Public keys to backup.
    */
   publicKeys: string[];
+  /**
+   *  Keystores password to encrypt the backed-up accounts.
+   */
+  keystoresPassword: string;
 }
 
 export interface BackupAccountsResponse {

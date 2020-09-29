@@ -1,0 +1,47 @@
+<div mat-dialog-title *ngIf="!loading">
+  <div class="text-white font-normal text-xl">
+    Delete Selected Accounts 
+  </div>
+  <div class="mt-2 text-muted font-normal text-base leading-snug">
+    Delete the files from your keystore
+  </div>
+</div>
+<div mat-dialog-title *ngIf="loading">
+  <div class="text-white font-normal text-xl">
+    Generating Backup File...
+  </div>
+  <div class="mt-2 text-muted font-normal text-base leading-snug">
+    Hang in there while we zip up your accounts into keystore files...
+  </div>
+  <div class="my-5"></div>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<mat-dialog-content>
+  <ng-container>
+    <form [formGroup]="passwordGroup">
+      <mat-form-field appearance="outline">
+        <mat-label>Encryption password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          placeholder="Password to use for your keystores"
+          name="password"
+          type="password"
+        />
+        <mat-error *ngIf="passwordGroup.controls.password.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="passwordGroup.controls.password.hasError('minlength')">
+          Password needs at least 8 characters
+        </mat-error>
+        <mat-error *ngIf="passwordGroup.controls.password.hasError('pattern')">
+          Needs at least 1 uppercase letter, 1 number, and 1 special char
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions align="start">
+  <button mat-button mat-dialog-close>Close Popup</button>
+  <button mat-raised-button color="primary" (click)="backup()">Create Backup</button>
+</mat-dialog-actions>

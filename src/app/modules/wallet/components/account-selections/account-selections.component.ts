@@ -1,14 +1,32 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
 import { TableData } from '../accounts-table/accounts-table.component';
+import { BackupSelectedAccountsComponent } from '../backup-selected-accounts/backup-selected-accounts.component';
+import { DeleteSelectedAccountsComponent } from '../delete-selected-accounts/delete-selected-accounts.component';
 
 @Component({
   selector: 'app-account-selections',
   templateUrl: './account-selections.component.html',
-  styles: [
-  ]
 })
 export class AccountSelectionsComponent {
   @Input() selection: SelectionModel<TableData> | null = null;
-  constructor() { }
+  constructor(
+    private dialog: MatDialog,
+  ) { }
+
+  openBackupDialog(): void {
+    this.dialog.open(BackupSelectedAccountsComponent, {
+      data: ['hello'],
+      width: '800px',
+    });
+  }
+
+  openDeleteDialog(): void {
+    this.dialog.open(DeleteSelectedAccountsComponent, {
+      data: ['hello'],
+      width: '800px',
+    });
+  }
 }

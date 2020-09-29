@@ -23,6 +23,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -92,6 +93,7 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
     MatTabsModule,
     MatExpansionModule,
     MatMenuModule,
+    MatDialogModule,
     MomentModule,
     Base64ToHexPipe,
     OrdinalPipe,

@@ -25,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -98,6 +99,7 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
     WalletPasswordFormComponent,
     LoadingComponent,
     NgxSkeletonLoaderModule,
+    ClipboardModule,
     ImportAccountsFormComponent,
     CreateAccountsFormComponent,
   ],

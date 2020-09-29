@@ -41,7 +41,7 @@ export class AccountsComponent {
   tableDataSource$: Observable<MatTableDataSource<TableData>> = this.pageChanged$.pipe(
     // Debounce to prevent spamming the paginator component.
     tap(() => this.loading = true),
-    debounceTime(500),
+    debounceTime(300),
     switchMap((ev: PageEvent) => this.walletService.accounts$.pipe(
       // Extract the validating public keys.
       zipMap(accs => accs.accounts?.map(account => account.validatingPublicKey)),

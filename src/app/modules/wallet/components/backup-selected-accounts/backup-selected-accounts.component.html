@@ -1,6 +1,6 @@
 <div mat-dialog-title *ngIf="!loading && !backupFile">
   <div class="text-white font-normal text-xl">
-    Backup Selected Accounts 
+    Backup Selected Account(s)
   </div>
   <div class="mt-2 text-muted font-normal text-base leading-snug">
     We'll convert your selected accounts into individual, EIP-2335 compliant, password protected files compressed into a zip file
@@ -74,5 +74,12 @@
 </mat-dialog-content>
 <mat-dialog-actions align="start">
   <button mat-button mat-dialog-close>Close Popup</button>
-  <button *ngIf="!backupFile" mat-raised-button color="primary" (click)="backup()">Create Backup</button>
+  <button 
+    *ngIf="!backupFile"
+    mat-raised-button
+    name="submit"
+    color="primary"
+    (click)="backup()">
+    Create Backup
+  </button>
 </mat-dialog-actions>

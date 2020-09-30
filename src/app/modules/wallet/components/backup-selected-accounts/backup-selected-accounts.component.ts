@@ -34,6 +34,9 @@ export class BackupSelectedAccountsComponent {
   });
 
   backup(): void {
+    if (this.passwordGroup.invalid) {
+      return;
+    }
     const req: BackupAccountsRequest = {
       publicKeys: this.publicKeys,
       keystoresPassword: this.passwordGroup.controls.password.value,

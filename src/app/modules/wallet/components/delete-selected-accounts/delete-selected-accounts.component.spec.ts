@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { of } from 'rxjs';
 import { MockService } from 'ng-mocks';
+
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
-
 import { DeleteSelectedAccountsComponent, CONFIRMATION_TEXT } from './delete-selected-accounts.component';
 import { mockPublicKeys } from 'src/app/modules/core/mocks';
-import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
 import { DeleteAccountsRequest, DeleteAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('DeleteSelectedAccountsComponent', () => {

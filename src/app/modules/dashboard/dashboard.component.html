@@ -1,8 +1,11 @@
-<mat-sidenav-container class="bg-default">
-  <mat-sidenav mode="side" opened [fixedInViewport]="true" *ngIf="!isSmallScreen">
+<mat-sidenav-container class="bg-default" [class.isSmallScreen]="isSmallScreen" [class.smallHidden]="isSmallScreen">
+  <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'" [opened]="isOpened" [fixedInViewport]="!isSmallScreen" (click)="isSmallScreen ? isOpened = !isOpened : isOpened = true" (openedChange)="openChanged($event)">
     <app-sidebar [links]="links"></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
+    <div class="open-nav-icon" *ngIf="isSmallScreen && !isOpened" (click)="openNavigation()">
+      <img src="https://prysmaticlabs.com/assets/Prysm.svg" alt="company-logo">
+    </div>
     <div class="pt-6 px-12 pb-10 bg-default min-h-screen">
       <router-outlet></router-outlet>
     </div>

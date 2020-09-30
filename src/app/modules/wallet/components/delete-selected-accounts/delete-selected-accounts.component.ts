@@ -35,6 +35,7 @@ export class DeleteSelectedAccountsComponent {
   });
 
   deleteAccounts(): void {
+    this.confirmGroup.markAllAsTouched();
     if (this.confirmGroup.invalid) {
       return;
     }

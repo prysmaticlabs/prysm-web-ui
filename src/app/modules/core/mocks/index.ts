@@ -27,7 +27,7 @@ export interface IMocks {
   [key: string]: object;
 }
 
-const mockPublicKeys: string[] = [
+export const mockPublicKeys: string[] = [
   hexToBase64('0xaadaf653799229200378369ee7d6d9fdbdcdc2788143ed44f1ad5f2367c735e83a37c5bb80d7fb917de73a61bbcf00c4'),
   hexToBase64('0xb9a7565e5daaabf7e5656b64201685c6c0241df7195a64dcfc82f94b39826562208ea663dc8e340994fe5e2eef05967a'),
   hexToBase64('0xa74a19ce0c8a7909cb38e6645738c8d3f85821e371ecc273f16d02ec8b279153607953522c61e0d9c16c73e4e106dd31'),

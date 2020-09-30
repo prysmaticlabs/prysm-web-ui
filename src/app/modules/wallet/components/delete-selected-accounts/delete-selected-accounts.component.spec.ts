@@ -96,7 +96,7 @@ describe('DeleteSelectedAccountsComponent', () => {
     it('should call the delete accounts function upon UI form submission', () => {
       const input = fixture.nativeElement.querySelector(`input[name='confirmation']`);
       input.value = CONFIRMATION_TEXT;
-      input.dispatchEvent(new Event('input'))
+      input.dispatchEvent(new Event('input'));
       fixture.detectChanges();
       const submitButton = fixture.nativeElement.querySelector(`button[name='submit']`);
       submitButton.click();

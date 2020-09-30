@@ -89,7 +89,7 @@ describe('BackupSelectedAccountsComponent', () => {
       const input = fixture.nativeElement.querySelector(`input[name='password']`);
       const strongPassword = 'Passw0rdz$2020';
       input.value = strongPassword;
-      input.dispatchEvent(new Event('input'))
+      input.dispatchEvent(new Event('input'));
       fixture.detectChanges();
       const submitButton = fixture.nativeElement.querySelector(`button[name='submit']`);
       submitButton.click();

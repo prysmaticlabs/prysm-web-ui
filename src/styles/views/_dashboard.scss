@@ -76,6 +76,12 @@
   }
 }
 
+.backup-img {
+  img {
+    width: 200px;
+  }
+}
+
 .import-keys-form {
   .ngx-file-drop__drop-zone {
     border: 4px dashed $primary !important;

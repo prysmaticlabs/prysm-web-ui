@@ -10,21 +10,21 @@
     </mat-chip-list>
   </div>
   <div class="flex">
-    <button mat-stroked-button color="primary">
+    <button mat-stroked-button color="primary" (click)="openExplorer()">
       <span class="flex items-center">
         <span class="mr-2">View in Block Explorer</span>
         <mat-icon>open_in_new</mat-icon>
       </span>
     </button>
     <div class="mx-2"></div>
-    <button mat-stroked-button color="accent">
+    <button mat-stroked-button color="accent" (click)="openBackupDialog()">
       <span class="flex items-center">
         <span class="mr-2">Backup Selected</span>
         <mat-icon>get_app</mat-icon>
       </span>
     </button>
     <div class="mx-2"></div>
-    <button mat-stroked-button color="warn">
+    <button mat-stroked-button color="warn" (click)="openDeleteDialog()">
       <span class="flex items-center">
         <span class="mr-2">Delete Selected</span>
         <mat-icon>delete_forever</mat-icon>

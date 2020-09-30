@@ -17,6 +17,8 @@ import { AccountActionsComponent } from './components/account-actions/account-ac
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { ImportComponent } from './pages/import/import.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { BackupSelectedAccountsComponent } from './components/backup-selected-accounts/backup-selected-accounts.component';
+import { DeleteSelectedAccountsComponent } from './components/delete-selected-accounts/delete-selected-accounts.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     AccountActionsComponent,
     CreateAccountComponent,
     ImportComponent,
+    BackupSelectedAccountsComponent,
+    DeleteSelectedAccountsComponent,
   ],
   imports: [
     CommonModule,

@@ -193,6 +193,38 @@ export interface DepositDataResponse_DepositData {
   forkVersion: string;
 }
 
+export interface BackupAccountsRequest {
+  /**
+   *  Public keys to backup.
+   */
+  publicKeys: string[];
+  /**
+   *  Keystores password to encrypt the backed-up accounts.
+   */
+  keystoresPassword: string;
+}
+
+export interface BackupAccountsResponse {
+  /**
+   *  Public keys to backup.
+   */
+  zipFile: string;
+}
+
+export interface DeleteAccountsRequest {
+  /**
+   *  Public keys to delete.
+   */
+  publicKeys: string[];
+}
+
+export interface DeleteAccountsResponse {
+  /**
+   *  Public keys that were deleted.
+   */
+  deletedKeys: string[];
+}
+
 /**  Type of key manager for the wallet, either direct, derived, or remote.
  */
 export enum KeymanagerKind {

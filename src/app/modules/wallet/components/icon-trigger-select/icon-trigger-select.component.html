@@ -3,7 +3,7 @@
     <mat-icon>{{icon}}</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button *ngFor="let item of menuItems" mat-menu-item>
+    <button *ngFor="let item of menuItems" mat-menu-item (click)="item.action(data)">
       <mat-icon>{{item.icon}}</mat-icon>
       <span [class.text-error]="item.danger">{{item.name}}</span>
     </button>

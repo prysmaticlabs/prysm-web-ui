@@ -64,7 +64,7 @@ export class DeleteSelectedAccountsComponent {
     ).subscribe();
   }
 
-  private validateConfirmation(control: AbstractControl): {[key: string]: any} | null {
+  validateConfirmation(control: AbstractControl): {[key: string]: any} | null {
     if (control.value) {
       const str = control.value as string;
       if (str.trim().toLowerCase() !== CONFIRMATION_TEXT) {

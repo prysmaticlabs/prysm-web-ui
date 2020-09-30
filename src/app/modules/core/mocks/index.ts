@@ -8,7 +8,8 @@ import {
   HasWalletResponse,
   KeymanagerKind,
   ImportKeystoresResponse,
-  BackupAccountsResponse, DeleteAccountsResponse
+  BackupAccountsResponse,
+  DeleteAccountsResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ValidatorBalances,

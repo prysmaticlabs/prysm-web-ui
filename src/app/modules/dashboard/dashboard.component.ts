@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import SidebarLink from './types/sidebar-link';
 import { BeaconNodeService } from '../core/services/beacon-node.service';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { take, takeUntil, tap } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private beaconNodeService: BeaconNodeService,
     private breakpointObserver: BreakpointObserver,
-  ) { }
+    private router: Router) {
+    router.events.pipe(
+      takeUntil(this.destroyed$$)
+    ).subscribe((val) => {
+      if (this.isSmallScreen) {
+        this.isOpened = false;
+      }
+    });
+  }
   links: SidebarLink[] = [
     {
       name: 'Validator Gains & Losses',

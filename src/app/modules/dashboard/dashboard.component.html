@@ -1,5 +1,5 @@
 <mat-sidenav-container class="bg-default" [class.isSmallScreen]="isSmallScreen" [class.smallHidden]="isSmallScreen">
-  <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'" [opened]="isOpened" [fixedInViewport]="!isSmallScreen" (click)="isSmallScreen ? isOpened = !isOpened : isOpened = true" (openedChange)="openChanged($event)">
+  <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'" [opened]="isOpened" [fixedInViewport]="!isSmallScreen" (openedChange)="openChanged($event)">
     <app-sidebar [links]="links"></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>

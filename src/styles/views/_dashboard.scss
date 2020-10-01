@@ -100,3 +100,64 @@
     }
   }
 }
+
+.open-nav-icon {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 16px;
+  padding-right: 16px;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(116,103,239, 0.9);
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 99;
+
+  img {
+    opacity: 0;
+    animation: fadeLoopInvert 5s infinite;
+  }
+}
+
+.open-nav-icon:before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  bottom: 15px;
+  right: 15px;
+  width: 30px;
+  animation: fadeLoop 5s infinite;
+  background: linear-gradient( to bottom, white, white 20%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, white 40%, white 60%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 80%, white 80%, white 100% );
+}
+
+@keyframes fadeLoop {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeLoopInvert { 
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

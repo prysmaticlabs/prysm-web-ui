@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
 import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
@@ -16,6 +17,7 @@ export class ImportComponent {
     private fb: FormBuilder,
     private walletService: WalletService,
     private snackBar: MatSnackBar,
+    private router: Router,
   ) { }
   loading = false;
   importFormGroup = this.fb.group({
@@ -45,6 +47,7 @@ export class ImportComponent {
           duration: 4000,
         });
         this.loading = false;
+        this.router.navigate(['/dashboard/wallet/accounts']);
       }),
       catchError(err => {
         this.loading = false;

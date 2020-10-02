@@ -11,10 +11,18 @@ import { zipMap } from 'rxjs-pipe-ext/lib';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { WalletService } from '../../../core/services/wallet.service';
-import { GWEI_PER_ETHER } from 'src/app/modules/core/constants';
-import { ValidatorBalances, Validators } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { FAR_FUTURE_EPOCH, GWEI_PER_ETHER } from 'src/app/modules/core/constants';
+import {
+  ValidatorBalances,
+  Validators,
+  Validators_ValidatorContainer,
+} from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import {
+  Validator
+} from 'src/app/proto/eth/v1alpha1/validator';
 import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { TableData } from '../../components/accounts-table/accounts-table.component';
+import { Z_UNKNOWN } from 'zlib';
 
 @Component({
   selector: 'app-accounts',
@@ -61,7 +69,6 @@ export class AccountsComponent {
     share(), // Share the observable across all subscribers.
     tap(() => this.loading = false),
     catchError(err => {
-      this.loading = false;
       return throwError(err);
     }),
   );
@@ -84,28 +91,41 @@ export class AccountsComponent {
     validators: Validators,
     balances: ValidatorBalances
   ): MatTableDataSource<TableData> {
-    if (validators.totalSize !== balances.totalSize) {
-      throw new Error('Mismatched total page size for validators and balances responses');
-    }
-    this.totalData = validators.totalSize;
-    const tableData = validators.validatorList.map((val, idx) => {
-      const accName = accountsResponse.accounts.find(
-        acc => acc.validatingPublicKey === val?.validator?.publicKey
+    this.totalData = accountsResponse.accounts.length;
+    const tableData = accountsResponse.accounts.map((acc, idx) => {
+      let val = validators?.validatorList?.find(
+        v => acc.validatingPublicKey === v?.validator?.publicKey
       );
-      const balance = BigNumber.from(balances?.balances[idx].balance).toNumber() / GWEI_PER_ETHER;
-      const effectiveBalance = BigNumber.from(val?.validator?.effectiveBalance).toNumber() / GWEI_PER_ETHER;
+      let status = 'active';
+      if (!val) {
+        status = 'unknown';
+        val = {
+          index: 0,
+          validator: {
+            effectiveBalance: '0',
+            activationEpoch: FAR_FUTURE_EPOCH,
+            exitEpoch: FAR_FUTURE_EPOCH,
+          } as Validator
+        } as Validators_ValidatorContainer;
+      }
+      const balanceItem = balances?.balances.find(b => b.publicKey === acc.validatingPublicKey);
+      let bal = BigNumber.from(0);
+      if (balanceItem) {
+        bal = BigNumber.from(balanceItem.balance).div(GWEI_PER_ETHER);
+      }
+      const effectiveBalance = BigNumber.from(val?.validator?.effectiveBalance).div(GWEI_PER_ETHER);
       return {
         select: idx,
-        accountName: accName?.accountName,
-        index: val?.index,
-        publicKey: val?.validator?.publicKey,
-        balance,
-        effectiveBalance,
-        status: 'active',
+        accountName: acc?.accountName,
+        index: val?.index ? val.index : 'n/a',
+        publicKey: acc.validatingPublicKey,
+        balance: bal.toString(),
+        effectiveBalance: effectiveBalance.toString(),
+        status,
         activationEpoch: val?.validator?.activationEpoch,
         exitEpoch: val?.validator?.exitEpoch,
-        lowBalance: balance < 32,
-        options: val?.validator?.publicKey,
+        lowBalance: effectiveBalance.toNumber() < 32,
+        options: acc.validatingPublicKey,
       } as TableData;
     });
     const dataSource = new MatTableDataSource(tableData);

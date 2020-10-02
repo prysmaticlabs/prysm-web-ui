@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { KeymanagerKind, KeymanagerKindToJSON } from 'src/app/proto/validator/accounts/v2/web_api';
 
 interface KeymanagerInfo {
   [key: string]: {
@@ -15,7 +14,7 @@ interface KeymanagerInfo {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletKindComponent {
-  @Input() kind: KeymanagerKind = KeymanagerKind.UNRECOGNIZED;
+  @Input() kind = 'UNKNOWN';
   constructor() { }
   info: KeymanagerInfo = {
     DIRECT: {
@@ -39,8 +38,4 @@ export class WalletKindComponent {
       docsLink: 'https://docs.prylabs.network/docs/wallet/remote',
     }
   };
-
-  parseKeymanagerKind(): string {
-    return KeymanagerKindToJSON(this.kind);
-  }
 }

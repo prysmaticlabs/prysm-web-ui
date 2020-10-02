@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { zip, Observable, of } from 'rxjs';
-import { switchMap, mergeMap, concatAll, toArray } from 'rxjs/operators';
+import { zip, Observable, of, throwError, EMPTY } from 'rxjs';
+import { switchMap, mergeMap, concatAll, toArray, retry, catchError } from 'rxjs/operators';
 
 import range from 'src/app/modules/core/utils/range';
 import { BeaconNodeService } from './beacon-node.service';
@@ -11,6 +11,7 @@ import { WalletService } from './wallet.service';
 import {
   ValidatorBalances, ValidatorPerformanceResponse, Validators, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { hexToBase64 } from '../utils/hex-util';
 
 export const MAX_EPOCH_LOOKBACK = 5;
 
@@ -96,11 +97,33 @@ export class ValidatorService {
     pageIndex: number,
     pageSize: number,
   ): Observable<Validators> {
+    let keys = publicKeys;
     return this.beaconNodeService.nodeEndpoint$.pipe(
       switchMap((endpoint: string) => {
-        const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
+        const params = this.formatURIParameters(keys, pageIndex, pageSize);
         return this.http.get<Validators>(`${endpoint}/validators${params}`);
-      })
+      }),
+      // catchError((err: HttpErrorResponse) => {
+      //   console.log(err.error);
+      //   const msg = err.error.message as string;
+      //   console.log(msg.indexOf('Could not find validator index for public key') !== -1);
+      //   if (this.isPubKeyNotFound(msg)) {
+      //     const pubKeyIdx = msg.indexOf('0x');
+      //     console.log(msg);
+      //     console.log(msg.indexOf('0x'));
+      //     if (pubKeyIdx !== -1) {
+      //       const pubKey = hexToBase64(msg.slice(pubKeyIdx, msg.length));
+      //       console.log(msg.slice(pubKeyIdx, msg.length))
+      //       console.log('Keys before');
+      //       console.log(keys);
+      //       keys = keys.filter(val => val !== pubKey);
+      //       console.log('Keys after NICHI');
+      //       console.log(keys);
+      //     }
+      //   }
+      //   return throwError(err);
+      // }),
+      // retry(keys.length),
     );
   }
 
@@ -109,12 +132,27 @@ export class ValidatorService {
     pageIndex: number,
     pageSize: number,
   ): Observable<ValidatorBalances> {
+    let keys = publicKeys;
     return this.beaconNodeService.nodeEndpoint$.pipe(
       switchMap((endpoint: string) => {
-        const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
+        const params = this.formatURIParameters(keys, pageIndex, pageSize);
         return this.http.get<ValidatorBalances>(`${endpoint}/validators/balances${params}`);
-      })
+      }),
     );
+  }
+
+  private checkPubKeyNotFoundError(err: HttpErrorResponse): Observable<never> {
+    const msg = err.error.message as string;
+    if (this.isPubKeyNotFound(msg)) {
+      const pubKeyIdx = msg.indexOf('0x');
+      if (pubKeyIdx !== -1) {
+        const pubKey = msg.slice(pubKeyIdx, msg.length);
+        console.log(pubKey);
+        console.log(hexToBase64(pubKey));
+        return EMPTY;
+      }
+    }
+    return throwError(err);
   }
 
   private formatURIParameters(
@@ -132,5 +170,9 @@ export class ValidatorService {
 
   private encodePublicKey(key: string): string {
     return encodeURIComponent(key);
+  }
+
+  private isPubKeyNotFound(msg: string): boolean {
+    return msg.indexOf('Could not find validator index for public key') !== -1;
   }
 }

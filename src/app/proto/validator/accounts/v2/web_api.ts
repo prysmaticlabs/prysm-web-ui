@@ -9,7 +9,7 @@ export interface CreateWalletRequest {
    *  Path on disk where the wallet will be stored.
    */
   walletPath: string;
-  keymanager: KeymanagerKind;
+  keymanager: string;
   /**
    *  Password for the wallet.
    */
@@ -61,12 +61,8 @@ export interface GenerateMnemonicResponse {
 
 export interface WalletResponse {
   walletPath: string;
-  keymanagerKind: KeymanagerKind;
+  keymanagerKind: string;
   keymanagerConfig: { [key: string]: string };
-}
-
-export interface CreateAccountResponse {
-  account: Account | undefined;
 }
 
 export interface ListAccountsRequest {
@@ -172,7 +168,7 @@ export interface ImportKeystoresResponse {
   importedPublicKeys: string[];
 }
 
-export interface CreateAccountRequest {
+export interface CreateAccountsRequest {
   /**
    *  Number of accounts to create.
    */
@@ -180,17 +176,21 @@ export interface CreateAccountRequest {
 }
 
 export interface DepositDataResponse {
-  depositDataList: DepositDataResponse_DepositData[];
+  depositDataList: DepositDataResponse_DepositData_Wrapper[];
+}
+
+export interface DepositDataResponse_DepositData_Wrapper {
+  data: DepositDataResponse_DepositData;
 }
 
 export interface DepositDataResponse_DepositData {
   pubkey: string;
-  withdrawalCredentials: string;
+  withdrawal_credentials: string;
   amount: number;
   signature: string;
-  depositMessageRoot: string;
-  depositDataRoot: string;
-  forkVersion: string;
+  deposit_message_root: string;
+  deposit_data_root: string;
+  fork_version: string;
 }
 
 export interface BackupAccountsRequest {
@@ -201,7 +201,7 @@ export interface BackupAccountsRequest {
   /**
    *  Keystores password to encrypt the backed-up accounts.
    */
-  keystoresPassword: string;
+  backupPassword: string;
 }
 
 export interface BackupAccountsResponse {
@@ -223,44 +223,4 @@ export interface DeleteAccountsResponse {
    *  Public keys that were deleted.
    */
   deletedKeys: string[];
-}
-
-/**  Type of key manager for the wallet, either direct, derived, or remote.
- */
-export enum KeymanagerKind {
-  DERIVED = 0,
-  DIRECT = 1,
-  REMOTE = 2,
-  UNRECOGNIZED = -1,
-}
-
-export function KeymanagerKindFromJSON(object: any): KeymanagerKind {
-  switch (object) {
-    case 0:
-    case 'DERIVED':
-      return KeymanagerKind.DERIVED;
-    case 1:
-    case 'DIRECT':
-      return KeymanagerKind.DIRECT;
-    case 2:
-    case 'REMOTE':
-      return KeymanagerKind.REMOTE;
-    case -1:
-    case 'UNRECOGNIZED':
-    default:
-      return KeymanagerKind.UNRECOGNIZED;
-  }
-}
-
-export function KeymanagerKindToJSON(object: KeymanagerKind): string {
-  switch (object) {
-    case KeymanagerKind.DERIVED:
-      return 'DERIVED';
-    case KeymanagerKind.DIRECT:
-      return 'DIRECT';
-    case KeymanagerKind.REMOTE:
-      return 'REMOTE';
-    default:
-      return 'UNKNOWN';
-  }
 }

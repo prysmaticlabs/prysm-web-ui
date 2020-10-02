@@ -17,11 +17,11 @@ export interface TableData {
   accountName: string;
   index: number;
   publicKey: string;
-  balance: number;
-  effectiveBalance: number;
+  balance: string;
+  effectiveBalance: string;
   status: string;
-  activationEpoch: number;
-  exitEpoch: number;
+  activationEpoch: string;
+  exitEpoch: string;
   lowBalance: boolean;
   options: string;
 }

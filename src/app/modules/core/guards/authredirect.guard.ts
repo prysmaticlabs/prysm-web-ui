@@ -24,7 +24,7 @@ export class AuthredirectGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<any> | Promise<boolean|UrlTree> | boolean{
     if (this.authenticationService.token) {
-      this.router.navigate(['/dashboard/gains-and-losses']);
+      this.router.navigate(['/dashboard/wallet/accounts']);
       return false;
     }
     return true;

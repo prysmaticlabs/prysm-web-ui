@@ -32,6 +32,7 @@
     "echarts": "^4.8.0",
     "ethers": "^5.0.12",
     "file-saver": "^2.0.2",
+    "jszip": "^3.5.0",
     "moment": "^2.27.0",
     "ngx-echarts": "^5.1.2",
     "ngx-file-drop": "^9.0.1",

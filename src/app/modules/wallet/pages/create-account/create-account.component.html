@@ -10,27 +10,29 @@
               <button color="accent" mat-raised-button>Back to Accounts</button>
             </a>
             <span class="mx-3"></span>
-            <button color="primary" mat-raised-button>Continue</button>
+            <button color="primary" mat-raised-button (click)="createAccounts()">Continue</button>
           </div>
         </mat-step>
         <mat-step label="Deposit Data">
-          <div class="text-white text-xl mt-4">
-            Your Deposit Data
-          </div>
-          <div class="my-4 text-hint text-lg leading-snug">
-            Copy or download your deposit_data.json file which you can use to deposit all your newly created accounts into
-            the official eth2 launchpad
-          </div>
-          <div class="bg-black rounded p-4 text-success text-base">
-            <div [innerHTML]="depositData | prettyjson" class="overflow-auto"></div>
-          </div>
-          <div class="mt-6">
-            <a [href]="generateDownloadJSONUri(depositData)" [download]="depositDataFileName">
-              <button color="accent" mat-raised-button>Download JSON File</button>
-            </a>
-            <span class="mx-3"></span>
-            <button color="primary" mat-raised-button (click)="copy(depositData)">Copy to Clipboard</button>
-          </div>
+          <ng-template *ngIf="depositData">
+            <div class="text-white text-xl mt-4">
+              Your Deposit Data
+            </div>
+            <div class="my-4 text-hint text-lg leading-snug">
+              Copy or download your deposit_data.json file which you can use to deposit all your newly created accounts into
+              the official eth2 launchpad
+            </div>
+            <div class="bg-black rounded p-4 text-success text-base">
+              <div [innerHTML]="depositData | prettyjson" class="overflow-auto"></div>
+            </div>
+            <div class="mt-6">
+              <a [href]="generateDownloadJSONUri(depositData)" [download]="depositDataFileName">
+                <button color="accent" mat-raised-button>Download JSON File</button>
+              </a>
+              <span class="mx-3"></span>
+              <button color="primary" mat-raised-button (click)="copy(depositData)">Copy to Clipboard</button>
+            </div>
+          </ng-template>
         </mat-step>
       </mat-horizontal-stepper>
     </div>

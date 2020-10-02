@@ -3,7 +3,7 @@ import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { KeymanagerKind, WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { AccountActionsComponent } from './account-actions.component';
 
@@ -12,7 +12,7 @@ describe('AccountActionsComponent', () => {
   let fixture: ComponentFixture<AccountActionsComponent>;
   let service: WalletService = MockService(WalletService);
   service.walletConfig$ = of({
-    keymanagerKind: KeymanagerKind.DERIVED,
+    keymanagerKind: 'DERIVED',
   } as WalletResponse);
 
   beforeEach(async(() => {

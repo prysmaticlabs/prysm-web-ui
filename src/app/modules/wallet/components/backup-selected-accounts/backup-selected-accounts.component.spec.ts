@@ -64,7 +64,7 @@ describe('BackupSelectedAccountsComponent', () => {
     fixture.detectChanges();
     expect(service.backupAccounts).toHaveBeenCalledWith({
       publicKeys: mockPublicKeys,
-      keystoresPassword: strongPassword,
+      backupPassword: strongPassword,
     } as BackupAccountsRequest);
   });
 
@@ -96,7 +96,7 @@ describe('BackupSelectedAccountsComponent', () => {
       fixture.detectChanges();
       expect(service.backupAccounts).toHaveBeenCalledWith({
         publicKeys: mockPublicKeys,
-        keystoresPassword: strongPassword,
+        backupPassword: strongPassword,
       } as BackupAccountsRequest);
     });
   });

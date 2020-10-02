@@ -65,8 +65,12 @@ export class ValidatorPerformanceSummaryComponent {
     const averageEffectiveBalance = this.computeAverageEffectiveBalance(
       perf.currentEffectiveBalances
     );
-    const votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length /
-      perf.correctlyVotedHead.length;
+    const totalVotedHead = perf.correctlyVotedHead.filter(Boolean).length;
+    let votedHeadPercentage = 0;
+    if (totalVotedHead) {
+      votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length /
+        perf.correctlyVotedHead.length;
+    }
 
     const averageInclusionDistance = perf.inclusionDistances.reduce((prev, curr) => {
       if (curr.toString() === FAR_FUTURE_EPOCH) {
@@ -81,6 +85,8 @@ export class ValidatorPerformanceSummaryComponent {
       overallScore = 'Great';
     } else if (votedHeadPercentage >= 0.80) {
       overallScore = 'Good';
+    } else if (votedHeadPercentage === 0) {
+      overallScore = 'N/A';
     } else {
       overallScore = 'Poor';
     }
@@ -97,6 +103,9 @@ export class ValidatorPerformanceSummaryComponent {
   private computeAverageEffectiveBalance(balances: string[]): number {
     const effBalances = balances.map(num => BigNumber.from(num));
     const total = effBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
+    if (total.eq(BigNumber.from('0'))) {
+      return 0;
+    }
     return total.div(BigNumber.from(balances.length)).div(GWEI_PER_ETHER).toNumber();
   }
 
@@ -110,6 +119,9 @@ export class ValidatorPerformanceSummaryComponent {
       return num.sub(beforeTransition[idx]);
     });
     const gainsInGwei = diffInEth.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
+    if (gainsInGwei.eq(BigNumber.from('0'))) {
+      return 0;
+    }
     return gainsInGwei.toNumber() / GWEI_PER_ETHER;
   }
 }

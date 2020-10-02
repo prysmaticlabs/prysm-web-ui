@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="text-primary mb-4 text-base lowercase">
-    {{wallet?.walletPath}}/{{toString(wallet?.keymanagerKind)}}/keymanageropts.json
+    {{wallet?.walletPath}}/{{wallet?.keymanagerKind}}/keymanageropts.json
   </div>
   <div class="bg-black rounded p-4 text-success text-base">
     <div [innerHTML]="wallet?.keymanagerConfig | prettyjson"></div>

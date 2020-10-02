@@ -1,14 +1,24 @@
-<div class="flex items-center position-relative mb-8 mt-1">
-  <div class="m-0 text-lg capitalize text-white text-center">Dashboard</div>
-  <div class="m-0 ml-4 text-hint">|</div>
-  <mat-icon 
-    aria-hidden="false" 
-    aria-label="Example home icon"
-    class="text-center ml-2 text-primary"
-  >
-    home
-  </mat-icon>
-  <span class="capitalize text-muted ml-4">
-    Gains &amp; Losses
-  </span>
-</div>
+<nav class="flex items-center position-relative mb-8 mt-1" *ngIf="(breadcrumbs$ | async) as breadcrumbs">
+  <a routerLink="/dashboard" class="mr-3 -mt-1 text-primary">
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Example home icon"
+    >
+      home
+    </mat-icon>
+  </a>
+  <ol>
+    <li
+      *ngFor="let breadcrumb of breadcrumbs; let i=index"
+      class="inline items-baseline items-center"
+      [ngClass]="{'text-lg': i === 0, 'text-muted': i > 0}">
+      <span *ngIf="i > 0" class="mx-2 separator">/</span>
+      <a *ngIf="i < breadcrumbs.length - 1; else workingRoute" [routerLink]="breadcrumb.url" >
+        {{ breadcrumb.displayName }}
+      </a>
+      <ng-template #workingRoute>
+        <span class="text-white">{{ breadcrumb.displayName }}</span>
+      </ng-template>
+    </li>
+  </ol>
+</nav>

@@ -74,6 +74,7 @@
     "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
+    "prefer-for-of": false,
     "object-literal-key-quotes": [
       true,
       "as-needed"

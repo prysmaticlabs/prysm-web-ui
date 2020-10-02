@@ -1,5 +1,5 @@
 <nav class="flex items-center position-relative mb-8 mt-1" *ngIf="(breadcrumbs$ | async) as breadcrumbs">
-  <a routerLink="/" class="mr-3 -mt-1 text-primary">
+  <a routerLink="/dashboard" class="mr-3 -mt-1 text-primary">
     <mat-icon
       aria-hidden="false"
       aria-label="Example home icon"
@@ -16,7 +16,9 @@
       <a *ngIf="i < breadcrumbs.length - 1; else workingRoute" [routerLink]="breadcrumb.url" >
         {{ breadcrumb.displayName }}
       </a>
-      <ng-template #workingRoute>{{ breadcrumb.displayName }}</ng-template>
+      <ng-template #workingRoute>
+        <span class="text-white">{{ breadcrumb.displayName }}</span>
+      </ng-template>
     </li>
   </ol>
 </nav>

@@ -48,6 +48,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: '',
+        redirectTo: 'gains-and-losses',
+        pathMatch: 'full',
+      },
+      {
         path: 'gains-and-losses',
         data: {
           breadcrumb: 'Gains & Losses'
@@ -60,6 +65,11 @@ const routes: Routes = [
           breadcrumb: 'Wallet'
         },
         children: [
+          {
+            path: '',
+            redirectTo: 'accounts',
+            pathMatch: 'full',
+          },
           {
             path: 'accounts',
             data: {
@@ -98,20 +108,25 @@ const routes: Routes = [
       {
         path: 'system',
         data: {
-          breadcrumb: 'System'
+          breadcrumb: 'System',
         },
         children: [
           {
+            path: '',
+            redirectTo: 'logs',
+            pathMatch: 'full',
+          },
+          {
             path: 'logs',
             data: {
-              breadcrumb: 'Logs'
+              breadcrumb: 'Process Logs'
             },
             component: LogsComponent,
           },
           {
             path: 'metrics',
             data: {
-              breadcrumb: 'Metrics'
+              breadcrumb: 'Process Metrics'
             },
             component: MetricsComponent,
           },
@@ -120,9 +135,14 @@ const routes: Routes = [
       {
         path: 'security',
         data: {
-          breadcrumb: 'Security'
+          breadcrumb: 'Security',
         },
         children: [
+          {
+            path: '',
+            redirectTo: 'change-password',
+            pathMatch: 'full',
+          },
           {
             path: 'change-password',
             data: {

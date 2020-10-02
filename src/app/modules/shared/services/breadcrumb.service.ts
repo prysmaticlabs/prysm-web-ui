@@ -13,6 +13,8 @@ export interface Breadcrumb {
 
 @Injectable()
 export class BreadcrumbService {
+  constructor() { }
+
   create(route: ActivatedRouteSnapshot): Observable<Breadcrumb[]> {
     let url = '';
     const newCrumbs: Breadcrumb[] = [];
@@ -33,7 +35,6 @@ export class BreadcrumbService {
       const newCrumb = this.initializeBreadcrumb(route, url);
       newCrumbs.push(newCrumb);
     }
-    console.log(newCrumbs);
     return of(newCrumbs);
   }
 

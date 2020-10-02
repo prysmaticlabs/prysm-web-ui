@@ -70,10 +70,35 @@ export interface ListAccountsRequest {
    *  Whether or not to return the raw RLP deposit tx data.
    */
   getDepositTxData: boolean;
+  /**
+   *  The maximum number of data to return in the response.
+   *  This field is optional.
+   */
+  pageSize: number;
+  /**
+   *  A pagination token returned from a previous call
+   *  that indicates where this listing should continue from.
+   *  This field is optional.
+   */
+  pageToken: string;
+  /**
+   *  Whether or not to return all acconts.
+   */
+  all: boolean;
 }
 
 export interface ListAccountsResponse {
   accounts: Account[];
+  /**
+   *  A pagination token returned from a previous call
+   *  that indicates from where listing should continue.
+   *  This field is optional.
+   */
+  nextPageToken: string;
+  /**
+   *  Total count matching the request filter.
+   */
+  totalSize: number;
 }
 
 export interface Account {

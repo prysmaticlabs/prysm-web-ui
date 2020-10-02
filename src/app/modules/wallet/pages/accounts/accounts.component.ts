@@ -22,7 +22,6 @@ import {
 } from 'src/app/proto/eth/v1alpha1/validator';
 import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { TableData } from '../../components/accounts-table/accounts-table.component';
-import { Z_UNKNOWN } from 'zlib';
 
 @Component({
   selector: 'app-accounts',
@@ -50,14 +49,14 @@ export class AccountsComponent {
     // Debounce to prevent spamming the paginator component.
     tap(() => this.loading = true),
     debounceTime(300),
-    switchMap((ev: PageEvent) => this.walletService.accounts$.pipe(
+    switchMap((ev: PageEvent) => this.walletService.accounts(ev.pageIndex, ev.pageSize).pipe(
       // Extract the validating public keys.
       zipMap(accs => accs.accounts?.map(account => account.validatingPublicKey)),
       switchMap(([accountsResponse, pubKeys]) =>
         // Combine the list of validators and their balances to display in the table.
         zip(
-          this.validatorService.validatorList(pubKeys, ev.pageIndex, ev.pageSize),
-          this.validatorService.balances(pubKeys, ev.pageIndex, ev.pageSize)
+          this.validatorService.validatorList(pubKeys, 0, pubKeys.length),
+          this.validatorService.balances(pubKeys, 0, pubKeys.length)
         ).pipe(
           map(([validators, balances]) =>
             // Transform the data into a pretty format for our table.
@@ -91,7 +90,7 @@ export class AccountsComponent {
     validators: Validators,
     balances: ValidatorBalances
   ): MatTableDataSource<TableData> {
-    this.totalData = accountsResponse.accounts.length;
+    this.totalData = accountsResponse.totalSize;
     const tableData = accountsResponse.accounts.map((acc, idx) => {
       let val = validators?.validatorList?.find(
         v => acc.validatingPublicKey === v?.validator?.publicKey

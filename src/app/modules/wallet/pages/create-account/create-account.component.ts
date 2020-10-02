@@ -10,7 +10,7 @@ import { catchError, take, tap } from 'rxjs/operators';
 import { MAX_ACCOUNTS_CREATION } from 'src/app/modules/core/constants';
 import { mockDepositDataJSON } from 'src/app/modules/core/mocks';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { CreateAccountsRequest, DepositDataResponse_DepositData } from 'src/app/proto/validator/accounts/v2/web_api';
+import { CreateAccountsRequest, DepositDataResponse, DepositDataResponse_DepositData } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Component({
   selector: 'app-create-account',
@@ -34,7 +34,7 @@ export class CreateAccountComponent {
       Validators.max(MAX_ACCOUNTS_CREATION),
     ]),
   });
-  depositData = mockDepositDataJSON;
+  depositData: DepositDataResponse_DepositData[] = [];
   depositDataFileName = 'deposit_data-23920932.json';
 
   generateDownloadJSONUri(data: DepositDataResponse_DepositData[]): SafeUrl {
@@ -60,11 +60,12 @@ export class CreateAccountComponent {
     this.loading = true;
     this.walletService.createAccounts(req).pipe(
       take(1),
-      tap(() => {
+      tap((res: DepositDataResponse) => {
         this.snackBar.open(`Successfully created ${req.numAccounts} accounts`, 'Close', {
           duration: 4000,
         });
         this.loading = false;
+        this.depositData = res.depositDataList.map(d => d.data);
         this.stepper?.next();
       }),
       catchError(err => {

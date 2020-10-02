@@ -50,6 +50,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.submitted = true;
+    this.loginForm.markAllAsTouched();
+    if (this.loginForm.invalid) {
+      return;
+    }
     const password = this.loginForm.get('password')?.value as string;
     this.loading = true;
     this.authService.login(password).pipe(

@@ -37,10 +37,9 @@ export class WalletService {
   walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`).pipe(
     share(),
   );
-  accounts$: Observable<ListAccountsResponse> = this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts`).pipe(
-    share(),
-  );
-  validatingPublicKeys$: Observable<string[]> = this.accounts$.pipe(
+  validatingPublicKeys$: Observable<string[]> = this.http.get<ListAccountsResponse>(
+    `${this.apiUrl}/accounts?all=true`
+  ).pipe(
     map((res: ListAccountsResponse) => res.accounts.map((acc: Account) => acc.validatingPublicKey)),
     share(),
   );
@@ -53,6 +52,22 @@ export class WalletService {
     map((resp: GenerateMnemonicResponse) => resp.mnemonic),
     shareReplay(1),
   );
+
+  accounts(
+    pageIndex?: number,
+    pageSize?: number,
+  ): Observable<ListAccountsResponse> {
+    let params = `?`;
+    if (pageIndex) {
+      params += `pageToken=${pageIndex}&`;
+    }
+    if (pageSize) {
+      params += `pageSize=${pageSize}`;
+    }
+    return this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts${params}`).pipe(
+      share(),
+    );
+  }
 
   createWallet(request: CreateWalletRequest): Observable<WalletResponse> {
     return this.http.post<WalletResponse>(`${this.apiUrl}/wallet/create`, request);

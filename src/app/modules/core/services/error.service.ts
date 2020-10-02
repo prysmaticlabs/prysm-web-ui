@@ -19,7 +19,7 @@ export class ErrorService {
           formattedError = 'Bad gateway, cannot connect to server';
           break;
         case 503:
-          formattedError = 'Server unavailable, cannot connect to server';
+          formattedError = 'Server unavailable, perhaps node is still syncing';
           break;
         case 504:
           formattedError = 'Operation timed out, perhaps the server is down';

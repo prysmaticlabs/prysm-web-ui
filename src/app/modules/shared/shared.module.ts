@@ -42,6 +42,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
+import { BreadcrumbService } from './services/breadcrumb.service';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,9 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
     ImportAccountsFormComponent,
     CreateAccountsFormComponent,
   ],
+  providers: [
+    BreadcrumbService,
+  ],
   imports: [
     CommonModule,
     MatIconModule,
@@ -64,6 +69,7 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
     MatInputModule,
     NgxFileDropModule,
     MatProgressBarModule,
+    AppRoutingModule,
   ],
   exports: [
     BreadcrumbComponent,

@@ -111,20 +111,6 @@ export class ValidatorService {
     );
   }
 
-  validatorListForPubKeys(
-    publicKeys: string[],
-  ): Observable<Validators> {
-    let params = `?publicKeys=`;
-    publicKeys.forEach((key, _) => {
-      params += `${this.encodePublicKey(key)}&publicKeys=`;
-    });
-    return this.beaconNodeService.nodeEndpoint$.pipe(
-      switchMap((endpoint: string) => {
-        return this.http.get<Validators>(`${endpoint}/validators${params}`);
-      }),
-    );
-  }
-
   balances(
     publicKeys: string[],
     pageIndex: number,
@@ -133,20 +119,6 @@ export class ValidatorService {
     return this.beaconNodeService.nodeEndpoint$.pipe(
       switchMap((endpoint: string) => {
         const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
-        return this.http.get<ValidatorBalances>(`${endpoint}/validators/balances${params}`);
-      }),
-    );
-  }
-
-  balancesForPubKeys(
-    publicKeys: string[],
-  ): Observable<ValidatorBalances> {
-    let params = `?publicKeys=`;
-    publicKeys.forEach((key, _) => {
-      params += `${this.encodePublicKey(key)}&publicKeys=`;
-    });
-    return this.beaconNodeService.nodeEndpoint$.pipe(
-      switchMap((endpoint: string) => {
         return this.http.get<ValidatorBalances>(`${endpoint}/validators/balances${params}`);
       }),
     );

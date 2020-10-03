@@ -10,9 +10,8 @@ import { Subject, throwError } from 'rxjs';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { CreateWalletRequest, KeymanagerKind } from 'src/app/proto/validator/accounts/v2/web_api';
-
-const MAX_ALLOWED_KEYSTORES = 50;
+import { CreateWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
 
 enum WizardState {
   Overview,
@@ -121,7 +120,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   createWallet(event: Event): void {
     event.stopPropagation();
     const request = {
-      keymanager: KeymanagerKind.DIRECT,
+      keymanager: 'DIRECT',
       walletPassword: this.passwordFormGroup.get('password')?.value,
       keystoresPassword: this.unlockFormGroup.get('keystoresPassword')?.value,
       keystoresImported: this.importFormGroup.get('keystoresImported')?.value,

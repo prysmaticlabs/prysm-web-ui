@@ -1,43 +1,24 @@
 <div class="logs m-sm-30">
   <app-breadcrumb></app-breadcrumb>
-
+  <div class="mb-8">
+    <div class="text-2xl mb-2 text-white leading-snug">
+      Your Prysm Process' Logs
+    </div>
+    <p class="m-0 text-muted text-base leading-snug">
+      Stream of logs from both the beacon node and validator client
+    </p>
+  </div>
   <div class="flex gap-x-6">
     <div class="w-full md:w-2/3">
-      <div class="text-xl px-2 pb-6">
-        Validator client logs
-      </div>
-      <app-logs-stream [messages]="validatorMessages"></app-logs-stream>
-      <div class="text-xl px-2 pt-6 pb-6">
-        Beacon node logs
-      </div>
-      <app-logs-stream [messages]="beaconMessages"></app-logs-stream>
+      <app-logs-stream [messages]="validatorMessages" title="Validator Client"></app-logs-stream>
+      <div class="py-3"></div>
+      <app-logs-stream [messages]="beaconMessages" title="Beacon Node"></app-logs-stream>
     </div>
     <div class="w-full md:w-1/3">
-      <mat-card class="bg-paper p-16">
-        <div class="flex items-center">
-          <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-            <mat-icon>memory</mat-icon>
-          </button>
-          <div class="text-white text-xl ml-4">
-            Process Health
-          </div>
-        </div>
-        <div class="pt-8 flex items-center justify-between">
-          <div className="m-0 text-muted">OK!</div>
-          <button
-            mat-button
-            raised
-            className="uppercase bg-error"
-          >
-            Stop Process
-          </button> 
-        </div>
-      </mat-card>
+      <iframe src="https://discordapp.com/widget?id=476244492043812875&theme=dark" width="100%" height="350" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
       <div class="py-3"></div>
       <mat-card class="bg-paper" *ngIf="(logMetrics$ | async) as metrics">
-        <div class="card-title mb-8 text-lg text-muted">Log Percentage Summary</div>
-        <div class="text-muted">Today</div>
-        <div class="pt-4"></div>
+        <div class="card-title mb-8 text-lg text-white">Log Percentages</div>
         <div class="mb-6">
           <div>
             <mat-progress-bar mode="determinate" [value]="metrics.percentInfo" color="primary"></mat-progress-bar>
@@ -62,10 +43,6 @@
             <small>20% Error Logs</small>
           </div>
         </div>
-      </mat-card>
-      <div class="py-3"></div>
-      <mat-card class="bg-primary">
-        Hello
       </mat-card>
     </div>
   </div>

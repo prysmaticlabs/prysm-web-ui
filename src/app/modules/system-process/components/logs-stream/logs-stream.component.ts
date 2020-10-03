@@ -19,6 +19,8 @@ import {
 })
 export class LogsStreamComponent implements AfterViewInit {
   @Input() messages: string[] | null = null;
+  @Input() title: string | null = null;
+  @Input() url: string | null = null;
   @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef | null = null;
   @ViewChildren('item') itemElements: QueryList<any> | null = null;
   constructor(

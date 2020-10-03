@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { KeymanagerKind, KeymanagerKindToJSON, WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Component({
   selector: 'app-wallet-config',
@@ -9,7 +9,4 @@ import { KeymanagerKind, KeymanagerKindToJSON, WalletResponse } from 'src/app/pr
 export class WalletConfigComponent {
   @Input() wallet: WalletResponse | null = null;
   constructor() {}
-  toString(keymanager: KeymanagerKind): string {
-    return KeymanagerKindToJSON(keymanager);
-  }
 }

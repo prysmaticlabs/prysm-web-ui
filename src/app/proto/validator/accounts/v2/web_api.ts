@@ -9,7 +9,7 @@ export interface CreateWalletRequest {
    *  Path on disk where the wallet will be stored.
    */
   walletPath: string;
-  keymanager: KeymanagerKind;
+  keymanager: string;
   /**
    *  Password for the wallet.
    */
@@ -61,12 +61,8 @@ export interface GenerateMnemonicResponse {
 
 export interface WalletResponse {
   walletPath: string;
-  keymanagerKind: KeymanagerKind;
+  keymanagerKind: string;
   keymanagerConfig: { [key: string]: string };
-}
-
-export interface CreateAccountResponse {
-  account: Account | undefined;
 }
 
 export interface ListAccountsRequest {
@@ -74,10 +70,35 @@ export interface ListAccountsRequest {
    *  Whether or not to return the raw RLP deposit tx data.
    */
   getDepositTxData: boolean;
+  /**
+   *  The maximum number of data to return in the response.
+   *  This field is optional.
+   */
+  pageSize: number;
+  /**
+   *  A pagination token returned from a previous call
+   *  that indicates where this listing should continue from.
+   *  This field is optional.
+   */
+  pageToken: string;
+  /**
+   *  Whether or not to return all acconts.
+   */
+  all: boolean;
 }
 
 export interface ListAccountsResponse {
   accounts: Account[];
+  /**
+   *  A pagination token returned from a previous call
+   *  that indicates from where listing should continue.
+   *  This field is optional.
+   */
+  nextPageToken: string;
+  /**
+   *  Total count matching the request filter.
+   */
+  totalSize: number;
 }
 
 export interface Account {
@@ -154,42 +175,77 @@ export interface ChangePasswordRequest {
   passwordConfirmation: string;
 }
 
-/**  Type of key manager for the wallet, either direct, derived, or remote.
- */
-export enum KeymanagerKind {
-  DERIVED = 0,
-  DIRECT = 1,
-  REMOTE = 2,
-  UNRECOGNIZED = -1,
+export interface ImportKeystoresRequest {
+  /**
+   *  JSON encoded keystore list.
+   */
+  keystoresImported: string[];
+  /**
+   *  Password to unlock the keystores.
+   */
+  keystoresPassword: string;
 }
 
-export function KeymanagerKindFromJSON(object: any): KeymanagerKind {
-  switch (object) {
-    case 0:
-    case 'DERIVED':
-      return KeymanagerKind.DERIVED;
-    case 1:
-    case 'DIRECT':
-      return KeymanagerKind.DIRECT;
-    case 2:
-    case 'REMOTE':
-      return KeymanagerKind.REMOTE;
-    case -1:
-    case 'UNRECOGNIZED':
-    default:
-      return KeymanagerKind.UNRECOGNIZED;
-  }
+export interface ImportKeystoresResponse {
+  /**
+   *  Public keys successfully imported.
+   */
+  importedPublicKeys: string[];
 }
 
-export function KeymanagerKindToJSON(object: KeymanagerKind): string {
-  switch (object) {
-    case KeymanagerKind.DERIVED:
-      return 'DERIVED';
-    case KeymanagerKind.DIRECT:
-      return 'DIRECT';
-    case KeymanagerKind.REMOTE:
-      return 'REMOTE';
-    default:
-      return 'UNKNOWN';
-  }
+export interface CreateAccountsRequest {
+  /**
+   *  Number of accounts to create.
+   */
+  numAccounts: number;
+}
+
+export interface DepositDataResponse {
+  depositDataList: DepositDataResponse_DepositData_Wrapper[];
+}
+
+export interface DepositDataResponse_DepositData_Wrapper {
+  data: DepositDataResponse_DepositData;
+}
+
+export interface DepositDataResponse_DepositData {
+  pubkey: string;
+  withdrawal_credentials: string;
+  amount: number;
+  signature: string;
+  deposit_message_root: string;
+  deposit_data_root: string;
+  fork_version: string;
+}
+
+export interface BackupAccountsRequest {
+  /**
+   *  Public keys to backup.
+   */
+  publicKeys: string[];
+  /**
+   *  Keystores password to encrypt the backed-up accounts.
+   */
+  backupPassword: string;
+}
+
+export interface BackupAccountsResponse {
+  /**
+   *  Public keys to backup.
+   */
+  zipFile: string;
+}
+
+export interface DeleteAccountsRequest {
+  /**
+   *  Public keys to delete.
+   */
+  publicKeys: string[];
+}
+
+export interface DeleteAccountsResponse {
+  /**
+   *  Public keys that were deleted.
+   */
+  deletedKeys: string[];
 }

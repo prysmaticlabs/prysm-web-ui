@@ -328,7 +328,7 @@ export interface Validator {
   /**
    *  The validators current effective balance in gwei.
    */
-  effectiveBalance: number;
+  effectiveBalance: string;
   /**
    *  Whether or not the validator has been slashed.
    */
@@ -338,27 +338,27 @@ export interface Validator {
    *  be zero if the validator was present in the Ethereum 2.0 genesis. This
    *  field is FAR_FUTURE_EPOCH if the validator has not been activated.
    */
-  activationEligibilityEpoch: number;
+  activationEligibilityEpoch: string;
   /**
    *  Epoch when the validator was activated. This field may be zero if the
    *  validator was present in the Ethereum 2.0 genesis. This field is
    *  FAR_FUTURE_EPOCH if the validator has not been activated.
    */
-  activationEpoch: number;
+  activationEpoch: string;
   /**
    *  Epoch when the validator was exited. This field is FAR_FUTURE_EPOCH if
    *  the validator has not exited.
    *  FAR_FUTURE_EPOCH is a constant defined by the official Ethereum 2.0 specification:
    *  https://github.com/ethereum/eth2.0-specs/blob/v0.9.2/specs/core/0_beacon-chain.md#constants
    */
-  exitEpoch: number;
+  exitEpoch: string;
   /**
    *  Epoch when the validator is eligible to withdraw their funds. This field
    *  is FAR_FUTURE_EPOCH if the validator has not exited.
    *  FAR_FUTURE_EPOCH is a constant defined by the official Ethereum 2.0 specification:
    *  https://github.com/ethereum/eth2.0-specs/blob/v0.9.2/specs/core/0_beacon-chain.md#constants
    */
-  withdrawableEpoch: number;
+  withdrawableEpoch: string;
 }
 
 /**

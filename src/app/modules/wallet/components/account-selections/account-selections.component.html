@@ -1,0 +1,34 @@
+<div class="account-selections mb-6" *ngIf="selection?.selected.length">
+  <div class="text-muted text-lg">
+    Selected {{selection?.selected.length}} Accounts
+  </div>
+  <div class="my-6">
+    <mat-chip-list>
+      <mat-chip *ngFor="let account of selection?.selected">
+        {{account.publicKey | base64tohex | slice:0:16}}...
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="flex">
+    <button mat-stroked-button color="primary" (click)="openExplorer()">
+      <span class="flex items-center">
+        <span class="mr-2">View in Block Explorer</span>
+        <mat-icon>open_in_new</mat-icon>
+      </span>
+    </button>
+    <div class="mx-2"></div>
+    <button mat-stroked-button color="accent" (click)="openBackupDialog()">
+      <span class="flex items-center">
+        <span class="mr-2">Backup Selected</span>
+        <mat-icon>get_app</mat-icon>
+      </span>
+    </button>
+    <div class="mx-2"></div>
+    <button mat-stroked-button color="warn" (click)="openDeleteDialog()">
+      <span class="flex items-center">
+        <span class="mr-2">Delete Selected</span>
+        <mat-icon>delete_forever</mat-icon>
+      </span>
+    </button>
+  </div>
+</div>

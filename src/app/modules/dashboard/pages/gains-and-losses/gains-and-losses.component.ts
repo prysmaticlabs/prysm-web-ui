@@ -22,7 +22,9 @@ export class GainsAndLossesComponent implements OnInit {
   ngOnInit(): void {
     this.beaconService.chainHead$.pipe(
       switchMap((head: ChainHead) =>
-        this.validatorService.recentEpochBalances(head.headEpoch, 3 /* lookback */)
+        this.validatorService.recentEpochBalances(
+          head.headEpoch, 3 /* lookback */, 10 /* num accounts */,
+        )
       ),
       take(1),
       tap((res) => console.log(res)),

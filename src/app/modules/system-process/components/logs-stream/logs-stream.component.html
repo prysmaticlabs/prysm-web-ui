@@ -1,5 +1,9 @@
 <mat-card class="bg-black">
-  <div class="logs-card overflow-y-auto" #scrollFrame>
+  <div class="flex justify-between pb-2">
+    <div class="text-white text-lg">{{title}}</div>
+    <div>{{url}}</div>
+  </div>
+  <div class="mt-2 logs-card overflow-y-auto" #scrollFrame>
     <div 
       *ngFor="let msg of messages" 
       [innerHTML]="formatLog(msg)"

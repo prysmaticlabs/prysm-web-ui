@@ -1,0 +1,26 @@
+<form class="create-accounts" [formGroup]="formGroup">
+  <div class="text-white text-xl mt-4">
+    {{title}}
+  </div>
+  <div class="my-4 text-hint text-lg leading-snug" [innerHTML]="subtitle">
+  </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Number of accounts (max {{maxAccounts}})</mat-label>
+    <input
+      matInput
+      formControlName="numAccounts"
+      placeholder="Number of accounts to generate"
+      name="numAccounts"
+      type="number"
+    />
+    <mat-error *ngIf="formGroup?.controls.numAccounts.hasError('required')">
+      Num accounts is required
+    </mat-error>
+    <mat-error *ngIf="formGroup?.controls.numAccounts.hasError('min')">
+      Must create at least 0 accounts
+    </mat-error>
+    <mat-error *ngIf="formGroup?.controls.numAccounts.hasError('max')">
+      Max {{maxAccounts}} accounts allowed to create at the same time
+    </mat-error>
+  </mat-form-field>
+</form>

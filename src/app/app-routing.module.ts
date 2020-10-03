@@ -45,7 +45,7 @@ const routes: Routes = [
       breadcrumb: 'Dashboard'
     },
     component: DashboardComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

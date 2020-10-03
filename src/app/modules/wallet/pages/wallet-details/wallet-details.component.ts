@@ -15,6 +15,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject<void>();
   loading = false;
   wallet: WalletResponse | null = null;
+  keymanagerKind = 'UNKNOWN';
 
   ngOnInit(): void {
     this.fetchData();
@@ -32,6 +33,11 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
       tap((res: WalletResponse) => {
         this.loading = false;
         this.wallet = res;
+        if (!this.wallet.keymanagerKind) {
+          this.keymanagerKind = 'DERIVED';
+        } else {
+          this.keymanagerKind = this.wallet.keymanagerKind;
+        }
       }),
       catchError((err) => {
         this.loading = false;

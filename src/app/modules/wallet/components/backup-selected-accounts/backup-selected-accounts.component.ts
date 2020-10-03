@@ -2,9 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import * as JSZip from 'jszip';
 import * as FileSaver from 'file-saver';
-import { throwError } from 'rxjs';
-import { catchError, take, tap } from 'rxjs/operators';
+import { from, throwError } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
@@ -39,7 +40,7 @@ export class BackupSelectedAccountsComponent {
     }
     const req: BackupAccountsRequest = {
       publicKeys: this.publicKeys,
-      keystoresPassword: this.passwordGroup.controls.password.value,
+      backupPassword: this.passwordGroup.controls.password.value,
     };
     this.loading = true;
     this.walletService.backupAccounts(req).pipe(
@@ -59,8 +60,18 @@ export class BackupSelectedAccountsComponent {
     if (!this.backupFile) {
       return;
     }
-    const blob = new Blob([this.backupFile], { type: 'text/plain;charset=utf-8'});
-    FileSaver.saveAs(blob, `backup-${Date.now()}.zip`);
-    this.dialogRef.close();
+    from(JSZip.loadAsync(this.backupFile, { base64: true})).pipe(
+      switchMap(zip =>
+        from(zip.generateAsync({ type: 'blob' }))
+      ),
+      take(1),
+      tap((blob: Blob) => {
+        FileSaver.saveAs(blob, `backup-${Date.now()}.zip`);
+        this.dialogRef.close();
+      }),
+      catchError(err => {
+        return throwError(err);
+      })
+    ).subscribe();
   }
 }

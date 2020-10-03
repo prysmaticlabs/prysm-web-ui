@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, share, shareReplay } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {
   WalletResponse,
@@ -17,6 +17,8 @@ import {
   BackupAccountsResponse,
   DeleteAccountsRequest,
   DeleteAccountsResponse,
+  CreateAccountsRequest,
+  DepositDataResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -32,13 +34,14 @@ export class WalletService {
 
   // Observables.
   walletExists$: Observable<HasWalletResponse> = this.http.get<HasWalletResponse>(`${this.apiUrl}/wallet/exists`);
-  walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`);
-  accounts$: Observable<ListAccountsResponse> = this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts`).pipe(
-    shareReplay(1),
+  walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`).pipe(
+    share(),
   );
-  validatingPublicKeys$: Observable<string[]> = this.accounts$.pipe(
+  validatingPublicKeys$: Observable<string[]> = this.http.get<ListAccountsResponse>(
+    `${this.apiUrl}/accounts?all=true`
+  ).pipe(
     map((res: ListAccountsResponse) => res.accounts.map((acc: Account) => acc.validatingPublicKey)),
-    shareReplay(1),
+    share(),
   );
 
   // Retrieve a randomly generateed bip39 mnemonic from the backend,
@@ -50,6 +53,22 @@ export class WalletService {
     shareReplay(1),
   );
 
+  accounts(
+    pageIndex?: number,
+    pageSize?: number,
+  ): Observable<ListAccountsResponse> {
+    let params = `?`;
+    if (pageIndex) {
+      params += `pageToken=${pageIndex}&`;
+    }
+    if (pageSize) {
+      params += `pageSize=${pageSize}`;
+    }
+    return this.http.get<ListAccountsResponse>(`${this.apiUrl}/accounts${params}`).pipe(
+      share(),
+    );
+  }
+
   createWallet(request: CreateWalletRequest): Observable<WalletResponse> {
     return this.http.post<WalletResponse>(`${this.apiUrl}/wallet/create`, request);
   }
@@ -60,6 +79,10 @@ export class WalletService {
 
   importKeystores(request: ImportKeystoresRequest): Observable<ImportKeystoresResponse> {
     return this.http.post<ImportKeystoresResponse>(`${this.apiUrl}/wallet/keystores/import`, request);
+  }
+
+  createAccounts(request: CreateAccountsRequest): Observable<DepositDataResponse> {
+    return this.http.post<DepositDataResponse>(`${this.apiUrl}/wallet/accounts/create`, request);
   }
 
   backupAccounts(request: BackupAccountsRequest): Observable<BackupAccountsResponse> {

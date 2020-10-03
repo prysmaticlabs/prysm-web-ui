@@ -24,7 +24,7 @@
             </div>
             <div class="flex">
               <div class="btn-container">
-                <button mat-raised-button color="primary" name="submit" [disabled]="loading || loginForm.invalid">Sign in to dashboard</button>
+                <button mat-raised-button color="primary" name="submit" [disabled]="loading">Sign in to dashboard</button>
                 <div class="btn-progress" *ngIf="loading">
                   <mat-spinner color="primary" [diameter]="25"></mat-spinner>
                 </div>

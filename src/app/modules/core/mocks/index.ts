@@ -6,7 +6,6 @@ import {
   ListAccountsResponse,
   Account,
   HasWalletResponse,
-  KeymanagerKind,
   ImportKeystoresResponse,
   BackupAccountsResponse,
   DeleteAccountsResponse
@@ -74,12 +73,12 @@ export const Mocks: IMocks = {
   } as HasWalletResponse,
   '/v2/validator/wallet': {
     keymanagerConfig: { direct_eip_version: 'EIP-2335' },
-    keymanagerKind: KeymanagerKind.DIRECT,
+    keymanagerKind: 'DIRECT',
     walletPath: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2'
   } as WalletResponse,
   '/v2/validator/wallet/create': {
     walletPath: '/Users/johndoe/Library/Eth2Validators/prysm-wallet-v2',
-    keymanagerKind: KeymanagerKind.DERIVED,
+    keymanagerKind: 'DERIVED',
   } as WalletResponse,
   '/v2/validator/wallet/keystores/import': {
     importedPublicKeys: mockImportedKeys,
@@ -212,9 +211,9 @@ export const Mocks: IMocks = {
         validator: {
           publicKey: key,
           effectiveBalance: '31200823019',
-          activationEpoch: 1000,
+          activationEpoch: '1000',
           slashed: false,
-          exitEpoch: 23020302,
+          exitEpoch: '23020302',
         },
       } as Validators_ValidatorContainer;
     }),

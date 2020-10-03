@@ -17,14 +17,16 @@ describe('AccountsComponent', () => {
   let fixture: ComponentFixture<AccountsComponent>;
   let service: WalletService = MockService(WalletService);
   const valService: ValidatorService = MockService(ValidatorService);
-  service.accounts$ = of({
-    accounts: [{
-      validatingPublicKey: '',
-      accountName: 'Fritz',
-      depositTxData: '',
-      derivationPath: 'somepath'
-    }] as Account[],
-  } as ListAccountsResponse);
+  service.accounts = () => {
+      return of({
+      accounts: [{
+        validatingPublicKey: '',
+        accountName: 'Fritz',
+        depositTxData: '',
+        derivationPath: 'somepath'
+      }] as Account[],
+    } as ListAccountsResponse);
+  };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [

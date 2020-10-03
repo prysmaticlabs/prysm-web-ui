@@ -11,7 +11,7 @@ import { AuthenticationService } from 'src/app/modules/core/services/authenticat
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
-import { CreateWalletRequest, KeymanagerKind } from 'src/app/proto/validator/accounts/v2/web_api';
+import { CreateWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
 enum WizardState {
   Overview,
@@ -117,7 +117,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   createWallet(event: Event): void {
     event.stopPropagation();
     const request = {
-      keymanager: KeymanagerKind.DERIVED,
+      keymanager: 'DERIVED',
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,

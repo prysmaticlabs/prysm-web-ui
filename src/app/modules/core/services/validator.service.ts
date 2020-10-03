@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { zip, Observable, of } from 'rxjs';
-import { switchMap, mergeMap, concatAll, toArray } from 'rxjs/operators';
+import { zip, Observable, of, throwError, EMPTY } from 'rxjs';
+import { switchMap, mergeMap, concatAll, toArray, retry, catchError } from 'rxjs/operators';
 
 import range from 'src/app/modules/core/utils/range';
 import { BeaconNodeService } from './beacon-node.service';
@@ -11,6 +11,8 @@ import { WalletService } from './wallet.service';
 import {
   ValidatorBalances, ValidatorPerformanceResponse, Validators, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { hexToBase64 } from '../utils/hex-util';
+import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 export const MAX_EPOCH_LOOKBACK = 5;
 
@@ -46,7 +48,9 @@ export class ValidatorService {
     }),
   );
 
-  recentEpochBalances(currentEpoch: number, lookback: number): Observable<ValidatorBalances[]> {
+  recentEpochBalances(
+    currentEpoch: number, lookback: number, numAccounts: number,
+  ): Observable<ValidatorBalances[]> {
     if (lookback > MAX_EPOCH_LOOKBACK) {
       throw new Error(`Cannot request greater than ${MAX_EPOCH_LOOKBACK} max lookback epochs`);
     }
@@ -66,12 +70,12 @@ export class ValidatorService {
       mergeMap((epoch: number) => {
         return zip(
           this.beaconNodeService.nodeEndpoint$,
-          this.walletService.validatingPublicKeys$
+          this.walletService.accounts(0, numAccounts),
         ).pipe(
-          switchMap((result: [string, string[]]) => {
+          switchMap((result: [string, ListAccountsResponse]) => {
             const endpoint = result[0];
-            const publicKeys = result[1];
-            return this.balancesByEpoch(endpoint, publicKeys, epoch);
+            const publicKeys = result[1].accounts.map(acc => acc.validatingPublicKey);
+            return this.balancesByEpoch(endpoint, publicKeys, epoch, 0, numAccounts);
           }),
         );
       }),
@@ -83,11 +87,14 @@ export class ValidatorService {
     apiUrl: string,
     publicKeys: string[],
     epoch: number,
+    pageIndex: number,
+    pageSize: number,
   ): Observable<ValidatorBalances> {
     let params = `?epoch=${epoch}&publicKeys=`;
     publicKeys.forEach((key, _) => {
       params += `${this.encodePublicKey(key)}&publicKeys=`;
     });
+    params += `&pageSize=${pageSize}&pageToken=${pageIndex}`;
     return this.http.get<ValidatorBalances>(`${apiUrl}/validators/balances${params}`);
   }
 
@@ -100,7 +107,7 @@ export class ValidatorService {
       switchMap((endpoint: string) => {
         const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
         return this.http.get<Validators>(`${endpoint}/validators${params}`);
-      })
+      }),
     );
   }
 
@@ -113,7 +120,7 @@ export class ValidatorService {
       switchMap((endpoint: string) => {
         const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
         return this.http.get<ValidatorBalances>(`${endpoint}/validators/balances${params}`);
-      })
+      }),
     );
   }
 

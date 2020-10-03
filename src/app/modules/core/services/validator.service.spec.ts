@@ -9,13 +9,13 @@ import { WalletService } from './wallet.service';
 import { of } from 'rxjs';
 import { ValidatorBalances, ValidatorBalances_Balance } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { hexToBase64 } from '../utils/hex-util';
+import { Account, ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('ValidatorService', () => {
   let service: ValidatorService;
   let beaconNodeService: BeaconNodeService = MockService(BeaconNodeService);
   let walletService: WalletService = MockService(WalletService);
   (beaconNodeService as any)['nodeEndpoint$'] = of('endpoint');
-  walletService['validatingPublicKeys$'] = of([] as string[]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,6 +30,9 @@ describe('ValidatorService', () => {
     service = TestBed.inject(ValidatorService);
     beaconNodeService = TestBed.inject(BeaconNodeService);
     walletService = TestBed.inject(WalletService);
+    spyOn(walletService, 'accounts').and.returnValue(of({
+      accounts: [] as Account[],
+    } as ListAccountsResponse));
     spyOn(service, 'balancesByEpoch').and.returnValue(of({
       epoch: 0,
       balances: [

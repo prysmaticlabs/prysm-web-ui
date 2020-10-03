@@ -4,10 +4,7 @@ import { webSocket } from 'rxjs/webSocket';
 import { concatMap, delay, delayWhen, mergeAll, retryWhen, tap } from 'rxjs/operators';
 import { EnvironmenterService } from '../../core/services/environmenter.service';
 import { mockBeaconLogs, mockValidatorLogs } from 'src/app/modules/core/mocks/logs';
-
-const VALIDATOR_WS_ENDPOINT = 'ws://localhost:8081/logs';
-const BEACON_WS_ENDPOINT = 'ws://localhost:8080/logs';
-const RECONNECT_INTERVAL = 3000;
+import { BEACON_WS_ENDPOINT, VALIDATOR_WS_ENDPOINT, WS_RECONNECT_INTERVAL } from '../../core/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +15,7 @@ export class LogsService {
   ) { }
 
   validatorLogs(): Observable<MessageEvent> {
+    // Use mock data in development mode.
     if (!this.environmenter.env.production) {
       const data = mockValidatorLogs.split('\n').map((v, _) => {
         return { data: v } as MessageEvent;
@@ -33,6 +31,7 @@ export class LogsService {
   }
 
   beaconLogs(): Observable<MessageEvent> {
+    // Use mock data in development mode.
     if (!this.environmenter.env.production) {
       const data = mockBeaconLogs.split('\n').map((v, _) => {
         return { data: v } as MessageEvent;
@@ -61,7 +60,7 @@ export class LogsService {
       retryWhen(errors =>
         errors.pipe(
           tap((err) => console.error(`LogsService trying to reconnect: ${err}`)),
-          delayWhen(_ => timer(RECONNECT_INTERVAL)),
+          delayWhen(_ => timer(WS_RECONNECT_INTERVAL)),
         )
       ),
     );

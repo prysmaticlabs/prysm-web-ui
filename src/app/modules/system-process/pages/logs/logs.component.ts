@@ -5,7 +5,8 @@ import { LogsService } from '../../services/logs.service';
 
 interface LogMetrics {
   percentInfo: string;
-  percentDebug: string;
+  percentWarn: string;
+  percentError: string;
 }
 
 @Component({
@@ -20,12 +21,13 @@ export class LogsComponent implements OnInit, OnDestroy {
   validatorMessages: string[] = [];
   beaconMessages: string[] = [];
   totalInfo = 0;
-  totalDebug = 0;
   totalWarn = 0;
+  totalError = 0;
   totalLogs = 0;
   logMetrics$ = new BehaviorSubject<LogMetrics>({
     percentInfo: '0',
-    percentDebug: '0',
+    percentWarn: '0',
+    percentError: '0',
   });
 
   ngOnInit(): void {
@@ -56,17 +58,22 @@ export class LogsComponent implements OnInit, OnDestroy {
 
   private countLogMetrics(log: string): void {
     const val = this.logMetrics$.getValue();
+    if (!val || !log) {
+      return;
+    }
     if (log.indexOf('INFO') !== -1) {
       this.totalInfo++;
       this.totalLogs++;
-    } else if (log.indexOf('DEBUG') !== -1) {
-      this.totalDebug++;
+    } else if (log.indexOf('WARN') !== -1) {
+      this.totalWarn++;
       this.totalLogs++;
-    } else {
-      console.log('does not have info');
+    } else if (log.indexOf('ERROR') !== -1) {
+      this.totalError++;
+      this.totalLogs++;
     }
-    val.percentDebug = this.formatPercent(this.totalDebug);
     val.percentInfo = this.formatPercent(this.totalInfo);
+    val.percentWarn = this.formatPercent(this.totalWarn);
+    val.percentError = this.formatPercent(this.totalError);
     this.logMetrics$.next(val);
   }
 

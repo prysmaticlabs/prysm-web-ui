@@ -29,18 +29,18 @@
         </div>
         <div class="mb-6">
           <div>
-            <mat-progress-bar mode="determinate" [value]="metrics.percentDebug" color="accent"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" [value]="metrics.percentWarn" color="accent"></mat-progress-bar>
           </div>
           <div class="my-2 text-muted">
-            <small>{{metrics.percentDebug}}% Debug Logs</small>
+            <small>{{metrics.percentWarn}}% Warn Logs</small>
           </div>
         </div>
         <div class="mb-6">
           <div>
-            <mat-progress-bar mode="determinate" value="20" color="warn"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" [value]="metrics.percentError" color="warn"></mat-progress-bar>
           </div>
           <div class="my-2 text-muted">
-            <small>20% Error Logs</small>
+            <small>{{metrics.percentError}}% Error Logs</small>
           </div>
         </div>
       </mat-card>

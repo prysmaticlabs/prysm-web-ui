@@ -44,13 +44,13 @@ describe('ValidatorService', () => {
   describe('recentEpochBalances', () => {
     it('should disallow lookback > MAX_EPOCH_LOOKBACK', () => {
       const badCall = () => {
-        service.recentEpochBalances(0, MAX_EPOCH_LOOKBACK + 1);
+        service.recentEpochBalances(0, MAX_EPOCH_LOOKBACK + 1, 5);
       };
       expect(badCall).toThrowError();
     });
 
     it('should return an array of length lookback items', done => {
-      service.recentEpochBalances(MAX_EPOCH_LOOKBACK + 5, MAX_EPOCH_LOOKBACK).subscribe((result: ValidatorBalances[]) => {
+      service.recentEpochBalances(MAX_EPOCH_LOOKBACK + 5, MAX_EPOCH_LOOKBACK, 5).subscribe((result: ValidatorBalances[]) => {
         expect(result).toBeTruthy();
         expect(result.length).toEqual(5);
         expect(result[0].epoch).toEqual(0);

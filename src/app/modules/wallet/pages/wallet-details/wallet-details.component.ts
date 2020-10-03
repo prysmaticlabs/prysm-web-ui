@@ -38,7 +38,6 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
         } else {
           this.keymanagerKind = this.wallet.keymanagerKind;
         }
-        console.log(res);
       }),
       catchError((err) => {
         this.loading = false;

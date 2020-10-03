@@ -16,7 +16,7 @@
     <button
       mat-raised-button
       color="primary"
-      *ngIf="!wallet.keymanagerKind || wallet.keymanagerKind === 'DIRECT'"
+      *ngIf="!wallet.keymanagerKind || wallet.keymanagerKind === 'DIRECT' || wallet.keymanagerKind === 'DERIVED'"
       class="large-btn">
       <span class="flex items-center">
         <span class="mr-2">New Account</span>

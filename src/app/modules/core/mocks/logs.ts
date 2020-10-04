@@ -65,15 +65,14 @@ export const mockBeaconLogs = `[90m[2020-09-17 19:40:32][0m [32m INFO[0m[36m
 export const mockValidatorLogs = `[90m[2020-09-17 19:41:56][0m [34mDEBUG[0m[36m validator:[0m Set deadline for proposals and attestations [34mdeadline[0m=2020-09-17 19:42:08 -0500 CDT [34mslot[0m=320309
     mainData
     [90m[2020-09-17 19:42:20][0m [34mDEBUG[0m[36m validator:[0m Set deadline for proposals and attestations [34mdeadline[0m=2020-09-17 19:42:32 -0500 CDT [34mslot[0m=320311
-    m=0xa935cba91838 
+    m=0xa935cba91838
     [90m[2020-09-17 19:42:20][0m [34mDEBUG[0m[36m validator:[0m Set deadline for proposals and attestations [34mdeadline[0m=2020-09-17 19:42:32 -0500 CDT [34mslot[0m=320311
     m=0xa935cba91838 [32mCommitteeIndex[0m=9 [32mSlot[0m=320306 [32mSourceEpoch[0m=10008 [32mSourceRoot[0m=0x8cb42338b412 [32mTargetEpoch[0m=10009 [32mTargetRoot[0m=0x9fdf2f6f6080
-    
     [90m[2020-09-17 19:41:32][0m [34mDEBUG[0m[36m validator:[0m Set deadline for proposals and attestations [34mdeadline[0m=2020-09-17 19:41:44 -0500 CDT [34mslot[0m=320307
     [90m[2020-09-17 19:42:20][0m [34mDEBUG[0m[36m validator:[0m Set deadline for proposals and attestations [34mdeadline[0m=2020-09-17 19:42:32 -0500 CDT [34mslot[0m=320311
-    m=0xa935cba91838 
+    m=0xa935cba91838
     [90m[2020-09-17 19:42:20][0m [34mDEBUG[0m[36m validator:[0m Set deadline for proposals and attestations [34mdeadline[0m=2020-09-17 19:42:32 -0500 CDT [34mslot[0m=320311
-    m=0xa935cba91838 
+    m=0xa935cba91838
     [90m[2020-09-17 19:42:20][0m [34mDEBUG[0m[36m validator:[0m Set deadline for proposals and attestations [34mdeadline[0m=2020-09-17 19:42:32 -0500 CDT [34mslot[0m=320311
     m=0xa935cba91838 [32mCommitteeIndex[0m=9 [32mSlot[0m=320306 [32mSourceEpoch[0m=10008 [32mSourceRoot[0m=0x8cb42338b412 [32mTargetEpoch[0m=10009 [32mTargetRoot[0m=0x9fdf2f6f6080
     [90m[2020-09-17 19:41:32][0m [34mDEBUG[0m[36m validator:[0m Set deadline for proposals and attestations [34mdeadline[0m=2020-09-17 19:41:44 -0500 CDT [34mslot[0m=320307

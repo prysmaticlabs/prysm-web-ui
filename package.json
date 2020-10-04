@@ -28,6 +28,7 @@
     "@angular/platform-browser-dynamic": "~10.0.6",
     "@angular/router": "~10.0.6",
     "@types/echarts": "^4.6.5",
+    "ansi_up": "^4.0.4",
     "@types/file-saver": "^2.0.1",
     "echarts": "^4.8.0",
     "ethers": "^5.0.12",

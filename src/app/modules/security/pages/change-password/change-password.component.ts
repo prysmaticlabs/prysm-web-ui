@@ -35,6 +35,10 @@ export class ChangePasswordComponent {
   });
 
   resetPassword(): void {
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.invalid) {
+      return;
+    }
     const req: ChangePasswordRequest = {
       password: this.formGroup.controls.password.value,
       passwordConfirmation: this.formGroup.controls.passwordConfirmation.value,

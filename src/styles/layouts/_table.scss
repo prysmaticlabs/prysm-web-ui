@@ -1,0 +1,22 @@
+table.mat-table {
+  mat-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  th .mat-header-cell, td.mat-cell, td.mat-footer-cel {
+    max-width: 100px;
+    padding-left: 2px;
+    padding-right: 2px;
+
+    @media screen and (max-width: 1000px) {
+      max-width: 70px;
+    }
+  }
+}

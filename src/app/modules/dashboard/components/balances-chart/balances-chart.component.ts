@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import { SLOTS_PER_EPOCH, MILLISECONDS_PER_SLOT, GWEI_PER_ETHER } from 'src/app/modules/core/constants';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ChainHead, ValidatorBalances } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { Subject, zip } from 'rxjs';
 import { BigNumber } from 'ethers';
@@ -30,8 +30,9 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const updateData = this.updateData.bind(this);
     zip(this.beaconService.genesisTime$, this.balances$).pipe(
+      tap(([genesisTime, balances]) => updateData(genesisTime, balances)),
       takeUntil(this.destroyed$$),
-    ).subscribe(([genesisTime, balances]) => updateData(genesisTime, balances));
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
@@ -40,26 +41,26 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
   }
 
   updateData(genesisTime: number, balances: ValidatorBalances[]): void {
+    console.log(balances);
     const xAxisData = [];
     const lowest: number[] = [];
     const highest: number[] = [];
     const avgBalances: number[] = [];
 
-    const epochTimestamps: number[] = [];
-    const epochBalanceObject: object[] = [];
     for (let i = 0; i < balances.length; i++) {
-      let epoch = balances[i].epoch
-      let totalMilliseconds = epoch * MILLISECONDS_PER_SLOT * SLOTS_PER_EPOCH
-      let epochTimestamp = new Date(genesisTime*1000 + totalMilliseconds);
-      const pureBalances = balances[i].balances.map(b => BigNumber.from(b.balance));
+      const epoch = balances[i].epoch;
+      const totalMilliseconds = BigNumber.from(epoch).mul(SLOTS_PER_EPOCH).mul(MILLISECONDS_PER_SLOT);
+      const genesisTimeMilliseconds = genesisTime * 1000;
+      const millisecondsSinceGenesis = totalMilliseconds.add(genesisTimeMilliseconds);
+      const epochTimestamp = new Date(millisecondsSinceGenesis.toNumber());
 
+      const pureBalances = balances[i].balances.map(b => BigNumber.from(b.balance));
       const total = pureBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
       const avg = total.div(pureBalances.length).toNumber() / GWEI_PER_ETHER;
       const lowestBal = this.minbigNum(pureBalances).toNumber() / GWEI_PER_ETHER;
       const highestBal = this.maxBigNum(pureBalances).toNumber() / GWEI_PER_ETHER;
 
-      const formatted = moment(timeSinceGenesis).format('hh:mm:ss');
-      console.log(formatted);
+      const formatted = moment(epochTimestamp).format('hh:mm:ss');
       xAxisData.push(`epoch ${epoch} ${formatted}`);
       avgBalances.push(avg);
       lowest.push(lowestBal);
@@ -114,9 +115,9 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
         }
       },
       color: [
-        "#7467ef",
-        "#ff9e43",
-        "rgba(51, 217, 178, 1)",
+        '#7467ef',
+        '#ff9e43',
+        'rgba(51, 217, 178, 1)',
       ],
       yAxis: {
         type: 'value',

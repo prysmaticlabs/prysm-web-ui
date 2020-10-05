@@ -16,7 +16,9 @@ import {
   ValidatorPerformanceResponse,
   ValidatorQueue,
   Validators,
-  Validators_ValidatorContainer
+  Validators_ValidatorContainer,
+  ValidatorBalances,
+  ValidatorBalances_Balance,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
@@ -64,22 +66,27 @@ export const mockDepositDataJSON = [
 
 export const generateBalancesForEpoch = (url: string) => {
   const params = new URLSearchParams(url.substring(url.indexOf('?'), url.length));
-  const epoch = Number.parseInt(params.get('epoch'));
+  let epoch = '0';
+  const paramsEpoch = params.get('epoch');
+  if (paramsEpoch) {
+    epoch = paramsEpoch;
+  }
+  const bals: ValidatorBalances_Balance[] = mockPublicKeys.map((key, idx) => {
+    let bal = 32 * GWEI_PER_ETHER * Number.parseInt(epoch, 10);
+    bal = bal + (idx + 1) * 500000;
+    return {
+      publicKey: key,
+      index: idx,
+      balance: `${bal}`,
+    } as ValidatorBalances_Balance;
+  });
   return {
-    epoch: Number.parseInt(params.get('epoch')),
-    balances: mockPublicKeys.map((key, idx) => {
-      let bal = 32 * GWEI_PER_ETHER + (epoch * 1000000);
-      bal = bal + (idx+1)*500000;
-      return {
-        publicKey: key,
-        index: idx,
-        balance: `${bal}`,
-      } as ValidatorBalances_Balance
-    }),
-  };
-}
+    epoch,
+    balances: bals,
+  } as ValidatorBalances;
+};
 
-export const Mocks = {
+export const Mocks: IMocks = {
   '/v2/validator/login': {
     token: 'mock.jwt.token',
   } as AuthResponse,

@@ -305,7 +305,7 @@ export interface ValidatorBalances {
   /**
    *  Epoch which the state was considered to determine the validator balances.
    */
-  epoch: number;
+  epoch: string;
   balances: ValidatorBalances_Balance[];
   /**
    *  A pagination token returned from a previous call to `GetListValidatorBalances`

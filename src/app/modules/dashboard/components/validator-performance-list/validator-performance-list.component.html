@@ -11,8 +11,8 @@
     <tr style="display:none!important">
       <ng-container matColumnDef="publicKey">
         <th mat-header-cell *matHeaderCellDef>Public key</th>
-        <td mat-cell *matCellDef="let element">
-          {{element.publicKey | base64tohex | slice:0:20}}...
+        <td mat-cell *matCellDef="let element" class="truncate">
+          {{element.publicKey | base64tohex}}
         </td>
       </ng-container>
 

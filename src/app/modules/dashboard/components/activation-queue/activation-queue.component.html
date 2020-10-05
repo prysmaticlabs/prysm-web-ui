@@ -30,8 +30,8 @@
       {{userKeys.length}} of your keys pending activation
     </div>
     <div *ngFor="let key of (userKeys | slice:0:4)">
-      <div class="text-white text-base my-2">
-        {{((key | base64tohex) | slice:0:30)+'...'}}
+      <div class="text-white text-base my-2 truncate">
+        {{(key | base64tohex)}}
       </div>
       <div 
         class="flex" 
@@ -54,8 +54,8 @@
       {{userKeys.length}} of your keys pending exit
     </div>
     <div *ngFor="let key of (userKeys | slice:0:4)">
-      <div class="text-white text-base my-2">
-        {{((key | base64tohex) | slice:0:30)+'...'}}
+      <div class="text-white text-base my-2 truncate">
+        {{(key | base64tohex)}}
       </div>
       <div 
         class="flex" 

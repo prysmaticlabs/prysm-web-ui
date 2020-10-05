@@ -43,9 +43,9 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
   updateData(genesisTime: number, balances: ValidatorBalances[]): void {
     console.log(balances);
     const xAxisData = [];
-    const lowest: number[] = [];
-    const highest: number[] = [];
-    const avgBalances: number[] = [];
+    const lowest: BigNumber[] = [];
+    const highest: BigNumber[] = [];
+    const avgBalances: BigNumber[] = [];
 
     for (let i = 0; i < balances.length; i++) {
       const epoch = balances[i].epoch;
@@ -56,9 +56,9 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
 
       const pureBalances = balances[i].balances.map(b => BigNumber.from(b.balance));
       const total = pureBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
-      const avg = total.div(pureBalances.length).toNumber() / GWEI_PER_ETHER;
-      const lowestBal = this.minbigNum(pureBalances).toNumber() / GWEI_PER_ETHER;
-      const highestBal = this.maxBigNum(pureBalances).toNumber() / GWEI_PER_ETHER;
+      const avg = total.div(pureBalances.length);
+      const lowestBal = this.minbigNum(pureBalances);
+      const highestBal = this.maxBigNum(pureBalances);
 
       const formatted = moment(epochTimestamp).format('hh:mm:ss');
       xAxisData.push(`epoch ${epoch} ${formatted}`);
@@ -66,15 +66,30 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       lowest.push(lowestBal);
       highest.push(highestBal);
     }
-    let globalMin = Math.min(...lowest);
-    if (globalMin !== 0) {
-      globalMin -= (globalMin * 0.00002);
+
+    // Compute deltas.
+    const avgDelta: number[] = [];
+    const lowestDelta: number[] = [];
+    const highestDelta: number[] = [];
+    for (let i = 0; i < (avgBalances.length - 1); i++) {
+      const avgCurr = avgBalances[i];
+      const avgNext = avgBalances[i + 1];
+      console.log(avgNext.sub(avgCurr).toString());
+      avgDelta.push(avgNext.sub(avgCurr).toNumber() / GWEI_PER_ETHER);
+
+      const lowCurr = lowest[i];
+      const lowNext = lowest[i + 1];
+      lowestDelta.push(lowNext.sub(lowCurr).toNumber() / GWEI_PER_ETHER);
+
+      const highCurr = highest[i];
+      const highNext = highest[i + 1];
+      highestDelta.push(highNext.sub(highCurr).toNumber() / GWEI_PER_ETHER);
     }
-    const globalMinFixed = globalMin.toFixed(3);
+    const xData = xAxisData.slice(1, xAxisData.length);
 
     this.options = {
       legend: {
-        data: ['Lowest balance', 'Average balance', 'Highest balance'],
+        data: ['Lowest ETH gains', 'Average ETH gains', 'Highest ETH gains'],
         align: 'left',
         textStyle: {
           color: 'white',
@@ -102,7 +117,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
         }
       },
       xAxis: {
-        data: xAxisData,
+        data: xData,
         axisLabel: {
           color: 'white',
           fontSize: 14,
@@ -124,7 +139,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
         splitLine: {
           show: false
         },
-        min: globalMinFixed,
+        // min: globalMinFixed,
         axisLabel: {
           formatter: '{value} ETH'
         },
@@ -136,24 +151,24 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       },
       series: [
         {
-          name: 'Lowest balance',
+          name: 'Lowest ETH gains',
           type: 'bar',
           barGap: 0,
-          data: lowest,
+          data: lowestDelta,
           animationDelay: (idx: number) => idx * 10,
         },
         {
-          name: 'Average balance',
+          name: 'Average ETH gains',
           type: 'bar',
           barGap: 0,
-          data: avgBalances,
+          data: avgDelta,
           animationDelay: (idx: number) => idx * 10,
         },
         {
-          name: 'Highest balance',
+          name: 'Highest ETH gains',
           type: 'bar',
           barGap: 0,
-          data: highest,
+          data: highestDelta,
           animationDelay: (idx: number) => idx * 10,
         },
       ],

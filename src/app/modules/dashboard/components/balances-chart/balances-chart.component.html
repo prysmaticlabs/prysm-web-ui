@@ -1,10 +1,10 @@
 <div *ngIf="options">
   <mat-card class="bg-paper">
     <div class="px-2 pt-2 text-lg text-white">
-      Recent Epoch Gains
+      Recent Epoch Gains/Losses Deltas
     </div>
     <div class="px-2 pt-2 mb-4 text-base text-muted">
-      Summarizing the past 18 minutes of validating activity
+      Summarizing the past few epochs of validating activity
     </div>
     <div echarts [options]="options"></div>
   </mat-card>

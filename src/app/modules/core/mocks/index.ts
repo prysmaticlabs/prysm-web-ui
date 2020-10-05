@@ -72,8 +72,12 @@ export const generateBalancesForEpoch = (url: string) => {
     epoch = paramsEpoch;
   }
   const bals: ValidatorBalances_Balance[] = mockPublicKeys.map((key, idx) => {
-    let bal = 32 * GWEI_PER_ETHER * Number.parseInt(epoch, 10);
-    bal = bal + (idx + 1) * 500000;
+    let bal = 32 * GWEI_PER_ETHER;
+    if (idx === 0) {
+      bal -= (idx + 1) * 500000 * Number.parseInt(epoch, 10);
+    } else {
+      bal += (idx + 1) * 500000 * Number.parseInt(epoch, 10);
+    }
     return {
       publicKey: key,
       index: idx,

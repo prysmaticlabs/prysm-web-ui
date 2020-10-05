@@ -11,7 +11,7 @@ export class ErrorService {
     private snackBar: MatSnackBar,
   ) { }
 
-  handleHTTPError(err: HttpErrorResponse) {
+  handleHTTPError(err: HttpErrorResponse): void {
     let formattedError: string;
     if (err.status >= 500) {
       switch (err.status) {
@@ -19,7 +19,7 @@ export class ErrorService {
           formattedError = 'Bad gateway, cannot connect to server';
           break;
         case 503:
-          formattedError = 'Server unavailable, cannot connect to server';
+          formattedError = 'Server unavailable, perhaps node is still syncing';
           break;
         case 504:
           formattedError = 'Operation timed out, perhaps the server is down';

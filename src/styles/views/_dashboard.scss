@@ -23,23 +23,22 @@
   }
 }
 
-.logs {
-  .logs-card {
-    padding: 0;
+.mat-card.bg-black {
+  background-color: black;
+}
+
+.logs-card {
+  height: 400px;
+  line-height: 24px;
+}
+
+.wallet {
+  .mat-card.bg-primary {
+    background-color: $primary;
   }
-  .code {
-    background-color: #121212;
-    font-family: 'Source Code Pro', monospace;
-    padding: 16px 24px;
-    color: white;
-    .highlight {
-      color: #00C228;
-    }
-    .blue {
-      color: #00C5C7;
-    }
-    .gray {
-      color: #686868;
+  .wallet-kind-card {
+    img {
+      width: 230px;
     }
   }
 }
@@ -48,4 +47,105 @@
   background: url(/assets/images/dots.png), linear-gradient(90deg, $primary -19.83%, rgb(143, 133, 242) 189.85%) !important;
   background-size: 100% !important;
   background-repeat: no-repeat !important;
+}
+
+.import-accounts {
+  .mat-form-field {
+    width: 80%;
+  }
+}
+
+.create-accounts {
+  .mat-form-field {
+    width: 80%;
+  }
+  .mat-input-element {
+    color: $white;
+  }
+}
+
+.backup-img {
+  img {
+    width: 200px;
+  }
+}
+
+.import-keys-form {
+  .ngx-file-drop__drop-zone {
+    border: 4px dashed $primary !important;
+    border-radius: 0px !important;
+    height: 170px !important;
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+  .ngx-file-drop__content {
+    color: $white !important;
+    text-align: center !important;
+    display: block !important;
+    height: 170px !important;
+    img {
+      height: 50px !important;
+    }
+  }
+}
+
+.open-nav-icon {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 16px;
+  padding-right: 16px;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(116,103,239, 0.9);
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 99;
+
+  img {
+    opacity: 0;
+    animation: fadeLoopInvert 5s infinite;
+  }
+}
+
+.open-nav-icon:before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  bottom: 15px;
+  right: 15px;
+  width: 30px;
+  animation: fadeLoop 5s infinite;
+  background: linear-gradient( to bottom, white, white 20%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, white 40%, white 60%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 80%, white 80%, white 100% );
+}
+
+@keyframes fadeLoop {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeLoopInvert { 
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }

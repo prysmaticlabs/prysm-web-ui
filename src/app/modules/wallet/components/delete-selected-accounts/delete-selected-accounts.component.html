@@ -1,0 +1,63 @@
+<div mat-dialog-title *ngIf="!loading">
+  <div class="text-white font-normal text-xl">
+    Delete Selected Account(s)
+  </div>
+  <div class="mt-2 text-muted font-normal text-base leading-snug">
+    Delete selected accounts from your wallet forever, <span class="text-error">this cannot be reverted!</span> 
+  </div>
+</div>
+<div mat-dialog-title *ngIf="loading">
+  <div class="text-white font-normal text-xl">
+    Deleting Account(s)...
+  </div>
+  <div class="mt-2 text-muted font-normal text-base leading-snug">
+    Hang in there while we eliminate the selected account(s) from your wallet
+  </div>
+  <div class="my-5"></div>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<mat-dialog-content>
+  <div class="text-muted text-lg">
+    Selected {{publicKeys.length}} Accounts
+  </div>
+  <div class="my-6">
+    <mat-chip-list>
+      <mat-chip *ngFor="let pubKey of publicKeys.slice(0, 5)">
+        {{pubKey | base64tohex | slice:0:16}}...
+      </mat-chip>
+      <mat-chip *ngIf="publicKeys.length > 5">
+        ...{{publicKeys.length - 3}} more
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="mb-6 text-base text-white leading-snug">
+    Type in the words "delete selected" to confirm deletion of your account(s). <span class="text-error">This cannot be reversed!</span>
+  </div>
+  <form [formGroup]="confirmGroup">
+    <mat-form-field appearance="outline">
+      <mat-label>Confirmation Text</mat-label>
+      <input
+        matInput
+        formControlName="confirmation"
+        placeholder="Type in delete selected"
+        name="confirmation"
+        type="text"
+      />
+      <mat-error *ngIf="confirmGroup.controls.confirmation.hasError('required')">
+        Confirmation text is required
+      </mat-error>
+      <mat-error *ngIf="confirmGroup.controls.confirmation.hasError('wrongValue')">
+        Confirmation text does not match
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="start">
+  <button mat-button mat-dialog-close>Close Popup</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    name="submit"
+    [disabled]="loading"
+    (click)="deleteAccounts()">Delete Account(s)</button>
+</mat-dialog-actions>

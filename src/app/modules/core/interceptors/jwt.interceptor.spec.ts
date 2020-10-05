@@ -3,11 +3,11 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { JwtInterceptor } from './jwt.interceptor';
-import { AuthenticationService } from '../services/auth.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('JwtInterceptor', () => {
-  let authService;
+  let authService: AuthenticationService;
 
   beforeEach(() => {
     authService = jasmine.createSpyObj(['token']);

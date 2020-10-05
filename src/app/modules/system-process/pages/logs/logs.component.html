@@ -1,81 +1,49 @@
 <div class="logs m-sm-30">
   <app-breadcrumb></app-breadcrumb>
-  <div class="grid grid-cols-3 gap-8">
-    <div class="col-span-2">
-        <mat-card class="pt-20 logs-card bg-paper">
-          <div class="code rounded">
-  <span class="gray">[2020-08-08 03:56:08] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Attestation schedule attesters=1 pubKeys=[0xa0551c35fad1] slot=26088
-  <br/>
-  <span class="gray">[2020-08-08 03:56:08] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Attestation schedule attesters=2 pubKeys=[0x8e557d66788b 0x822e00ec3d8e] slot=26097
-  <br/>
-  <span class="gray">[2020-08-08 03:56:08] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Attestation schedule attesters=1 pubKeys=[0xae5155ebd98c] slot=26100
-  <br/>
-  <span class="gray">[2020-08-08 03:56:08] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Attestation schedule attesters=1 pubKeys=[0x94b8be4a66ce] slot=26101
-  <br/>
-  <span class="gray">[2020-08-08 03:56:24] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Submitted new attestations AggregatorIndices=[] AttesterIndices=[21811] BeaconBlockRoot=0xd07cdd31ef90 CommitteeIndex=3 Slot=26081 SourceEpoch=814 SourceRoot=0xd8a76ec4ec5f TargetEpoch=815 TargetRoot=0x6bb926a538d6
-  <br/>
-  <span class="gray">[2020-08-08 03:56:24] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Submitted new attestations AggregatorIndices=[] AttesterIndices=[21813] BeaconBlockRoot=0xd07cdd31ef90 CommitteeIndex=0 Slot=26081 SourceEpoch=814 SourceRoot=0xd8a76ec4ec5f TargetEpoch=815 TargetRoot=0x6bb926a538d6
-  <br/>
-  <span class="gray">[2020-08-08 03:56:52] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Submitted new attestations AggregatorIndices=[21810] AttesterIndices=[21810] BeaconBlockRoot=0x9a05cf03b664 CommitteeIndex=2 Slot=26083 SourceEpoch=814 SourceRoot=0xd8a76ec4ec5f TargetEpoch=815 TargetRoot=0x6bb926a538d6
-  <br/>
-  <span class="gray">[2020-08-08 03:57:04] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Submitted new attestations AggregatorIndices=[21810] AttesterIndices=[21810] BeaconBlockRoot=0x9a05cf03b664 CommitteeIndex=2 Slot=26083 SourceEpoch=814 SourceRoot=0xd8a76ec4ec5f TargetEpoch=815 TargetRoot=0x6bb926a538d6
-  <br/>
-  <span class="gray">[2020-08-08 03:57:16] </span>  <span class="highlight">INFO </span> <span class="blue">validator</span>: Submitted new attestations AggregatorIndices=[21810] AttesterIndices=[21810] BeaconBlockRoot=0x9a05cf03b664 CommitteeIndex=2 Slot=26083 SourceEpoch=814 SourceRoot=0xd8a76ec4ec5f TargetEpoch=815 TargetRoot=0x6bb926a538d6
-          </div>
-        </mat-card>
+  <div class="mb-8">
+    <div class="text-2xl mb-2 text-white leading-snug">
+      Your Prysm Process' Logs
     </div>
-    <div class="col-span-1 grid grid-cols-1 gap-8">
-        <mat-card class="bg-paper p-16">
-          <div class="flex items-center">
-            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-              <mat-icon>memory</mat-icon>
-            </button>
-            <div class="text-white text-xl ml-4">
-              Process Health
-            </div>
+    <p class="m-0 text-muted text-base leading-snug">
+      Stream of logs from both the beacon node and validator client
+    </p>
+  </div>
+  <div class="flex gap-x-6">
+    <div class="w-full md:w-2/3">
+      <app-logs-stream [messages]="validatorMessages" title="Validator Client"></app-logs-stream>
+      <div class="py-3"></div>
+      <app-logs-stream [messages]="beaconMessages" title="Beacon Node"></app-logs-stream>
+    </div>
+    <div class="w-full md:w-1/3">
+      <iframe src="https://discordapp.com/widget?id=476244492043812875&theme=dark" width="100%" height="350" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+      <div class="py-3"></div>
+      <mat-card class="bg-paper" *ngIf="(logMetrics$ | async) as metrics">
+        <div class="card-title mb-8 text-lg text-white">Log Percentages</div>
+        <div class="mb-6">
+          <div>
+            <mat-progress-bar mode="determinate" [value]="metrics.percentInfo" color="primary"></mat-progress-bar>
           </div>
-          <div class="pt-8 flex items-center justify-between">
-            <div className="m-0 text-muted">OK!</div>
-            <button
-              mat-button
-              raised
-              className="uppercase bg-error"
-            >
-              Stop Process
-            </button> 
+          <div class="my-2 text-muted">
+            <small>{{metrics.percentInfo}}% Info Logs</small>
           </div>
-        </mat-card>
-        
-        <mat-card class="bg-paper">
-          <div class="card-title mb-8 text-lg text-muted">Log Percentage Summary</div>
-          <div class="text-muted">Today</div>
-          <div class="pt-4"></div>
-          <div class="mb-6">
-            <div>
-              <mat-progress-bar mode="determinate" value="70" color="primary"></mat-progress-bar>
-            </div>
-            <div class="my-2 text-muted">
-              <small>70% Info Logs</small>
-            </div>
+        </div>
+        <div class="mb-6">
+          <div>
+            <mat-progress-bar mode="determinate" [value]="metrics.percentWarn" color="accent"></mat-progress-bar>
           </div>
-          <div class="mb-6">
-            <div>
-              <mat-progress-bar mode="determinate" value="10" color="accent"></mat-progress-bar>
-            </div>
-            <div class="my-2 text-muted">
-              <small>10% Warning Logs</small>
-            </div>
+          <div class="my-2 text-muted">
+            <small>{{metrics.percentWarn}}% Warn Logs</small>
           </div>
-          <div class="mb-6">
-            <div>
-              <mat-progress-bar mode="determinate" value="20" color="warn"></mat-progress-bar>
-            </div>
-            <div class="my-2 text-muted">
-              <small>20% Error Logs</small>
-            </div>
+        </div>
+        <div class="mb-6">
+          <div>
+            <mat-progress-bar mode="determinate" [value]="metrics.percentError" color="warn"></mat-progress-bar>
           </div>
-
-        </mat-card>
+          <div class="my-2 text-muted">
+            <small>{{metrics.percentError}}% Error Logs</small>
+          </div>
+        </div>
+      </mat-card>
     </div>
   </div>
 </div>

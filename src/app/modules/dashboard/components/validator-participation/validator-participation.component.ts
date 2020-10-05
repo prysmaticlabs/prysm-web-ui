@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BigNumber } from 'ethers';
 
@@ -24,12 +25,12 @@ export class ValidatorParticipationComponent {
   constructor(
     private chainService: ChainService,
   ) { }
-  participation$ = this.chainService.participation$.pipe(
+  participation$: Observable<ParticipationData> = this.chainService.participation$.pipe(
     map(this.transformParticipationData.bind(this)),
   );
   noFinalityMessage = `If participation drops below 66%, the chain cannot finalize blocks and validator balances will begin to decrease for all inactive validators at a fast rate`;
 
-  updateProgressColor(progress: number) {
+  updateProgressColor(progress: number): string {
     if (progress < 66.6) {
        return 'warn';
     } else if (progress >= 66.6 && progress < 75) {
@@ -43,6 +44,9 @@ export class ValidatorParticipationComponent {
   // IMPORTANT NOTE: votedEther and eligibleEther in the ValidatorParticipationResponse
   // fields are incorrectly named. They are actually represented in gwei.
   private transformParticipationData(res: ValidatorParticipationResponse): ParticipationData {
+    if (!res || !res.participation) {
+      return {} as ParticipationData;
+    }
     return {
       rate: (res.participation.globalParticipationRate * 100),
       epoch: res.epoch,

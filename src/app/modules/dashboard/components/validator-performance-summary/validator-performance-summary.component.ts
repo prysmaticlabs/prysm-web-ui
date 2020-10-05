@@ -29,7 +29,11 @@ export class ValidatorPerformanceSummaryComponent {
     private validatorService: ValidatorService,
     private walletService: WalletService,
     private beaconNodeService: BeaconNodeService,
-  ) { }
+  ) {}
+
+  loading = true;
+  hasError = false;
+  noData = false;
 
   tooltips = {
     effectiveBalance: 'Describes your average validator balance across your active validating keys',
@@ -48,12 +52,11 @@ export class ValidatorPerformanceSummaryComponent {
     shareReplay(1),
   );
   connectedPeers$ = this.peers$.pipe(
-    map(peers => peers.filter(p => p.connectionState.toString() === 'CONNECTED')), 
+    map(peers => peers.filter(p => p.connectionState.toString() === 'CONNECTED')),
   );
   performanceData$: Observable<PerformanceData> = this.validatorService.performance$.pipe(
     map(this.transformPerformanceData.bind(this)),
   );
-
 
   private transformPerformanceData(perf: ValidatorPerformanceResponse): PerformanceData {
     const recentEpochGains = this.computeEpochGains(
@@ -62,14 +65,18 @@ export class ValidatorPerformanceSummaryComponent {
     const averageEffectiveBalance = this.computeAverageEffectiveBalance(
       perf.currentEffectiveBalances
     );
-    const votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length / 
-      perf.correctlyVotedHead.length;
+    const totalVotedHead = perf.correctlyVotedHead.filter(Boolean).length;
+    let votedHeadPercentage = 0;
+    if (totalVotedHead) {
+      votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length /
+        perf.correctlyVotedHead.length;
+    }
 
     const averageInclusionDistance = perf.inclusionDistances.reduce((prev, curr) => {
       if (curr.toString() === FAR_FUTURE_EPOCH) {
         return prev;
       }
-      return prev + Number.parseInt(curr.toString());
+      return prev + Number.parseInt(curr, 10);
     }, 0) / perf.inclusionDistances.length;
     let overallScore;
     if (votedHeadPercentage === 1) {
@@ -78,9 +85,12 @@ export class ValidatorPerformanceSummaryComponent {
       overallScore = 'Great';
     } else if (votedHeadPercentage >= 0.80) {
       overallScore = 'Good';
+    } else if (votedHeadPercentage === 0) {
+      overallScore = 'N/A';
     } else {
       overallScore = 'Poor';
     }
+    this.loading = false;
     return {
       averageEffectiveBalance,
       averageInclusionDistance,
@@ -93,19 +103,25 @@ export class ValidatorPerformanceSummaryComponent {
   private computeAverageEffectiveBalance(balances: string[]): number {
     const effBalances = balances.map(num => BigNumber.from(num));
     const total = effBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
+    if (total.eq(BigNumber.from('0'))) {
+      return 0;
+    }
     return total.div(BigNumber.from(balances.length)).div(GWEI_PER_ETHER).toNumber();
   }
 
   private computeEpochGains(pre: string[], post: string[]): number {
     const beforeTransition = pre.map(num => BigNumber.from(num));
     const afterTransition = post.map(num => BigNumber.from(num));
-    if (beforeTransition.length != afterTransition.length) {
+    if (beforeTransition.length !== afterTransition.length) {
       throw new Error('Number of balances before and after epoch transition are different');
     }
     const diffInEth = afterTransition.map((num: BigNumber, idx: number) => {
       return num.sub(beforeTransition[idx]);
-    })
+    });
     const gainsInGwei = diffInEth.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
+    if (gainsInGwei.eq(BigNumber.from('0'))) {
+      return 0;
+    }
     return gainsInGwei.toNumber() / GWEI_PER_ETHER;
   }
 }

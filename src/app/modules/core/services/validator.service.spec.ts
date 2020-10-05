@@ -9,13 +9,13 @@ import { WalletService } from './wallet.service';
 import { of } from 'rxjs';
 import { ValidatorBalances, ValidatorBalances_Balance } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { hexToBase64 } from '../utils/hex-util';
+import { Account, ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('ValidatorService', () => {
   let service: ValidatorService;
   let beaconNodeService: BeaconNodeService = MockService(BeaconNodeService);
   let walletService: WalletService = MockService(WalletService);
   (beaconNodeService as any)['nodeEndpoint$'] = of('endpoint');
-  (walletService as any)['validatingPublicKeys$'] = of([] as Uint8Array[]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,9 +27,12 @@ describe('ValidatorService', () => {
         { provide: WalletService, useValue: walletService },
       ]
     });
-    service = TestBed.get(ValidatorService);
-    beaconNodeService = TestBed.get(BeaconNodeService);
-    walletService = TestBed.get(WalletService);
+    service = TestBed.inject(ValidatorService);
+    beaconNodeService = TestBed.inject(BeaconNodeService);
+    walletService = TestBed.inject(WalletService);
+    spyOn(walletService, 'accounts').and.returnValue(of({
+      accounts: [] as Account[],
+    } as ListAccountsResponse));
     spyOn(service, 'balancesByEpoch').and.returnValue(of({
       epoch: 0,
       balances: [
@@ -44,13 +47,13 @@ describe('ValidatorService', () => {
   describe('recentEpochBalances', () => {
     it('should disallow lookback > MAX_EPOCH_LOOKBACK', () => {
       const badCall = () => {
-        service.recentEpochBalances(0, MAX_EPOCH_LOOKBACK+1);
+        service.recentEpochBalances(0, MAX_EPOCH_LOOKBACK + 1, 5);
       };
       expect(badCall).toThrowError();
     });
 
     it('should return an array of length lookback items', done => {
-      service.recentEpochBalances(MAX_EPOCH_LOOKBACK+5, MAX_EPOCH_LOOKBACK).subscribe((result: ValidatorBalances[]) => {
+      service.recentEpochBalances(MAX_EPOCH_LOOKBACK + 5, MAX_EPOCH_LOOKBACK, 5).subscribe((result: ValidatorBalances[]) => {
         expect(result).toBeTruthy();
         expect(result.length).toEqual(10);
         expect(result[0].epoch).toEqual(0);

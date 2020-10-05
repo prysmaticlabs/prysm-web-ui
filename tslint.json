@@ -15,6 +15,7 @@
     },
     "component-class-suffix": true,
     "contextual-lifecycle": true,
+    "class-name": false,
     "directive-class-suffix": true,
     "directive-selector": [
       true,
@@ -70,8 +71,10 @@
     ],
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
+    "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
+    "prefer-for-of": false,
     "object-literal-key-quotes": [
       true,
       "as-needed"

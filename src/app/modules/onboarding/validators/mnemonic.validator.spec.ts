@@ -6,7 +6,7 @@ import { WalletService } from '../../core/services/wallet.service';
 import { MnemonicValidator } from './mnemonic.validator';
 
 describe('MnemonicValidator', () => {
-  let walletService: jasmine.SpyObj<WalletService>;
+  let walletService: WalletService;
   const spy = jasmine.createSpyObj('WalletService', ['generateMnemonic$']);
 
   beforeEach(() => {
@@ -15,13 +15,13 @@ describe('MnemonicValidator', () => {
           { provide: WalletService, useValue: spy },
         ]
     });
-    walletService = TestBed.get(WalletService);
+    walletService = TestBed.inject(WalletService);
   });
 
   describe('Proper formatting', () => {
     it('should error if user input does not have the right word count', () => {
       const mnemonic = 'fish zebra someone';
-      let validator = new MnemonicValidator(walletService);
+      const validator = new MnemonicValidator(walletService);
       const validationFunc = validator.properFormatting;
       const formControl = {
         value: mnemonic,
@@ -31,7 +31,7 @@ describe('MnemonicValidator', () => {
 
     it('proper word count, it should not error if there are extraneous spaces', () => {
       const mnemonic = ' grape harvest     method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra ';
-      let validator = new MnemonicValidator(walletService);
+      const validator = new MnemonicValidator(walletService);
       const validationFunc = validator.properFormatting;
       const formControl = {
         value: mnemonic,
@@ -42,7 +42,7 @@ describe('MnemonicValidator', () => {
 
   describe('Matching mnemonics', () => {
     it('should error if user input does not match value from service', done => {
-      let validator = new MnemonicValidator(walletService);
+      const validator = new MnemonicValidator(walletService);
       walletService.generateMnemonic$ = of('hello foo');
       const validationFunc = validator.matchingMnemonic();
       const formControl = {
@@ -59,7 +59,7 @@ describe('MnemonicValidator', () => {
     });
 
     it('should not error if user input is empty', done => {
-      let validator = new MnemonicValidator(walletService);
+      const validator = new MnemonicValidator(walletService);
       walletService.generateMnemonic$ = of('hello foo');
       const validationFunc = validator.matchingMnemonic();
       const formControl = {
@@ -76,7 +76,7 @@ describe('MnemonicValidator', () => {
     });
 
     it('should pass validation if user input matches value from service', done => {
-      let validator = new MnemonicValidator(walletService);
+      const validator = new MnemonicValidator(walletService);
       walletService.generateMnemonic$ = of('hello foo');
       const validationFunc = validator.matchingMnemonic();
       const formControl = {

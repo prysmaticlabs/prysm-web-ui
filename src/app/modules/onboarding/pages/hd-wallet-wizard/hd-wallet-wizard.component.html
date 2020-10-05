@@ -17,7 +17,7 @@
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">
@@ -28,7 +28,9 @@
               </div>
             </mat-step>
             <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
-              <app-generate-accounts [formGroup]="accountsFormGroup"></app-generate-accounts>
+              <app-create-accounts-form [formGroup]="accountsFormGroup"
+              title="Generate new validator accounts"
+              subtitle="Enter the number of new validator accounts you want to generate. This will generate validating keys from the 24 word mnemonic. Using the mnemonic, you can always recover all your validating keys andwithdrawal keys anytime."></app-create-accounts-form>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.GenerateAccounts)">Continue</button></span>
@@ -47,10 +49,23 @@
                 </div>
               </div>
               <div *ngIf="!loading">
-                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <app-wallet-password-form
+                  title="Pick a strong wallet password"
+                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  label="Wallet password"
+                  confirmationLabel="Confirm wallet password"
+                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>
+                  <span class="ml-4">
+                    <button
+                      color="primary"
+                      mat-raised-button
+                      (click)="createWallet($event)"
+                      [disabled]="passwordFormGroup.invalid">
+                      Create Wallet
+                    </button>
+                  </span>
                 </div>
               </div>
             </mat-step>
@@ -62,7 +77,7 @@
               <app-generate-mnemonic></app-generate-mnemonic>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="mnemonicFormGroup" label="Confirm Mnemonic">
@@ -73,7 +88,9 @@
               </div>
             </mat-step>
             <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
-              <app-generate-accounts [formGroup]="accountsFormGroup"></app-generate-accounts>
+              <app-create-accounts-form [formGroup]="accountsFormGroup"
+              title="Generate new validator accounts"
+              subtitle="Enter the number of new validator accounts you want to generate. This will generate validating keys from the 24 word mnemonic. Using the mnemonic, you can always recover all your validating keys andwithdrawal keys anytime."></app-create-accounts-form>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.GenerateAccounts)">Continue</button></span>
@@ -92,10 +109,23 @@
                 </div>
               </div>
               <div *ngIf="!loading">
-                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <app-wallet-password-form
+                  title="Pick a strong wallet password"
+                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  label="Wallet password"
+                  confirmationLabel="Confirm wallet password"
+                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Create Wallet</button></span>
+                  <span class="ml-4">
+                    <button
+                      color="primary"
+                      mat-raised-button
+                      (click)="createWallet($event)"
+                      [disabled]="passwordFormGroup.invalid">
+                      Create Wallet
+                    </button>
+                  </span>
                 </div>
               </div>
             </mat-step>

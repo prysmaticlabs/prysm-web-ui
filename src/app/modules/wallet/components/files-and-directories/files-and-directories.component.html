@@ -1,0 +1,37 @@
+<mat-card>
+  <div class="grid grid-cols-1 gap-y-6">
+    <div>
+      <div class="flex justify-between">
+        <div class="text-white uppercase">Wallet Directory</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+          help_outline
+        </mat-icon>
+      </div>
+      <div class="text-primary text-base mt-2">
+        {{wallet?.walletPath}}
+      </div>
+    </div>
+    <div *ngIf="wallet?.keymanagerKind === 'DIRECT'">
+      <div class="flex justify-between">
+        <div class="text-white uppercase">Accounts Keystore File</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+          help_outline
+        </mat-icon>
+      </div>
+      <div class="text-primary text-base mt-2">
+        {{wallet?.walletPath}}/direct/all-accounts.keystore.json
+      </div>
+    </div>
+    <div *ngIf="wallet?.keymanagerKind === 'DERIVED'">
+      <div class="flex justify-between">
+        <div class="text-white uppercase">Encrypted Seed File</div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+          help_outline
+        </mat-icon>
+      </div>
+      <div class="text-primary text-base mt-2">
+        {{wallet?.walletPath}}/derived/seed.encrypted.json
+      </div>
+    </div>
+  </div>
+</mat-card>

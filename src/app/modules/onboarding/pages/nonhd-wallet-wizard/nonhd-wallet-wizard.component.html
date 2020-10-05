@@ -25,11 +25,11 @@
               </div>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="importFormGroup" label="Import Keys">
-              <app-import-accounts [formGroup]="importFormGroup"></app-import-accounts>
+              <app-import-accounts-form [formGroup]="importFormGroup"></app-import-accounts-form>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ImportAccounts)">Continue</button></span>
@@ -55,10 +55,22 @@
                 </div>
               </div>
               <div *ngIf="!loading">
-                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <app-wallet-password-form
+                  title="Pick a strong wallet password"
+                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  label="Wallet password"
+                  confirmationLabel="Confirm wallet password"
+                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-4">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Continue</button></span>
+                  <span class="ml-4">
+                    <button color="primary"
+                      mat-raised-button
+                      (click)="createWallet($event)"
+                      [disabled]="passwordFormGroup.invalid">
+                      Continue
+                    </button>
+                  </span>
                 </div>
               </div>
             </mat-step>
@@ -78,11 +90,11 @@
               </div>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>  
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="importFormGroup" label="Import Keys">
-              <app-import-accounts [formGroup]="importFormGroup"></app-import-accounts>
+              <app-import-accounts-form [formGroup]="importFormGroup"></app-import-accounts-form>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ImportAccounts)">Continue</button></span>
@@ -108,10 +120,22 @@
                 </div>
               </div>
               <div *ngIf="!loading">
-                <app-choose-wallet-password [formGroup]="passwordFormGroup"></app-choose-wallet-password>
+                <app-wallet-password-form
+                  title="Pick a strong wallet password"
+                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  label="Wallet password"
+                  confirmationLabel="Confirm wallet password"
+                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
                 <div class="mt-4">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="createWallet($event)">Continue</button></span>
+                  <span class="ml-4">
+                    <button color="primary"
+                      mat-raised-button
+                      (click)="createWallet($event)"
+                      [disabled]="passwordFormGroup.invalid">
+                      Continue
+                    </button>
+                  </span>
                 </div>
               </div>
             </mat-step>

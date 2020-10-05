@@ -23,7 +23,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
 
   balances$ = this.beaconService.chainHead$.pipe(
     switchMap((head: ChainHead) =>
-      this.validatorService.recentEpochBalances(head.headEpoch, 4 /* lookback */)
+      this.validatorService.recentEpochBalances(head.headEpoch, 4 /* lookback */, 3)
     ),
   );
 
@@ -45,14 +45,13 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
     const highest: number[] = [];
     const avgBalances: number[] = [];
 
-    const epochTimestamps: number[] = [];    
-    const epochBalanceObject: object[] = [];    
+    const epochTimestamps: number[] = [];
+    const epochBalanceObject: object[] = [];
     for (let i = 0; i < balances.length; i++) {
       let epoch = balances[i].epoch
       let totalMilliseconds = epoch * MILLISECONDS_PER_SLOT * SLOTS_PER_EPOCH
       let epochTimestamp = new Date(genesisTime*1000 + totalMilliseconds);
       const pureBalances = balances[i].balances.map(b => BigNumber.from(b.balance));
-      pur
 
       const total = pureBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
       const avg = total.div(pureBalances.length).toNumber() / GWEI_PER_ETHER;
@@ -71,7 +70,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
       globalMin -= (globalMin * 0.00002);
     }
     const globalMinFixed = globalMin.toFixed(3);
- 
+
     this.options = {
       legend: {
         data: ['Lowest balance', 'Average balance', 'Highest balance'],

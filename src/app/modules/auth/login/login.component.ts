@@ -6,17 +6,17 @@ import { takeUntil, tap, catchError } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
 
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
-import { AuthenticationService } from '../../core/services/auth.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  submitted: boolean;
   loginForm: FormGroup;
-  returnUrl: string;
+  returnUrl = '';
   loading = false;
+  submitted = false;
   destroyed$ = new Subject();
   private passwordValidator = new PasswordValidator();
 
@@ -50,10 +50,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.submitted = true;
-    if (this.loginForm.controls.password.errors) {
+    this.loginForm.markAllAsTouched();
+    if (this.loginForm.invalid) {
       return;
     }
-    const password = this.loginForm.get('password').value as string;
+    const password = this.loginForm.get('password')?.value as string;
     this.loading = true;
     this.authService.login(password).pipe(
       tap(() => {

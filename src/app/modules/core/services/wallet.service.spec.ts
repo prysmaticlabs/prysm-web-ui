@@ -2,9 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { WalletService } from './wallet.service';
 import {
-  GenerateMnemonicResponse, 
-  WalletResponse, 
-  CreateWalletRequest_KeymanagerKind, 
+  GenerateMnemonicResponse,
+  WalletResponse,
   CreateWalletRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import { EnvironmenterService } from './environmenter.service';
@@ -23,9 +22,9 @@ describe('WalletService', () => {
           { provide: EnvironmenterService, useValue: serviceSpy },
         ]
     });
-    service = TestBed.get(WalletService);
-    environmenter = TestBed.get(EnvironmenterService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.inject(WalletService);
+    environmenter = TestBed.inject(EnvironmenterService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -38,7 +37,7 @@ describe('WalletService', () => {
         mnemonic: 'hello fish'
       };
       // We trigger two separate subscriptions and ensure only a single
-      // http request is sent below. 
+      // http request is sent below.
       service.generateMnemonic$.subscribe(resp => {
         // Check the mnemonic in the response.
         expect(resp).toEqual(mockResponse.mnemonic);
@@ -60,12 +59,12 @@ describe('WalletService', () => {
         walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
       } as WalletResponse;
       const request = {
-        keymanager: CreateWalletRequest_KeymanagerKind.DERIVED,
+        keymanager: 'DERIVED',
         walletPassword: 'password',
         numAccounts: 4,
       } as CreateWalletRequest;
       // We trigger two separate subscriptions and ensure only a single
-      // http request is sent below. 
+      // http request is sent below.
       service.createWallet(request).subscribe(resp => {
         // Check the mnemonic in the response.
         expect(resp).toEqual(mockResponse);

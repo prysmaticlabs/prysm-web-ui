@@ -1,0 +1,38 @@
+<app-breadcrumb></app-breadcrumb>
+<div class="md:w-2/3">
+  <mat-card class="bg-paper">
+    <div class="">
+      <mat-horizontal-stepper linear #stepper>
+        <mat-step label="Create Accounts">
+          <app-create-accounts-form [formGroup]="accountsFormGroup"></app-create-accounts-form>
+          <div class="mt-4">
+            <a routerLink="/dashboard/wallet/accounts">
+              <button color="accent" mat-raised-button>Back to Accounts</button>
+            </a>
+            <span class="mx-3"></span>
+            <button color="primary" mat-raised-button (click)="createAccounts()">Continue</button>
+          </div>
+        </mat-step>
+        <mat-step label="Deposit Data">
+          <div class="text-white text-xl mt-4">
+            Your Deposit Data
+          </div>
+          <div class="my-4 text-hint text-lg leading-snug">
+            Copy or download your deposit_data.json file which you can use to deposit all your newly created accounts into
+            the official eth2 launchpad
+          </div>
+          <div class="bg-black rounded p-4 text-success text-base">
+            <div [innerHTML]="depositData | prettyjson" class="overflow-auto"></div>
+          </div>
+          <div class="mt-6">
+            <a [href]="generateDownloadJSONUri(depositData)" [download]="depositDataFileName">
+              <button color="accent" mat-raised-button>Download JSON File</button>
+            </a>
+            <span class="mx-3"></span>
+            <button color="primary" mat-raised-button (click)="copy(depositData)">Copy to Clipboard</button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </mat-card>
+</div>

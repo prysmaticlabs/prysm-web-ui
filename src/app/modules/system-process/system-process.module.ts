@@ -10,6 +10,8 @@ import { BalancesChartComponent } from './components/balances-chart/balances-cha
 import { ProposedMissedChartComponent } from './components/proposed-missed-chart/proposed-missed-chart.component';
 import { DoubleBarChartComponent } from './components/double-bar-chart/double-bar-chart.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { LogsStreamComponent } from './components/logs-stream/logs-stream.component';
+import { LogsService } from './services/logs.service';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,10 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
     ProposedMissedChartComponent,
     DoubleBarChartComponent,
     PieChartComponent,
+    LogsStreamComponent,
+  ],
+  providers: [
+    LogsService,
   ],
   imports: [
     CommonModule,

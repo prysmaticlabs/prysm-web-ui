@@ -7,11 +7,11 @@ import { MatStepper } from '@angular/material/stepper';
 import { tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
-import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
+import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
-import { CreateWalletRequest, CreateWalletRequest_KeymanagerKind } from 'src/app/proto/validator/accounts/v2/web_api';
+import { CreateWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
 enum WizardState {
   Overview,
@@ -19,12 +19,14 @@ enum WizardState {
   GenerateAccounts,
 }
 
+type voidFunc = () => void;
+
 @Component({
   selector: 'app-hd-wallet-wizard',
   templateUrl: './hd-wallet-wizard.component.html',
 })
 export class HdWalletWizardComponent implements OnInit, OnDestroy {
-  @Input() resetOnboarding: () => void;
+  @Input() resetOnboarding: voidFunc | null = null;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -35,22 +37,50 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   ) {}
 
   // Properties.
-  states = WizardState
+  private passwordValidator = new PasswordValidator();
+  states = WizardState;
   isSmallScreen = false;
   loading = false;
-  mnemonicFormGroup: FormGroup;
-  accountsFormGroup: FormGroup;
-  passwordFormGroup: FormGroup;
-  private passwordValidator = new PasswordValidator();
+  mnemonicFormGroup = this.formBuilder.group({
+    mnemonic: new FormControl('',
+      // Synchronous validators.
+      [
+        Validators.required,
+        this.mnemonicValidator.properFormatting,
+      ],
+      // Asynchronous validator to check if the mnemonic
+      // matches the generated mnemonic from the wallet service.
+      [this.mnemonicValidator.matchingMnemonic()]
+    ),
+  });
+  accountsFormGroup = this.formBuilder.group({
+    numAccounts: new FormControl('', [
+      Validators.required,
+      Validators.min(0),
+    ]),
+  });
+  passwordFormGroup = this.formBuilder.group({
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
+    passwordConfirmation: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
+  }, {
+    validators: this.passwordValidator.matchingPasswordConfirmation,
+  });
 
   // View children.
-  @ViewChild('stepper') stepper: MatStepper;
+  @ViewChild('stepper') stepper?: MatStepper;
 
   // Observables and subjects.
   destroyed$ = new Subject();
 
   ngOnInit(): void {
-    this.registerFormGroups();
     this.registerBreakpointObserver();
   }
 
@@ -59,42 +89,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  registerFormGroups() {
-    this.mnemonicFormGroup = this.formBuilder.group({
-      mnemonic: new FormControl('',
-        // Synchronous validators.
-        [
-          Validators.required,
-          this.mnemonicValidator.properFormatting,
-        ],
-        // Asynchronous validator to check if the mnemonic
-        // matches the generated mnemonic from the wallet service.
-        [this.mnemonicValidator.matchingMnemonic()]
-      ),
-    });
-    this.accountsFormGroup = this.formBuilder.group({
-      numAccounts: new FormControl('', [
-        Validators.required,
-        Validators.min(0),
-      ]),
-    });
-    this.passwordFormGroup = this.formBuilder.group({
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        this.passwordValidator.strongPassword,
-      ]),
-      passwordConfirmation: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        this.passwordValidator.strongPassword,
-      ]),
-    }, {
-      validators: this.passwordValidator.matchingPasswordConfirmation,
-    });
-  }
-
-  registerBreakpointObserver() {
+  registerBreakpointObserver(): void {
     this.breakpointObserver.observe([
       Breakpoints.XSmall,
       Breakpoints.Small
@@ -106,7 +101,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  nextStep(event: Event, state: WizardState) {
+  nextStep(event: Event, state: WizardState): void {
     event.stopPropagation();
     switch (state) {
       case WizardState.ConfirmMnemonic:
@@ -116,16 +111,13 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
         this.accountsFormGroup.markAllAsTouched();
         break;
     }
-    this.stepper.next();
+    this.stepper?.next();
   }
 
   createWallet(event: Event): void {
     event.stopPropagation();
-    if (this.passwordFormGroup.invalid) {
-      return;
-    }
     const request = {
-      keymanager: CreateWalletRequest_KeymanagerKind.DERIVED,
+      keymanager: 'DERIVED',
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
@@ -133,9 +125,9 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.walletService.createWallet(request).pipe(
+    this.authService.signup(request.walletPassword).pipe(
       switchMap(() => {
-        return this.authService.signup(request.walletPassword).pipe(
+        return this.walletService.createWallet(request).pipe(
           tap(() => {
             this.router.navigate(['/dashboard/gains-and-losses']);
           }),

@@ -7,7 +7,7 @@ import { Overlay } from '@angular/cdk/overlay';
 
 import { LoginComponent } from './login.component';
 import { SharedModule } from '../../shared/shared.module';
-import { AuthenticationService } from '../../core/services/auth.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -45,7 +45,7 @@ describe('LoginComponent', () => {
 
   it('should render input elements', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const passwordInput = compiled.querySelector('input[name="password"]');
+    const passwordInput = compiled.querySelector(`input[name='password']`);
     expect(passwordInput).toBeTruthy();
   });
 
@@ -56,28 +56,24 @@ describe('LoginComponent', () => {
 
   it('should test form invalidity for password', () => {
     const form = component.loginForm;
-    const passwordInput = fixture.nativeElement.querySelector('input[name="password"]');
-    const submitButton = fixture.nativeElement.querySelector('button[name="submit"]');
+    const passwordInput = fixture.nativeElement.querySelector(`input[name='password']`);
 
     passwordInput.value = '1234';
     passwordInput.dispatchEvent(new Event('input'));
-    submitButton.click();
+    component.loginForm.markAllAsTouched();
     fixture.detectChanges();
     expect(passwordInput.value).toContain('1234');
     expect(form.valid).toBeFalsy();
-
-    const invalidPasswordText = fixture.nativeElement.querySelector('div[name="passwordReq"]');
-    expect(invalidPasswordText).toBeTruthy();
   });
 
   it('should not show warnings on an empty form on start', () => {
-    const reqPasswordText = fixture.nativeElement.querySelector('div[name="passwordReq"]');
+    const reqPasswordText = fixture.nativeElement.querySelector(`div[name='passwordReq']`);
     expect(reqPasswordText).toBeFalsy();
   });
 
   it('should show required warnings after click', () => {
-    const reqPasswordText = fixture.nativeElement.querySelector('div[name="passwordReq"]');
-    const submitButton = fixture.nativeElement.querySelector('button[name="submit"]');
+    const reqPasswordText = fixture.nativeElement.querySelector(`div[name='passwordReq']`);
+    const submitButton = fixture.nativeElement.querySelector(`button[name='submit']`);
     submitButton.click();
     fixture.detectChanges();
     expect(reqPasswordText).toBeFalsy();

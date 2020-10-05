@@ -98,7 +98,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
-  overflow: hidden;
   position: relative;
   color: $white;
 }
@@ -132,6 +131,47 @@ button:focus {
   padding: 12px !important;
 }
 
+mat-sidenav {
+  width: 280px;
+}
+
+.mat-drawer-side {
+  border: none;
+}
+
 mat-cell, mat-header-cell, mat-footer-cell {
   justify-content: center;
+}
+
+.icon-select div.mat-select-arrow-wrapper {
+  display: none;
+}
+
+.icon-select.mat-select {
+  display: inline;
+}
+
+.mat-option.text-error {
+  color: #e95455;
+}
+
+.mat-expansion-panel {
+  background-color: $paper;
+}
+
+.mat-stepper-horizontal {
+  background-color: transparent !important;
+}
+.mat-stepper-vertical {
+  background-color: transparent !important;
+}
+
+.mat-dialog-container {
+  background-color: $paper !important;
+  .mat-form-field {
+    width: 80%;
+  }
+  .mat-dialog-actions {
+    padding: 20px 0px !important;
+  }
 }

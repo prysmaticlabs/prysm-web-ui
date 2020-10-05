@@ -1,0 +1,27 @@
+<div class="flex items-center" *ngIf="(walletConfig$ | async) as wallet">
+  <a routerLink="/dashboard/wallet/import">
+    <button
+      mat-raised-button
+      color="accent"
+      *ngIf="wallet.keymanagerKind === 'DIRECT'"
+      class="large-btn">
+      <span class="flex items-center">
+        <span class="mr-2">Import</span>
+        <mat-icon>cloud_upload</mat-icon>
+      </span>
+    </button>
+  </a>
+  <div class="mx-2" *ngIf="wallet.keymanagerKind === 'DIRECT'"></div>
+  <a routerLink="/dashboard/wallet/accounts/create">
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="!wallet.keymanagerKind || wallet.keymanagerKind === 'DIRECT' || wallet.keymanagerKind === 'DERIVED'"
+      class="large-btn">
+      <span class="flex items-center">
+        <span class="mr-2">New Account</span>
+        <mat-icon>add</mat-icon>
+      </span>
+    </button>
+  </a>
+</div>

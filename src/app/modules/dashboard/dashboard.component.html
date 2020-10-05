@@ -1,9 +1,12 @@
-<div class="bg-default layout sidenav-full theme-dark flex">
-  <div class="hidden md:block md:w-1/6">
+<mat-sidenav-container class="bg-default" [class.isSmallScreen]="isSmallScreen" [class.smallHidden]="isSmallScreen">
+  <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'" [opened]="isOpened" [fixedInViewport]="!isSmallScreen" (openedChange)="openChanged($event)">
     <app-sidebar [links]="links"></app-sidebar>
-  </div>
-  <div class="w-full md:w-5/6 overflow-y-auto">
-    <div class="pt-6 px-12 pb-10">
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="open-nav-icon" *ngIf="isSmallScreen && !isOpened" (click)="openNavigation()">
+      <img src="https://prysmaticlabs.com/assets/Prysm.svg" alt="company-logo">
+    </div>
+    <div class="pt-6 px-12 pb-10 bg-default min-h-screen">
       <router-outlet></router-outlet>
     </div>
     <div class="footer bottom-0 w-full flex justify-between items-center bg-paper px-8">
@@ -14,5 +17,5 @@
       </a>
       <div class="text-muted">2020 Prysmatic Labs</div>
     </div>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

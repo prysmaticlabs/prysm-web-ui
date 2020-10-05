@@ -14,9 +14,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 describe('ValidatorPerformanceSummaryComponent', () => {
   let component: ValidatorPerformanceSummaryComponent;
   let fixture: ComponentFixture<ValidatorPerformanceSummaryComponent>;
-  let service: ValidatorService = MockService(ValidatorService);
-  let walletService: WalletService = MockService(WalletService);
-  let beaconNodeService: BeaconNodeService = MockService(BeaconNodeService);
+  const service: ValidatorService = MockService(ValidatorService);
+  const walletService: WalletService = MockService(WalletService);
+  const beaconNodeService: BeaconNodeService = MockService(BeaconNodeService);
 
   let transformedData: PerformanceData;
   const defaultPerformanceData = {
@@ -55,6 +55,7 @@ describe('ValidatorPerformanceSummaryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ValidatorPerformanceSummaryComponent);
     component = fixture.componentInstance;
+    component.loading = false;
     fixture.detectChanges();
     transformedData = (component as any).transformPerformanceData(defaultPerformanceData);
   });

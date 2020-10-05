@@ -14,7 +14,7 @@ import {
 import { hexToBase64 } from '../utils/hex-util';
 import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
-export const MAX_EPOCH_LOOKBACK = 5;
+export const MAX_EPOCH_LOOKBACK = 10;
 
 @Injectable({
   providedIn: 'root',

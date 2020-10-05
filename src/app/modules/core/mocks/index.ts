@@ -11,16 +11,19 @@ import {
   DeleteAccountsResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
-  ValidatorBalances,
   ChainHead,
   ValidatorParticipationResponse,
   ValidatorPerformanceResponse,
   ValidatorQueue,
   Validators,
-  Validators_ValidatorContainer
+  Validators_ValidatorContainer,
+  ValidatorBalances,
+  ValidatorBalances_Balance,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
+import { GWEI_PER_ETHER } from '../constants';
+
 import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
 
 export interface IMocks {
@@ -60,6 +63,32 @@ export const mockDepositDataJSON = [
     forkVersion: '00000001'
   },
 ];
+
+export const generateBalancesForEpoch = (url: string) => {
+  const params = new URLSearchParams(url.substring(url.indexOf('?'), url.length));
+  let epoch = '0';
+  const paramsEpoch = params.get('epoch');
+  if (paramsEpoch) {
+    epoch = paramsEpoch;
+  }
+  const bals: ValidatorBalances_Balance[] = mockPublicKeys.map((key, idx) => {
+    let bal = 32 * GWEI_PER_ETHER;
+    if (idx === 0) {
+      bal -= (idx + 1) * 500000 * Number.parseInt(epoch, 10);
+    } else {
+      bal += (idx + 1) * 500000 * Number.parseInt(epoch, 10);
+    }
+    return {
+      publicKey: key,
+      index: idx,
+      balance: `${bal}`,
+    } as ValidatorBalances_Balance;
+  });
+  return {
+    epoch,
+    balances: bals,
+  } as ValidatorBalances;
+};
 
 export const Mocks: IMocks = {
   '/v2/validator/login': {
@@ -122,17 +151,6 @@ export const Mocks: IMocks = {
       } as Account,
     ],
   } as ListAccountsResponse,
-  '/eth/v1alpha1/validators/balances': {
-    epoch: 7119,
-    balances: mockPublicKeys.map((key, idx) => {
-      return {
-        publicKey: key,
-        index: idx,
-        balance: '31200823019',
-      };
-    }),
-    totalSize: mockPublicKeys.length,
-  } as ValidatorBalances,
   '/eth/v1alpha1/beacon/chainhead': {
     headSlot: 1024,
     headEpoch: 32,

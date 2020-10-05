@@ -8,6 +8,9 @@ import { Subject, zip } from 'rxjs';
 import { BigNumber } from 'ethers';
 import * as moment from 'moment';
 
+const EPOCH_LOOKBACK = 4;
+const NUM_ACCOUNTS = 10;
+
 @Component({
   selector: 'app-balances-chart',
   templateUrl: './balances-chart.component.html',
@@ -23,7 +26,7 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
 
   balances$ = this.beaconService.chainHead$.pipe(
     switchMap((head: ChainHead) =>
-      this.validatorService.recentEpochBalances(head.headEpoch, 4 /* lookback */, 3)
+      this.validatorService.recentEpochBalances(head.headEpoch, EPOCH_LOOKBACK, NUM_ACCOUNTS)
     ),
   );
 
@@ -139,7 +142,6 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
         splitLine: {
           show: false
         },
-        // min: globalMinFixed,
         axisLabel: {
           formatter: '{value} ETH'
         },

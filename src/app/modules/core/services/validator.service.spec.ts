@@ -34,7 +34,7 @@ describe('ValidatorService', () => {
       accounts: [] as Account[],
     } as ListAccountsResponse));
     spyOn(service, 'balancesByEpoch').and.returnValue(of({
-      epoch: 0,
+      epoch: '0',
       balances: [
         {
           publicKey: hexToBase64('0x1234'),
@@ -56,7 +56,7 @@ describe('ValidatorService', () => {
       service.recentEpochBalances(MAX_EPOCH_LOOKBACK + 5, MAX_EPOCH_LOOKBACK, 5).subscribe((result: ValidatorBalances[]) => {
         expect(result).toBeTruthy();
         expect(result.length).toEqual(10);
-        expect(result[0].epoch).toEqual(0);
+        expect(result[0].epoch).toEqual('0');
         done();
       });
     });

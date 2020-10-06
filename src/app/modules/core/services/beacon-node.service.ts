@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { interval, Observable, EMPTY } from 'rxjs';
+import { interval, Observable, EMPTY, of } from 'rxjs';
 import { flatZipMap } from 'rxjs-pipe-ext/lib';
 import { startWith, mergeMap, catchError, switchMap, map } from 'rxjs/operators';
 
@@ -109,12 +109,24 @@ export class BeaconNodeService {
 
   private updateState(): Observable<DeepReadonly<NodeState>> {
     return this.fetchNodeStatus().pipe(
-      flatZipMap((res: NodeConnectionResponse) =>
-        this.fetchChainHead('http://' + res.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
-          catchError(_ => EMPTY),
-        )
-      ),
+      catchError(_ => {
+        return of({
+          beaconNodeEndpoint: 'unknown',
+          connected: false,
+          syncing: false,
+        }) as Observable<NodeConnectionResponse>;
+      }),
+      flatZipMap((res: NodeConnectionResponse) => {
+        return this.fetchChainHead('http://' + res.beaconNodeEndpoint + BEACON_API_PREFIX).pipe(
+          catchError(_ => {
+            return of({
+              headEpoch: 0,
+            }) as Observable<ChainHead>;
+          }),
+        );
+      }),
       switchMap(([connStatus, chainHead]) => {
+        console.log(connStatus);
         const state: DeepReadonly<NodeState> = {
           nodeConnection: connStatus,
           chainHead,

@@ -65,7 +65,7 @@ export class ErrorService {
             break;
         }
     } else {
-      formattedError = err.message;
+      formattedError = 'No response, perhaps beacon node or validator client are not running';
     }
     this.zone.run(() => {
       this.snackBar.open(formattedError, 'Close', {

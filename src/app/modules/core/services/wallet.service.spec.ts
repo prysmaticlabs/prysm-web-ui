@@ -5,6 +5,7 @@ import {
   GenerateMnemonicResponse,
   WalletResponse,
   CreateWalletRequest,
+  CreateWalletResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import { EnvironmenterService } from './environmenter.service';
 
@@ -56,8 +57,10 @@ describe('WalletService', () => {
   describe('Wallet creation', () => {
     it('it should properly submit a POST request to create a wallet', () => {
       const mockResponse = {
-        walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
-      } as WalletResponse;
+        wallet: {
+          walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
+        } as WalletResponse
+      } as CreateWalletResponse;
       const request = {
         keymanager: 'DERIVED',
         walletPassword: 'password',

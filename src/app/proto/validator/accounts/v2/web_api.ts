@@ -48,6 +48,11 @@ export interface CreateWalletRequest {
   remoteCaCrtPath: string;
 }
 
+export interface CreateWalletResponse {
+  wallet: WalletResponse;
+  accountsCreated: DepositDataResponse;
+}
+
 export interface EditWalletConfigRequest {
   remoteAddr: string;
   remoteCrtPath: string;

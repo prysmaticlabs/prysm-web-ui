@@ -12,7 +12,15 @@ import { GenerateMnemonicComponent } from '../../components/generate-mnemonic/ge
 import { ConfirmMnemonicComponent } from '../../components/confirm-mnemonic/confirm-mnemonic.component';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { WalletResponse, AuthResponse, CreateWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import {
+  WalletResponse,
+  AuthResponse,
+  CreateWalletRequest,
+  CreateWalletResponse,
+  DepositDataResponse,
+  DepositDataResponse_DepositData_Wrapper,
+  DepositDataResponse_DepositData
+} from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('HdWalletWizardComponent', () => {
   let component: HdWalletWizardComponent;
@@ -24,8 +32,19 @@ describe('HdWalletWizardComponent', () => {
   beforeEach(async(() => {
     walletService = MockService(WalletService);
     authService = MockService(AuthenticationService);
-    walletService.createWallet = (req: CreateWalletRequest): Observable<WalletResponse> => {
-      return of({ walletPath: 'hello' } as WalletResponse);
+    walletService.createWallet = (req: CreateWalletRequest): Observable<CreateWalletResponse> => {
+      return of({
+        wallet: { walletPath: 'hello' } as WalletResponse,
+        accountsCreated: {
+          depositDataList: [
+            {
+              data: {
+                hello: 'world',
+              } as Partial<DepositDataResponse_DepositData>
+            } as DepositDataResponse_DepositData_Wrapper
+          ]
+        } as DepositDataResponse
+      } as CreateWalletResponse);
     };
     authService.signup = (password: string): Observable<AuthResponse> => {
       return of({ token: 'hello' } as AuthResponse);
@@ -66,14 +85,14 @@ describe('HdWalletWizardComponent', () => {
   });
 
   describe('Create wallet', () => {
-    it('should redirect to dashboard upon wallet creation and signup', () => {
+    it('should get deposit data upon wallet creation and signup', () => {
       component.passwordFormGroup.controls.password.setValue('Passw0rdz2020$');
       component.passwordFormGroup.controls.passwordConfirmation.setValue('Passw0rdz2020$');
       component.accountsFormGroup.controls.numAccounts.setValue(5);
       component.mnemonicFormGroup.controls.mnemonic.setValue('hello fish');
       component.createWallet(new Event('submit'));
       fixture.detectChanges();
-      expect(router.navigate).toHaveBeenCalledWith(['/dashboard/gains-and-losses']);
+      expect(component.depositData).toBeDefined();
     });
   });
 });

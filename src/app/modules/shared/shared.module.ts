@@ -44,6 +44,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 import { BreadcrumbService } from './services/breadcrumb.service';
 import { AppRoutingModule } from 'src/app/app-routing.module';
+import { DepositDataComponent } from './components/deposit-data/deposit-data.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
     LoadingComponent,
     ImportAccountsFormComponent,
     CreateAccountsFormComponent,
+    DepositDataComponent,
   ],
   providers: [
     BreadcrumbService,
@@ -110,6 +112,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
     ClipboardModule,
     ImportAccountsFormComponent,
     CreateAccountsFormComponent,
+    DepositDataComponent,
   ],
 })
 export class SharedModule { }

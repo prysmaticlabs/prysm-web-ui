@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { Observable, of } from 'rxjs';
-import { MockComponent, MockService } from 'ng-mocks';
+import { MockService } from 'ng-mocks';
 
 import { NonhdWalletWizardComponent } from './nonhd-wallet-wizard.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { WalletResponse, AuthResponse, CreateWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletResponse, AuthResponse, CreateWalletRequest, CreateWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('NonhdWalletWizardComponent', () => {
   let component: NonhdWalletWizardComponent;
@@ -22,8 +22,10 @@ describe('NonhdWalletWizardComponent', () => {
   beforeEach(async(() => {
     walletService = MockService(WalletService);
     authService = MockService(AuthenticationService);
-    walletService.createWallet = (req: CreateWalletRequest): Observable<WalletResponse> => {
-      return of({ walletPath: 'hello' } as WalletResponse);
+    walletService.createWallet = (req: CreateWalletRequest): Observable<CreateWalletResponse> => {
+      return of({
+        wallet: { walletPath: 'hello' } as WalletResponse,
+      } as CreateWalletResponse);
     };
     authService.signup = (password: string): Observable<AuthResponse> => {
       return of({ token: 'hello' } as AuthResponse);

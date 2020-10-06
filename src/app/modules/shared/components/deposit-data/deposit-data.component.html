@@ -1,0 +1,27 @@
+<div class="text-white text-xl mt-4">
+  Your Deposit Data
+</div>
+<div class="my-4 text-hint text-lg leading-snug">
+  Copy or download your deposit_data.json file which you can use to deposit all your newly created accounts into
+  the <a href="https://medalla.launchpad.ethereum.org/" target="_blank" class="text-primary">official eth2 launchpad</a>
+</div>
+<div class="my-6 flex gap-x-3">
+  <a [href]="generateDownloadJSONUri(depositData)" [download]="depositDataFileName">
+    <button color="accent" mat-stroked-button>
+      <span class="flex items-center">
+        <span class="mr-2">Download JSON File</span>
+        <mat-icon>cloud_download</mat-icon>
+      </span>
+    </button>
+  </a>
+  <button mat-stroked-button (click)="copy(depositData)">
+    <span class="flex items-center">
+      <span class="mr-2">Copy to Clipboard</span>
+      <mat-icon>content_copy</mat-icon>
+    </span>
+  </button>
+</div>
+<div 
+  [innerHTML]="depositData | prettyjson" 
+  class="overflow-x-visible overflow-y-auto deposit-data bg-black rounded p-4 text-success text-base">
+</div>

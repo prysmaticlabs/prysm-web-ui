@@ -3,14 +3,16 @@ import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper } from '@angular/material/stepper';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { throwError } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
 
 import { MAX_ACCOUNTS_CREATION } from 'src/app/modules/core/constants';
-import { mockDepositDataJSON } from 'src/app/modules/core/mocks';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { CreateAccountsRequest, DepositDataResponse, DepositDataResponse_DepositData } from 'src/app/proto/validator/accounts/v2/web_api';
+import {
+  CreateAccountsRequest,
+  DepositDataResponse,
+  DepositDataResponse_DepositData
+} from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Component({
   selector: 'app-create-account',
@@ -20,9 +22,7 @@ export class CreateAccountComponent {
   @ViewChild('stepper') stepper?: MatStepper;
   constructor(
     private fb: FormBuilder,
-    private clipboard: Clipboard,
     private snackBar: MatSnackBar,
-    private sanitizer: DomSanitizer,
     private walletService: WalletService,
   ) { }
   loading = false;
@@ -35,19 +35,6 @@ export class CreateAccountComponent {
     ]),
   });
   depositData: DepositDataResponse_DepositData[] = [];
-  depositDataFileName = 'deposit_data-23920932.json';
-
-  generateDownloadJSONUri(data: DepositDataResponse_DepositData[]): SafeUrl {
-    const json = JSON.stringify(data);
-    return this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(json));
-  }
-
-  copy(data: DepositDataResponse_DepositData[]): void {
-    this.clipboard.copy(JSON.stringify(data));
-    this.snackBar.open('Copied JSON string to clipboard', 'Close', {
-      duration: 4000,
-    });
-  }
 
   createAccounts(): void {
     this.accountsFormGroup.markAllAsTouched();

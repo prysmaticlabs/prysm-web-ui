@@ -18,6 +18,7 @@ import {
   DeleteAccountsRequest,
   DeleteAccountsResponse,
   CreateAccountsRequest,
+  CreateWalletResponse,
   DepositDataResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
@@ -69,8 +70,8 @@ export class WalletService {
     );
   }
 
-  createWallet(request: CreateWalletRequest): Observable<WalletResponse> {
-    return this.http.post<WalletResponse>(`${this.apiUrl}/wallet/create`, request);
+  createWallet(request: CreateWalletRequest): Observable<CreateWalletResponse> {
+    return this.http.post<CreateWalletResponse>(`${this.apiUrl}/wallet/create`, request);
   }
 
   changeWalletPassword(request: ChangePasswordRequest): Observable<void> {

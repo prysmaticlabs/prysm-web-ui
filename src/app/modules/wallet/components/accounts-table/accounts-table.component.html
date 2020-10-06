@@ -28,8 +28,8 @@
         matTooltipPosition="left"
         matTooltip="Copy to Clipboard" 
         (click)="copyKeyToClipboard(row.publicKey)"
-        class="cursor-pointer truncate"> 
-        {{row.publicKey | base64tohex }}
+        class="cursor-pointer"> 
+        {{row.publicKey | base64tohex | slice:0:8 }}...
       </td>
     </ng-container>
 

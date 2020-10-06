@@ -8,7 +8,7 @@
       Stream of logs from both the beacon node and validator client
     </p>
   </div>
-  <div class="flex gap-x-6">
+  <div class="flex flex-wrap md:flex-no-wrap gap-6">
     <div class="w-full md:w-2/3">
       <app-logs-stream [messages]="validatorMessages" title="Validator Client"></app-logs-stream>
       <div class="py-3"></div>

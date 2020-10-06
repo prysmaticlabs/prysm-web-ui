@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { BigNumber } from 'ethers';
 
 import { ChainService } from 'src/app/modules/core/services/chain.service';
@@ -21,14 +21,21 @@ interface ParticipationData {
   styles: [
   ]
 })
-export class ValidatorParticipationComponent {
+export class ValidatorParticipationComponent implements OnInit {
   constructor(
     private chainService: ChainService,
   ) { }
-  participation$: Observable<ParticipationData> = this.chainService.participation$.pipe(
-    map(this.transformParticipationData.bind(this)),
-  );
+  loading = false;
+  participation$: Observable<ParticipationData> | null = null;
   noFinalityMessage = `If participation drops below 66%, the chain cannot finalize blocks and validator balances will begin to decrease for all inactive validators at a fast rate`;
+
+  ngOnInit(): void {
+    this.loading = true;
+    this.participation$ = this.chainService.participation$.pipe(
+      tap(() => this.loading = false),
+      map(this.transformParticipationData.bind(this)),
+    );
+  }
 
   updateProgressColor(progress: number): string {
     if (progress < 66.6) {

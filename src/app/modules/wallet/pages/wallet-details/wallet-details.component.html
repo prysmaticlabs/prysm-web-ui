@@ -8,11 +8,11 @@
       Information about your current wallet and its configuration options
     </p>
   </div>
-  <div class="flex items-center gap-x-6" *ngIf="!loading && wallet && keymanagerKind">
-    <div class="w-1/2">
+  <div class="flex flex-wrap md:flex-no-wrap items-center gap-6" *ngIf="!loading && wallet && keymanagerKind">
+    <div class="w-full md:w-1/2">
       <app-wallet-kind [kind]="keymanagerKind"></app-wallet-kind>
     </div>
-    <div class="w-1/2 px-0 md:px-6">
+    <div class="w-full md:w-1/2 px-0 md:px-6">
       <mat-tab-group animationDuration="0ms" backgroundColor="primary">
         <mat-tab>
           <ng-template mat-tab-label>

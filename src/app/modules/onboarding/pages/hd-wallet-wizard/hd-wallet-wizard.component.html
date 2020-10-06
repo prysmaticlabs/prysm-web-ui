@@ -120,7 +120,7 @@
                   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                 </div>
               </div>
-              <div *ngIf="!loading">
+              <div *ngIf="!loading && !depositData">
                 <app-wallet-password-form
                   title="Pick a strong wallet password"
                   subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
@@ -138,6 +138,18 @@
                       Create Wallet
                     </button>
                   </span>
+                </div>
+              </div>
+              <div *ngIf="depositData">
+                <app-deposit-data [depositData]="depositData"></app-deposit-data>
+                <div class="mt-6">
+                  <a routerLink="/dashboard/gains-and-losses">
+                    <button 
+                      color="primary" 
+                      mat-raised-button>
+                      View Dashboard
+                    </button>
+                  </a>
                 </div>
               </div>
             </mat-step>

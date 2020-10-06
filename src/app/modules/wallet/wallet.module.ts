@@ -19,8 +19,6 @@ import { ImportComponent } from './pages/import/import.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { BackupSelectedAccountsComponent } from './components/backup-selected-accounts/backup-selected-accounts.component';
 import { DeleteSelectedAccountsComponent } from './components/delete-selected-accounts/delete-selected-accounts.component';
-import { EpochPipe } from './pipes/format-epoch.pipe';
-import { BalancePipe } from './pipes/balance.pipe';
 
 @NgModule({
   declarations: [
@@ -38,8 +36,6 @@ import { BalancePipe } from './pipes/balance.pipe';
     ImportComponent,
     BackupSelectedAccountsComponent,
     DeleteSelectedAccountsComponent,
-    EpochPipe,
-    BalancePipe,
   ],
   imports: [
     CommonModule,

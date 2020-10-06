@@ -1,6 +1,4 @@
-<app-loading [loading]="loading" [loadingTemplate]="loadingTemplate"
-             [hasError]="hasError" [errorMessage]="'Error loading the validator performance'"
-             [noData]="noData" [noDataMessage]="'No validator performance information available'">
+<app-loading [loading]="loading" [loadingTemplate]="loadingTemplate">
   <ng-template #loadingTemplate>
     <div style="width:90%; margin:5%;">
       <ngx-skeleton-loader count="6"

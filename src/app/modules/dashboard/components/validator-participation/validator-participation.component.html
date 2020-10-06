@@ -32,7 +32,7 @@
     </div>
   </div>
 </mat-card>
-<mat-card class="bg-paper" *ngIf="!loading && (participation$ | async) as data">
+<mat-card class="bg-paper" *ngIf="!loading && participation">
   <div
     class="bg-paperlight pb-8 py-4 text-right"
   >
@@ -42,9 +42,9 @@
     <div class="text-center">
       <p 
         class="m-8 font-bold text-3xl leading-relaxed"
-        [class.text-success]="data.rate > 66.6"
-        [class.text-error]="!(data.rate > 66.6)">
-        {{data.rate | number: '1.2-2'}}%
+        [class.text-success]="participation?.rate > 66.6"
+        [class.text-error]="!(participation?.rate > 66.6)">
+        {{participation?.rate | number: '1.2-2'}}%
       </p>
       <p class="text-lg">
         Global Validator Participation
@@ -52,19 +52,19 @@
       <div class="mt-6">
         <mat-progress-bar 
           mode="determinate" 
-          [color]="updateProgressColor(data.rate)" 
-          [value]="data.rate">
+          [color]="updateProgressColor(participation?.rate)" 
+          [value]="participation?.rate">
         </mat-progress-bar>
       </div>
       <div class="mt-6">
-        <span class="text-base font-bold">{{data.totalVotedETH}}</span> <span class="font-bold mx-2">/</span>
-        <span class="text-base text-muted">{{data.totalEligibleETH}}</span>
+        <span class="text-base font-bold">{{participation?.totalVotedETH}}</span> <span class="font-bold mx-2">/</span>
+        <span class="text-base text-muted">{{participation?.totalEligibleETH}}</span>
       </div>
       <div class="mt-2">
         Total Voted ETH vs. Eligible ETH
       </div>
       <div class="mt-2 text-muted">
-        Epoch {{data.epoch}}
+        Epoch {{participation?.epoch}}
       </div>
     </div>
   </div>

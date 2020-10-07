@@ -45,7 +45,6 @@ export class ValidatorPerformanceListComponent {
   noData = false;
 
   constructor(private validatorService: ValidatorService) {
-
     this.validatorService.performance$.pipe(
       map((performance: ValidatorPerformanceResponse) => {
         const list: ValidatorListItem[] = [];

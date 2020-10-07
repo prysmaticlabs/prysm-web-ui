@@ -45,6 +45,8 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
 import { BreadcrumbService } from './services/breadcrumb.service';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DepositDataComponent } from './components/deposit-data/deposit-data.component';
+import { EpochPipe } from './pipes/format-epoch.pipe';
+import { BalancePipe } from './pipes/balance.pipe';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { DepositDataComponent } from './components/deposit-data/deposit-data.com
     Base64ToHexPipe,
     OrdinalPipe,
     PrettyjsonPipe,
+    BalancePipe,
+    EpochPipe,
     WalletPasswordFormComponent,
     LoadingComponent,
     ImportAccountsFormComponent,
@@ -113,6 +117,8 @@ import { DepositDataComponent } from './components/deposit-data/deposit-data.com
     ImportAccountsFormComponent,
     CreateAccountsFormComponent,
     DepositDataComponent,
+    EpochPipe,
+    BalancePipe,
   ],
 })
 export class SharedModule { }

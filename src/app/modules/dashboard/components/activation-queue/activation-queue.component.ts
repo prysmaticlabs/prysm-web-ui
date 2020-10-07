@@ -99,11 +99,10 @@ export class ActivationQueueComponent {
       exitKeysSet.add(key);
     });
     let secondsLeftInQueue: number;
-    const queueLength = 11323;
-    if (queue.churnLimit >= queueLength) {
+    if (queue.churnLimit >= activationKeysSet.size) {
       secondsLeftInQueue = 1;
     }
-    const epochsLeft = queueLength / queue.churnLimit;
+    const epochsLeft = activationKeysSet.size / queue.churnLimit;
     secondsLeftInQueue = epochsLeft * SECONDS_PER_EPOCH;
 
     return {

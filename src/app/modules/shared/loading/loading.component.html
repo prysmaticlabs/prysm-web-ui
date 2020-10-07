@@ -2,7 +2,6 @@
   <div class="overlay" *ngIf="loading || hasError || noData">
     <div class="message" *ngIf="getMessage()">{{getMessage()}}</div>
     <img *ngIf="!loading && hasError" class="noData" [src]="errorImage || '/assets/images/undraw/warning.svg'" alt="error" />
-    <img *ngIf="noData && !loading && !hasError" class="noData" [src]="noDataImage || 'noData/assets/images/undraw/empty.svg'" alt="no data" />
     <img *ngIf="loading && loadingImage" class="loadingBackground" src="{{loadingImage}}" alt="loading background" />
     <div class="loading-template-container" *ngIf="loading">
       <ng-container [ngTemplateOutlet]="loadingTemplate"></ng-container>

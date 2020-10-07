@@ -2,14 +2,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import { SLOTS_PER_EPOCH, MILLISECONDS_PER_SLOT, GWEI_PER_ETHER } from 'src/app/modules/core/constants';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
-import { ChainHead, ValidatorBalances, ValidatorBalances_Balance } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { ValidatorBalances, ValidatorBalances_Balance } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { Subject, zip } from 'rxjs';
 import { BigNumber } from 'ethers';
 import * as moment from 'moment';
+import { WalletService } from 'src/app/modules/core/services/wallet.service';
 
 const EPOCH_LOOKBACK = 4;
-const NUM_ACCOUNTS = 10;
+const MAX_ACCOUNTS = 10;
 
 interface EpochBalances {
   lowestBalances: BigNumber[];
@@ -32,21 +33,34 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
   constructor(
     private validatorService: ValidatorService,
     private beaconService: BeaconNodeService,
+    private walletService: WalletService,
   ) { }
 
   private destroyed$$ = new Subject<void>();
   options: any;
 
-  balances$ = this.beaconService.chainHead$.pipe(
-    switchMap((head: ChainHead) =>
-      this.validatorService.recentEpochBalances(head.headEpoch, EPOCH_LOOKBACK, NUM_ACCOUNTS)
-    ),
+  balances$ = zip(
+    this.beaconService.chainHead$, this.walletService.validatingPublicKeys$,
+  ).pipe(
+    take(1),
+    switchMap(([head, publicKeys]) => {
+      let maxKeys = MAX_ACCOUNTS;
+      if (publicKeys.length < maxKeys) {
+        maxKeys = publicKeys.length;
+      }
+      return this.validatorService.recentEpochBalances(head.headEpoch, EPOCH_LOOKBACK, maxKeys);
+    }),
+  );
+  genesisTime$ = this.beaconService.genesisTime$.pipe(
+    take(1),
   );
 
   ngOnInit(): void {
     const updateData = this.updateData.bind(this);
-    zip(this.beaconService.genesisTime$, this.balances$).pipe(
-      tap(([genesisTime, balances]) => updateData(genesisTime, balances)),
+    zip(this.genesisTime$, this.balances$).pipe(
+      tap(([genesisTime, balances]) => {
+        updateData(genesisTime, balances);
+      }),
       takeUntil(this.destroyed$$),
     ).subscribe();
   }
@@ -56,7 +70,14 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
     this.destroyed$$.complete();
   }
 
-  updateData(genesisTime: number, balances: ValidatorBalances[]): void {
+  updateData(genesisTime: number, input: ValidatorBalances[]): void {
+    if (!input) {
+      return;
+    }
+    if (!input.length) {
+      return;
+    }
+    const balances = input.filter(b => b.balances && b.balances.length);
     const bals = this.computeEpochBalances(genesisTime, balances);
     const deltas = this.computeEpochDeltas(bals);
     const xAxisData = bals.timestamps.slice(1, bals.timestamps.length);
@@ -156,6 +177,17 @@ export class BalancesChartComponent implements OnInit, OnDestroy {
     const highestBalances: BigNumber[] = [];
     const avgBalances: BigNumber[] = [];
     const timestamps: string[] = [];
+
+    const compare = (a: ValidatorBalances, b: ValidatorBalances) => {
+      if (BigNumber.from(a.epoch).gt(BigNumber.from(b.epoch))) {
+        return 1;
+      }
+      if (BigNumber.from(b.epoch).gt(BigNumber.from(a.epoch))) {
+        return -1;
+      }
+      return 0;
+    };
+    balances.sort(compare);
 
     for (let i = 0; i < balances.length; i++) {
       const epoch = balances[i].epoch;

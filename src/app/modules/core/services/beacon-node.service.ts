@@ -126,7 +126,6 @@ export class BeaconNodeService {
         );
       }),
       switchMap(([connStatus, chainHead]) => {
-        console.log(connStatus);
         const state: DeepReadonly<NodeState> = {
           nodeConnection: connStatus,
           chainHead,

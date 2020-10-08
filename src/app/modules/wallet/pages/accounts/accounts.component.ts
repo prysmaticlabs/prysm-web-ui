@@ -90,7 +90,6 @@ export class AccountsComponent {
     validators: Validators,
     balances: ValidatorBalances
   ): MatTableDataSource<TableData> {
-    console.log(balances);
     this.totalData = accountsResponse.totalSize;
     const tableData = accountsResponse.accounts.map((acc, idx) => {
       let val = validators?.validatorList?.find(

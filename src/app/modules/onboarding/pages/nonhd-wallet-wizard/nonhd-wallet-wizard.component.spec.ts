@@ -23,7 +23,6 @@ describe('NonhdWalletWizardComponent', () => {
     walletService = MockService(WalletService);
     authService = MockService(AuthenticationService);
     walletService.createWallet = (req: CreateWalletRequest): Observable<CreateWalletResponse> => {
-      console.log('called');
       return of({
         wallet: { walletPath: 'hello' } as WalletResponse,
       } as CreateWalletResponse);

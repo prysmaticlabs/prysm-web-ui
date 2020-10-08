@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthredirectGuard } from './modules/core/guards/authredirect.guard';
 import { AuthGuard } from './modules/core/guards/auth.guard';
-import { NoWalletFoundGuard } from './modules/core/guards/nowalletfound.guard';
 
 import { LoginComponent } from './modules/auth/login/login.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
@@ -37,7 +36,7 @@ const routes: Routes = [
       breadcrumb: 'Login'
     },
     component: LoginComponent,
-    canActivate: [NoWalletFoundGuard, AuthredirectGuard],
+    canActivate: [AuthredirectGuard],
   },
   {
     path: 'dashboard',

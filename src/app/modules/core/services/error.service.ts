@@ -51,6 +51,9 @@ export class ErrorService {
         case 405:
           formattedError = 'HTTP method not allowed';
           break;
+        case 409:
+          formattedError = 'Data already exists, perhaps you already have a wallet in the directory';
+          break;
         default:
           formattedError = 'Oops, something went wrong, please try again';
           break;

@@ -15,6 +15,7 @@ import { CreateWalletRequest, CreateWalletResponse, DepositDataResponse_DepositD
 enum WizardState {
   Overview,
   ConfirmMnemonic,
+  WalletDir,
   GenerateAccounts,
 }
 
@@ -40,6 +41,9 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   isSmallScreen = false;
   loading = false;
   depositData: DepositDataResponse_DepositData[] | null = null;
+  walletFormGroup = this.formBuilder.group({
+    walletDir: ['', Validators.required]
+  });
   mnemonicFormGroup = this.formBuilder.group({
     mnemonic: new FormControl('',
       // Synchronous validators.
@@ -117,6 +121,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     const request = {
       keymanager: 'DERIVED',
+      walletPath: this.walletFormGroup.controls.walletDir.value,
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
@@ -124,7 +129,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(request.walletPassword, '').pipe(
+    this.authService.signup(request.walletPassword, request.walletPath).pipe(
       delay(500), // Delay to prevent flickering on loading.
       switchMap(() => {
         return this.walletService.createWallet(request).pipe(

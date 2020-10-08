@@ -70,6 +70,7 @@ export class ErrorService {
     this.zone.run(() => {
       this.snackBar.open(formattedError, 'Close', {
         duration: 4000,
+        panelClass: 'snackbar-warn',
       });
     });
   }

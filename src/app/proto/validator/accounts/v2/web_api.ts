@@ -171,6 +171,10 @@ export interface NodeConnectionResponse {
 
 export interface ChangePasswordRequest {
   /**
+   *  Current wallet password.
+   */
+  currentPassword: string;
+  /**
    *  New password a user wishes to set.
    */
   password: string;

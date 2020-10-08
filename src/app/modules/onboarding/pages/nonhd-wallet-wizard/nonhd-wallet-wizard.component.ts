@@ -4,7 +4,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 
-import { tap, takeUntil, switchMap, catchError } from 'rxjs/operators';
+import { delay, tap, takeUntil, switchMap, catchError } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
@@ -129,6 +129,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
     this.authService.signup(request.walletPassword).pipe(
+      delay(500), // Add short delay to prevent flickering in UI in case of error.
       switchMap(() => {
         return this.walletService.createWallet(request).pipe(
           tap(() => {

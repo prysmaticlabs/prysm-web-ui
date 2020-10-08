@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, share, shareReplay } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {
   WalletResponse,
@@ -91,6 +91,15 @@ export class WalletService {
   }
 
   deleteAccounts(request: DeleteAccountsRequest): Observable<DeleteAccountsResponse> {
-    return this.http.post<DeleteAccountsResponse>(`${this.apiUrl}/wallet/accounts/delete`, request);
+    return this.accounts(0, 1).pipe(
+      tap((res: ListAccountsResponse) => {
+        if (request.publicKeys.length >= res.totalSize) {
+          throwError('Cannot be left with 0 accounts');
+        }
+      }),
+      switchMap(() =>
+        this.http.post<DeleteAccountsResponse>(`${this.apiUrl}/wallet/accounts/delete`, request)
+      ),
+    );
   }
 }

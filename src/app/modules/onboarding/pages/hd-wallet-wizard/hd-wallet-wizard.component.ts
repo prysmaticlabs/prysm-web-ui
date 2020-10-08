@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
@@ -28,7 +28,6 @@ type voidFunc = () => void;
 export class HdWalletWizardComponent implements OnInit, OnDestroy {
   @Input() resetOnboarding: voidFunc | null = null;
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
     private mnemonicValidator: MnemonicValidator,
@@ -57,7 +56,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   accountsFormGroup = this.formBuilder.group({
     numAccounts: new FormControl('', [
       Validators.required,
-      Validators.min(0),
+      Validators.min(1),
     ]),
   });
   passwordFormGroup = this.formBuilder.group({

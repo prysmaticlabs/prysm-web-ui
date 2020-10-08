@@ -20,7 +20,7 @@
   </div>
   <div class="my-6 flex flex-wrap">
     <div class="w-full md:w-1/2">
-      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" accept=".json">
+      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" accept=".json,.zip">
           <ng-template
             ngx-file-drop-content-tmp
             let-openFileSelector="openFileSelector"

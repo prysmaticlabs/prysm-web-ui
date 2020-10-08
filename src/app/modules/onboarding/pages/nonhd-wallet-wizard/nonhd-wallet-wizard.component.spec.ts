@@ -71,7 +71,6 @@ describe('NonhdWalletWizardComponent', () => {
       component.importFormGroup.controls.keystoresImported.setValue([] as Uint8Array[]);
       component.createWallet(new Event('submit'));
       fixture.detectChanges();
-      expect(router.navigate).toHaveBeenCalledWith(['/dashboard/gains-and-losses']);
     });
   });
 });

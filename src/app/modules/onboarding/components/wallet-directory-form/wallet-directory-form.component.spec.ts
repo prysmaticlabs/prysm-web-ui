@@ -1,14 +1,32 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MockService } from 'ng-mocks';
+import { of } from 'rxjs';
+import { WalletService } from 'src/app/modules/core/services/wallet.service';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { DefaultWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { WalletDirectoryFormComponent } from './wallet-directory-form.component';
 
 describe('WalletDirectoryFormComponent', () => {
   let component: WalletDirectoryFormComponent;
   let fixture: ComponentFixture<WalletDirectoryFormComponent>;
+  const service: WalletService = MockService(WalletService);
+  service.defaultWalletDir$ = of({
+    walletDir: '/tmp/helloworld',
+  } as DefaultWalletResponse);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WalletDirectoryFormComponent ]
+      imports: [
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+      ],
+      declarations: [ WalletDirectoryFormComponent ],
+      providers: [
+        { provide: WalletService, useValue: service }
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +34,9 @@ describe('WalletDirectoryFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WalletDirectoryFormComponent);
     component = fixture.componentInstance;
+    component.formGroup = new FormBuilder().group({
+      walletDir: ['', Validators.required]
+    });
     fixture.detectChanges();
   });
 

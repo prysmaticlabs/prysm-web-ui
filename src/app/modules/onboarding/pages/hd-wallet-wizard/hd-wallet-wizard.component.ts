@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
 
-import { tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
+import { delay, tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
@@ -125,7 +124,8 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(request.walletPassword).pipe(
+    this.authService.signup(request.walletPassword, '').pipe(
+      delay(500), // Delay to prevent flickering on loading.
       switchMap(() => {
         return this.walletService.createWallet(request).pipe(
           tap((res: CreateWalletResponse) => {

@@ -28,6 +28,13 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>
               </div>
             </mat-step>
+            <mat-step [stepControl]="walletFormGroup" label="Wallet">
+              <app-wallet-directory-form [formGroup]="walletFormGroup"></app-wallet-directory-form>
+              <div class="mt-6">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletDir)">Continue</button></span>
+              </div>
+            </mat-step>
             <mat-step [stepControl]="importFormGroup" label="Import Keys">
               <app-import-accounts-form [formGroup]="importFormGroup"></app-import-accounts-form>
               <div class="mt-6">
@@ -39,7 +46,7 @@
               <app-unlock-keys [formGroup]="unlockFormGroup"></app-unlock-keys>
               <div class="mt-4">
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockKeys)">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockAccounts)">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Password">

@@ -19,7 +19,7 @@ import {
   DeleteAccountsResponse,
   CreateAccountsRequest,
   CreateWalletResponse,
-  DepositDataResponse
+  DepositDataResponse, DefaultWalletResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -34,6 +34,7 @@ export class WalletService {
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   // Observables.
+  defaultWalletDir$: Observable<DefaultWalletResponse> = this.http.get<DefaultWalletResponse>(`${this.apiUrl}/wallet/default`);
   walletExists$: Observable<HasWalletResponse> = this.http.get<HasWalletResponse>(`${this.apiUrl}/wallet/exists`);
   walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`).pipe(
     share(),

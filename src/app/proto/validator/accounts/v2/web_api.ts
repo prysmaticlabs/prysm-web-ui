@@ -53,6 +53,13 @@ export interface CreateWalletResponse {
   accountsCreated: DepositDataResponse;
 }
 
+export interface DefaultWalletResponse {
+  /**
+   *  Path to the default wallet directory.
+   */
+  walletDir: string;
+}
+
 export interface EditWalletConfigRequest {
   remoteAddr: string;
   remoteCrtPath: string;
@@ -138,6 +145,7 @@ export interface AccountRequest {
 
 export interface AuthRequest {
   password: string;
+  walletDir: string;
 }
 
 export interface AuthResponse {

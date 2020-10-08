@@ -331,6 +331,10 @@ export interface ValidatorBalances_Balance {
    *  Validator's balance in gwei.
    */
   balance: string;
+  /**
+   *  Validator's status.
+   */
+  status: string;
 }
 
 export interface ListValidatorsRequest {

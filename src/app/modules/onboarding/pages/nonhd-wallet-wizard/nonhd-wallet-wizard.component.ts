@@ -15,6 +15,7 @@ import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
 
 enum WizardState {
   Overview,
+  WalletDir,
   ImportAccounts,
   UnlockAccounts,
 }
@@ -41,6 +42,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   loading = false;
   isSmallScreen = false;
+  walletFormGroup = this.formBuilder.group({
+    walletDir: ['', Validators.required]
+  });
   importFormGroup = this.formBuilder.group({
     keystoresImported: [
       [] as string[],
@@ -121,6 +125,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     const request = {
       keymanager: 'DIRECT',
+      walletPath: this.walletFormGroup.get('walletDir')?.value,
       walletPassword: this.passwordFormGroup.get('password')?.value,
       keystoresPassword: this.unlockFormGroup.get('keystoresPassword')?.value,
       keystoresImported: this.importFormGroup.get('keystoresImported')?.value,
@@ -128,7 +133,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(request.walletPassword).pipe(
+    this.authService.signup(request.walletPassword, request.walletPath).pipe(
       delay(500), // Add short delay to prevent flickering in UI in case of error.
       switchMap(() => {
         return this.walletService.createWallet(request).pipe(

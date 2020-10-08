@@ -90,14 +90,13 @@ export class AccountsComponent {
     validators: Validators,
     balances: ValidatorBalances
   ): MatTableDataSource<TableData> {
+    console.log(balances);
     this.totalData = accountsResponse.totalSize;
     const tableData = accountsResponse.accounts.map((acc, idx) => {
       let val = validators?.validatorList?.find(
         v => acc.validatingPublicKey === v?.validator?.publicKey
       );
-      let status = 'active';
       if (!val) {
-        status = 'unknown';
         val = {
           index: 0,
           validator: {
@@ -109,7 +108,9 @@ export class AccountsComponent {
       }
       const balanceItem = balances?.balances.find(b => b.publicKey === acc.validatingPublicKey);
       let bal = BigNumber.from(0);
+      let status = 'unknown';
       if (balanceItem) {
+        status = balanceItem.status.toLowerCase();
         bal = BigNumber.from(balanceItem.balance).div(GWEI_PER_ETHER);
       }
       const effectiveBalance = BigNumber.from(val?.validator?.effectiveBalance).div(GWEI_PER_ETHER);

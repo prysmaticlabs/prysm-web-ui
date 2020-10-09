@@ -56,7 +56,7 @@ describe('PasswordValidator', () => {
       const validator = new PasswordValidator();
       const validationFunc = validator.strongPassword;
       const formControl = {
-        value: '%%STR0NGPAASSWORDZ2020%%',
+        value: '%%STR0NGPASSWORDZ2020%%',
       };
       const res = validationFunc(
         formControl as AbstractControl,

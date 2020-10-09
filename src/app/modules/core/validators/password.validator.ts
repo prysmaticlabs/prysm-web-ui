@@ -8,7 +8,7 @@ export class PasswordValidator {
   // Ensures a password has at least 1 uppercase char, 1 special char,
   // and 1 number and must have at least length of 8.
   strongPassword = Validators.pattern(
-    '(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
+    /(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}/,
   );
 
   // Ensure password and password confirmation field values match.

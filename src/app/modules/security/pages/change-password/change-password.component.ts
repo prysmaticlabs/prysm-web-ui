@@ -20,6 +20,11 @@ export class ChangePasswordComponent {
 
   private passwordValidator = new PasswordValidator();
   formGroup = this.formBuilder.group({
+    currentPassword: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
@@ -40,6 +45,7 @@ export class ChangePasswordComponent {
       return;
     }
     const req: ChangePasswordRequest = {
+      currentPassword: this.formGroup.controls.currentPassword.value,
       password: this.formGroup.controls.password.value,
       passwordConfirmation: this.formGroup.controls.passwordConfirmation.value,
     };

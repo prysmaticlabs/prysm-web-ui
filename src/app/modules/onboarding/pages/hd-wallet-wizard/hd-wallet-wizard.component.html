@@ -27,6 +27,13 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ConfirmMnemonic)">Continue</button></span>
               </div>
             </mat-step>
+            <mat-step [stepControl]="walletFormGroup" label="Wallet">
+              <app-wallet-directory-form [formGroup]="walletFormGroup"></app-wallet-directory-form>
+              <div class="mt-6">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletDir)">Continue</button></span>
+              </div>
+            </mat-step>
             <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
               <app-create-accounts-form [formGroup]="accountsFormGroup"
               title="Generate new validator accounts"
@@ -70,10 +77,10 @@
               </div>
               <div *ngIf="depositData">
                 <app-deposit-data [depositData]="depositData"></app-deposit-data>
-                <div class="mt-6">
+                <div>
                   <a routerLink="/dashboard/gains-and-losses">
-                    <button 
-                      color="primary" 
+                    <button
+                      color="primary"
                       mat-raised-button>
                       View Dashboard
                     </button>
@@ -142,10 +149,10 @@
               </div>
               <div *ngIf="depositData">
                 <app-deposit-data [depositData]="depositData"></app-deposit-data>
-                <div class="mt-6">
+                <div>
                   <a routerLink="/dashboard/gains-and-losses">
-                    <button 
-                      color="primary" 
+                    <button
+                      color="primary"
                       mat-raised-button>
                       View Dashboard
                     </button>

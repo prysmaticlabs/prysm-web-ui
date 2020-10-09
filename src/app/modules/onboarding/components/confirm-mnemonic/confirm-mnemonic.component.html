@@ -11,16 +11,17 @@
       name="mnemonic"
       formControlName="mnemonic"
       cdkTextareaAutosize
+      appBlockCopyPaste
       #autosize="cdkTextareaAutosize"
       cdkAutosizeMinRows="3"
       cdkAutosizeMaxRows="4"></textarea>
-      <mat-error class="warning" *ngIf="formGroup && formGroup.controls.mnemonic.hasError('required')">
+      <mat-error class="warning" *ngIf="formGroup?.controls.mnemonic.hasError('required')">
         Mnemonic is required
       </mat-error>
-      <mat-error class="warning" *ngIf="formGroup && formGroup.controls.mnemonic.hasError('properFormatting')">
+      <mat-error class="warning" *ngIf="formGroup?.controls.mnemonic.hasError('properFormatting')">
         Must contain 24 words separated by spaces
       </mat-error>
-      <mat-error class="warning" *ngIf="formGroup && formGroup.controls.mnemonic.hasError('mnemonicMismatch')">
+      <mat-error class="warning" *ngIf="formGroup?.controls.mnemonic.hasError('mnemonicMismatch')">
         Entered mnemonic does not match original
       </mat-error>
   </mat-form-field>

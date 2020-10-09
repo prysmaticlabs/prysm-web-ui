@@ -23,14 +23,6 @@ export interface CreateWalletRequest {
    */
   numAccounts: number;
   /**
-   *  JSON-encoded keystore files to import during wallet creation.
-   */
-  keystoresImported: string[];
-  /**
-   *  Password to unlock imported keystore files.
-   */
-  keystoresPassword: string;
-  /**
    *  Remote address such as host.example.com:4000 for a gRPC remote signer server.
    */
   remoteAddr: string;
@@ -51,6 +43,13 @@ export interface CreateWalletRequest {
 export interface CreateWalletResponse {
   wallet: WalletResponse;
   accountsCreated: DepositDataResponse;
+}
+
+export interface DefaultWalletResponse {
+  /**
+   *  Path to the default wallet directory.
+   */
+  walletDir: string;
 }
 
 export interface EditWalletConfigRequest {
@@ -138,6 +137,7 @@ export interface AccountRequest {
 
 export interface AuthRequest {
   password: string;
+  walletDir: string;
 }
 
 export interface AuthResponse {
@@ -170,6 +170,10 @@ export interface NodeConnectionResponse {
 }
 
 export interface ChangePasswordRequest {
+  /**
+   *  Current wallet password.
+   */
+  currentPassword: string;
   /**
    *  New password a user wishes to set.
    */

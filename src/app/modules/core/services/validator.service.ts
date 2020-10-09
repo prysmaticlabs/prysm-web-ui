@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { zip, Observable, of, throwError, EMPTY } from 'rxjs';
-import { switchMap, mergeMap, concatAll, toArray, retry, catchError } from 'rxjs/operators';
+import { switchMap, mergeMap, concatAll, toArray, retry, catchError, map } from 'rxjs/operators';
 
 import range from 'src/app/modules/core/utils/range';
 import { BeaconNodeService } from './beacon-node.service';
@@ -33,18 +33,27 @@ export class ValidatorService {
     ),
   );
 
-  performance$: Observable<ValidatorPerformanceResponse> = zip(
+  performance$: Observable<ValidatorPerformanceResponse & ValidatorBalances> = zip(
     this.beaconNodeService.nodeEndpoint$,
     this.walletService.validatingPublicKeys$
   ).pipe(
     switchMap((result: [string, string[]]) => {
-      const endpoint = result[0];
       const publicKeys = result[1];
+      const endpoint = result[0];
       let params = `?publicKeys=`;
       publicKeys.forEach((key, _) => {
         params += `${this.encodePublicKey(key)}&publicKeys=`;
       });
-      return this.http.get<ValidatorPerformanceResponse>(`${endpoint}/validators/performance${params}`);
+      const balances = this.balances(publicKeys, 0, publicKeys.length);
+      const httpReq = this.http.get<ValidatorPerformanceResponse>(`${endpoint}/validators/performance${params}`);
+      return zip(httpReq, balances).pipe(
+        map(([perf, bals]) => {
+          return {
+            ...perf,
+            ...bals,
+          };
+        }),
+      );
     }),
   );
 

@@ -20,17 +20,17 @@ export class AuthenticationService {
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   login(password: string): Observable<AuthResponse> {
-    return this.authenticate(`${this.apiUrl}/login`, password);
+    return this.authenticate(`${this.apiUrl}/login`, password, '');
   }
 
-  signup(password: string): Observable<AuthResponse> {
-    return this.authenticate(`${this.apiUrl}/signup`, password);
+  signup(password: string, walletDir: string): Observable<AuthResponse> {
+    return this.authenticate(`${this.apiUrl}/signup`, password, walletDir);
   }
 
   // Authenticate the user with a password and extract the JWT token
   // from the response object. Uses take to prevent multiple calls to the backend.
-  authenticate(method: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(method, { password } as AuthRequest).pipe(
+  authenticate(method: string, password: string, walletDir: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(method, { password, walletDir } as AuthRequest).pipe(
       tap((res: AuthResponse) => {
         this.token = res.token;
       }),

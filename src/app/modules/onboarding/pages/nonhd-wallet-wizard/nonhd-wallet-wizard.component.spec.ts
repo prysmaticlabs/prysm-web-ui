@@ -27,7 +27,7 @@ describe('NonhdWalletWizardComponent', () => {
         wallet: { walletPath: 'hello' } as WalletResponse,
       } as CreateWalletResponse);
     };
-    authService.signup = (password: string): Observable<AuthResponse> => {
+    authService.signup = (password: string, walletDir: string): Observable<AuthResponse> => {
       return of({ token: 'hello' } as AuthResponse);
     };
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
@@ -61,17 +61,5 @@ describe('NonhdWalletWizardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('Create wallet', () => {
-    it('should redirect to dashboard upon wallet creation and signup', () => {
-      component.passwordFormGroup.controls.password.setValue('Passw0rdz2020$');
-      component.passwordFormGroup.controls.passwordConfirmation.setValue('Passw0rdz2020$');
-      component.unlockFormGroup.controls.keystoresPassword.setValue('KeystorePass');
-      component.importFormGroup.controls.keystoresImported.setValue([] as Uint8Array[]);
-      component.createWallet(new Event('submit'));
-      fixture.detectChanges();
-      expect(router.navigate).toHaveBeenCalledWith(['/dashboard/gains-and-losses']);
-    });
   });
 });

@@ -23,14 +23,6 @@ export interface CreateWalletRequest {
    */
   numAccounts: number;
   /**
-   *  JSON-encoded keystore files to import during wallet creation.
-   */
-  keystoresImported: string[];
-  /**
-   *  Password to unlock imported keystore files.
-   */
-  keystoresPassword: string;
-  /**
    *  Remote address such as host.example.com:4000 for a gRPC remote signer server.
    */
   remoteAddr: string;

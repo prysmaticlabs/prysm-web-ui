@@ -22,6 +22,7 @@ import {
 } from 'src/app/proto/eth/v1alpha1/validator';
 import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { TableData } from '../../components/accounts-table/accounts-table.component';
+import { formatUnits } from 'ethers/lib/utils';
 
 @Component({
   selector: 'app-accounts',
@@ -106,11 +107,11 @@ export class AccountsComponent {
         } as Validators_ValidatorContainer;
       }
       const balanceItem = balances?.balances.find(b => b.publicKey === acc.validatingPublicKey);
-      let bal = BigNumber.from(0);
+      let bal = '0';
       let status = 'unknown';
       if (balanceItem) {
         status = balanceItem.status.toLowerCase();
-        bal = BigNumber.from(balanceItem.balance).div(GWEI_PER_ETHER);
+        bal = formatUnits(BigNumber.from(balanceItem.balance), 'gwei');
       }
       const effectiveBalance = BigNumber.from(val?.validator?.effectiveBalance).div(GWEI_PER_ETHER);
       return {
@@ -118,7 +119,7 @@ export class AccountsComponent {
         accountName: acc?.accountName,
         index: val?.index ? val.index : 'n/a',
         publicKey: acc.validatingPublicKey,
-        balance: bal.toString(),
+        balance: bal,
         effectiveBalance: effectiveBalance.toString(),
         status,
         activationEpoch: val?.validator?.activationEpoch,

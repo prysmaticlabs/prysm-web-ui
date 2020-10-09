@@ -7,6 +7,9 @@ import { FAR_FUTURE_EPOCH } from 'src/app/modules/core/constants';
 @Pipe({name: 'epoch'})
 export class EpochPipe implements PipeTransform {
   transform(n: number): string {
+    if (!n) {
+      return 'n/a';
+    }
     if (n === 0) {
       return 'genesis';
     } else if (n.toString() === FAR_FUTURE_EPOCH) {

@@ -66,7 +66,7 @@ export const mockDepositDataJSON = [
 
 export const generateBalancesForEpoch = (url: string) => {
   const params = new URLSearchParams(url.substring(url.indexOf('?'), url.length));
-  let epoch = '0';
+  let epoch = '1';
   const paramsEpoch = params.get('epoch');
   if (paramsEpoch) {
     epoch = paramsEpoch;

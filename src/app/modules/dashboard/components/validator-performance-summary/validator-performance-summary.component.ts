@@ -4,6 +4,7 @@ import { ValidatorService } from 'src/app/modules/core/services/validator.servic
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BigNumber } from 'ethers';
+import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
 
 import { GWEI_PER_ETHER, FAR_FUTURE_EPOCH } from 'src/app/modules/core/constants';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
@@ -14,7 +15,7 @@ export interface PerformanceData {
   averageInclusionDistance: number;
   correctlyVotedHeadPercent: number;
   overallScore: string;
-  recentEpochGains: number;
+  recentEpochGains: string;
   totalBalance: string;
 }
 
@@ -97,20 +98,11 @@ export class ValidatorPerformanceSummaryComponent {
       correctlyVotedHeadPercent: (votedHeadPercentage * 100),
       overallScore,
       recentEpochGains,
-      totalBalance: totalBalance.div(GWEI_PER_ETHER).toString(),
+      totalBalance: formatUnits(totalBalance, 'gwei').toString(),
     } as PerformanceData;
   }
 
-  private computeAverageEffectiveBalance(balances: string[]): number {
-    const effBalances = balances.map(num => BigNumber.from(num));
-    const total = effBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
-    if (total.eq(BigNumber.from('0'))) {
-      return 0;
-    }
-    return total.div(BigNumber.from(balances.length)).div(GWEI_PER_ETHER).toNumber();
-  }
-
-  private computeEpochGains(pre: string[], post: string[]): number {
+  private computeEpochGains(pre: string[], post: string[]): string {
     const beforeTransition = pre.map(num => BigNumber.from(num));
     const afterTransition = post.map(num => BigNumber.from(num));
     if (beforeTransition.length !== afterTransition.length) {
@@ -121,8 +113,8 @@ export class ValidatorPerformanceSummaryComponent {
     });
     const gainsInGwei = diffInEth.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
     if (gainsInGwei.eq(BigNumber.from('0'))) {
-      return 0;
+      return '0';
     }
-    return gainsInGwei.toNumber() / GWEI_PER_ETHER;
+    return formatUnits(gainsInGwei, 'gwei');
   }
 }

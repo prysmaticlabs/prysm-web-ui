@@ -1,5 +1,8 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MockService } from 'ng-mocks';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { of } from 'rxjs';
@@ -13,6 +16,7 @@ describe('ImportComponent', () => {
   let component: ImportComponent;
   let fixture: ComponentFixture<ImportComponent>;
   let service: WalletService = MockService(WalletService);
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,6 +24,7 @@ describe('ImportComponent', () => {
         ImportComponent,
       ],
       imports: [
+        RouterTestingModule,
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
@@ -27,10 +32,12 @@ describe('ImportComponent', () => {
       ],
       providers: [
         { provide: WalletService, useValue: service },
+        { provide: APP_BASE_HREF, useValue: '/' }
       ]
     })
     .compileComponents();
     service = TestBed.inject(WalletService);
+    router = TestBed.inject(Router);
   }));
 
   beforeEach(() => {

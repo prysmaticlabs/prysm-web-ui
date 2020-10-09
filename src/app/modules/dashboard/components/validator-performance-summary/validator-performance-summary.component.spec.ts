@@ -73,13 +73,13 @@ describe('ValidatorPerformanceSummaryComponent', () => {
 
   describe('transformPerformanceData', () => {
     it('should properly determine average effective balance', () => {
-      expect(transformedData.totalBalance).toEqual('0');
+      expect(transformedData.totalBalance).toEqual('0.0');
     });
     it('should properly determine average inclusion distance', () => {
       expect(transformedData.averageInclusionDistance).toEqual(1.5);
     });
     it('should properly determine epoch gains', () => {
-      expect(transformedData.recentEpochGains).toEqual(2);
+      expect(transformedData.recentEpochGains).toEqual('2.0');
     });
     it('should properly determine correctly voted head percent', () => {
       expect(transformedData.correctlyVotedHeadPercent).toEqual(50);

@@ -3,7 +3,11 @@
     <div>
       <div class="flex justify-between">
         <div class="text-white uppercase">Wallet Directory</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          class="text-muted mt-1 text-base cursor-pointer"
+          [matTooltip]="walletDirTooltip">
           help_outline
         </mat-icon>
       </div>
@@ -14,7 +18,11 @@
     <div *ngIf="wallet?.keymanagerKind === 'DIRECT'">
       <div class="flex justify-between">
         <div class="text-white uppercase">Accounts Keystore File</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          class="text-muted mt-1 text-base cursor-pointer"
+          [matTooltip]="keystoreTooltip">
           help_outline
         </mat-icon>
       </div>
@@ -25,7 +33,11 @@
     <div *ngIf="wallet?.keymanagerKind === 'DERIVED'">
       <div class="flex justify-between">
         <div class="text-white uppercase">Encrypted Seed File</div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" matTooltip="hello">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          class="text-muted mt-1 text-base cursor-pointer"
+          [matTooltip]="encryptedSeedTooltip">
           help_outline
         </mat-icon>
       </div>

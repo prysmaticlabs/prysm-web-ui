@@ -1,20 +1,21 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 
-import { tap, takeUntil, switchMap, catchError } from 'rxjs/operators';
+import { delay, tap, takeUntil, switchMap, catchError } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { CreateWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { CreateWalletRequest, ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
 
 enum WizardState {
   Overview,
+  WalletDir,
   ImportAccounts,
   UnlockAccounts,
 }
@@ -41,6 +42,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   loading = false;
   isSmallScreen = false;
+  walletFormGroup = this.formBuilder.group({
+    walletDir: ['', Validators.required]
+  });
   importFormGroup = this.formBuilder.group({
     keystoresImported: [
       [] as string[],
@@ -121,16 +125,23 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     const request = {
       keymanager: 'DIRECT',
+      walletPath: this.walletFormGroup.get('walletDir')?.value,
       walletPassword: this.passwordFormGroup.get('password')?.value,
+    } as CreateWalletRequest;
+    const importRequest = {
       keystoresPassword: this.unlockFormGroup.get('keystoresPassword')?.value,
       keystoresImported: this.importFormGroup.get('keystoresImported')?.value,
-    } as CreateWalletRequest;
+    } as ImportKeystoresRequest;
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(request.walletPassword).pipe(
+    this.authService.signup(request.walletPassword, request.walletPath).pipe(
+      delay(500), // Add short delay to prevent flickering in UI in case of error.
+      switchMap(() =>
+        this.walletService.createWallet(request)
+      ),
       switchMap(() => {
-        return this.walletService.createWallet(request).pipe(
+        return this.walletService.importKeystores(importRequest).pipe(
           tap(() => {
             this.router.navigate(['/dashboard/gains-and-losses']);
           }),

@@ -8,8 +8,10 @@
       height: 120px;
     }
     .signup-form-container {
-      height: 300px;
       background-color: rgba(0, 0, 0, 0.08);
+      .mat-form-field {
+        width: 100%;
+      }
       .mat-button-disabled {
         @extend .text-hint;
       }

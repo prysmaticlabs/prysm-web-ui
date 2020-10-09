@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
 
-import { tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
+import { delay, tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
@@ -16,6 +15,7 @@ import { CreateWalletRequest, CreateWalletResponse, DepositDataResponse_DepositD
 enum WizardState {
   Overview,
   ConfirmMnemonic,
+  WalletDir,
   GenerateAccounts,
 }
 
@@ -28,7 +28,6 @@ type voidFunc = () => void;
 export class HdWalletWizardComponent implements OnInit, OnDestroy {
   @Input() resetOnboarding: voidFunc | null = null;
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
     private mnemonicValidator: MnemonicValidator,
@@ -42,6 +41,9 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   isSmallScreen = false;
   loading = false;
   depositData: DepositDataResponse_DepositData[] | null = null;
+  walletFormGroup = this.formBuilder.group({
+    walletDir: ['', Validators.required]
+  });
   mnemonicFormGroup = this.formBuilder.group({
     mnemonic: new FormControl('',
       // Synchronous validators.
@@ -57,7 +59,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   accountsFormGroup = this.formBuilder.group({
     numAccounts: new FormControl('', [
       Validators.required,
-      Validators.min(0),
+      Validators.min(1),
     ]),
   });
   passwordFormGroup = this.formBuilder.group({
@@ -119,6 +121,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     const request = {
       keymanager: 'DERIVED',
+      walletPath: this.walletFormGroup.controls.walletDir.value,
       walletPassword: this.passwordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
@@ -126,7 +129,8 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(request.walletPassword).pipe(
+    this.authService.signup(request.walletPassword, request.walletPath).pipe(
+      delay(500), // Delay to prevent flickering on loading.
       switchMap(() => {
         return this.walletService.createWallet(request).pipe(
           tap((res: CreateWalletResponse) => {

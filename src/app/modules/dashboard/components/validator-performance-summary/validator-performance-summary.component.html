@@ -14,13 +14,13 @@
     <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-6" *ngIf="(performanceData$ | async) as perf">
       <div>
         <div class="flex justify-between">
-          <div class="text-muted uppercase">Avg Effective <br />Balance</div>
-          <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.effectiveBalance">
+          <div class="text-muted uppercase">Total ETH Balance</div>
+          <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mt-1 text-base cursor-pointer" [matTooltip]="tooltips.totalBalance">
             help_outline
           </mat-icon>
         </div>
         <div class="text-primary font-semibold text-2xl mt-2">
-          {{perf.averageEffectiveBalance | number: '1.2-2'}} ETH
+          {{perf.totalBalance | number: '1.2-2'}} ETH
         </div>
       </div>
       <div>

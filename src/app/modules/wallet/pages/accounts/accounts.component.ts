@@ -110,9 +110,10 @@ export class AccountsComponent {
       let bal = '0';
       let status = 'unknown';
       if (balanceItem) {
-        status = balanceItem.status.toLowerCase();
+        status = balanceItem.status !== '' ? balanceItem.status.toLowerCase() : 'unknown';
         bal = formatUnits(BigNumber.from(balanceItem.balance), 'gwei');
       }
+      console.log("accounts status: " + status);
       const effectiveBalance = BigNumber.from(val?.validator?.effectiveBalance).div(GWEI_PER_ETHER);
       return {
         select: idx,

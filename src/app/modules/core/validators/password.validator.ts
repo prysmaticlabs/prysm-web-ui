@@ -12,7 +12,7 @@ export class PasswordValidator {
     passwordMismatch: 'Passwords do not match'
   };
 
-  // Ensures a password has at least: 
+  // Ensures a password has at least:
   // 1 letter (?=.*[A-Za-z])
   // 1 number (?=.*\d)
   // 1 of any other character (?=.*[^A-Za-z\d])

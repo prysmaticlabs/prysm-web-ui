@@ -16,13 +16,13 @@ export class WalletHelpComponent {
     {
       title: 'How can I change my wallet password?',
       content: `
-      You can easily change your wallet password by visiting our <a class="text-primary" href="/dashboard/gains-and-losses">change password page</a>
+      You can easily change your wallet password by visiting our <a class="text-primary" href="/dashboard/security/change-password">change password page</a>
       `,
     },
     {
       title: 'How are my private keys stored?',
       content: `
-      Private keys are encrypted using the <a class="text-primary" href="https://eips.ethereum.org/EIPS/eip-2335" target="_blank">EIP-2334 keystore standard</a> for BLS-12381 private keys, which is implemented by all eth2 client teams. The internal representation Prysm uses, however, is quite different. For optimization purposes, we store a single EIP-2335 keystore called all-accounts.keystore.json which stores your private keys encrypted by a strong password. This file is still compliant with EIP-2335.
+      Private keys are encrypted using the <a class="text-primary" href="https://eips.ethereum.org/EIPS/eip-2335" target="_blank">EIP-2334 keystore standard</a> for BLS-12381 private keys, which is implemented by all eth2 client teams. <br/><br/>The internal representation Prysm uses, however, is quite different. For optimization purposes, we store a single EIP-2335 keystore called all-accounts.keystore.json which stores your private keys encrypted by a strong password. <br/><br/>This file is still compliant with EIP-2335.
       `,
     },
     {

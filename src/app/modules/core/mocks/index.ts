@@ -8,7 +8,7 @@ import {
   HasWalletResponse,
   ImportKeystoresResponse,
   BackupAccountsResponse,
-  DeleteAccountsResponse
+  DeleteAccountsResponse, DefaultWalletResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ChainHead,
@@ -66,7 +66,7 @@ export const mockDepositDataJSON = [
 
 export const generateBalancesForEpoch = (url: string) => {
   const params = new URLSearchParams(url.substring(url.indexOf('?'), url.length));
-  let epoch = '0';
+  let epoch = '1';
   const paramsEpoch = params.get('epoch');
   if (paramsEpoch) {
     epoch = paramsEpoch;
@@ -105,6 +105,9 @@ export const Mocks: IMocks = {
     keymanagerKind: 'DIRECT',
     walletPath: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2'
   } as WalletResponse,
+  '/v2/validator/wallet/default': {
+    walletDir: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2'
+  } as DefaultWalletResponse,
   '/v2/validator/wallet/create': {
     walletPath: '/Users/johndoe/Library/Eth2Validators/prysm-wallet-v2',
     keymanagerKind: 'DERIVED',

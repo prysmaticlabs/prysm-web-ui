@@ -17,6 +17,7 @@ import { MnemonicValidator } from './validators/mnemonic.validator';
 
 import { HdWalletWizardComponent } from './pages/hd-wallet-wizard/hd-wallet-wizard.component';
 import { NonhdWalletWizardComponent } from './pages/nonhd-wallet-wizard/nonhd-wallet-wizard.component';
+import { WalletDirectoryFormComponent } from './components/wallet-directory-form/wallet-directory-form.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { NonhdWalletWizardComponent } from './pages/nonhd-wallet-wizard/nonhd-wa
     ConfirmMnemonicComponent,
     NonhdWalletWizardComponent,
     UnlockKeysComponent,
+    WalletDirectoryFormComponent,
   ],
   providers: [MnemonicValidator],
   imports: [

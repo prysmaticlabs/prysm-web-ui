@@ -70,6 +70,12 @@
   }
 }
 
+.deposit-img {
+  img {
+    width: 160px;
+  }
+}
+
 .import-keys-form {
   .ngx-file-drop__drop-zone {
     border: 4px dashed $primary !important;

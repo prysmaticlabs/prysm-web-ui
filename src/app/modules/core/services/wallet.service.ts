@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, share, shareReplay } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {
   WalletResponse,
@@ -19,7 +19,7 @@ import {
   DeleteAccountsResponse,
   CreateAccountsRequest,
   CreateWalletResponse,
-  DepositDataResponse
+  DepositDataResponse, DefaultWalletResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -34,6 +34,7 @@ export class WalletService {
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   // Observables.
+  defaultWalletDir$: Observable<DefaultWalletResponse> = this.http.get<DefaultWalletResponse>(`${this.apiUrl}/wallet/default`);
   walletExists$: Observable<HasWalletResponse> = this.http.get<HasWalletResponse>(`${this.apiUrl}/wallet/exists`);
   walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`).pipe(
     share(),
@@ -91,6 +92,15 @@ export class WalletService {
   }
 
   deleteAccounts(request: DeleteAccountsRequest): Observable<DeleteAccountsResponse> {
-    return this.http.post<DeleteAccountsResponse>(`${this.apiUrl}/wallet/accounts/delete`, request);
+    return this.accounts(0, 1).pipe(
+      tap((res: ListAccountsResponse) => {
+        if (request.publicKeys.length >= res.totalSize) {
+          throwError('Cannot be left with 0 accounts');
+        }
+      }),
+      switchMap(() =>
+        this.http.post<DeleteAccountsResponse>(`${this.apiUrl}/wallet/accounts/delete`, request)
+      ),
+    );
   }
 }

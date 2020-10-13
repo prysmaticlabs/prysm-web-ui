@@ -4,18 +4,19 @@ import { ValidatorService } from 'src/app/modules/core/services/validator.servic
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BigNumber } from 'ethers';
+import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
 
 import { GWEI_PER_ETHER, FAR_FUTURE_EPOCH } from 'src/app/modules/core/constants';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
-import { ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorBalances, ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 
 export interface PerformanceData {
-  averageEffectiveBalance: number;
   averageInclusionDistance: number;
   correctlyVotedHeadPercent: number;
   overallScore: string;
-  recentEpochGains: number;
+  recentEpochGains: string;
+  totalBalance: string;
 }
 
 @Component({
@@ -36,7 +37,7 @@ export class ValidatorPerformanceSummaryComponent {
   noData = false;
 
   tooltips = {
-    effectiveBalance: 'Describes your average validator balance across your active validating keys',
+    totalBalance: 'Describes your total validator balance across all your active validating keys',
     inclusionDistance: `This is the average number of slots it takes for your validator's attestations to get included in blocks. The lower this number, the better your rewards will be. 1 is the optimal inclusion distance`,
     recentEpochGains: `This summarizes your total gains in ETH over the last epoch (approximately 6 minutes ago), which will give you an approximation of most recent performance`,
     correctlyVoted: `The number of times in an epoch your validators voted correctly on the chain head vs. the total number of times they voted`,
@@ -58,12 +59,13 @@ export class ValidatorPerformanceSummaryComponent {
     map(this.transformPerformanceData.bind(this)),
   );
 
-  private transformPerformanceData(perf: ValidatorPerformanceResponse): PerformanceData {
+  private transformPerformanceData(perf: ValidatorPerformanceResponse & ValidatorBalances): PerformanceData {
+    const totalBalance = perf.balances.reduce(
+      (prev, curr) => prev.add(BigNumber.from(curr.balance)),
+      BigNumber.from('0'),
+    );
     const recentEpochGains = this.computeEpochGains(
       perf.balancesBeforeEpochTransition, perf.balancesAfterEpochTransition,
-    );
-    const averageEffectiveBalance = this.computeAverageEffectiveBalance(
-      perf.currentEffectiveBalances
     );
     const totalVotedHead = perf.correctlyVotedHead.filter(Boolean).length;
     let votedHeadPercentage = 0;
@@ -92,24 +94,15 @@ export class ValidatorPerformanceSummaryComponent {
     }
     this.loading = false;
     return {
-      averageEffectiveBalance,
       averageInclusionDistance,
       correctlyVotedHeadPercent: (votedHeadPercentage * 100),
       overallScore,
       recentEpochGains,
+      totalBalance: formatUnits(totalBalance, 'gwei').toString(),
     } as PerformanceData;
   }
 
-  private computeAverageEffectiveBalance(balances: string[]): number {
-    const effBalances = balances.map(num => BigNumber.from(num));
-    const total = effBalances.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
-    if (total.eq(BigNumber.from('0'))) {
-      return 0;
-    }
-    return total.div(BigNumber.from(balances.length)).div(GWEI_PER_ETHER).toNumber();
-  }
-
-  private computeEpochGains(pre: string[], post: string[]): number {
+  private computeEpochGains(pre: string[], post: string[]): string {
     const beforeTransition = pre.map(num => BigNumber.from(num));
     const afterTransition = post.map(num => BigNumber.from(num));
     if (beforeTransition.length !== afterTransition.length) {
@@ -120,8 +113,8 @@ export class ValidatorPerformanceSummaryComponent {
     });
     const gainsInGwei = diffInEth.reduce((prev, curr) => prev.add(curr), BigNumber.from('0'));
     if (gainsInGwei.eq(BigNumber.from('0'))) {
-      return 0;
+      return '0';
     }
-    return gainsInGwei.toNumber() / GWEI_PER_ETHER;
+    return formatUnits(gainsInGwei, 'gwei');
   }
 }

@@ -1,0 +1,34 @@
+<div *ngIf="loading && !defaultWalletDir">
+  <div class="text-white text-xl mt-4">
+    Loading default wallet directory...
+  </div>
+  <div class="my-4 text-hint text-lg leading-snug">
+    Please wait...
+  </div>
+  <div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</div>
+<div *ngIf="!loading && !defaultWalletDir">
+  Could not retrieve default wallet directory, please try again
+</div>
+<form class="generate-accounts-form" [formGroup]="formGroup" *ngIf="!loading && defaultWalletDir">
+  <div class="text-white text-xl mt-4">
+    Pick a Wallet Directory
+  </div>
+  <div class="my-4 text-hint text-lg leading-snug">
+    Enter the directory where you want to store your wallet. By default, a wallet will be created at {{defaultWalletDir}}
+  </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Enter desired wallet directory</mat-label>
+    <input
+      matInput
+      formControlName="walletDir"
+      [placeholder]="defaultWalletDir"
+      name="walletDir"
+    />
+    <mat-error class="warning" *ngIf="formGroup?.controls.walletDir.hasError('required')">
+      Wallet directory is required
+    </mat-error>
+  </mat-form-field>
+</form>

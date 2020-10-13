@@ -17,7 +17,7 @@
       Num accounts is required
     </mat-error>
     <mat-error *ngIf="formGroup?.controls.numAccounts.hasError('min')">
-      Must create at least 0 accounts
+      Must create at least 1 account(s)
     </mat-error>
     <mat-error *ngIf="formGroup?.controls.numAccounts.hasError('max')">
       Max {{maxAccounts}} accounts allowed to create at the same time

@@ -1,4 +1,3 @@
-import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -30,7 +29,7 @@ export class CreateAccountComponent {
   accountsFormGroup = this.fb.group({
     numAccounts: new FormControl('', [
       Validators.required,
-      Validators.min(0),
+      Validators.min(1),
       Validators.max(MAX_ACCOUNTS_CREATION),
     ]),
   });

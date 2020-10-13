@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 
 @Component({
   selector: 'app-wallet-password-form',
@@ -15,4 +16,6 @@ export class WalletPasswordFormComponent {
   @Input() submit: () => void = () => {};
   constructor(
   ) { }
+
+  private passwordValidator = new PasswordValidator();
 }

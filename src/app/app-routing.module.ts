@@ -15,6 +15,7 @@ import { WalletDetailsComponent } from './modules/wallet/pages/wallet-details/wa
 import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.component';
 import { CreateAccountComponent } from './modules/wallet/pages/create-account/create-account.component';
 import { ImportComponent } from './modules/wallet/pages/import/import.component';
+import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 
 const routes: Routes = [
   {
@@ -129,6 +130,13 @@ const routes: Routes = [
             },
             component: MetricsComponent,
           },
+          {
+            path: 'peerLocationsMap',
+            data: {
+              breadcrumb: 'Peer locations map'
+            },
+            component: PeerLocationsMapComponent,
+          }
         ]
       },
       {

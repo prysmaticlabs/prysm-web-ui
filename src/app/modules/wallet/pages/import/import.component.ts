@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
-import { catchError, take, tap } from 'rxjs/operators';
+import { catchError, filter, take, tap } from 'rxjs/operators';
 import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -43,6 +43,7 @@ export class ImportComponent {
     this.loading = true;
     this.walletService.importKeystores(req).pipe(
       take(1),
+      filter(result => result !== undefined),
       tap(() => {
         this.snackBar.open('Successfully imported keystores', 'Close', {
           duration: 4000,

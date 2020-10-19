@@ -43,7 +43,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   loading = false;
   isSmallScreen = false;
   walletFormGroup = this.formBuilder.group({
-    walletDir: ['', Validators.required]
+    walletDir: ['']
   });
   importFormGroup = this.formBuilder.group({
     keystoresImported: [

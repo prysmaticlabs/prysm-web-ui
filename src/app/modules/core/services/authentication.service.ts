@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { Observable, EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
 import { EnvironmenterService } from './environmenter.service';
 import { AuthRequest, AuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -40,6 +40,11 @@ export class AuthenticationService {
   // Logout the user and navigate to the application root.
   logout(): void {
     this.token = '';
-    this.router.navigateByUrl('/');
+    this.http.post<unknown>(`${this.apiUrl}/logout`, null).pipe(
+      tap(() => {
+        this.router.navigateByUrl('/');
+      }),
+      switchMap(_ => EMPTY),
+    );
   }
 }

@@ -7,8 +7,7 @@ import {
   Account,
   HasWalletResponse,
   ImportKeystoresResponse,
-  BackupAccountsResponse,
-  DeleteAccountsResponse, DefaultWalletResponse
+  DeleteAccountsResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ChainHead,
@@ -105,9 +104,6 @@ export const Mocks: IMocks = {
     keymanagerKind: 'IMPORTED',
     walletPath: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2'
   } as WalletResponse,
-  '/v2/validator/wallet/default': {
-    walletDir: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2'
-  } as DefaultWalletResponse,
   '/v2/validator/wallet/create': {
     walletPath: '/Users/johndoe/Library/Eth2Validators/prysm-wallet-v2',
     keymanagerKind: 'DERIVED',
@@ -115,9 +111,6 @@ export const Mocks: IMocks = {
   '/v2/validator/wallet/keystores/import': {
     importedPublicKeys: mockImportedKeys,
   } as ImportKeystoresResponse,
-  '/v2/validator/wallet/accounts/backup': {
-    zipFile: 'hello',
-  } as BackupAccountsResponse,
   '/v2/validator/wallet/accounts/delete': {
     deletedKeys: mockPublicKeys,
   } as DeleteAccountsResponse,

@@ -42,7 +42,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   loading = false;
   depositData: DepositDataResponse_DepositData[] | null = null;
   walletFormGroup = this.formBuilder.group({
-    walletDir: ['', Validators.required]
+    walletDir: ['']
   });
   mnemonicFormGroup = this.formBuilder.group({
     mnemonic: new FormControl('',

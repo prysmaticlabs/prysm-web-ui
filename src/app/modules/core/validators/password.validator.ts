@@ -5,10 +5,20 @@ import { AbstractControl, Validators } from '@angular/forms';
 export class PasswordValidator {
   constructor() {}
 
-  // Ensures a password has at least 1 uppercase char, 1 special char,
-  // and 1 number and must have at least length of 8.
+  errorMessage = {
+    required: 'Wallet password is required',
+    minLength: 'Password must be at least 8 characters',
+    pattern: '(Requires at least 1 letter, 1 number, and 1 special character)',
+    passwordMismatch: 'Passwords do not match'
+  };
+
+  // Ensures a password has at least:
+  // 1 letter (?=.*[A-Za-z])
+  // 1 number (?=.*\d)
+  // 1 of any other character (?=.*[^A-Za-z\d])
+  // with at least 8 total characters .{8,}
   strongPassword = Validators.pattern(
-    '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}',
+    /(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}/
   );
 
   // Ensure password and password confirmation field values match.

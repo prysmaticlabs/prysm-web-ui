@@ -34,6 +34,6 @@ describe('OnboardingComponent', () => {
       expect(component.onboardingState).toEqual(OnboardingState.NonHDWizard);
       done();
     });
-    component.selectedWallet$.next(WalletKind.Direct);
+    component.selectedWallet$.next(WalletKind.Imported);
   });
 });

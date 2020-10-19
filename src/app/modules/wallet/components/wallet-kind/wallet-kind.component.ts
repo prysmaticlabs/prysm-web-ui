@@ -17,7 +17,7 @@ export class WalletKindComponent {
   @Input() kind = 'UNKNOWN';
   constructor() { }
   info: KeymanagerInfo = {
-    DIRECT: {
+    IMPORTED: {
       name: 'Imported Wallet',
       description: 'Imported (non-deterministic) wallets are the recommended wallets to use with Prysm when coming from the official eth2 launchpad',
       docsLink: 'https://docs.prylabs.network/docs/wallet/nondeterministic',

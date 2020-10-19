@@ -28,7 +28,7 @@ export class OnboardingComponent implements OnInit, OnDestroy {
       image: '/assets/images/onboarding/lock.svg',
     },
     {
-      kind: WalletKind.Direct,
+      kind: WalletKind.Imported,
       name: 'Imported Wallet',
       description: '(Default) Simple wallet that allows to importing keys from an external source',
       image: '/assets/images/onboarding/direct.svg',
@@ -58,7 +58,7 @@ export class OnboardingComponent implements OnInit, OnDestroy {
           case WalletKind.Derived:
             this.onboardingState = OnboardingState.HDWizard;
             break;
-          case WalletKind.Direct:
+          case WalletKind.Imported:
             this.onboardingState = OnboardingState.NonHDWizard;
             break;
           case WalletKind.Remote:

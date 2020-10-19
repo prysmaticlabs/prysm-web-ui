@@ -102,7 +102,7 @@ export const Mocks: IMocks = {
   } as HasWalletResponse,
   '/v2/validator/wallet': {
     keymanagerConfig: { direct_eip_version: 'EIP-2335' },
-    keymanagerKind: 'DIRECT',
+    keymanagerKind: 'IMPORTED',
     walletPath: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2'
   } as WalletResponse,
   '/v2/validator/wallet/default': {

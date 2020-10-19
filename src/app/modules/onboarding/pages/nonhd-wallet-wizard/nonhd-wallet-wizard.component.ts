@@ -124,7 +124,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   createWallet(event: Event): void {
     event.stopPropagation();
     const request = {
-      keymanager: 'DIRECT',
+      keymanager: 'IMPORTED',
       walletPath: this.walletFormGroup.get('walletDir')?.value,
       walletPassword: this.passwordFormGroup.get('password')?.value,
     } as CreateWalletRequest;

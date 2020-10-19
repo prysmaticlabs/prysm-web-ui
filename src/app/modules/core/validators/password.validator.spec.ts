@@ -4,11 +4,11 @@ import { PasswordValidator } from './password.validator';
 
 describe('PasswordValidator', () => {
   describe('Password strength checks', () => {
-    it('should error if password does not contain uppercase characters', () => {
+    it('should error if password does not contain at least one letter', () => {
       const validator = new PasswordValidator();
       const validationFunc = validator.strongPassword;
       const formControl = {
-        value: 'passwordpassword123$',
+        value: '1234567$',
       };
       const errors = validationFunc(
         formControl as AbstractControl,
@@ -20,49 +20,109 @@ describe('PasswordValidator', () => {
       const validator = new PasswordValidator();
       const validationFunc = validator.strongPassword;
       const formControl = {
-        value: 'Passwordpassword$',
+        value: '$Password',
       };
-      const res = validationFunc(
+      const errors = validationFunc(
         formControl as AbstractControl,
       );
-      expect(res).not.toBeNull();
+      expect(errors).not.toBeNull();
     });
 
     it('should error if password does not contain at least one special character', () => {
       const validator = new PasswordValidator();
       const validationFunc = validator.strongPassword;
       const formControl = {
-        value: 'Passwordpassword2020',
+        value: 'Password1',
       };
-      const res = validationFunc(
+      const error = validationFunc(
         formControl as AbstractControl,
       );
-      expect(res).not.toBeNull();
+      expect(error).not.toBeNull();
     });
 
-    it('should error if password meets all requirements but is too short', () => {
+    it('should error if password is too short', () => {
       const validator = new PasswordValidator();
       const validationFunc = validator.strongPassword;
       const formControl = {
-        value: '1Pass$',
+        value: '1Pass$7',
       };
-      const res = validationFunc(
+      const error = validationFunc(
         formControl as AbstractControl,
       );
-      expect(res).not.toBeNull();
+      expect(error).not.toBeNull();
     });
 
     it('should not error if password meets all requirements', () => {
       const validator = new PasswordValidator();
       const validationFunc = validator.strongPassword;
       const formControl = {
-        value: '%%Str0ngpAsswordz2020%%',
+        value: '%Strong2020%%',
       };
-      const res = validationFunc(
+      const error = validationFunc(
         formControl as AbstractControl,
       );
-      expect(res).toBeNull();
+      expect(error).toBeNull();
     });
+
+    it('should not error if password meets all requirements, with punctuation for symbol', () => {
+      const validator = new PasswordValidator();
+      const validationFunc = validator.strongPassword;
+      const formControl = {
+        value: '%Strong2020%%',
+      };
+      const error = validationFunc(
+        formControl as AbstractControl,
+      );
+      expect(error).toBeNull();
+    });
+  });
+
+  it('should not error if password meets all requirements, with unicode for symbol', () => {
+    const validator = new PasswordValidator();
+    const validationFunc = validator.strongPassword;
+    const formControl = {
+      value: 'Strong2020🚀',
+    };
+    const error = validationFunc(
+      formControl as AbstractControl,
+    );
+    expect(error).toBeNull();
+  });
+
+  it('should not error if password meets all requirements, with exactly minimum length', () => {
+    const validator = new PasswordValidator();
+    const validationFunc = validator.strongPassword;
+    const formControl = {
+      value: 'Pass123🚀',
+    };
+    const error = validationFunc(
+      formControl as AbstractControl,
+    );
+    expect(error).toBeNull();
+  });
+
+  it('should not error if password meets all requirements, with only lowercase (no uppercase)', () => {
+    const validator = new PasswordValidator();
+    const validationFunc = validator.strongPassword;
+    const formControl = {
+      value: 'pass123🚀',
+    };
+    const error = validationFunc(
+      formControl as AbstractControl,
+    );
+    expect(error).toBeNull();
+  });
+
+  it('should not error if password meets all requirements, with only uppercase (no lowercase)', () => {
+    const validator = new PasswordValidator();
+    const validationFunc = validator.strongPassword;
+    const formControl = {
+      value: 'PASS123🚀',
+    };
+    const error = validationFunc(
+      formControl as AbstractControl,
+    );
+    expect(error).toBeNull();
   });
 
   describe('Password confirmation mismatches', () => {

@@ -60,7 +60,7 @@ describe('BeaconNodeStatusComponent', () => {
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Not Connected');
   });
 
-  it('it should display sync process bar if synchronizing', () => {
+  it('it should display sync progress bar if synchronizing', () => {
     let bar = fixture.debugElement.query(By.css('.mat-progress-bar'));
     expect(bar.nativeElement).toBeTruthy();
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Syncing to chain head');
@@ -73,7 +73,7 @@ describe('BeaconNodeStatusComponent', () => {
     expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('Syncing to chain head');
   });
 
-  it('it should only display sync process bar if connected', () => {
+  it('it should only display sync progress bar if connected', () => {
     component.endpoint$ = of('endpoint.com');
     component.connected$ = of(false);
     component.syncing$ = of(true);
@@ -107,6 +107,34 @@ describe('BeaconNodeStatusComponent', () => {
       fixture.detectChanges();
       const content: HTMLElement = fixture.nativeElement;
       expect(content.textContent).toContain('Warning');
+    });
+  });
+
+  describe('Latest clock slot data', () => {
+    it('should display \'Awaiting Genesis\' if slot number is negative', () => {
+      component.chainHead$ = of({
+        headSlot: -1024,
+        headEpoch: 32,
+        justifiedEpoch: 31,
+        finalizedEpoch: 30,
+      } as ChainHead);
+      component.latestClockSlotPoll$ = of(-1024);
+      fixture.detectChanges();
+      const content: HTMLElement = fixture.nativeElement;
+      expect(content.textContent).toContain('Awaiting Genesis');
+    });
+
+    it('should display string representation of slot number if positive', () => {
+      component.chainHead$ = of({
+        headSlot: 1024,
+        headEpoch: 32,
+        justifiedEpoch: 31,
+        finalizedEpoch: 30,
+      } as ChainHead);
+      component.latestClockSlotPoll$ = of(1024);
+      fixture.detectChanges();
+      const content: HTMLElement = fixture.nativeElement;
+      expect(content.textContent).toContain('1024');
     });
   });
 });

@@ -46,6 +46,7 @@ import { BreadcrumbService } from './services/breadcrumb.service';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DepositDataComponent } from './components/deposit-data/deposit-data.component';
 import { EpochPipe } from './pipes/format-epoch.pipe';
+import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
 
 @NgModule({
@@ -56,6 +57,7 @@ import { BalancePipe } from './pipes/balance.pipe';
     PrettyjsonPipe,
     BalancePipe,
     EpochPipe,
+    SlotPipe,
     WalletPasswordFormComponent,
     LoadingComponent,
     ImportAccountsFormComponent,
@@ -118,6 +120,7 @@ import { BalancePipe } from './pipes/balance.pipe';
     CreateAccountsFormComponent,
     DepositDataComponent,
     EpochPipe,
+    SlotPipe,
     BalancePipe,
   ],
 })

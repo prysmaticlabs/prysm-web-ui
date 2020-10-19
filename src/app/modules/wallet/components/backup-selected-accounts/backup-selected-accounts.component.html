@@ -50,13 +50,13 @@
           type="password"
         />
         <mat-error *ngIf="passwordGroup.controls.password.hasError('required')">
-          Password is required
+          {{passwordValidator.errorMessage.required}}
         </mat-error>
         <mat-error *ngIf="passwordGroup.controls.password.hasError('minlength')">
-          Password needs at least 8 characters
+          {{passwordValidator.errorMessage.minLength}}
         </mat-error>
         <mat-error *ngIf="passwordGroup.controls.password.hasError('pattern')">
-          Needs at least 1 uppercase letter, 1 number, and 1 special char
+          {{passwordValidator.errorMessage.pattern}}
         </mat-error>
       </mat-form-field>
     </form>

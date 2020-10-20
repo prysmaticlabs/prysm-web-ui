@@ -131,7 +131,7 @@ const routes: Routes = [
             component: MetricsComponent,
           },
           {
-            path: 'peerLocationsMap',
+            path: 'peers-map',
             data: {
               breadcrumb: 'Peer locations map'
             },

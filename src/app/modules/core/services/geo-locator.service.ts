@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Peers } from '../../../proto/eth/v1alpha1/node';
 import { BeaconNodeService } from './beacon-node.service';
+import { GEO_COORDINATES_API } from '../../core/constants';
+
 
 export interface GeoCoordinate {
   city: string;
@@ -28,7 +30,7 @@ export class GeoLocatorService {
           return peer.address.split('/')[2];
         });
       }),
-      switchMap(ips => this.http.post<GeoCoordinate[]>('http://ip-api.com/batch', JSON.stringify(ips)))
+      switchMap(ips => this.http.post<GeoCoordinate[]>(GEO_COORDINATES_API, JSON.stringify(ips)))
     );
   }
 }

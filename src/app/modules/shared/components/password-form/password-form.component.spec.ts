@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WalletPasswordFormComponent } from './wallet-password-form.component';
+import { PasswordFormComponent } from './password-form.component';
 import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('WalletPasswordFormComponent', () => {
-  let component: WalletPasswordFormComponent;
-  let fixture: ComponentFixture<WalletPasswordFormComponent>;
+describe('PasswordFormComponent', () => {
+  let component: PasswordFormComponent;
+  let fixture: ComponentFixture<PasswordFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WalletPasswordFormComponent ],
+      declarations: [ PasswordFormComponent ],
       imports: [
         BrowserAnimationsModule,
         FormsModule,
@@ -26,7 +26,7 @@ describe('WalletPasswordFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WalletPasswordFormComponent);
+    fixture = TestBed.createComponent(PasswordFormComponent);
     component = fixture.componentInstance;
     const builder = new FormBuilder();
     component.formGroup = builder.group({

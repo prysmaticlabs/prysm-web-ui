@@ -72,10 +72,6 @@ export class WalletService {
     return this.http.post<CreateWalletResponse>(`${this.apiUrl}/wallet/create`, request);
   }
 
-  changeWalletPassword(request: ChangePasswordRequest): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/wallet/password/edit`, request);
-  }
-
   importKeystores(request: ImportKeystoresRequest): Observable<ImportKeystoresResponse> {
     return this.http.post<ImportKeystoresResponse>(`${this.apiUrl}/wallet/keystores/import`, request);
   }

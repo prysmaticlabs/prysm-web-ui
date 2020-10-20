@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { Observable, EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
 import { EnvironmenterService } from './environmenter.service';
-import { AuthRequest, AuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { AuthRequest, AuthResponse, ChangePasswordRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,10 @@ export class AuthenticationService {
 
   signup(password: string, walletDir: string): Observable<AuthResponse> {
     return this.authenticate(`${this.apiUrl}/signup`, password, walletDir);
+  }
+
+  changeUIPassword(request: ChangePasswordRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/password/edit`, request);
   }
 
   // Authenticate the user with a password and extract the JWT token

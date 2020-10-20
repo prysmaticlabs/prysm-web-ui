@@ -13,25 +13,10 @@
         </div>
         <div *ngIf="!isSmallScreen" class="wizard-container hidden md:flex md:w-2/3 items-center">
           <mat-horizontal-stepper class="bg-paper rounded-r" linear #stepper>
-            <mat-step label="Overview">
-              <div class="text-white text-xl mt-4">
-                Creating an Wallet By Importing Keys
-              </div>
-              <div class="my-4 text-hint text-lg leading-snug">
-                You can create a new wallet for your Prysm validator by importing keys from an external source, such as those created during the <a href="https://medalla.launchpad.ethereum.org/" target="_blank" class="text-primary font-semibold">eth2 launchpad</a> process by the eth2.0-deposit-cli
-              </div>
-              <div class="overview-img">
-                <img src="/assets/images/launchpad.png"/>
-              </div>
-              <div class="mt-6">
-                <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.Overview)">Continue</button></span>
-              </div>
-            </mat-step>
-            <mat-step [stepControl]="walletFormGroup" label="Wallet">
+            <mat-step label="Directory">
               <app-wallet-directory-form [formGroup]="walletFormGroup"></app-wallet-directory-form>
               <div class="mt-6">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletDir)">Continue</button></span>
               </div>
             </mat-step>
@@ -49,7 +34,19 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockAccounts)">Continue</button></span>
               </div>
             </mat-step>
-            <mat-step [stepControl]="passwordFormGroup" label="Password">
+            <mat-step [stepControl]="passwordFormGroup" label="Web Password">
+              <app-password-form
+                title="Web UI Password"
+                subtitle="You'll need to input this password every time you log back into the web interface."
+                label="Web password"
+                confirmationLabel="Confirm web password"
+                [formGroup]="passwordFormGroup"></app-password-form>
+              <div class="mt-4">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WebPassword)">Continue</button></span>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="walletPasswordFormGroup" label="Wallet">
               <div *ngIf="loading">
                 <div class="text-white text-xl mt-4">
                   Creating wallet...
@@ -62,19 +59,19 @@
                 </div>
               </div>
               <div *ngIf="!loading">
-                <app-wallet-password-form
+                <app-password-form
                   title="Pick a strong wallet password"
-                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  subtitle="This is the password used to encrypt your wallet itself"
                   label="Wallet password"
                   confirmationLabel="Confirm wallet password"
-                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
+                  [formGroup]="walletPasswordFormGroup"></app-password-form>
                 <div class="mt-4">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                   <span class="ml-4">
                     <button color="primary"
                       mat-raised-button
                       (click)="createWallet($event)"
-                      [disabled]="passwordFormGroup.invalid">
+                      [disabled]="walletPasswordFormGroup.invalid">
                       Continue
                     </button>
                   </span>
@@ -127,12 +124,12 @@
                 </div>
               </div>
               <div *ngIf="!loading">
-                <app-wallet-password-form
+                <app-password-form
                   title="Pick a strong wallet password"
                   subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
                   label="Wallet password"
                   confirmationLabel="Confirm wallet password"
-                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
+                  [formGroup]="passwordFormGroup"></app-password-form>
                 <div class="mt-4">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                   <span class="ml-4">

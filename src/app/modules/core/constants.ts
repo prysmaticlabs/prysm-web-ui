@@ -11,3 +11,4 @@ export const BEACONCHAIN_EXPLORER = 'https://beaconcha.in';
 export const VALIDATOR_WS_ENDPOINT = 'ws://localhost:8081/logs';
 export const BEACON_WS_ENDPOINT = 'ws://localhost:8080/logs';
 export const WS_RECONNECT_INTERVAL = 3000;
+export const GEO_COORDINATES_API = 'http://ip-api.com/batch';

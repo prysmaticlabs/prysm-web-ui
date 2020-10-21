@@ -41,7 +41,7 @@ describe('ImportComponent', () => {
   }));
 
   beforeEach(() => {
-    spyOn(service, 'importKeystores').and.returnValue(of({} as ImportKeystoresResponse));
+    spyOn(service, 'importKeystores').and.returnValue(of());
     fixture = TestBed.createComponent(ImportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

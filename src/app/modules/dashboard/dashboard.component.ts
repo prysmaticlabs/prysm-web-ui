@@ -59,6 +59,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           icon: 'memory',
           path: '/dashboard/system/logs',
         },
+        {
+          name: 'Peer locations map',
+          icon: 'map',
+          path: '/dashboard/system/peers-map',
+        }
       ],
     },
     {

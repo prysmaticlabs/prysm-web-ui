@@ -12,6 +12,7 @@ import { DoubleBarChartComponent } from './components/double-bar-chart/double-ba
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { LogsStreamComponent } from './components/logs-stream/logs-stream.component';
 import { LogsService } from './services/logs.service';
+import { PeerLocationsMapComponent } from './pages/peer-locations-map/peer-locations-map.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { LogsService } from './services/logs.service';
     DoubleBarChartComponent,
     PieChartComponent,
     LogsStreamComponent,
+    PeerLocationsMapComponent,
   ],
   providers: [
     LogsService,

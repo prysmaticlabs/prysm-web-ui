@@ -45,13 +45,6 @@ export interface CreateWalletResponse {
   accountsCreated: DepositDataResponse;
 }
 
-export interface DefaultWalletResponse {
-  /**
-   *  Path to the default wallet directory.
-   */
-  walletDir: string;
-}
-
 export interface EditWalletConfigRequest {
   remoteAddr: string;
   remoteCrtPath: string;
@@ -225,24 +218,6 @@ export interface DepositDataResponse_DepositData {
   deposit_message_root: string;
   deposit_data_root: string;
   fork_version: string;
-}
-
-export interface BackupAccountsRequest {
-  /**
-   *  Public keys to backup.
-   */
-  publicKeys: string[];
-  /**
-   *  Keystores password to encrypt the backed-up accounts.
-   */
-  backupPassword: string;
-}
-
-export interface BackupAccountsResponse {
-  /**
-   *  Public keys to backup.
-   */
-  zipFile: string;
 }
 
 export interface DeleteAccountsRequest {

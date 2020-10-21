@@ -3,7 +3,7 @@
     <button
       mat-raised-button
       color="accent"
-      *ngIf="wallet.keymanagerKind === 'DIRECT'"
+      *ngIf="wallet.keymanagerKind === 'IMPORTED'"
       class="large-btn">
       <span class="flex items-center">
         <span class="mr-2">Import</span>
@@ -11,12 +11,11 @@
       </span>
     </button>
   </a>
-  <div class="mx-2" *ngIf="wallet.keymanagerKind === 'DIRECT'"></div>
   <a routerLink="/dashboard/wallet/accounts/create">
     <button
       mat-raised-button
       color="primary"
-      *ngIf="!wallet.keymanagerKind || wallet.keymanagerKind === 'DIRECT' || wallet.keymanagerKind === 'DERIVED'"
+      *ngIf="wallet.keymanagerKind === 'DERIVED'"
       class="large-btn">
       <span class="flex items-center">
         <span class="mr-2">New Account</span>

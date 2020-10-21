@@ -1,5 +1,5 @@
 export enum WalletKind {
-  Direct,
+  Imported,
   Derived,
   Remote,
 }

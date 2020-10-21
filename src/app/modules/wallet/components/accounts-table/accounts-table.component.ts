@@ -7,7 +7,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BEACONCHAIN_EXPLORER, DIALOG_WIDTH } from 'src/app/modules/core/constants';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
-import { BackupSelectedAccountsComponent } from '../backup-selected-accounts/backup-selected-accounts.component';
 import { DeleteSelectedAccountsComponent } from '../delete-selected-accounts/delete-selected-accounts.component';
 
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
@@ -57,11 +56,6 @@ export class AccountsTableComponent implements AfterViewInit {
       name: 'View On Beaconcha.in Explorer',
       icon: 'open_in_new',
       action: this.openExplorer.bind(this),
-    },
-    {
-      name: 'Backup Account',
-      icon: 'get_app',
-      action: this.openBackupDialog.bind(this),
     },
     {
       name: 'Delete Account',
@@ -124,13 +118,6 @@ export class AccountsTableComponent implements AfterViewInit {
       hex = hex.replace('0x', '');
       window.open(`${BEACONCHAIN_EXPLORER}/validator/${hex}`, '_blank');
     }
-  }
-
-  private openBackupDialog(publicKey: string): void {
-    this.dialog.open(BackupSelectedAccountsComponent, {
-      data: [publicKey],
-      width: DIALOG_WIDTH,
-    });
   }
 
   private openDeleteDialog(publicKey: string): void {

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { Observable, EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
 import { EnvironmenterService } from './environmenter.service';
-import { AuthRequest, AuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { AuthRequest, AuthResponse, ChangePasswordRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,10 @@ export class AuthenticationService {
     return this.authenticate(`${this.apiUrl}/signup`, password, walletDir);
   }
 
+  changeUIPassword(request: ChangePasswordRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/password/edit`, request);
+  }
+
   // Authenticate the user with a password and extract the JWT token
   // from the response object. Uses take to prevent multiple calls to the backend.
   authenticate(method: string, password: string, walletDir: string): Observable<AuthResponse> {
@@ -40,6 +44,11 @@ export class AuthenticationService {
   // Logout the user and navigate to the application root.
   logout(): void {
     this.token = '';
-    this.router.navigateByUrl('/');
+    this.http.post<unknown>(`${this.apiUrl}/logout`, null).pipe(
+      tap(() => {
+        this.router.navigateByUrl('/');
+      }),
+      switchMap(_ => EMPTY),
+    );
   }
 }

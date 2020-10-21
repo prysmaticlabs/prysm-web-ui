@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
-import { WalletService } from 'src/app/modules/core/services/wallet.service';
+import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { ChangePasswordRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
@@ -13,8 +13,8 @@ import { ChangePasswordComponent } from './change-password.component';
 describe('ChangePasswordComponent', () => {
   let component: ChangePasswordComponent;
   let fixture: ComponentFixture<ChangePasswordComponent>;
-  const service: WalletService = MockService(WalletService);
-  service.changeWalletPassword = (req: ChangePasswordRequest) => of();
+  const service: AuthenticationService = MockService(AuthenticationService);
+  service.changeUIPassword = (req: ChangePasswordRequest) => of();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,7 +29,7 @@ describe('ChangePasswordComponent', () => {
         MatInputModule,
       ],
       providers: [
-        { provide: WalletService, useValue: service },
+        { provide: AuthenticationService, useValue: service },
       ]
     })
     .compileComponents();

@@ -67,8 +67,8 @@ export class ValidatorPerformanceSummaryComponent {
     const recentEpochGains = this.computeEpochGains(
       perf.balancesBeforeEpochTransition, perf.balancesAfterEpochTransition,
     );
-    const totalVotedHead = perf.correctlyVotedHead.filter(Boolean).length;
-    let votedHeadPercentage = 0;
+    const totalVotedHead = perf.correctlyVotedHead.length;
+    let votedHeadPercentage = -1;
     if (totalVotedHead) {
       votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length /
         perf.correctlyVotedHead.length;
@@ -87,7 +87,7 @@ export class ValidatorPerformanceSummaryComponent {
       overallScore = 'Great';
     } else if (votedHeadPercentage >= 0.80) {
       overallScore = 'Good';
-    } else if (votedHeadPercentage === 0) {
+    } else if (votedHeadPercentage === -1) {
       overallScore = 'N/A';
     } else {
       overallScore = 'Poor';

@@ -43,7 +43,19 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.GenerateAccounts)">Continue</button></span>
               </div>
             </mat-step>
-            <mat-step [stepControl]="passwordFormGroup" label="Password">
+            <mat-step [stepControl]="passwordFormGroup" label="Web Password">
+                <app-password-form
+                  title="Pick a strong web password"
+                  subtitle="You'll need to input this password every time you log back into the web interface"
+                  label="Web password"
+                  confirmationLabel="Confirm web password"
+                  [formGroup]="passwordFormGroup"></app-password-form>
+                <div class="mt-6">
+                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                  <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletPassword)">Continue</button></span>
+                </div>
+            </mat-step>
+            <mat-step [stepControl]="walletPasswordFormGroup" label="Wallet">
               <div *ngIf="loading">
                 <div class="text-white text-xl mt-4">
                   Creating wallet...
@@ -56,12 +68,12 @@
                 </div>
               </div>
               <div *ngIf="!loading && !depositData">
-                <app-wallet-password-form
+                <app-password-form
                   title="Pick a strong wallet password"
-                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  subtitle="This is the password used to encrypt your wallet itself"
                   label="Wallet password"
                   confirmationLabel="Confirm wallet password"
-                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
+                  [formGroup]="walletPasswordFormGroup"></app-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                   <span class="ml-4">
@@ -69,7 +81,7 @@
                       color="primary"
                       mat-raised-button
                       (click)="createWallet($event)"
-                      [disabled]="passwordFormGroup.invalid">
+                      [disabled]="walletPasswordFormGroup.invalid">
                       Create Wallet
                     </button>
                   </span>
@@ -106,6 +118,13 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ConfirmMnemonic)">Continue</button></span>
               </div>
             </mat-step>
+            <mat-step [stepControl]="walletFormGroup" label="Wallet">
+              <app-wallet-directory-form [formGroup]="walletFormGroup"></app-wallet-directory-form>
+              <div class="mt-6">
+                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletDir)">Continue</button></span>
+              </div>
+            </mat-step>
             <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
               <app-create-accounts-form [formGroup]="accountsFormGroup"
               title="Generate new validator accounts"
@@ -115,7 +134,19 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.GenerateAccounts)">Continue</button></span>
               </div>
             </mat-step>
-            <mat-step [stepControl]="passwordFormGroup" label="Password">
+            <mat-step [stepControl]="passwordFormGroup" label="Web Password">
+                <app-password-form
+                  title="Pick a strong web password"
+                  subtitle="You'll need to input this password every time you log back into the web interface"
+                  label="Web password"
+                  confirmationLabel="Confirm web password"
+                  [formGroup]="passwordFormGroup"></app-password-form>
+                <div class="mt-6">
+                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
+                  <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletPassword)">Continue</button></span>
+                </div>
+            </mat-step>
+            <mat-step [stepControl]="walletPasswordFormGroup" label="Wallet">
               <div *ngIf="loading">
                 <div class="text-white text-xl mt-4">
                   Creating wallet...
@@ -128,12 +159,12 @@
                 </div>
               </div>
               <div *ngIf="!loading && !depositData">
-                <app-wallet-password-form
+                <app-password-form
                   title="Pick a strong wallet password"
-                  subtitle="You'll need to input this password every time you log back into the web interface or interact with your validator wallet."
+                  subtitle="This is the password used to encrypt your wallet itself"
                   label="Wallet password"
                   confirmationLabel="Confirm wallet password"
-                  [formGroup]="passwordFormGroup"></app-wallet-password-form>
+                  [formGroup]="walletPasswordFormGroup"></app-password-form>
                 <div class="mt-6">
                   <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                   <span class="ml-4">
@@ -141,7 +172,7 @@
                       color="primary"
                       mat-raised-button
                       (click)="createWallet($event)"
-                      [disabled]="passwordFormGroup.invalid">
+                      [disabled]="walletPasswordFormGroup.invalid">
                       Create Wallet
                     </button>
                   </span>

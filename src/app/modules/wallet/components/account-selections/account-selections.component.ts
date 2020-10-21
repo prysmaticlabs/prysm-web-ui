@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { BEACONCHAIN_EXPLORER, DIALOG_WIDTH } from 'src/app/modules/core/constants';
 
 import { TableData } from '../accounts-table/accounts-table.component';
-import { BackupSelectedAccountsComponent } from '../backup-selected-accounts/backup-selected-accounts.component';
 import { DeleteSelectedAccountsComponent } from '../delete-selected-accounts/delete-selected-accounts.component';
 
 @Component({
@@ -24,13 +23,6 @@ export class AccountSelectionsComponent {
         window.open(`${BEACONCHAIN_EXPLORER}/dashboard?validators=${indices}`, '_blank');
       }
     }
-  }
-
-  openBackupDialog(): void {
-    this.dialog.open(BackupSelectedAccountsComponent, {
-      data: this.selection?.selected.map((d: TableData) => d.publicKey),
-      width: DIALOG_WIDTH,
-    });
   }
 
   openDeleteDialog(): void {

@@ -13,13 +13,11 @@ import {
   HasWalletResponse,
   ImportKeystoresRequest,
   ImportKeystoresResponse,
-  BackupAccountsRequest,
-  BackupAccountsResponse,
   DeleteAccountsRequest,
   DeleteAccountsResponse,
   CreateAccountsRequest,
   CreateWalletResponse,
-  DepositDataResponse, DefaultWalletResponse
+  DepositDataResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -34,7 +32,6 @@ export class WalletService {
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   // Observables.
-  defaultWalletDir$: Observable<DefaultWalletResponse> = this.http.get<DefaultWalletResponse>(`${this.apiUrl}/wallet/default`);
   walletExists$: Observable<HasWalletResponse> = this.http.get<HasWalletResponse>(`${this.apiUrl}/wallet/exists`);
   walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`).pipe(
     share(),
@@ -75,20 +72,12 @@ export class WalletService {
     return this.http.post<CreateWalletResponse>(`${this.apiUrl}/wallet/create`, request);
   }
 
-  changeWalletPassword(request: ChangePasswordRequest): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/wallet/password/edit`, request);
-  }
-
   importKeystores(request: ImportKeystoresRequest): Observable<ImportKeystoresResponse> {
     return this.http.post<ImportKeystoresResponse>(`${this.apiUrl}/wallet/keystores/import`, request);
   }
 
   createAccounts(request: CreateAccountsRequest): Observable<DepositDataResponse> {
     return this.http.post<DepositDataResponse>(`${this.apiUrl}/wallet/accounts/create`, request);
-  }
-
-  backupAccounts(request: BackupAccountsRequest): Observable<BackupAccountsResponse> {
-    return this.http.post<BackupAccountsResponse>(`${this.apiUrl}/wallet/accounts/backup`, request);
   }
 
   deleteAccounts(request: DeleteAccountsRequest): Observable<DeleteAccountsResponse> {

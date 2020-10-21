@@ -21,7 +21,7 @@ describe('ChooseWalletKindComponent', () => {
     component = fixture.componentInstance;
     const walletSelections: WalletSelection[] = [
       {
-        kind: WalletKind.Direct,
+        kind: WalletKind.Imported,
         name: 'Non-HD Wallet',
         description: '(Basic) Simple wallet that allows to importing keys from an external source',
         image: '/assets/images/onboarding/direct.svg',
@@ -59,7 +59,7 @@ describe('ChooseWalletKindComponent', () => {
 
   it('should fire wallet kind selection over subject on button submission', (done) => {
     component.selectedWallet$?.subscribe(kind => {
-      expect(kind).toEqual(WalletKind.Direct);
+      expect(kind).toEqual(WalletKind.Imported);
       done();
     });
     const cards = fixture.debugElement.query(By.css('.onboarding-grid'));

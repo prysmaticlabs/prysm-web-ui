@@ -14,10 +14,10 @@ import { CreateWalletRequest, ImportKeystoresRequest } from 'src/app/proto/valid
 import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
 
 enum WizardState {
-  Overview,
   WalletDir,
   ImportAccounts,
   UnlockAccounts,
+  WebPassword,
 }
 
 type voidFunc = () => void;
@@ -43,7 +43,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   loading = false;
   isSmallScreen = false;
   walletFormGroup = this.formBuilder.group({
-    walletDir: ['', Validators.required]
+    walletDir: ['']
   });
   importFormGroup = this.formBuilder.group({
     keystoresImported: [
@@ -56,6 +56,20 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     keystoresPassword: ['', Validators.required]
   });
   passwordFormGroup = this.formBuilder.group({
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
+    passwordConfirmation: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
+  }, {
+    validators: this.passwordValidator.matchingPasswordConfirmation,
+  });
+  walletPasswordFormGroup = this.formBuilder.group({
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
@@ -124,7 +138,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   createWallet(event: Event): void {
     event.stopPropagation();
     const request = {
-      keymanager: 'DIRECT',
+      keymanager: 'IMPORTED',
       walletPath: this.walletFormGroup.get('walletDir')?.value,
       walletPassword: this.passwordFormGroup.get('password')?.value,
     } as CreateWalletRequest;
@@ -133,9 +147,10 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       keystoresImported: this.importFormGroup.get('keystoresImported')?.value,
     } as ImportKeystoresRequest;
     this.loading = true;
+    const webPassword = this.passwordFormGroup.get('password')?.value;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(request.walletPassword, request.walletPath).pipe(
+    this.authService.signup(webPassword, request.walletPath).pipe(
       delay(500), // Add short delay to prevent flickering in UI in case of error.
       switchMap(() =>
         this.walletService.createWallet(request)

@@ -17,6 +17,7 @@ enum WizardState {
   ConfirmMnemonic,
   WalletDir,
   GenerateAccounts,
+  WalletPassword,
 }
 
 type voidFunc = () => void;
@@ -42,7 +43,7 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   loading = false;
   depositData: DepositDataResponse_DepositData[] | null = null;
   walletFormGroup = this.formBuilder.group({
-    walletDir: ['', Validators.required]
+    walletDir: ['']
   });
   mnemonicFormGroup = this.formBuilder.group({
     mnemonic: new FormControl('',
@@ -63,6 +64,20 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     ]),
   });
   passwordFormGroup = this.formBuilder.group({
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
+    passwordConfirmation: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordValidator.strongPassword,
+    ]),
+  }, {
+    validators: this.passwordValidator.matchingPasswordConfirmation,
+  });
+  walletPasswordFormGroup = this.formBuilder.group({
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
@@ -122,14 +137,15 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     const request = {
       keymanager: 'DERIVED',
       walletPath: this.walletFormGroup.controls.walletDir.value,
-      walletPassword: this.passwordFormGroup.controls.password.value,
+      walletPassword: this.walletPasswordFormGroup.controls.password.value,
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
     } as CreateWalletRequest;
+    const webPassword = this.passwordFormGroup.controls.password.value;
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(request.walletPassword, request.walletPath).pipe(
+    this.authService.signup(webPassword, request.walletPath).pipe(
       delay(500), // Delay to prevent flickering on loading.
       switchMap(() => {
         return this.walletService.createWallet(request).pipe(

@@ -9,6 +9,6 @@ export class WalletDirectoryFormComponent {
   @Input() formGroup: FormGroup | null = null;
   linux = '$HOME/.eth2validators/prysm-wallet-v2';
   macos = '$HOME/Library/Eth2Validators/prysm-wallet-v2';
-  windows = `%LOCALAPPDATA%\\Eth2Validators\\prysm-wallet-v2`;
+  windows = '%LOCALAPPDATA%\\Eth2Validators\\prysm-wallet-v2';
   constructor() { }
 }

@@ -13,7 +13,6 @@ import { ChangePasswordComponent } from './modules/security/pages/change-passwor
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { WalletDetailsComponent } from './modules/wallet/pages/wallet-details/wallet-details.component';
 import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.component';
-import { CreateAccountComponent } from './modules/wallet/pages/create-account/create-account.component';
 import { ImportComponent } from './modules/wallet/pages/import/import.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 
@@ -80,13 +79,6 @@ const routes: Routes = [
                 path: '',
                 component: AccountsComponent,
               },
-              {
-                path: 'create',
-                component: CreateAccountComponent,
-                data: {
-                  breadcrumb: 'Create',
-                }
-              }
             ],
           },
           {

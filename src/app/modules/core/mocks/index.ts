@@ -7,7 +7,6 @@ import {
   Account,
   HasWalletResponse,
   ImportKeystoresResponse,
-  DeleteAccountsResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ChainHead,
@@ -111,9 +110,6 @@ export const Mocks: IMocks = {
   '/v2/validator/wallet/keystores/import': {
     importedPublicKeys: mockImportedKeys,
   } as ImportKeystoresResponse,
-  '/v2/validator/wallet/accounts/delete': {
-    deletedKeys: mockPublicKeys,
-  } as DeleteAccountsResponse,
   '/v2/validator/mnemonic/generate': {
     mnemonic: 'grape harvest method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra',
   } as GenerateMnemonicResponse,

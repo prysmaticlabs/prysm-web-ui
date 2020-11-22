@@ -10,7 +10,7 @@ import { AuthenticationService } from 'src/app/modules/core/services/authenticat
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
-import { CreateWalletRequest, CreateWalletResponse, DepositDataResponse_DepositData } from 'src/app/proto/validator/accounts/v2/web_api';
+import { CreateWalletRequest, CreateWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 enum WizardState {
   Overview,
@@ -41,7 +41,6 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   isSmallScreen = false;
   loading = false;
-  depositData: DepositDataResponse_DepositData[] | null = null;
   walletFormGroup = this.formBuilder.group({
     walletDir: ['']
   });
@@ -150,9 +149,6 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
       switchMap(() => {
         return this.walletService.createWallet(request).pipe(
           tap((res: CreateWalletResponse) => {
-            if (res.accountsCreated?.depositDataList) {
-              this.depositData = res.accountsCreated.depositDataList.map(d => d.data);
-            }
             this.loading = false;
           }),
           catchError(err => {

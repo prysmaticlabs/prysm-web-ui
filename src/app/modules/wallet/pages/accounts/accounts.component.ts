@@ -109,10 +109,10 @@ export class AccountsComponent {
       const balanceItem = balances?.balances.find(b => b.publicKey === acc.validatingPublicKey);
       let bal = '0';
       let status = 'unknown';
-      if (balanceItem) {
-        status = !balanceItem.status || balanceItem.status !== '' ? balanceItem.status.toLowerCase() : 'unknown';
+      if (balanceItem && balanceItem.status) {
+        status = balanceItem.status !== '' ? balanceItem.status.toLowerCase() : 'unknown';
         bal = formatUnits(BigNumber.from(balanceItem.balance), 'gwei');
-      }
+      } 
       const effectiveBalance = BigNumber.from(val?.validator?.effectiveBalance).div(GWEI_PER_ETHER);
       return {
         select: idx,

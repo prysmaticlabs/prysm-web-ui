@@ -41,10 +41,8 @@ import { LoadingComponent } from './loading/loading.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 import { BreadcrumbService } from './services/breadcrumb.service';
 import { AppRoutingModule } from 'src/app/app-routing.module';
-import { DepositDataComponent } from './components/deposit-data/deposit-data.component';
 import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
@@ -61,8 +59,6 @@ import { BalancePipe } from './pipes/balance.pipe';
     PasswordFormComponent,
     LoadingComponent,
     ImportAccountsFormComponent,
-    CreateAccountsFormComponent,
-    DepositDataComponent,
   ],
   providers: [
     BreadcrumbService,
@@ -117,8 +113,6 @@ import { BalancePipe } from './pipes/balance.pipe';
     NgxSkeletonLoaderModule,
     ClipboardModule,
     ImportAccountsFormComponent,
-    CreateAccountsFormComponent,
-    DepositDataComponent,
     EpochPipe,
     SlotPipe,
     BalancePipe,

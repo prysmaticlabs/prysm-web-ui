@@ -9,15 +9,10 @@ import {
   CreateWalletRequest,
   ListAccountsResponse,
   Account,
-  ChangePasswordRequest,
   HasWalletResponse,
   ImportKeystoresRequest,
   ImportKeystoresResponse,
-  DeleteAccountsRequest,
-  DeleteAccountsResponse,
-  CreateAccountsRequest,
   CreateWalletResponse,
-  DepositDataResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -74,22 +69,5 @@ export class WalletService {
 
   importKeystores(request: ImportKeystoresRequest): Observable<ImportKeystoresResponse> {
     return this.http.post<ImportKeystoresResponse>(`${this.apiUrl}/wallet/keystores/import`, request);
-  }
-
-  createAccounts(request: CreateAccountsRequest): Observable<DepositDataResponse> {
-    return this.http.post<DepositDataResponse>(`${this.apiUrl}/wallet/accounts/create`, request);
-  }
-
-  deleteAccounts(request: DeleteAccountsRequest): Observable<DeleteAccountsResponse> {
-    return this.accounts(0, 1).pipe(
-      tap((res: ListAccountsResponse) => {
-        if (request.publicKeys.length >= res.totalSize) {
-          throwError('Cannot be left with 0 accounts');
-        }
-      }),
-      switchMap(() =>
-        this.http.post<DeleteAccountsResponse>(`${this.apiUrl}/wallet/accounts/delete`, request)
-      ),
-    );
   }
 }

@@ -1,10 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BEACONCHAIN_EXPLORER, DIALOG_WIDTH } from 'src/app/modules/core/constants';
+import { BEACONCHAIN_EXPLORER } from 'src/app/modules/core/constants';
 
 import { TableData } from '../accounts-table/accounts-table.component';
-import { DeleteSelectedAccountsComponent } from '../delete-selected-accounts/delete-selected-accounts.component';
 
 @Component({
   selector: 'app-account-selections',
@@ -23,12 +22,5 @@ export class AccountSelectionsComponent {
         window.open(`${BEACONCHAIN_EXPLORER}/dashboard?validators=${indices}`, '_blank');
       }
     }
-  }
-
-  openDeleteDialog(): void {
-    this.dialog.open(DeleteSelectedAccountsComponent, {
-      data: this.selection?.selected.map((d: TableData) => d.publicKey),
-      width: DIALOG_WIDTH,
-    });
   }
 }

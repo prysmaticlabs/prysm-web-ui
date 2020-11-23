@@ -17,9 +17,7 @@ import {
   AuthResponse,
   CreateWalletRequest,
   CreateWalletResponse,
-  DepositDataResponse,
-  DepositDataResponse_DepositData_Wrapper,
-  DepositDataResponse_DepositData
+  AuthRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('HdWalletWizardComponent', () => {
@@ -35,18 +33,9 @@ describe('HdWalletWizardComponent', () => {
     walletService.createWallet = (req: CreateWalletRequest): Observable<CreateWalletResponse> => {
       return of({
         wallet: { walletPath: 'hello' } as WalletResponse,
-        accountsCreated: {
-          depositDataList: [
-            {
-              data: {
-                hello: 'world',
-              } as Partial<DepositDataResponse_DepositData>
-            } as DepositDataResponse_DepositData_Wrapper
-          ]
-        } as DepositDataResponse
       } as CreateWalletResponse);
     };
-    authService.signup = (password: string): Observable<AuthResponse> => {
+    authService.signup = (req: AuthRequest): Observable<AuthResponse> => {
       return of({ token: 'hello' } as AuthResponse);
     };
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
@@ -92,7 +81,7 @@ describe('HdWalletWizardComponent', () => {
       component.mnemonicFormGroup.controls.mnemonic.setValue('hello fish');
       component.createWallet(new Event('submit'));
       fixture.detectChanges();
-      expect(component.depositData).toBeDefined();
+      expect(component).toBeDefined();
     });
   });
 });

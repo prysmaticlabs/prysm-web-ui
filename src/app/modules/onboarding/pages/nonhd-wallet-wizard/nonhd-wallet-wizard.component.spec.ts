@@ -10,7 +10,7 @@ import { NonhdWalletWizardComponent } from './nonhd-wallet-wizard.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { WalletResponse, AuthResponse, CreateWalletRequest, CreateWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletResponse, AuthResponse, CreateWalletRequest, CreateWalletResponse, AuthRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('NonhdWalletWizardComponent', () => {
   let component: NonhdWalletWizardComponent;
@@ -27,7 +27,7 @@ describe('NonhdWalletWizardComponent', () => {
         wallet: { walletPath: 'hello' } as WalletResponse,
       } as CreateWalletResponse);
     };
-    authService.signup = (password: string, walletDir: string): Observable<AuthResponse> => {
+    authService.signup = (req: AuthRequest): Observable<AuthResponse> => {
       return of({ token: 'hello' } as AuthResponse);
     };
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);

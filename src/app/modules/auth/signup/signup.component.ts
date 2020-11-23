@@ -39,7 +39,6 @@ export class SignupComponent {
   signup(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) {
-      console.log(this.formGroup.invalid);
       return;
     }
     const req: AuthRequest = {
@@ -49,7 +48,6 @@ export class SignupComponent {
     this.authService.signup(req).pipe(
       take(1),
       tap(() => {
-        console.log('dones');
         this.snackBar.open('Successfully signed up for Prysm web', 'Close', {
           duration: 4000,
         });

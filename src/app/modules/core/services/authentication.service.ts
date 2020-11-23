@@ -25,7 +25,11 @@ export class AuthenticationService {
   }
 
   signup(request: AuthRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/signup`, request);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/signup`, request).pipe(
+      tap((res: AuthResponse) => {
+        this.token = res.token;
+      }),
+    );
   }
 
   changeUIPassword(request: ChangePasswordRequest): Observable<void> {

@@ -9,7 +9,6 @@ import {
   CreateWalletRequest,
   ListAccountsResponse,
   Account,
-  HasWalletResponse,
   ImportKeystoresRequest,
   ImportKeystoresResponse,
   CreateWalletResponse,
@@ -27,7 +26,6 @@ export class WalletService {
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   // Observables.
-  walletExists$: Observable<HasWalletResponse> = this.http.get<HasWalletResponse>(`${this.apiUrl}/wallet/exists`);
   walletConfig$: Observable<WalletResponse> = this.http.get<WalletResponse>(`${this.apiUrl}/wallet`).pipe(
     share(),
   );

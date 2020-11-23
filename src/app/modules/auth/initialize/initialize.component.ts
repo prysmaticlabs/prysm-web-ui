@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { take, tap } from 'rxjs/operators';
-import { HasUsedWeb } from 'src/app/proto/validator/accounts/v2/web_api';
+import { HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Component({
@@ -18,12 +18,16 @@ export class InitializeComponent implements OnInit {
 
   ngOnInit(): void {
     this.authenticationService.checkHasUsedWeb().pipe(
-      tap((res: HasUsedWeb) => {
-        if (res.hasSignedUp) {
-          this.router.navigate(['/login']);
+      tap((res: HasUsedWebResponse) => {
+        if (!res.hasSignedUp) {
+          if (res.hasWallet) {
+            this.router.navigate(['/signup']);
+          } else {
+            this.router.navigate(['/onboarding']);
+          }
         }
         else {
-          this.router.navigate(['/signup']);
+          this.router.navigate(['/login']);
         }
       }),
       take(1),

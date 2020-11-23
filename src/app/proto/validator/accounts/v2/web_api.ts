@@ -1,10 +1,7 @@
 /* eslint-disable */
-export interface HasUsedWeb {
+export interface HasUsedWebResponse {
   hasSignedUp: boolean;
-}
-
-export interface HasWalletResponse {
-  walletExists: boolean;
+  hasWallet: boolean;
 }
 
 export interface CreateWalletRequest {

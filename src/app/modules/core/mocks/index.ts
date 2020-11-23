@@ -5,9 +5,8 @@ import {
   NodeConnectionResponse,
   ListAccountsResponse,
   Account,
-  HasWalletResponse,
   ImportKeystoresResponse,
-  HasUsedWeb,
+  HasUsedWebResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ChainHead,
@@ -97,11 +96,9 @@ export const Mocks: IMocks = {
     token: 'mock.jwt.token',
   } as AuthResponse,
   '/v2/validator/initialized': {
-    hasSignedUp: false,
-  } as HasUsedWeb,
-  '/v2/validator/wallet/exists': {
-    walletExists: true,
-  } as HasWalletResponse,
+    hasSignedUp: true,
+    hasWallet: true,
+  } as HasUsedWebResponse,
   '/v2/validator/wallet': {
     keymanagerConfig: { direct_eip_version: 'EIP-2335' },
     keymanagerKind: 'IMPORTED',

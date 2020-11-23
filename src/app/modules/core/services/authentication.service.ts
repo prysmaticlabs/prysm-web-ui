@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { Observable, EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
 import { EnvironmenterService } from './environmenter.service';
-import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWeb } from 'src/app/proto/validator/accounts/v2/web_api';
+import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +32,9 @@ export class AuthenticationService {
     return this.http.post<void>(`${this.apiUrl}/password/edit`, request);
   }
 
-  checkHasUsedWeb(): Observable<HasUsedWeb> {
-    return this.http.get<HasUsedWeb>(`${this.apiUrl}/initialized`).pipe(
-      tap((res: HasUsedWeb) => this.hasSignedUp = res.hasSignedUp),
+  checkHasUsedWeb(): Observable<HasUsedWebResponse> {
+    return this.http.get<HasUsedWebResponse>(`${this.apiUrl}/initialized`).pipe(
+      tap((res: HasUsedWebResponse) => this.hasSignedUp = res.hasSignedUp),
     );
   }
 

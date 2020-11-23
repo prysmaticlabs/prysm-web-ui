@@ -13,22 +13,20 @@ import { ChangePasswordComponent } from './modules/security/pages/change-passwor
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { WalletDetailsComponent } from './modules/wallet/pages/wallet-details/wallet-details.component';
 import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.component';
-import { CreateAccountComponent } from './modules/wallet/pages/create-account/create-account.component';
 import { ImportComponent } from './modules/wallet/pages/import/import.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
+import { InitializeComponent } from './modules/auth/initialize/initialize.component';
+import { SignupComponent } from './modules/auth/signup/signup.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'initialize',
     pathMatch: 'full',
   },
   {
-    path: 'onboarding',
-    data: {
-      breadcrumb: 'Onboarding'
-    },
-    component: OnboardingComponent,
+    path: 'initialize',
+    component: InitializeComponent,
     canActivate: [AuthredirectGuard],
   },
   {
@@ -37,6 +35,19 @@ const routes: Routes = [
       breadcrumb: 'Login'
     },
     component: LoginComponent,
+    canActivate: [AuthredirectGuard],
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    canActivate: [AuthredirectGuard],
+  },
+  {
+    path: 'onboarding',
+    data: {
+      breadcrumb: 'Onboarding'
+    },
+    component: OnboardingComponent,
     canActivate: [AuthredirectGuard],
   },
   {
@@ -80,13 +91,6 @@ const routes: Routes = [
                 path: '',
                 component: AccountsComponent,
               },
-              {
-                path: 'create',
-                component: CreateAccountComponent,
-                data: {
-                  breadcrumb: 'Create',
-                }
-              }
             ],
           },
           {

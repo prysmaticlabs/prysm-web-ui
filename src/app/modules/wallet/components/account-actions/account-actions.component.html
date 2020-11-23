@@ -6,20 +6,8 @@
       *ngIf="wallet.keymanagerKind === 'IMPORTED'"
       class="large-btn">
       <span class="flex items-center">
-        <span class="mr-2">Import</span>
+        <span class="mr-2">Import Keystores</span>
         <mat-icon>cloud_upload</mat-icon>
-      </span>
-    </button>
-  </a>
-  <a routerLink="/dashboard/wallet/accounts/create">
-    <button
-      mat-raised-button
-      color="primary"
-      *ngIf="wallet.keymanagerKind === 'DERIVED'"
-      class="large-btn">
-      <span class="flex items-center">
-        <span class="mr-2">New Account</span>
-        <mat-icon>add</mat-icon>
       </span>
     </button>
   </a>

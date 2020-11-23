@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { Observable, EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
 import { EnvironmenterService } from './environmenter.service';
-import { AuthRequest, AuthResponse, ChangePasswordRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
   providedIn: 'root'
@@ -17,24 +17,35 @@ export class AuthenticationService {
   ) {
   }
   token = '';
+  hasSignedUp = false;
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
   login(password: string): Observable<AuthResponse> {
-    return this.authenticate(`${this.apiUrl}/login`, password, '');
+    return this.authenticate(`${this.apiUrl}/login`, password);
   }
 
-  signup(password: string, walletDir: string): Observable<AuthResponse> {
-    return this.authenticate(`${this.apiUrl}/signup`, password, walletDir);
+  signup(request: AuthRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/signup`, request).pipe(
+      tap((res: AuthResponse) => {
+        this.token = res.token;
+      }),
+    );
   }
 
   changeUIPassword(request: ChangePasswordRequest): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/password/edit`, request);
   }
 
+  checkHasUsedWeb(): Observable<HasUsedWebResponse> {
+    return this.http.get<HasUsedWebResponse>(`${this.apiUrl}/initialized`).pipe(
+      tap((res: HasUsedWebResponse) => this.hasSignedUp = res.hasSignedUp),
+    );
+  }
+
   // Authenticate the user with a password and extract the JWT token
   // from the response object. Uses take to prevent multiple calls to the backend.
-  authenticate(method: string, password: string, walletDir: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(method, { password, walletDir } as AuthRequest).pipe(
+  authenticate(method: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(method, { password } as AuthRequest).pipe(
       tap((res: AuthResponse) => {
         this.token = res.token;
       }),

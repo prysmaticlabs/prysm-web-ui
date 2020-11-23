@@ -1,7 +1,7 @@
 /* eslint-disable */
-
-export interface HasWalletResponse {
-  walletExists: boolean;
+export interface HasUsedWebResponse {
+  hasSignedUp: boolean;
+  hasWallet: boolean;
 }
 
 export interface CreateWalletRequest {
@@ -42,7 +42,6 @@ export interface CreateWalletRequest {
 
 export interface CreateWalletResponse {
   wallet: WalletResponse;
-  accountsCreated: DepositDataResponse;
 }
 
 export interface EditWalletConfigRequest {
@@ -59,7 +58,6 @@ export interface GenerateMnemonicResponse {
 export interface WalletResponse {
   walletPath: string;
   keymanagerKind: string;
-  keymanagerConfig: { [key: string]: string };
 }
 
 export interface ListAccountsRequest {
@@ -130,7 +128,7 @@ export interface AccountRequest {
 
 export interface AuthRequest {
   password: string;
-  walletDir: string;
+  passwordConfirmation: string;
 }
 
 export interface AuthResponse {
@@ -164,7 +162,7 @@ export interface NodeConnectionResponse {
 
 export interface ChangePasswordRequest {
   /**
-   *  Current wallet password.
+   *  Current UI password.
    */
   currentPassword: string;
   /**
@@ -200,36 +198,4 @@ export interface CreateAccountsRequest {
    *  Number of accounts to create.
    */
   numAccounts: number;
-}
-
-export interface DepositDataResponse {
-  depositDataList: DepositDataResponse_DepositData_Wrapper[];
-}
-
-export interface DepositDataResponse_DepositData_Wrapper {
-  data: DepositDataResponse_DepositData;
-}
-
-export interface DepositDataResponse_DepositData {
-  pubkey: string;
-  withdrawal_credentials: string;
-  amount: number;
-  signature: string;
-  deposit_message_root: string;
-  deposit_data_root: string;
-  fork_version: string;
-}
-
-export interface DeleteAccountsRequest {
-  /**
-   *  Public keys to delete.
-   */
-  publicKeys: string[];
-}
-
-export interface DeleteAccountsResponse {
-  /**
-   *  Public keys that were deleted.
-   */
-  deletedKeys: string[];
 }

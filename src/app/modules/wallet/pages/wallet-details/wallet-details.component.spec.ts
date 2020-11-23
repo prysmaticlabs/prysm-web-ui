@@ -6,7 +6,6 @@ import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { FilesAndDirectoriesComponent } from '../../components/files-and-directories/files-and-directories.component';
-import { WalletConfigComponent } from '../../components/wallet-config/wallet-config.component';
 import { WalletHelpComponent } from '../../components/wallet-help/wallet-help.component';
 import { WalletKindComponent } from '../../components/wallet-kind/wallet-kind.component';
 import { WalletDetailsComponent } from './wallet-details.component';
@@ -22,7 +21,6 @@ describe('WalletDetailsComponent', () => {
       declarations: [
         WalletDetailsComponent,
         MockComponent(WalletKindComponent),
-        MockComponent(WalletConfigComponent),
         MockComponent(WalletHelpComponent),
         MockComponent(FilesAndDirectoriesComponent),
       ],

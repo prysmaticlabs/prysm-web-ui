@@ -5,9 +5,8 @@ import {
   NodeConnectionResponse,
   ListAccountsResponse,
   Account,
-  HasWalletResponse,
   ImportKeystoresResponse,
-  DeleteAccountsResponse,
+  HasUsedWebResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ChainHead,
@@ -96,9 +95,10 @@ export const Mocks: IMocks = {
   '/v2/validator/signup': {
     token: 'mock.jwt.token',
   } as AuthResponse,
-  '/v2/validator/wallet/exists': {
-    walletExists: true,
-  } as HasWalletResponse,
+  '/v2/validator/initialized': {
+    hasSignedUp: true,
+    hasWallet: true,
+  } as HasUsedWebResponse,
   '/v2/validator/wallet': {
     keymanagerConfig: { direct_eip_version: 'EIP-2335' },
     keymanagerKind: 'IMPORTED',
@@ -111,9 +111,6 @@ export const Mocks: IMocks = {
   '/v2/validator/wallet/keystores/import': {
     importedPublicKeys: mockImportedKeys,
   } as ImportKeystoresResponse,
-  '/v2/validator/wallet/accounts/delete': {
-    deletedKeys: mockPublicKeys,
-  } as DeleteAccountsResponse,
   '/v2/validator/mnemonic/generate': {
     mnemonic: 'grape harvest method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra',
   } as GenerateMnemonicResponse,

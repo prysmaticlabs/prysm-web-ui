@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { AccountsComponent } from './pages/accounts/accounts.component';
-import { WalletConfigComponent } from './components/wallet-config/wallet-config.component';
 import { IconTriggerSelectComponent } from './components/icon-trigger-select/icon-trigger-select.component';
 import { WalletDetailsComponent } from './pages/wallet-details/wallet-details.component';
 import { WalletHelpComponent } from './components/wallet-help/wallet-help.component';
@@ -14,15 +13,12 @@ import { FilesAndDirectoriesComponent } from './components/files-and-directories
 import { AccountsTableComponent } from './components/accounts-table/accounts-table.component';
 import { AccountSelectionsComponent } from './components/account-selections/account-selections.component';
 import { AccountActionsComponent } from './components/account-actions/account-actions.component';
-import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { ImportComponent } from './pages/import/import.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { DeleteSelectedAccountsComponent } from './components/delete-selected-accounts/delete-selected-accounts.component';
 
 @NgModule({
   declarations: [
     AccountsComponent,
-    WalletConfigComponent,
     IconTriggerSelectComponent,
     WalletDetailsComponent,
     WalletHelpComponent,
@@ -31,9 +27,7 @@ import { DeleteSelectedAccountsComponent } from './components/delete-selected-ac
     AccountsTableComponent,
     AccountSelectionsComponent,
     AccountActionsComponent,
-    CreateAccountComponent,
     ImportComponent,
-    DeleteSelectedAccountsComponent,
   ],
   imports: [
     CommonModule,

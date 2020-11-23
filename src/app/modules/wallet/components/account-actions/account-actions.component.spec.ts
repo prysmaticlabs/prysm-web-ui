@@ -34,10 +34,4 @@ describe('AccountActionsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  it('should not show the import button if keymanager kind is DERIVED', () => {
-    const text = (fixture.nativeElement as HTMLElement).textContent;
-    expect(text).not.toContain('Import');
-    expect(text).toContain('New Account');
-  });
 });

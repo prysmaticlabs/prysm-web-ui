@@ -34,15 +34,6 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletDir)">Continue</button></span>
               </div>
             </mat-step>
-            <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
-              <app-create-accounts-form [formGroup]="accountsFormGroup"
-              title="Generate new validator accounts"
-              subtitle="Enter the number of new validator accounts you want to generate. This will generate validating keys from the 24 word mnemonic. Using the mnemonic, you can always recover all your validating keys andwithdrawal keys anytime."></app-create-accounts-form>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.GenerateAccounts)">Continue</button></span>
-              </div>
-            </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Web Password">
                 <app-password-form
                   title="Pick a strong web password"
@@ -85,18 +76,6 @@
                       Create Wallet
                     </button>
                   </span>
-                </div>
-              </div>
-              <div *ngIf="depositData">
-                <app-deposit-data [depositData]="depositData"></app-deposit-data>
-                <div>
-                  <a routerLink="/dashboard/gains-and-losses">
-                    <button
-                      color="primary"
-                      mat-raised-button>
-                      View Dashboard
-                    </button>
-                  </a>
                 </div>
               </div>
             </mat-step>
@@ -125,15 +104,6 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletDir)">Continue</button></span>
               </div>
             </mat-step>
-            <mat-step [stepControl]="accountsFormGroup" label="Account Creation">
-              <app-create-accounts-form [formGroup]="accountsFormGroup"
-              title="Generate new validator accounts"
-              subtitle="Enter the number of new validator accounts you want to generate. This will generate validating keys from the 24 word mnemonic. Using the mnemonic, you can always recover all your validating keys andwithdrawal keys anytime."></app-create-accounts-form>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.GenerateAccounts)">Continue</button></span>
-              </div>
-            </mat-step>
             <mat-step [stepControl]="passwordFormGroup" label="Web Password">
                 <app-password-form
                   title="Pick a strong web password"
@@ -176,18 +146,6 @@
                       Create Wallet
                     </button>
                   </span>
-                </div>
-              </div>
-              <div *ngIf="depositData">
-                <app-deposit-data [depositData]="depositData"></app-deposit-data>
-                <div>
-                  <a routerLink="/dashboard/gains-and-losses">
-                    <button
-                      color="primary"
-                      mat-raised-button>
-                      View Dashboard
-                    </button>
-                  </a>
                 </div>
               </div>
             </mat-step>

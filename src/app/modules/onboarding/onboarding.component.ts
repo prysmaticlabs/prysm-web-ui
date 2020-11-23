@@ -26,6 +26,7 @@ export class OnboardingComponent implements OnInit, OnDestroy {
       name: 'HD Wallet',
       description: 'Secure kind of blockchain wallet which can be recovered from a 24-word mnemonic phrase',
       image: '/assets/images/onboarding/lock.svg',
+      comingSoon: true,
     },
     {
       kind: WalletKind.Imported,

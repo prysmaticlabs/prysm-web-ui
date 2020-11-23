@@ -1,13 +1,12 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BEACONCHAIN_EXPLORER, DIALOG_WIDTH } from 'src/app/modules/core/constants';
+import { BEACONCHAIN_EXPLORER } from 'src/app/modules/core/constants';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
-import { DeleteSelectedAccountsComponent } from '../delete-selected-accounts/delete-selected-accounts.component';
 
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
 
@@ -56,12 +55,6 @@ export class AccountsTableComponent implements AfterViewInit {
       name: 'View On Beaconcha.in Explorer',
       icon: 'open_in_new',
       action: this.openExplorer.bind(this),
-    },
-    {
-      name: 'Delete Account',
-      icon: 'delete',
-      danger: true,
-      action: this.openDeleteDialog.bind(this),
     },
   ];
 
@@ -118,12 +111,5 @@ export class AccountsTableComponent implements AfterViewInit {
       hex = hex.replace('0x', '');
       window.open(`${BEACONCHAIN_EXPLORER}/validator/${hex}`, '_blank');
     }
-  }
-
-  private openDeleteDialog(publicKey: string): void {
-    this.dialog.open(DeleteSelectedAccountsComponent, {
-      data: [publicKey],
-      width: DIALOG_WIDTH,
-    });
   }
 }

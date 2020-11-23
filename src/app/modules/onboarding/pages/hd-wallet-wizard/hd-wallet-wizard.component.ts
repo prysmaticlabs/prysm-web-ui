@@ -10,7 +10,7 @@ import { AuthenticationService } from 'src/app/modules/core/services/authenticat
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
-import { CreateWalletRequest, CreateWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { AuthRequest, CreateWalletRequest, CreateWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 enum WizardState {
   Overview,
@@ -144,7 +144,10 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(webPassword, request.walletPath).pipe(
+    this.authService.signup({
+      password: webPassword,
+      passwordConfirmation: webPassword,
+    } as AuthRequest).pipe(
       delay(500), // Delay to prevent flickering on loading.
       switchMap(() => {
         return this.walletService.createWallet(request).pipe(

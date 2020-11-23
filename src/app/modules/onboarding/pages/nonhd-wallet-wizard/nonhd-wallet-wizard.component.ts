@@ -10,7 +10,7 @@ import { Subject, throwError } from 'rxjs';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { CreateWalletRequest, ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { AuthRequest, CreateWalletRequest, ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
 
 enum WizardState {
@@ -42,9 +42,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   loading = false;
   isSmallScreen = false;
-  walletFormGroup = this.formBuilder.group({
-    walletDir: ['']
-  });
   importFormGroup = this.formBuilder.group({
     keystoresImported: [
       [] as string[],
@@ -139,7 +136,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     const request = {
       keymanager: 'IMPORTED',
-      walletPath: this.walletFormGroup.get('walletDir')?.value,
       walletPassword: this.passwordFormGroup.get('password')?.value,
     } as CreateWalletRequest;
     const importRequest = {
@@ -150,7 +146,10 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     const webPassword = this.passwordFormGroup.get('password')?.value;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup(webPassword, request.walletPath).pipe(
+    this.authService.signup({
+      password: webPassword,
+      passwordConfirmation: webPassword,
+    } as AuthRequest).pipe(
       delay(500), // Add short delay to prevent flickering in UI in case of error.
       switchMap(() =>
         this.walletService.createWallet(request)

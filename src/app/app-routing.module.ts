@@ -15,19 +15,18 @@ import { WalletDetailsComponent } from './modules/wallet/pages/wallet-details/wa
 import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.component';
 import { ImportComponent } from './modules/wallet/pages/import/import.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
+import { InitializeComponent } from './modules/auth/initialize/initialize.component';
+import { SignupComponent } from './modules/auth/signup/signup.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'initialize',
     pathMatch: 'full',
   },
   {
-    path: 'onboarding',
-    data: {
-      breadcrumb: 'Onboarding'
-    },
-    component: OnboardingComponent,
+    path: 'initialize',
+    component: InitializeComponent,
     canActivate: [AuthredirectGuard],
   },
   {
@@ -36,6 +35,19 @@ const routes: Routes = [
       breadcrumb: 'Login'
     },
     component: LoginComponent,
+    canActivate: [AuthredirectGuard],
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    canActivate: [AuthredirectGuard],
+  },
+  {
+    path: 'onboarding',
+    data: {
+      breadcrumb: 'Onboarding'
+    },
+    component: OnboardingComponent,
     canActivate: [AuthredirectGuard],
   },
   {

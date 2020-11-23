@@ -1,4 +1,7 @@
 /* eslint-disable */
+export interface HasUsedWeb {
+  hasSignedUp: boolean;
+}
 
 export interface HasWalletResponse {
   walletExists: boolean;
@@ -128,7 +131,7 @@ export interface AccountRequest {
 
 export interface AuthRequest {
   password: string;
-  walletDir: string;
+  passwordConfirmation: string;
 }
 
 export interface AuthResponse {

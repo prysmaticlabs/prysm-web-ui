@@ -7,6 +7,7 @@ import {
   Account,
   HasWalletResponse,
   ImportKeystoresResponse,
+  HasUsedWeb,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ChainHead,
@@ -95,6 +96,9 @@ export const Mocks: IMocks = {
   '/v2/validator/signup': {
     token: 'mock.jwt.token',
   } as AuthResponse,
+  '/v2/validator/initialized': {
+    hasSignedUp: false,
+  } as HasUsedWeb,
   '/v2/validator/wallet/exists': {
     walletExists: true,
   } as HasWalletResponse,

@@ -31,7 +31,7 @@ export class LogsService {
       );
     }
     return this.validatorService.logsEndpoints$.pipe(
-      switchMap((resp: LogsEndpointResponse) => this.connect(resp.validatorLogsEndpoint)),
+      switchMap((resp: LogsEndpointResponse) => this.connect(`ws://${resp.validatorLogsEndpoint}`)),
     );
   }
 
@@ -49,7 +49,7 @@ export class LogsService {
       );
     }
     return this.validatorService.logsEndpoints$.pipe(
-      switchMap((resp: LogsEndpointResponse) => this.connect(resp.beaconLogsEndpoint)),
+      switchMap((resp: LogsEndpointResponse) => this.connect(`ws://${resp.beaconLogsEndpoint}`)),
     );
   }
 

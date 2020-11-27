@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { LogsService } from '../../services/logs.service';
+import { LogsService } from 'src/app/modules/core/services/logs.service';
 
 interface LogMetrics {
   percentInfo: string;

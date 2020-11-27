@@ -60,6 +60,11 @@ export interface WalletResponse {
   keymanagerKind: string;
 }
 
+export interface LogsEndpointResponse {
+  validatorLogsEndpoint: string;
+  beaconLogsEndpoint: string;
+}
+
 export interface ListAccountsRequest {
   /**
    *  Whether or not to return the raw RLP deposit tx data.

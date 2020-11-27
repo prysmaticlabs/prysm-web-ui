@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { EnvironmenterService } from '../../core/services/environmenter.service';
+import { EnvironmenterService } from './environmenter.service';
 
 import { LogsService } from './logs.service';
 

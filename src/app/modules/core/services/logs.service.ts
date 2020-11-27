@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, timer } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
-import { concatMap, delay, delayWhen, mergeAll, retryWhen, tap } from 'rxjs/operators';
+import { concatMap, delay, delayWhen, mergeAll, retryWhen, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from '../../core/services/environmenter.service';
 import { mockBeaconLogs, mockValidatorLogs } from 'src/app/modules/core/mocks/logs';
-import { BEACON_WS_ENDPOINT, VALIDATOR_WS_ENDPOINT, WS_RECONNECT_INTERVAL } from '../../core/constants';
+import { WS_RECONNECT_INTERVAL } from '../../core/constants';
+import { ValidatorService } from './validator.service';
+import { LogsEndpointResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogsService {
   constructor(
+    private validatorService: ValidatorService,
     private environmenter: EnvironmenterService,
   ) { }
 
@@ -27,7 +30,9 @@ export class LogsService {
         ))
       );
     }
-    return this.connect(VALIDATOR_WS_ENDPOINT);
+    return this.validatorService.logsEndpoints$.pipe(
+      switchMap((resp: LogsEndpointResponse) => this.connect(resp.validatorLogsEndpoint)),
+    );
   }
 
   beaconLogs(): Observable<MessageEvent> {
@@ -43,7 +48,9 @@ export class LogsService {
         ))
       );
     }
-    return this.connect(BEACON_WS_ENDPOINT);
+    return this.validatorService.logsEndpoints$.pipe(
+      switchMap((resp: LogsEndpointResponse) => this.connect(resp.beaconLogsEndpoint)),
+    );
   }
 
   private connect(url: string): Observable<MessageEvent> {

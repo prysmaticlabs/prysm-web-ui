@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { zip, Observable, of, throwError, EMPTY } from 'rxjs';
-import { switchMap, mergeMap, concatAll, toArray, retry, catchError, map } from 'rxjs/operators';
+import { switchMap, mergeMap, concatAll, toArray, retry, catchError, map, shareReplay } from 'rxjs/operators';
 
 import range from 'src/app/modules/core/utils/range';
 import { BeaconNodeService } from './beacon-node.service';
@@ -12,7 +12,8 @@ import {
   ValidatorBalances, ValidatorPerformanceResponse, Validators, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { hexToBase64 } from '../utils/hex-util';
-import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { ListAccountsResponse, LogsEndpointResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { EnvironmenterService } from './environmenter.service';
 
 export const MAX_EPOCH_LOOKBACK = 10;
 
@@ -24,7 +25,13 @@ export class ValidatorService {
     private http: HttpClient,
     private beaconNodeService: BeaconNodeService,
     private walletService: WalletService,
+    private environmenter: EnvironmenterService,
   ) { }
+
+  private apiUrl = this.environmenter.env.validatorEndpoint;
+  logsEndpoints$: Observable<LogsEndpointResponse> = this.http.get<LogsEndpointResponse>(`${this.apiUrl}/health/logs/endpoints`).pipe(
+    shareReplay(),
+  );
 
   // Observables.
   activationQueue$: Observable<ValidatorQueue> = this.beaconNodeService.nodeEndpoint$.pipe(

@@ -11,7 +11,6 @@ import { ProposedMissedChartComponent } from './components/proposed-missed-chart
 import { DoubleBarChartComponent } from './components/double-bar-chart/double-bar-chart.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { LogsStreamComponent } from './components/logs-stream/logs-stream.component';
-import { LogsService } from './services/logs.service';
 import { PeerLocationsMapComponent } from './pages/peer-locations-map/peer-locations-map.component';
 
 @NgModule({
@@ -24,9 +23,6 @@ import { PeerLocationsMapComponent } from './pages/peer-locations-map/peer-locat
     PieChartComponent,
     LogsStreamComponent,
     PeerLocationsMapComponent,
-  ],
-  providers: [
-    LogsService,
   ],
   imports: [
     CommonModule,

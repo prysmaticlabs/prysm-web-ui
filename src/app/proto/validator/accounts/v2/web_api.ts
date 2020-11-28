@@ -184,6 +184,10 @@ export interface ImportKeystoresRequest {
    *  Password to unlock the keystores.
    */
   keystoresPassword: string;
+  /**
+   *  Password for the wallet.
+   */
+  walletPassword: string;
 }
 
 export interface ImportKeystoresResponse {

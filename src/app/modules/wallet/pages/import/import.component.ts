@@ -39,6 +39,7 @@ export class ImportComponent {
     const req: ImportKeystoresRequest = {
       keystoresImported: this.importFormGroup.controls.keystoresImported.value,
       keystoresPassword: this.passwordFormGroup.controls.keystoresPassword.value,
+      walletPassword: 'test',
     };
     this.loading = true;
     this.walletService.importKeystores(req).pipe(

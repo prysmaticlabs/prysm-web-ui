@@ -134,13 +134,10 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
 
   createWallet(event: Event): void {
     event.stopPropagation();
-    const request = {
-      keymanager: 'IMPORTED',
-      walletPassword: this.passwordFormGroup.get('password')?.value,
-    } as CreateWalletRequest;
     const importRequest = {
       keystoresPassword: this.unlockFormGroup.get('keystoresPassword')?.value,
       keystoresImported: this.importFormGroup.get('keystoresImported')?.value,
+      walletPassword: this.passwordFormGroup.get('password')?.value,
     } as ImportKeystoresRequest;
     this.loading = true;
     const webPassword = this.passwordFormGroup.get('password')?.value;
@@ -151,9 +148,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       passwordConfirmation: webPassword,
     } as AuthRequest).pipe(
       delay(500), // Add short delay to prevent flickering in UI in case of error.
-      switchMap(() =>
-        this.walletService.createWallet(request)
-      ),
       switchMap(() => {
         return this.walletService.importKeystores(importRequest).pipe(
           tap(() => {

@@ -67,7 +67,7 @@ export class ImportAccountsFormComponent {
       this.invalidFiles.push('Invalid Format: ' + fileName);
       return;
     }
-    
+
     const imported = this.formGroup?.get('keystoresImported')?.value as string[];
     const jsonString = JSON.stringify(jsonFile);
     if (imported.includes(jsonString)) {
@@ -84,9 +84,9 @@ export class ImportAccountsFormComponent {
     if (!Array.isArray(jsonFile)) {
       return false;
     }
-    
+
     // Lazy way checking if the attributes exists.
-    return (jsonFile as Array<Object>).every(item => 
+    return (jsonFile as Array<object>).every(item =>
         'pubkey' in item
         && 'withdrawal_credentials' in item
         && 'amount' in item

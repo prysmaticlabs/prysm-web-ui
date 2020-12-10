@@ -14,14 +14,14 @@ export class LoginPage {
   private static readonly LESS_THAN_EIGHT_CHARS_PWD = 'test123';
 
   /**
-   * An invalid format password (8 characters, contains letters and numbers but no special characters)
+   * An invalid format password (at least 8 characters, contains letters and numbers but no special characters)
    */
-  private static readonly NO_SPECIAL_CHARS_PWD = 'test123';
+  private static readonly NO_SPECIAL_CHARS_PWD = 'test1234';
 
   /**
    * A valid format password (at least 8 characters, 1 letter, 1 number and 1 special character)
    */
-  private static readonly VALID_FORMAT_PWD = 'tester1#';
+  private static readonly VALID_FORMAT_PWD = 'test123#';
 
   private static readonly LOGIN_FORM_CSS     = 'app-login form.signup-form-container';
   private static readonly PASSWORD_INPUT_CSS = 'app-login form.signup-form-container input[name=\'password\']';

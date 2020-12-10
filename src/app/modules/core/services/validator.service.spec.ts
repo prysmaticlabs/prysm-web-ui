@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { ValidatorBalances, ValidatorBalances_Balance } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { hexToBase64 } from '../utils/hex-util';
 import { Account, ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { ENVIRONMENT } from 'src/environments/token';
 
 describe('ValidatorService', () => {
   let service: ValidatorService;
@@ -23,6 +24,7 @@ describe('ValidatorService', () => {
         HttpClientTestingModule,
       ],
       providers: [
+        { provide: ENVIRONMENT, useValue: jasmine.createSpyObj('EnvironmenterService', ['env']) },
         { provide: BeaconNodeService, useValue: beaconNodeService },
         { provide: WalletService, useValue: walletService },
       ]

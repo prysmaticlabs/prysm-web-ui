@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LogsComponent } from './logs.component';
 import { SharedModule } from '../../../shared/shared.module';
-import { LogsService } from '../../services/logs.service';
+import { LogsService } from '../../../core/services/logs.service';
 import { MockComponent, MockService } from 'ng-mocks';
 import { of } from 'rxjs';
 import { LogsStreamComponent } from '../../components/logs-stream/logs-stream.component';

@@ -22,12 +22,22 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<any> | Promise<boolean|UrlTree> | boolean{
+  ): Observable<any> | Promise<boolean|UrlTree> | boolean {
     const isDev = !this.environmenter.env.production;
     if (this.authenticationService.token || isDev) {
       return true;
     }
-    this.router.navigate(['/']);
+
+    if (state.url) {
+      this.router.navigate(['/login'],  {
+        queryParams: {
+          returnUrl: state.url
+        }
+      });
+    } else {
+      this.router.navigate(['/login']);
+    }
+
     return false;
   }
 }

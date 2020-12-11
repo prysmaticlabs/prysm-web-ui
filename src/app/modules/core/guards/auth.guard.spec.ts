@@ -52,7 +52,7 @@ describe('AuthGuard', () => {
       authService.token = '';
       env.env.production = true;
       expect(guard.canActivate(next, state)).toEqual(false);
-      expect(router.navigate).toHaveBeenCalledWith(['/login']);
+      expect(router.navigate).toHaveBeenCalledWith(['/']);
     });
   });
 });

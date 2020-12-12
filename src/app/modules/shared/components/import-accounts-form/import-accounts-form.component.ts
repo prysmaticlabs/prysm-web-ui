@@ -80,21 +80,12 @@ export class ImportAccountsFormComponent {
   }
 
   private isKeystoreFileValid(jsonFile: object): boolean {
-    // Keystores are by definition an array, so exit early.
-    if (!Array.isArray(jsonFile)) {
-      return false;
-    }
-
     // Lazy way checking if the attributes exists.
-    return (jsonFile as Array<object>).every(item =>
-        'pubkey' in item
-        && 'withdrawal_credentials' in item
-        && 'amount' in item
-        && 'signature' in item
-        && 'deposit_message_root' in item
-        && 'deposit_data_root' in item
-        && 'fork_version' in item
-        && 'eth2_network_name' in item
-        && 'deposit_cli_version' in item);
+    return 'crypto' in jsonFile
+        && 'description' in jsonFile
+        && 'pubkey' in jsonFile
+        && 'path' in jsonFile
+        && 'uuid' in jsonFile
+        && 'version' in jsonFile;
   }
 }

@@ -1,5 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ENVIRONMENT } from 'src/environments/token';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -11,6 +12,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers: [
+        { provide: ENVIRONMENT, useValue: jasmine.createSpyObj('EnvironmenterService', ['env']) },
+      ]
     }).compileComponents();
   }));
 

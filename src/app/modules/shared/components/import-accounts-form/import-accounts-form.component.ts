@@ -16,16 +16,9 @@ export class ImportAccountsFormComponent {
 
   // Properties.
   MAX_FILES_BEFORE_PREVIEW = 3;
-  filesPreview: NgxFileDropEntry[] = [];
-  files: NgxFileDropEntry[] = [];
-  totalFiles = 0;
-  numFilesUploaded = 0;
+  invalidFiles: string[] = [];
+  filesPreview: string[] = [];
   uploading = false;
-
-  updateImportedKeystores(jsonFile: object): void {
-    const imported = this.formGroup?.get('keystoresImported')?.value;
-    this.formGroup?.get('keystoresImported')?.setValue([...imported, JSON.stringify(jsonFile)]);
-  }
 
   // Unzip an uploaded zip file and attempt
   // to get all its keystores to update the form group.
@@ -36,7 +29,7 @@ export class ImportAccountsFormComponent {
         blob.forEach(async (item) => {
           const res = await blob.file(item)?.async('string');
           if (res) {
-            this.updateImportedKeystores(JSON.parse(res));
+            this.updateImportedKeystores(item, JSON.parse(res));
           }
         });
       }),
@@ -46,27 +39,53 @@ export class ImportAccountsFormComponent {
     ).subscribe();
   }
 
-  dropped(files: NgxFileDropEntry[]): void {
-    this.files = this.files.concat(files);
-    this.filesPreview = this.files.slice(0, this.MAX_FILES_BEFORE_PREVIEW);
-    this.totalFiles = this.files.length;
+  dropped(droppedFiles: NgxFileDropEntry[]): void {
     this.uploading = true;
-    for (const droppedFile of files) {
+    let numFilesUploaded = 0;
+    this.invalidFiles = [];
+    for (const droppedFile of droppedFiles) {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file(async (file: File) => {
           const text = await file.text();
-          this.numFilesUploaded++;
-          if (this.numFilesUploaded === this.totalFiles) {
+          numFilesUploaded++;
+          if (numFilesUploaded ===  droppedFiles.length) {
             this.uploading = false;
           }
           if (file.type === 'application/zip') {
             this.unzipFile(file);
           } else {
-            this.updateImportedKeystores(JSON.parse(text));
+            this.updateImportedKeystores(file.name, JSON.parse(text));
           }
         });
       }
     }
+  }
+
+  private updateImportedKeystores(fileName: string, jsonFile: object): void {
+    if (!this.isKeystoreFileValid(jsonFile)) {
+      this.invalidFiles.push('Invalid Format: ' + fileName);
+      return;
+    }
+
+    const imported = this.formGroup?.get('keystoresImported')?.value as string[];
+    const jsonString = JSON.stringify(jsonFile);
+    if (imported.includes(jsonString)) {
+      this.invalidFiles.push('Duplicate: ' + fileName);
+      return;
+    }
+
+    this.filesPreview.push(fileName);
+    this.formGroup?.get('keystoresImported')?.setValue([...imported, jsonString]);
+  }
+
+  private isKeystoreFileValid(jsonFile: object): boolean {
+    // Lazy way checking if the attributes exists.
+    return 'crypto' in jsonFile
+        && 'description' in jsonFile
+        && 'pubkey' in jsonFile
+        && 'path' in jsonFile
+        && 'uuid' in jsonFile
+        && 'version' in jsonFile;
   }
 }

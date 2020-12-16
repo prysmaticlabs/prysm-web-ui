@@ -13,7 +13,7 @@ export class ErrorService {
 
   handleHTTPError(err: HttpErrorResponse): void {
     this.zone.run(() => {
-      this.snackBar.open(err.message, 'Close', {
+      this.snackBar.open(err.error?.message || err.message, 'Close', {
         duration: 4000,
         panelClass: 'snackbar-warn',
       });

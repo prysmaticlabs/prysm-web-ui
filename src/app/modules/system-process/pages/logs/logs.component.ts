@@ -61,6 +61,7 @@ export class LogsComponent implements OnInit, OnDestroy {
     if (!val || !log) {
       return;
     }
+    log = log.toUpperCase();
     if (log.indexOf('INFO') !== -1) {
       this.totalInfo++;
       this.totalLogs++;

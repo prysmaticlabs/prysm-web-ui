@@ -69,9 +69,7 @@ export class BeaconNodeService {
     this.checkState(),
     (res: DeepReadonly<NodeState>) => res.nodeConnection?.genesisTime,
   );
-  readonly peers$: Observable<Peers> = this.nodeEndpoint$.pipe(
-    switchMap((endpoint: string) => this.http.get<Peers>(`${endpoint}/node/peers`)),
-  );
+  readonly peers$: Observable<Peers> = this.http.get<Peers>(`${this.apiUrl}/beacon/peers`);
   readonly latestClockSlotPoll$: Observable<number> = interval(POLLING_INTERVAL).pipe(
     startWith(0),
     mergeMap(

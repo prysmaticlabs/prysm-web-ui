@@ -82,9 +82,7 @@ export class ImportAccountsFormComponent {
   private isKeystoreFileValid(jsonFile: object): boolean {
     // Lazy way checking if the attributes exists.
     return 'crypto' in jsonFile
-        && 'description' in jsonFile
         && 'pubkey' in jsonFile
-        && 'path' in jsonFile
         && 'uuid' in jsonFile
         && 'version' in jsonFile;
   }

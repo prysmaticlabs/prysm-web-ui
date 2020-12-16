@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { switchMap, startWith } from 'rxjs/operators';
-import { interval } from 'rxjs';
-
-import { BeaconNodeService } from './beacon-node.service';
+import { tap, switchMap, startWith } from 'rxjs/operators';
+import { interval, Observable } from 'rxjs';
 
 import {
-  ValidatorParticipationResponse,
+  ValidatorParticipationResponse, ValidatorQueue,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { MILLISECONDS_PER_EPOCH } from '../constants';
+import { EnvironmenterService } from './environmenter.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +16,16 @@ import { MILLISECONDS_PER_EPOCH } from '../constants';
 export class ChainService {
   constructor(
     private http: HttpClient,
-    private beaconService: BeaconNodeService
+    private environmenter: EnvironmenterService,
   ) { }
 
+  private apiUrl = this.environmenter.env.validatorEndpoint;
   // Chain information.
-  participation$ = interval(MILLISECONDS_PER_EPOCH).pipe(
+  participation$: Observable<ValidatorParticipationResponse> = interval(MILLISECONDS_PER_EPOCH).pipe(
     startWith(0),
-    switchMap(_ => this.beaconService.nodeEndpoint$),
-    switchMap((url: string) => {
-      return this.http.get<ValidatorParticipationResponse>(`${url}/validators/participation`);
+    switchMap(() => {
+      return this.http.get<ValidatorParticipationResponse>(`${this.apiUrl}/beacon/participation`);
     }),
   );
+  activationQueue$: Observable<ValidatorQueue> = this.http.get<ValidatorQueue>(`${this.apiUrl}/beacon/queue`);
 }

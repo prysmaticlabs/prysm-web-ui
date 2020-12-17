@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { stream } from '../../core/utils/ndjson';
 import { Observable, of, timer } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 import { concatMap, delay, delayWhen, mergeAll, retryWhen, switchMap, tap } from 'rxjs/operators';
@@ -7,15 +8,22 @@ import { mockBeaconLogs, mockValidatorLogs } from 'src/app/modules/core/mocks/lo
 import { WS_RECONNECT_INTERVAL } from '../../core/constants';
 import { ValidatorService } from './validator.service';
 import { LogsEndpointResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogsService {
   constructor(
+    private http: HttpClient,
     private validatorService: ValidatorService,
     private environmenter: EnvironmenterService,
   ) { }
+  private apiUrl = this.environmenter.env.validatorEndpoint;
+
+  streamValidatorLogs() {
+    return stream(`${this.apiUrl}/health/logs/validator/stream`);
+  }
 
   validatorLogs(): Observable<MessageEvent> {
     // Use mock data in development mode.

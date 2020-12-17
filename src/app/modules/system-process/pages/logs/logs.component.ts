@@ -40,6 +40,14 @@ export class LogsComponent implements OnInit, OnDestroy {
   }
 
   private subscribeLogs(): void {
+    console.log('try stream');
+    this.logsService.streamValidatorLogs().pipe(
+      takeUntil(this.destroyed$$),
+      tap((msg) => {
+        console.log('got message');
+        console.log(msg);
+      }),
+    ).subscribe();
     this.logsService.validatorLogs().pipe(
       takeUntil(this.destroyed$$),
       tap((msg: MessageEvent) => {

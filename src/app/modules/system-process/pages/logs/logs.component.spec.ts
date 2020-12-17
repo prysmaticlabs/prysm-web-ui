@@ -30,8 +30,8 @@ describe('LogsComponent', () => {
   }));
 
   beforeEach(() => {
-    service.beaconLogs = () => of({} as MessageEvent);
-    service.validatorLogs = () => of({} as MessageEvent);
+    service.beaconLogs = () => of('');
+    service.validatorLogs = () => of('');
     fixture = TestBed.createComponent(LogsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

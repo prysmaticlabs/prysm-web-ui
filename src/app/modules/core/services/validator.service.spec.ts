@@ -51,7 +51,7 @@ describe('ValidatorService', () => {
             balance: '31200823019',
           },
         ] as ValidatorBalances_Balance[],
-      } as ValidatorBalances)
+      } as ValidatorBalances);
     };
     spyOn(walletService, 'accounts').and.returnValue(of({
       accounts: [] as Account[],

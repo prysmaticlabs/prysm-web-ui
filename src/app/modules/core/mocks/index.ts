@@ -2,7 +2,7 @@ import {
   AuthResponse,
   WalletResponse,
   GenerateMnemonicResponse,
-  NodeConnectionResponse,
+  BeaconStatusResponse,
   ListAccountsResponse,
   Account,
   ImportKeystoresResponse,
@@ -114,12 +114,20 @@ export const Mocks: IMocks = {
   '/v2/validator/mnemonic/generate': {
     mnemonic: 'grape harvest method public garden knife power era kingdom immense kitchen ethics walk gap thing rude split lazy siren mind vital fork deposit zebra',
   } as GenerateMnemonicResponse,
-  '/v2/validator/health/node_connection': {
-    beaconNodeEndpoint: '127.0.0.1:3500',
+  '/v2/validator/beacon/status': {
+    beaconNodeEndpoint: '127.0.0.1:4000',
     connected: true,
     syncing: true,
     genesisTime: 1596546008,
-  } as NodeConnectionResponse,
+    chainHead: {
+      headSlot: 1024,
+      headEpoch: 32,
+      justifiedSlot: 992,
+      justifiedEpoch: 31,
+      finalizedSlot: 960,
+      finalizedEpoch: 30,
+    } as ChainHead,
+  } as BeaconStatusResponse,
   '/v2/validator/accounts': {
     accounts: [
       {
@@ -144,15 +152,7 @@ export const Mocks: IMocks = {
       } as Account,
     ],
   } as ListAccountsResponse,
-  '/eth/v1alpha1/beacon/chainhead': {
-    headSlot: 1024,
-    headEpoch: 32,
-    justifiedSlot: 992,
-    justifiedEpoch: 31,
-    finalizedSlot: 960,
-    finalizedEpoch: 30,
-  } as ChainHead,
-  '/eth/v1alpha1/node/peers': {
+  '/v2/validator/beacon/peers': {
     peers: [{
         address: '/ip4/66.96.218.122/tcp/13000/p2p/16Uiu2HAmLvc5NkmsMnry6vyZnfLLBpbdsMHLaPeW3aqqavfQXCkx',
         direction: 2,
@@ -347,7 +347,7 @@ export const Mocks: IMocks = {
         enr: '-LK4QMxEUMfj7wwQIXxknbEw29HVM1ABKlCNo5EgMzOL0x-5BObVBPX1viI2T0fJrm5vkzfIFGkucoa9ghdndKxXG61yh2F0dG5ldHOIIAQAAAAAgACEZXRoMpDnp11aAAAAAf__________gmlkgnY0gmlwhGjh2tCJc2VjcDI1NmsxoQMt7iJjp0U3rszrj4rPW7tUQ864MJ0CyCNTuHAYN7N_n4N0Y3CCMsiDdWRwgi7g'
       }]
   } as Peers,
-  '/eth/v1alpha1/validators/participation': {
+  '/v2/validator/beacon/participation': {
     epoch: 32,
     finalized: true,
     participation: {
@@ -363,7 +363,7 @@ export const Mocks: IMocks = {
       votedEther: '1136975000000000',
     } as ValidatorParticipation,
   } as ValidatorParticipationResponse,
-  '/eth/v1alpha1/validators/performance': {
+  '/v2/validator/beacon/performance': {
     currentEffectiveBalances: ['31000000000', '31000000000', '31000000000'],
     correctlyVotedHead: [true, true, false],
     correctlyVotedSource: [true, true, false],
@@ -376,7 +376,7 @@ export const Mocks: IMocks = {
     publicKeys: mockPublicKeys,
     missingValidators: [],
   } as ValidatorPerformanceResponse,
-  '/eth/v1alpha1/validators/queue': {
+  '/v2/validator/beacon/queue': {
     churnLimit: 4,
     activationPublicKeys: [
       mockPublicKeys[0],
@@ -388,7 +388,7 @@ export const Mocks: IMocks = {
     ],
     exitValidatorIndices: [2],
   } as ValidatorQueue,
-  '/eth/v1alpha1/validators': {
+  '/v2/validator/beacon/validators': {
     validatorList: mockPublicKeys.map((key, idx) => {
       return {
         index: idx ? idx * 3000 : idx + 2000,

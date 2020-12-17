@@ -4,10 +4,10 @@ import { map } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import intersect from 'src/app/modules/core/utils/intersect';
 
-import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SECONDS_PER_EPOCH } from 'src/app/modules/core/constants';
+import { ChainService } from 'src/app/modules/core/services/chain.service';
 
 export interface QueueData {
   originalData: ValidatorQueue;
@@ -26,7 +26,7 @@ export interface QueueData {
 })
 export class ActivationQueueComponent {
   constructor(
-    private validatorService: ValidatorService,
+    private chainService: ChainService,
     private walletService: WalletService,
   ) { }
 
@@ -34,7 +34,7 @@ export class ActivationQueueComponent {
 
   queueData$ = zip(
     this.walletService.validatingPublicKeys$,
-    this.validatorService.activationQueue$
+    this.chainService.activationQueue$
   ).pipe(
     map(([validatingKeys, queue]) => this.transformData(validatingKeys, queue)),
   );
@@ -92,12 +92,16 @@ export class ActivationQueueComponent {
     const activationKeysSet = new Set<string>();
     const exitKeysSet = new Set<string>();
 
-    queue.activationPublicKeys.forEach((key, _) => {
-      activationKeysSet.add(key);
-    });
-    queue.exitPublicKeys.forEach((key, _) => {
-      exitKeysSet.add(key);
-    });
+    if (queue.activationPublicKeys) {
+      queue.activationPublicKeys.forEach((key, _) => {
+        activationKeysSet.add(key);
+      });
+    }
+    if (queue.exitPublicKeys) {
+      queue.exitPublicKeys.forEach((key, _) => {
+        exitKeysSet.add(key);
+      });
+    }
     let secondsLeftInQueue: number;
     if (queue.churnLimit >= activationKeysSet.size) {
       secondsLeftInQueue = 1;

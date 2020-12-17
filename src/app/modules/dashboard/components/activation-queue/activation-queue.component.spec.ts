@@ -5,16 +5,20 @@ import { MockService } from 'ng-mocks';
 
 import { ActivationQueueComponent, QueueData } from './activation-queue.component';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
-import { ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorParticipationResponse, ValidatorQueue } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SECONDS_PER_EPOCH } from 'src/app/modules/core/constants';
 import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
+import { ChainService } from 'src/app/modules/core/services/chain.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EnvironmenterService } from 'src/app/modules/core/services/environmenter.service';
 
 describe('ActivationQueueComponent', () => {
   let component: ActivationQueueComponent;
   let fixture: ComponentFixture<ActivationQueueComponent>;
-  const service: ValidatorService = MockService(ValidatorService);
+  const envSpy = jasmine.createSpyObj('EnvironmenterService', ['env']);
+  const service: ChainService = MockService(ChainService);
   const walletService: WalletService = MockService(WalletService);
   const defaultQueueResponse = {
     churnLimit: 4,
@@ -29,6 +33,7 @@ describe('ActivationQueueComponent', () => {
     hexToBase64('0x123456'),
   ];
   service['activationQueue$'] = of(defaultQueueResponse);
+  service['participation$'] = of({} as ValidatorParticipationResponse);
   walletService['validatingPublicKeys$'] = of(defaultKeysResponse);
 
   beforeEach(async(() => {
@@ -36,8 +41,10 @@ describe('ActivationQueueComponent', () => {
       declarations: [ ActivationQueueComponent ],
       imports: [
         SharedModule,
+        HttpClientTestingModule,
       ],
       providers: [
+        { provide: EnvironmenterService, useValue: envSpy },
         { provide: ValidatorService, useValue: service },
         { provide: WalletService, useValue: walletService },
       ]

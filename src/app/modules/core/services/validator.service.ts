@@ -100,7 +100,7 @@ export class ValidatorService {
     pageSize: number,
   ): Observable<Validators> {
     const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
-    return this.http.get<Validators>(`${this.apiUrl}/validators${params}`);
+    return this.http.get<Validators>(`${this.apiUrl}/beacon/validators${params}`);
   }
 
   balances(

@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { MockInterceptor, VALIDATOR_API_PREFIX, BEACON_API_PREFIX } from './mock.interceptor';
+import { MockInterceptor, VALIDATOR_API_PREFIX } from './mock.interceptor';
 import { EnvironmenterService } from '../services/environmenter.service';
 import { Mocks } from '../mocks';
 
@@ -44,7 +44,7 @@ describe('MockInterceptor', () => {
 
     it('should retrieve a mock for the beacon node API calls', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
-        const endpoint = BEACON_API_PREFIX + '/beacon/chainhead';
+        const endpoint = VALIDATOR_API_PREFIX + '/beacon/participation';
         http.get(endpoint).subscribe((res) => {
           expect(res).toEqual(Mocks[endpoint]);
         });

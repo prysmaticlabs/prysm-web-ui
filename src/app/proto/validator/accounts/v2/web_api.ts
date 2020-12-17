@@ -1,3 +1,5 @@
+import { ChainHead } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+
 /* eslint-disable */
 export interface HasUsedWebResponse {
   hasSignedUp: boolean;
@@ -141,7 +143,7 @@ export interface AuthResponse {
   tokenExpiration: number;
 }
 
-export interface NodeConnectionResponse {
+export interface BeaconStatusResponse {
   /**
    *  The host address of the beacon node the validator
    *  client is connected to.
@@ -163,6 +165,10 @@ export interface NodeConnectionResponse {
    *  Address of the validator deposit contract in the eth1 chain.
    */
   depositContractAddress: string;
+  /**
+   *  ChainHead of the beacon node.
+   */
+  chainHead: ChainHead;
 }
 
 export interface ChangePasswordRequest {

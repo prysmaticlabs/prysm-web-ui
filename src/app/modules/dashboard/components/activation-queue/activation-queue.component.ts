@@ -92,12 +92,16 @@ export class ActivationQueueComponent {
     const activationKeysSet = new Set<string>();
     const exitKeysSet = new Set<string>();
 
-    queue.activationPublicKeys.forEach((key, _) => {
-      activationKeysSet.add(key);
-    });
-    queue.exitPublicKeys.forEach((key, _) => {
-      exitKeysSet.add(key);
-    });
+    if (queue.activationPublicKeys) {
+      queue.activationPublicKeys.forEach((key, _) => {
+        activationKeysSet.add(key);
+      });
+    }
+    if (queue.exitPublicKeys) {
+      queue.exitPublicKeys.forEach((key, _) => {
+        exitKeysSet.add(key);
+      });
+    }
     let secondsLeftInQueue: number;
     if (queue.churnLimit >= activationKeysSet.size) {
       secondsLeftInQueue = 1;

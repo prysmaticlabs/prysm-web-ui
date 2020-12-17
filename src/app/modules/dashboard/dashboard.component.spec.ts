@@ -9,13 +9,13 @@ import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard.component';
 import { BeaconNodeService } from '../core/services/beacon-node.service';
-import { NodeConnectionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { BeaconStatusResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   const serviceMock = MockService(BeaconNodeService);
-  (serviceMock as any)['nodeStatusPoll$'] = of({} as NodeConnectionResponse);
+  (serviceMock as any)['nodeStatusPoll$'] = of({} as BeaconStatusResponse);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

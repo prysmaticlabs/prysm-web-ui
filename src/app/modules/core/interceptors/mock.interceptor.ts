@@ -12,7 +12,6 @@ import { Mocks, generateBalancesForEpoch } from '../mocks';
 import { EnvironmenterService } from '../services/environmenter.service';
 
 export const VALIDATOR_API_PREFIX = '/v2/validator';
-export const BEACON_API_PREFIX = '/eth/v1alpha1';
 
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
@@ -26,10 +25,7 @@ export class MockInterceptor implements HttpInterceptor {
       if (this.contains(request.url, VALIDATOR_API_PREFIX)) {
         endpoint = this.extractEndpoint(request.url, VALIDATOR_API_PREFIX);
       }
-      if (this.contains(request.url, BEACON_API_PREFIX)) {
-        endpoint = this.extractEndpoint(request.url, BEACON_API_PREFIX);
-      }
-      const balanceRequest = request.url.indexOf(`${BEACON_API_PREFIX}/validators/balances`);
+      const balanceRequest = request.url.indexOf(`${VALIDATOR_API_PREFIX}/beacon/balances`);
       if (balanceRequest !== -1) {
         return of(new HttpResponse({
           status: 200,

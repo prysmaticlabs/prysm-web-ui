@@ -7,17 +7,22 @@ import { AuthenticationService } from '../services/authentication.service';
 import { ErrorService } from '../services/error.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
+class TestComponent {
+}
+
 describe('ErrorInterceptor', () => {
   let authService: AuthenticationService;
   let errorService: ErrorService;
 
   beforeEach(() => {
-    const serviceSpy = jasmine.createSpyObj('AuthenticationService', ['logout']);
+    const serviceSpy = jasmine.createSpyObj('AuthenticationService', ['clearCredentials']);
     const errorSpy = jasmine.createSpyObj('ErrorService', ['handleHTTPError']);
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: 'login', component: TestComponent}
+        ]),
       ],
       providers: [
         {
@@ -31,7 +36,7 @@ describe('ErrorInterceptor', () => {
     });
     authService = TestBed.inject(AuthenticationService);
     errorService = TestBed.inject(ErrorService);
-    authService.logout = jasmine.createSpy('logout');
+    authService.clearCredentials = jasmine.createSpy('clearCredentials');
   });
 
   describe('intercept HTTP requests', () => {
@@ -48,7 +53,7 @@ describe('ErrorInterceptor', () => {
 
         req.flush({ errorMessage: 'Oh no' }, { status: 401, statusText: 'Unauthorized' });
         mock.verify();
-        expect(authService.logout).toHaveBeenCalled();
+        expect(authService.clearCredentials).toHaveBeenCalled();
       })
     );
 
@@ -65,7 +70,7 @@ describe('ErrorInterceptor', () => {
 
         req.flush({ errorMessage: 'Oh no' }, { status: 500, statusText: 'Internal Server Error' });
         mock.verify();
-        expect(authService.logout).not.toHaveBeenCalled();
+        expect(authService.clearCredentials).not.toHaveBeenCalled();
         expect(errorService.handleHTTPError).toHaveBeenCalled();
       })
     );

@@ -20,7 +20,8 @@ export class GeoLocatorService {
 
   constructor(
     private http: HttpClient,
-    private beaconService: BeaconNodeService) { }
+    private beaconService: BeaconNodeService,
+  ) { }
 
   // http request
   getPeerCoordinates(): Observable<GeoCoordinate[]> {

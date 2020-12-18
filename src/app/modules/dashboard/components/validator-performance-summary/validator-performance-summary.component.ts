@@ -61,7 +61,12 @@ export class ValidatorPerformanceSummaryComponent {
 
   private transformPerformanceData(perf: ValidatorPerformanceResponse & ValidatorBalances): PerformanceData {
     const totalBalance = perf.balances.reduce(
-      (prev, curr) => prev.add(BigNumber.from(curr.balance)),
+      (prev, curr) => {
+        if (curr && curr.balance) {
+          return prev.add(BigNumber.from(curr.balance));
+        }
+        return prev;
+      },
       BigNumber.from('0'),
     );
     const recentEpochGains = this.computeEpochGains(

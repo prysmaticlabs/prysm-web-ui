@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { stream } from '../../core/utils/ndjson';
 import { Observable, of } from 'rxjs';
 import { concatMap, delay, map, mergeAll } from 'rxjs/operators';
+
+import { stream } from '../../core/utils/ndjson';
 import { EnvironmenterService } from '../../core/services/environmenter.service';
 import { mockBeaconLogs, mockValidatorLogs } from 'src/app/modules/core/mocks/logs';
 

@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { from, Observable, Subject } from 'rxjs';
+import { from, Observable, Observer, Subject } from 'rxjs';
 import { concatMap, filter, map, scan } from 'rxjs/operators';
 
 /*
@@ -31,22 +31,20 @@ import { concatMap, filter, map, scan } from 'rxjs/operators';
  * new XMLHttpRequest), and beforeOpen - function called before xhr.open() to
  * allow for user-specified customization of the request.
  */
-export function stream(url: string) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  var xhr = options.xhrFactory ? options.xhrFactory(url, options) : new XMLHttpRequest();
-
-  var textStream = extractStream(xhr);
-  var jsonStream = collate(textStream).pipe(
-    concatMap(function (lineArray: any[]) {
-      return from(lineArray);
-    }),
+export function stream(url: string): Observable<string> {
+  const options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  const xhr = options.xhrFactory ? options.xhrFactory(url, options) : new XMLHttpRequest();
+  const textStream = extractStream(xhr);
+  const jsonStream = collate(textStream).pipe(
+    concatMap((lineArray: string) => from(lineArray)),
     map((x: string, _) => JSON.parse(x)),
   );
 
-  if (options.beforeOpen) options.beforeOpen(xhr);
+  if (options.beforeOpen) {
+    options.beforeOpen(xhr);
+  }
 
-  xhr.open(options.method ? options.method : "GET", url);
+  xhr.open(options.method ? options.method : 'GET', url);
   xhr.send(options.postData ? options.postData : null);
 
   return jsonStream;
@@ -59,10 +57,10 @@ export function stream(url: string) {
  * Does not include any text after the last newline, so ensure the input is
  * newline-terminated as well as delimited.
  */
-function collate(stream: Observable<any>) {
-  return stream.pipe(
+function collate(chunkStream: Observable<string>): Observable<string> {
+  return chunkStream.pipe(
     scan((state: any, data: string) => {
-      let index = data.lastIndexOf('\n');
+      const index = data.lastIndexOf('\n');
       if (index >= 0) {
           return {
               finishedLine: state.buffer + data.substring(0, index + 1),
@@ -87,20 +85,22 @@ function collate(stream: Observable<any>) {
  * flag "endWithNewline: true" which adds a trailing newline if one did not
  * exist in the source.
  */
-function extractStream(xhr: XMLHttpRequest) {
-  let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return Observable.create((observer: Subject<any>) => {
+function extractStream(xhr: XMLHttpRequest): Observable<string> {
+  const options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return new Observable((observer: Observer<string>) => {
     let charactersSeen = 0;
-    function notified() {
-        if (xhr.readyState >= 3 && xhr.responseText.length > charactersSeen) {
-            observer.next(xhr.responseText.substring(charactersSeen));
-            charactersSeen = xhr.responseText.length;
+    const notified = () => {
+      if (xhr.readyState >= 3 && xhr.responseText.length > charactersSeen) {
+          observer.next(xhr.responseText.substring(charactersSeen));
+          charactersSeen = xhr.responseText.length;
+      }
+      if (xhr.readyState === 4) {
+        if (options.endWithNewline && xhr.responseText[xhr.responseText.length - 1] !== '\n') {
+          observer.next('\n');
         }
-        if (xhr.readyState == 4) {
-            if (options.endWithNewline && xhr.responseText[xhr.responseText.length - 1] != "\n") observer.next("\n");
-            observer.complete();
-        }
-    }
+        observer.complete();
+      }
+    };
     xhr.onreadystatechange = notified;
     xhr.onprogress = notified;
     xhr.onerror = event => {

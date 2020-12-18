@@ -54,12 +54,16 @@ export class AuthenticationService {
 
   // Logout the user and navigate to the application root.
   logout(): void {
-    this.token = '';
+    this.clearCredentials();
     this.http.post<unknown>(`${this.apiUrl}/logout`, null).pipe(
       tap(() => {
         this.router.navigateByUrl('/');
       }),
       switchMap(_ => EMPTY),
     );
+  }
+
+  clearCredentials(): void {
+    this.token = '';
   }
 }

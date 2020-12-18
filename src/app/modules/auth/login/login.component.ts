@@ -40,9 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // return url is set in the query parameters.
     this.route.queryParams.pipe(
       takeUntil(this.destroyed$),
-    ).subscribe(params => {
-      this.returnUrl = params.returnUrl || '/onboarding';
-    });
+    ).subscribe(params => this.returnUrl = params.returnUrl || '/onboarding');
   }
 
   ngOnDestroy(): void {

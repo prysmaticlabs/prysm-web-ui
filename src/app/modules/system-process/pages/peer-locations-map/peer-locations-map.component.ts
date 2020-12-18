@@ -24,9 +24,12 @@ export class PeerLocationsMapComponent implements OnInit {
           const cityMarker: { [id: string]: ILMarker; } = {};
           const cityCounter: { [id: string]: number; } = {};
           geoCoordnates.forEach((coord: GeoCoordinate) => {
+            console.log(coord.lat, coord.lon);
             if (!cityCounter[coord.city]) {
+              const approxLat = Math.floor(coord.lat);
+              const approxLon = Math.floor(coord.lon);
               cityCounter[coord.city] = 1;
-              cityMarker[coord.city] = L.marker([coord.lat, coord.lon], new LMarkerConfig(mapIcon));
+              cityMarker[coord.city] = L.marker([approxLat, approxLon], new LMarkerConfig(mapIcon));
               cityMarker[coord.city].bindTooltip(coord.city).addTo(locationMap);
             }
             else {

@@ -1,0 +1,4 @@
+<div class="version text-xs p-5 break-all" *ngIf="(version$ | async) as data">
+    <div class="mb-2">Beacon: {{data.beacon}}</div>
+    <div>Validator: {{data.validator}}</div>
+</div>

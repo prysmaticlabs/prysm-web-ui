@@ -67,6 +67,11 @@ export interface LogsEndpointResponse {
   beaconLogsEndpoint: string;
 }
 
+export interface VersionResponse {
+  beacon: string;
+  validator: string;
+}
+
 export interface ListAccountsRequest {
   /**
    *  Whether or not to return the raw RLP deposit tx data.

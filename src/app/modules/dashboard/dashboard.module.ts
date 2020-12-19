@@ -15,6 +15,7 @@ import { BeaconNodeStatusComponent } from './components/beacon-node-status/beaco
 import { ValidatorParticipationComponent } from './components/validator-participation/validator-participation.component';
 import { ValidatorPerformanceSummaryComponent } from './components/validator-performance-summary/validator-performance-summary.component';
 import { ActivationQueueComponent } from './components/activation-queue/activation-queue.component';
+import { VersionComponent } from './components/version/version.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ActivationQueueComponent } from './components/activation-queue/activati
     ValidatorParticipationComponent,
     ValidatorPerformanceSummaryComponent,
     ActivationQueueComponent,
+    VersionComponent
   ],
   imports: [
     CommonModule,

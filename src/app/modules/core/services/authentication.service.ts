@@ -22,7 +22,7 @@ export class AuthenticationService {
   get token(): string | null {
     return sessionStorage.getItem('token');
   }
-  
+
   login(password: string): Observable<AuthResponse> {
     return this.authenticate(`${this.apiUrl}/login`, password);
   }

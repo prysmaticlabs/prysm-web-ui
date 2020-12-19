@@ -16,10 +16,13 @@ export class AuthenticationService {
     private environmenter: EnvironmenterService,
   ) {
   }
-  token = '';
   hasSignedUp = false;
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
+  get token(): string | null {
+    return sessionStorage.getItem('token');
+  }
+  
   login(password: string): Observable<AuthResponse> {
     return this.authenticate(`${this.apiUrl}/login`, password);
   }
@@ -27,7 +30,7 @@ export class AuthenticationService {
   signup(request: AuthRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/signup`, request).pipe(
       tap((res: AuthResponse) => {
-        this.token = res.token;
+        sessionStorage.setItem('token', res.token);
       }),
     );
   }
@@ -47,7 +50,7 @@ export class AuthenticationService {
   authenticate(method: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(method, { password } as AuthRequest).pipe(
       tap((res: AuthResponse) => {
-        this.token = res.token;
+        sessionStorage.setItem('token', res.token);
       }),
     );
   }
@@ -64,6 +67,6 @@ export class AuthenticationService {
   }
 
   clearCredentials(): void {
-    this.token = '';
+    sessionStorage.clear();
   }
 }

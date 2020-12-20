@@ -2,18 +2,19 @@ FROM node:14-alpine
 
 # set working directory
 WORKDIR /app
-
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PORT 8080
 
 # install and cache app dependencies
 COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# Build
 COPY . /app
 RUN npm run build:prod
 
-# start app
-CMD npm run ng serve --host 0.0.0.0
-
+# Run on $PORT
+CMD npm run ng serve --host 0.0.0.0 --port $PORT

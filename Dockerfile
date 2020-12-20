@@ -3,6 +3,7 @@ FROM node:14-alpine
 # set working directory
 WORKDIR /app
 ENV PORT 8080
+EXPOSE $PORT
 
 # install and cache app dependencies
 COPY package.json .
@@ -17,4 +18,4 @@ COPY . /app
 RUN npm run build:prod
 
 # Run on $PORT
-CMD npm run ng serve --host 0.0.0.0 --port $PORT
+CMD ng serve --host 0.0.0.0 --port $PORT --disableHostCheck

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { EnvironmenterService } from './environmenter.service';
 import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { LoginComponent } from '../../auth/login/login.component';
+import { SignupComponent } from '../../auth/signup/signup.component';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,11 @@ export class AuthenticationService {
   shortLivedToken = '';
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
-  authPrompt(): MatDialogRef<LoginComponent> {
-    return this.dialog.open(LoginComponent);
+  prompt(): MatDialogRef<LoginComponent | SignupComponent> {
+    if (this.hasSignedUp) {
+      return this.dialog.open(LoginComponent);
+    }
+    return this.dialog.open(SignupComponent);
   }
 
   login(request: AuthRequest): Observable<AuthResponse> {

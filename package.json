@@ -40,6 +40,7 @@
     "ngx-file-drop": "^9.0.1",
     "ngx-moment": "^5.0.0",
     "ngx-skeleton-loader": "^2.7.0",
+    "resize-observer-polyfill": "^1.5.1",
     "rxjs": "~6.5.5",
     "rxjs-pipe-ext": "^2.1.0",
     "tslib": "^2.1.0",

@@ -44,7 +44,7 @@ export class ImportComponent {
     };
     this.loading = true;
 
-    this.authService.prompt().afterClosed().pipe(
+    this.authService.prompt().pipe(
       switchMap(() => this.walletService.importKeystores(req).pipe(
         take(1),
         filter(result => result !== undefined),

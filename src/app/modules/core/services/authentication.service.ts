@@ -24,11 +24,11 @@ export class AuthenticationService {
   shortLivedToken = '';
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
-  prompt(): MatDialogRef<LoginComponent | SignupComponent> {
+  prompt(): Observable<null>  {
     if (this.hasSignedUp) {
-      return this.dialog.open(LoginComponent);
+      return this.dialog.open(LoginComponent).afterClosed();
     }
-    return this.dialog.open(SignupComponent);
+    return this.dialog.open(SignupComponent).afterClosed();
   }
 
   login(request: AuthRequest): Observable<AuthResponse> {

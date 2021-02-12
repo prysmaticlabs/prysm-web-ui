@@ -8,6 +8,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { LoginComponent } from './login.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthenticationService } from '../../core/services/authentication.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -28,6 +29,7 @@ describe('LoginComponent', () => {
         Overlay,
         FormBuilder,
         { provide: AuthenticationService, useValue: serviceSpy },
+        { provide: MatDialogRef, useValue: {} },
       ]
     })
       .compileComponents();

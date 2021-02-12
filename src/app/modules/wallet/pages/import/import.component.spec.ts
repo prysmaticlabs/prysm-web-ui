@@ -5,7 +5,9 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockService } from 'ng-mocks';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { LoginComponent } from 'src/app/modules/auth/login/login.component';
+import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { ImportKeystoresRequest, ImportKeystoresResponse } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -15,10 +17,15 @@ import { ImportComponent } from './import.component';
 describe('ImportComponent', () => {
   let component: ImportComponent;
   let fixture: ComponentFixture<ImportComponent>;
+  let authService: AuthenticationService;
   let service: WalletService = MockService(WalletService);
   let router: Router;
 
   beforeEach(async(() => {
+    authService = MockService(AuthenticationService);
+    authService.prompt = (): Observable<null> => {
+      return new BehaviorSubject(null).asObservable();
+    };
     TestBed.configureTestingModule({
       declarations: [
         ImportComponent,
@@ -32,6 +39,7 @@ describe('ImportComponent', () => {
       ],
       providers: [
         { provide: WalletService, useValue: service },
+        { provide: AuthenticationService, useValue: authService },
         { provide: APP_BASE_HREF, useValue: '/' }
       ]
     })

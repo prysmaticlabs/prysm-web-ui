@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { switchMap, tap } from 'rxjs/operators';
-import { Observable, EMPTY } from 'rxjs';
-import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 import { EnvironmenterService } from './environmenter.service';
 import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { LoginComponent } from '../../auth/login/login.component';
+import { SignupComponent } from '../../auth/signup/signup.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,24 +16,27 @@ import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } 
 export class AuthenticationService {
   constructor(
     private http: HttpClient,
-    private router: Router,
     private environmenter: EnvironmenterService,
+    private dialog: MatDialog,
   ) {
   }
-  token = '';
   hasSignedUp = false;
+  shortLivedToken = '';
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
-  login(password: string): Observable<AuthResponse> {
-    return this.authenticate(`${this.apiUrl}/login`, password);
+  prompt(): Observable<null>  {
+    if (this.hasSignedUp) {
+      return this.dialog.open(LoginComponent).afterClosed();
+    }
+    return this.dialog.open(SignupComponent).afterClosed();
+  }
+
+  login(request: AuthRequest): Observable<AuthResponse> {
+    return this.authenticate(`${this.apiUrl}/login`, request);
   }
 
   signup(request: AuthRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/signup`, request).pipe(
-      tap((res: AuthResponse) => {
-        this.token = res.token;
-      }),
-    );
+    return this.authenticate(`${this.apiUrl}/signup`, request);
   }
 
   changeUIPassword(request: ChangePasswordRequest): Observable<void> {
@@ -44,26 +51,11 @@ export class AuthenticationService {
 
   // Authenticate the user with a password and extract the JWT token
   // from the response object. Uses take to prevent multiple calls to the backend.
-  authenticate(method: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(method, { password } as AuthRequest).pipe(
+  authenticate(method: string, request: AuthRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(method, request).pipe(
       tap((res: AuthResponse) => {
-        this.token = res.token;
+        this.shortLivedToken = res.token;
       }),
     );
-  }
-
-  // Logout the user and navigate to the application root.
-  logout(): void {
-    this.clearCredentials();
-    this.http.post<unknown>(`${this.apiUrl}/logout`, null).pipe(
-      tap(() => {
-        this.router.navigateByUrl('/');
-      }),
-      switchMap(_ => EMPTY),
-    );
-  }
-
-  clearCredentials(): void {
-    this.token = '';
   }
 }

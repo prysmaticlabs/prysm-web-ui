@@ -10,7 +10,7 @@ import { Subject, throwError } from 'rxjs';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { AuthRequest, CreateWalletRequest, ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { AuthRequest, AuthResponse, CreateWalletRequest, ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
 
 enum WizardState {

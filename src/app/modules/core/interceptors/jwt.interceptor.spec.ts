@@ -34,7 +34,7 @@ describe('JwtInterceptor', () => {
 
     it('should include authorization headers if user is logged in', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
-        authService.token = 'hello';
+        authService.shortLivedToken = 'hello';
         http.get('/').subscribe(
           response => {
             expect(response).toBeTruthy();
@@ -54,7 +54,7 @@ describe('JwtInterceptor', () => {
 
     it('should not include authorization headers if no token found', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
-        authService.token = '';
+        authService.shortLivedToken = '';
         http.get('/').subscribe(
           response => {
             expect(response).toBeTruthy();
@@ -68,6 +68,5 @@ describe('JwtInterceptor', () => {
         mock.verify();
       })
     );
-
   });
 });

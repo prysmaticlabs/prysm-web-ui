@@ -1,30 +1,30 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 
 import { takeUntil, tap, catchError } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
 
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { AuthenticationService } from '../../core/services/authentication.service';
+import { AuthRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
   loginForm: FormGroup;
   returnUrl = '';
   loading = false;
   submitted = false;
   destroyed$ = new Subject();
-  private passwordValidator = new PasswordValidator();
+  passwordValidator = new PasswordValidator();
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
     private authService: AuthenticationService,
+    public dialogRef: MatDialogRef<LoginComponent>,
   ) {
     this.loginForm = this.formBuilder.group({
       password: new FormControl('', [
@@ -33,14 +33,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.passwordValidator.strongPassword,
       ]),
     });
-  }
-
-  ngOnInit(): void {
-    // Redirect to dashboard by default unless a different
-    // return url is set in the query parameters.
-    this.route.queryParams.pipe(
-      takeUntil(this.destroyed$),
-    ).subscribe(params => this.returnUrl = params.returnUrl || '/onboarding');
   }
 
   ngOnDestroy(): void {
@@ -56,10 +48,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     const password = this.loginForm.get('password')?.value as string;
     this.loading = true;
-    this.authService.login(password).pipe(
+    this.authService.login({ password } as AuthRequest).pipe(
       tap(() => {
         this.loading = false;
-        this.router.navigateByUrl(this.returnUrl);
+        this.dialogRef.close();
       }),
       takeUntil(this.destroyed$),
       catchError(err => {

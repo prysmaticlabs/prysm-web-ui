@@ -1,36 +1,31 @@
-<div class="signup flex h-screen">
-  <div class="m-auto">
-    <mat-card class="signup-card position-relative y-center">
-      <div class="flex items-center">
-        <div class="w-5/12 signup-img flex justify-center items-center">
-          <img src="/assets/images/eth.svg" alt="" />
-        </div>
-        <div class="w-7/12">
-          <form class="signup-form-container px-8 py-16" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <mat-form-field appearance="outline">
-              <mat-label>Prysm Web Password</mat-label>
-              <input
-                matInput
-                formControlName="password"
-                placeholder="Enter your password for Prysm web"
-                name="password"
-                type="password"
-              />
-            </mat-form-field>
-            <div *ngIf="submitted && loginForm.controls['password'].errors" class="-mt-3 mb-3">
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.required" class="text-error">{{passwordValidator.errorMessage.required}}</div>
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.minlength" class="text-error">{{passwordValidator.errorMessage.minLength}}</div>
-              <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.pattern" class="text-error">{{passwordValidator.errorMessage.pattern}}</div>
-            </div>
-            <div class="btn-container">
-              <button mat-raised-button color="primary" name="submit" [disabled]="loading">Sign in to dashboard</button>
-              <div class="btn-progress" *ngIf="loading">
-                <mat-spinner color="primary" [diameter]="25"></mat-spinner>
-              </div>
-            </div>
-          </form>
+<div class="flex items-center gap-x-1">
+  <div class="w-4/12 signup-img pl-2 flex justify-center items-center">
+    <img src="/assets/images/eth.svg" alt="" />
+  </div>
+  <div class="w-8/12">
+    <form class="signup-form-container pl-6 pr-4 py-16" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          placeholder="Enter your web password"
+          name="password"
+          type="password"
+          class="w-full"
+        />
+      </mat-form-field>
+      <div *ngIf="submitted && loginForm.controls['password'].errors" class="-mt-3 mb-3">
+        <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.required" class="text-error">{{passwordValidator.errorMessage.required}}</div>
+        <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.minlength" class="text-error">{{passwordValidator.errorMessage.minLength}}</div>
+        <div name="passwordReq" *ngIf="loginForm.controls['password'].errors?.pattern" class="text-error">{{passwordValidator.errorMessage.pattern}}</div>
+      </div>
+      <div class="btn-container">
+        <button mat-raised-button color="primary" name="submit" [disabled]="loading">Submit</button>
+        <div class="btn-progress" *ngIf="loading">
+          <mat-spinner color="primary" [diameter]="25"></mat-spinner>
         </div>
       </div>
-    </mat-card>
+    </form>
   </div>
 </div>

@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthredirectGuard } from './modules/core/guards/authredirect.guard';
-import { AuthGuard } from './modules/core/guards/auth.guard';
-
-import { LoginComponent } from './modules/auth/login/login.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { GainsAndLossesComponent } from './modules/dashboard/pages/gains-and-losses/gains-and-losses.component';
 import { LogsComponent } from './modules/system-process/pages/logs/logs.component';
@@ -16,7 +12,6 @@ import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.comp
 import { ImportComponent } from './modules/wallet/pages/import/import.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 import { InitializeComponent } from './modules/auth/initialize/initialize.component';
-import { SignupComponent } from './modules/auth/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -27,20 +22,6 @@ const routes: Routes = [
   {
     path: 'initialize',
     component: InitializeComponent,
-    canActivate: [AuthredirectGuard],
-  },
-  {
-    path: 'login',
-    data: {
-      breadcrumb: 'Login'
-    },
-    component: LoginComponent,
-    canActivate: [AuthredirectGuard],
-  },
-  {
-    path: 'signup',
-    component: SignupComponent,
-    canActivate: [AuthredirectGuard],
   },
   {
     path: 'onboarding',
@@ -48,7 +29,6 @@ const routes: Routes = [
       breadcrumb: 'Onboarding'
     },
     component: OnboardingComponent,
-    canActivate: [AuthredirectGuard],
   },
   {
     path: 'dashboard',
@@ -56,7 +36,6 @@ const routes: Routes = [
       breadcrumb: 'Dashboard'
     },
     component: DashboardComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',

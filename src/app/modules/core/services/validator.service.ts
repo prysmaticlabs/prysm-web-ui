@@ -24,11 +24,7 @@ export class ValidatorService {
     private walletService: WalletService,
     private environmenter: EnvironmenterService,
   ) { }
-
   private apiUrl = this.environmenter.env.validatorEndpoint;
-  logsEndpoints$: Observable<LogsEndpointResponse> = this.http.get<LogsEndpointResponse>(`${this.apiUrl}/health/logs/endpoints`).pipe(
-    shareReplay(),
-  );
 
   version$: Observable<VersionResponse> = this.http.get<VersionResponse>(`${this.apiUrl}/health/version`).pipe(
     share(),
@@ -52,51 +48,6 @@ export class ValidatorService {
       );
     }),
   );
-
-  recentEpochBalances(
-    currentEpoch: number, lookback: number, numAccounts: number,
-  ): Observable<ValidatorBalances[]> {
-    if (lookback > MAX_EPOCH_LOOKBACK) {
-      throw new Error(`Cannot request greater than ${MAX_EPOCH_LOOKBACK} max lookback epochs`);
-    }
-    let startEpoch = 0;
-    // Ensure we do not underflow.
-    if (lookback < currentEpoch) {
-      startEpoch = currentEpoch - lookback;
-    }
-    // Retrieve the balances starting at the current epoch down to lookback
-    // number of epochs in the input arguments.
-    // 1. Create an array from [currentEpoch - lookback, ..., currentEpoch]
-    // 2. Retrieve the beacon node endpoint and validator public keys and wait until we have both.
-    // 3. Launch N concurrent requests for balances by epoch for each epoch in the array
-    // 4. Combine the results into a single array observable.
-    return of(range(startEpoch, currentEpoch)).pipe(
-      concatAll(),
-      mergeMap((epoch: number) => {
-        return this.walletService.accounts(0, numAccounts).pipe(
-          switchMap((result: ListAccountsResponse) => {
-            const publicKeys = result.accounts.map(acc => acc.validatingPublicKey);
-            return this.balancesByEpoch(publicKeys, epoch, 0, numAccounts);
-          }),
-        );
-      }),
-      toArray(),
-    );
-  }
-
-  balancesByEpoch(
-    publicKeys: string[],
-    epoch: number,
-    pageIndex: number,
-    pageSize: number,
-  ): Observable<ValidatorBalances> {
-    let params = `?epoch=${epoch}&publicKeys=`;
-    publicKeys.forEach((key, _) => {
-      params += `${this.encodePublicKey(key)}&publicKeys=`;
-    });
-    params += `&pageSize=${pageSize}&pageToken=${pageIndex}`;
-    return this.http.get<ValidatorBalances>(`${this.apiUrl}/beacon/balances${params}`);
-  }
 
   validatorList(
     publicKeys: string[],

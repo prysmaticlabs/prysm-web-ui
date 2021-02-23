@@ -6,13 +6,11 @@
         [selectedWallet$]="selectedWallet$"
       ></app-choose-wallet-kind>
     </div>
-    <div *ngSwitchCase="States.NonHDWizard">
+    <div *ngSwitchCase="States.ImportWizard">
       <app-nonhd-wallet-wizard [resetOnboarding]="resetOnboarding.bind(this)"></app-nonhd-wallet-wizard>
     </div>
-    <div *ngSwitchCase="States.HDWizard">
+    <div *ngSwitchCase="States.RecoverWizard">
       <app-hd-wallet-wizard [resetOnboarding]="resetOnboarding.bind(this)"></app-hd-wallet-wizard>
-    </div>
-    <div *ngSwitchCase="States.RemoteWizard">
     </div>
   </div>
 </div>

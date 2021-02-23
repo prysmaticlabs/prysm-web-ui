@@ -5,9 +5,8 @@ import { tap, catchError, takeUntil } from 'rxjs/operators';
 
 export enum OnboardingState {
   PickingWallet = 'PickingWallet',
-  HDWizard = 'HDWizard',
-  NonHDWizard = 'NonHDWizard',
-  RemoteWizard = 'RemoteWizard',
+  RecoverWizard = 'RecoverWizard',
+  ImportWizard = 'ImportWizard',
 }
 
 @Component({
@@ -23,23 +22,16 @@ export class OnboardingComponent implements OnInit, OnDestroy {
   walletSelections: WalletSelection[] = [
     {
       kind: WalletKind.Derived,
-      name: 'HD Wallet',
-      description: 'Secure kind of blockchain wallet which can be recovered from a 24-word mnemonic phrase',
+      name: 'Recover a Wallet',
+      description: 'Use a 24-word mnemonic phrase to recover existing eth2 keystores',
       image: '/assets/images/onboarding/lock.svg',
       comingSoon: true,
     },
     {
       kind: WalletKind.Imported,
-      name: 'Imported Wallet',
-      description: '(Default) Simple wallet that allows to importing keys from an external source',
+      name: 'Import Keystores',
+      description: 'Importing eth2 keystores from an external source',
       image: '/assets/images/onboarding/direct.svg',
-    },
-    {
-      kind: WalletKind.Remote,
-      name: 'Remote Wallet',
-      description: '(Advanced) Manages validator keys and sign requests via a remote server',
-      image: '/assets/images/onboarding/server.svg',
-      comingSoon: true,
     },
   ];
 
@@ -57,13 +49,10 @@ export class OnboardingComponent implements OnInit, OnDestroy {
       tap(kind => {
         switch (kind) {
           case WalletKind.Derived:
-            this.onboardingState = OnboardingState.HDWizard;
+            this.onboardingState = OnboardingState.RecoverWizard;
             break;
           case WalletKind.Imported:
-            this.onboardingState = OnboardingState.NonHDWizard;
-            break;
-          case WalletKind.Remote:
-            this.onboardingState = OnboardingState.RemoteWizard;
+            this.onboardingState = OnboardingState.ImportWizard;
             break;
           default:
             break;

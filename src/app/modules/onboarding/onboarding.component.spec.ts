@@ -31,7 +31,7 @@ describe('OnboardingComponent', () => {
   it('should update onboarding state based on wallet selection', done => {
     expect(component.onboardingState).toEqual(OnboardingState.PickingWallet);
     component.selectedWallet$.subscribe(kind => {
-      expect(component.onboardingState).toEqual(OnboardingState.NonHDWizard);
+      expect(component.onboardingState).toEqual(OnboardingState.ImportWizard);
       done();
     });
     component.selectedWallet$.next(WalletKind.Imported);

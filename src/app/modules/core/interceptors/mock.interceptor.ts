@@ -32,12 +32,6 @@ export class MockInterceptor implements HttpInterceptor {
           body: generateBalancesForEpoch(request.url),
         }));
       }
-      const validateRequest = request.url.indexOf(`${VALIDATOR_API_PREFIX}/wallet/keystores/validate`);
-      if (validateRequest !== -1) {
-        return of(new HttpResponse({
-          status: 500,
-        }));
-      }
       if (!endpoint) {
         return next.handle(request);
       }

@@ -46,13 +46,6 @@ export interface CreateWalletResponse {
   wallet: WalletResponse;
 }
 
-export interface EditWalletConfigRequest {
-  remoteAddr: string;
-  remoteCrtPath: string;
-  remoteKeyPath: string;
-  remoteCaCrtPath: string;
-}
-
 export interface GenerateMnemonicResponse {
   mnemonic: string;
 }
@@ -127,17 +120,6 @@ export interface Account {
   derivationPath: string;
 }
 
-export interface AccountRequest {
-  /**
-   *  A list of validator public keys.
-   */
-  publicKeys: string[];
-  /**
-   *  A list of validator indices.
-   */
-  indices: number[];
-}
-
 export interface AuthRequest {
   password: string;
   passwordConfirmation: string;
@@ -209,9 +191,13 @@ export interface ImportKeystoresResponse {
   importedPublicKeys: string[];
 }
 
-export interface CreateAccountsRequest {
+export interface ValidateKeystoresRequest {
   /**
-   *  Number of accounts to create.
+   *  JSON encoded keystore list.
    */
-  numAccounts: number;
+  keystores: string[];
+  /**
+   *  Password to unlock the keystores.
+   */
+  keystoresPassword: string;
 }

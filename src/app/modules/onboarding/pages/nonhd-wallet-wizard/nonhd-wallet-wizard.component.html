@@ -13,17 +13,10 @@
         </div>
         <div *ngIf="!isSmallScreen" class="wizard-container hidden md:flex md:w-2/3 items-center">
           <mat-horizontal-stepper class="bg-paper rounded-r" linear #stepper>
-            <mat-step label="Import Keys">
-              <app-import-accounts-form [formGroup]="importFormGroup"></app-import-accounts-form>
+            <mat-step [stepControl]="keystoresFormGroup" label="Import Keys">
+              <app-import-accounts-form [formGroup]="keystoresFormGroup"></app-import-accounts-form>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ImportAccounts)">Continue</button></span>
-              </div>
-            </mat-step>
-            <mat-step [stepControl]="unlockFormGroup" label="Unlock Keys">
-              <app-unlock-keys [formGroup]="unlockFormGroup"></app-unlock-keys>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockAccounts)">Continue</button></span>
               </div>
             </mat-step>
@@ -76,16 +69,9 @@
         <div *ngIf="isSmallScreen" class="wizard-container flex w-full md:hidden items-center">
           <mat-vertical-stepper class="bg-paper rounded-r" linear #stepper>
             <mat-step label="Import Keys">
-              <app-import-accounts-form [formGroup]="importFormGroup"></app-import-accounts-form>
+              <app-import-accounts-form [formGroup]="keystoresFormGroup"></app-import-accounts-form>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.ImportAccounts)">Continue</button></span>
-              </div>
-            </mat-step>
-            <mat-step [stepControl]="unlockFormGroup" label="Unlock Keys">
-              <app-unlock-keys [formGroup]="unlockFormGroup"></app-unlock-keys>
-              <div class="mt-4">
-                <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockAccounts)">Continue</button></span>
               </div>
             </mat-step>

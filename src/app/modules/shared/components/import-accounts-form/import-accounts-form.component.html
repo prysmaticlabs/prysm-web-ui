@@ -18,6 +18,22 @@
       Upload any folder of keystore files such as the validator_keys folder that was created during the eth2 launchpad's eth2.0-deposit-cli process here. You can drag and drop the directory or individual files.
     </div>
   </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Password to unlock keystores</mat-label>
+    <input
+      matInput
+      formControlName="keystoresPassword"
+      placeholder="Enter the password you used to originally create the keystores"
+      name="keystoresPassword"
+      type="password"
+    />
+    <mat-error class="warning" *ngIf="formGroup?.controls.keystoresPassword.hasError('required')">
+      Password for keystores is required
+    </mat-error>
+    <mat-error class="warning" *ngIf="formGroup?.controls.keystoresPassword.hasError('incorrectPassword')">
+      Password for keystores was incorrect
+    </mat-error>
+  </mat-form-field>
   <div class="my-6 flex flex-wrap">
     <div class="w-full md:w-1/2">
       <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" accept=".json,.zip">

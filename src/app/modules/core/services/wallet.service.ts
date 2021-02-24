@@ -11,7 +11,8 @@ import {
   Account,
   ImportKeystoresRequest,
   ImportKeystoresResponse,
-  CreateWalletResponse, ValidateKeystoresRequest,
+  CreateWalletResponse,
+  ValidateKeystoresRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({

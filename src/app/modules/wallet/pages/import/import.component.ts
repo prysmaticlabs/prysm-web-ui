@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, ValidationErrors, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
@@ -7,7 +7,7 @@ import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
-import {KeystoreValidator} from "../../../onboarding/validators/keystore.validator";
+import { KeystoreValidator } from '../../../onboarding/validators/keystore.validator';
 
 @Component({
   selector: 'app-import',

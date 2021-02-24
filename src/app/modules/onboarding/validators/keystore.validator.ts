@@ -66,7 +66,7 @@ export class KeystoreValidator {
               control.get('keystoresPassword')?.setErrors(formErr);
               return of(formErr);
             }),
-          )
+          );
         }),
       );
     };

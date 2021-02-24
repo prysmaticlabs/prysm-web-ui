@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import {AbstractControl, FormBuilder, FormControl, ValidationErrors} from '@angular/forms';
-import {of, Observable, BehaviorSubject, throwError} from 'rxjs';
+import { AbstractControl, FormBuilder, FormControl, ValidationErrors } from '@angular/forms';
+import { of, Observable, BehaviorSubject, throwError  } from 'rxjs';
 
 import { WalletService } from '../../core/services/wallet.service';
 import { KeystoreValidator } from './keystore.validator';
 import { MAX_ALLOWED_KEYSTORES } from '../../core/constants';
 import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
 import { HttpErrorResponse } from '@angular/common/http';
-import {catchError, tap} from "rxjs/operators";
+import { catchError, tap } from 'rxjs/operators';
 
 describe('KeystoreValidator', () => {
   let walletService: WalletService;
@@ -69,14 +69,14 @@ describe('KeystoreValidator', () => {
         tap((errors) => {
           expect(errors).toEqual({
             incorrectPassword: 'wrong password',
-          })
+          });
           done();
         }),
         catchError(err => {
           console.log(err);
           return throwError(err);
         }),
-      ).subscribe()
+      ).subscribe();
 
       formControl.get('keystoresImported')?.setValue([['hi']]);
       formControl.get('keystoresPassword')?.setValue([['hi']]);
@@ -103,14 +103,14 @@ describe('KeystoreValidator', () => {
         tap((errors) => {
           expect(errors).toEqual({
             somethingWentWrong: true,
-          })
+          });
           done();
         }),
         catchError(err => {
           console.log(err);
           return throwError(err);
         }),
-      ).subscribe()
+      ).subscribe();
 
       formControl.get('keystoresImported')?.setValue([['hi']]);
       formControl.get('keystoresPassword')?.setValue([['hi']]);
@@ -139,7 +139,7 @@ describe('KeystoreValidator', () => {
           console.log(err);
           return throwError(err);
         }),
-      ).subscribe()
+      ).subscribe();
 
       formControl.get('keystoresImported')?.setValue([['hi']]);
       formControl.get('keystoresPassword')?.setValue([['hi']]);

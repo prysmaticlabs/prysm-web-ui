@@ -15,7 +15,7 @@ import {
   CreateWalletRequest,
   ImportKeystoresRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
-import { KeystoreValidator } from "../../validators/keystore.validator";
+import { KeystoreValidator } from '../../validators/keystore.validator';
 
 enum WizardState {
   WalletDir,

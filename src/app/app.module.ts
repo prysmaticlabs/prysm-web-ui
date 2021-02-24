@@ -35,7 +35,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
     { provide: ENVIRONMENT, useValue: environment },
   ],
   bootstrap: [AppComponent]

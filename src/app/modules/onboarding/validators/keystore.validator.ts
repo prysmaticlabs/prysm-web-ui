@@ -4,9 +4,9 @@ import { Observable, of } from 'rxjs';
 import {map, debounceTime, take, switchMap, catchError} from 'rxjs/operators';
 
 import { WalletService } from '../../core/services/wallet.service';
-import { MAX_ALLOWED_KEYSTORES } from "../../core/constants";
-import {ValidateKeystoresRequest} from "../../../proto/validator/accounts/v2/web_api";
-import {HttpErrorResponse} from "@angular/common/http";
+import { MAX_ALLOWED_KEYSTORES } from '../../core/constants';
+import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
+import { HttpErrorResponse } from '@angular/common/http';
 
 // KeystoreValidator implements the AsyncValidatorFn interface
 // from angular forms, allowing us to write a custom, asynchronous

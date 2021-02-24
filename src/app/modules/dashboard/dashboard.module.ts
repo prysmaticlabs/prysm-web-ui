@@ -8,7 +8,6 @@ import { SharedModule } from '../../modules/shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { GainsAndLossesComponent } from './pages/gains-and-losses/gains-and-losses.component';
 import { ValidatorPerformanceListComponent } from './components/validator-performance-list/validator-performance-list.component';
-import { BalancesChartComponent } from './components/balances-chart/balances-chart.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarExpandableLinkComponent } from './components/sidebar-expandable-link/sidebar-expandable-link.component';
 import { BeaconNodeStatusComponent } from './components/beacon-node-status/beacon-node-status.component';
@@ -22,7 +21,6 @@ import { VersionComponent } from './components/version/version.component';
     DashboardComponent,
     GainsAndLossesComponent,
     ValidatorPerformanceListComponent,
-    BalancesChartComponent,
     SidebarComponent,
     SidebarExpandableLinkComponent,
     BeaconNodeStatusComponent,

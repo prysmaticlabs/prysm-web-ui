@@ -35,7 +35,7 @@
         {{formGroup?.controls.keystoresPassword.getError('incorrectPassword')}}
       </mat-error>
       <mat-error class="warning" *ngIf="formGroup?.controls.keystoresPassword.hasError('somethingWentWrong')">
-        Something went wrong when attempting to decrypt your keystores, perhaps your node is not running: {{formGroup?.controls.keystoresPassword.getError('somethingWentWrong')}}
+        Something went wrong when attempting to decrypt your keystores, perhaps your node is not running
       </mat-error>
     </mat-form-field>
     <div class="my-6 flex flex-wrap">

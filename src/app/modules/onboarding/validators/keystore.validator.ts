@@ -33,6 +33,7 @@ export class KeystoreValidator {
       control: AbstractControl
     ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
       return control.valueChanges.pipe(
+        debounceTime(500),
         take(1),
         switchMap(value => {
           const keystores: string[] = control.get('keystoresImported')?.value;
@@ -52,12 +53,11 @@ export class KeystoreValidator {
               return null;
             }),
             catchError((err: HttpErrorResponse) => {
-              console.log(err?.status);
               let formErr: object;
               if (err?.status === 400) {
                 formErr = { incorrectPassword: err.error?.message };
               } else {
-                formErr = { somethingWentWrong: err.error?.message };
+                formErr = { somethingWentWrong: true };
               }
               control.get('keystoresPassword')?.setErrors(formErr);
               return of(formErr);

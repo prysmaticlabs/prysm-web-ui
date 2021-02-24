@@ -53,10 +53,13 @@ export class KeystoreValidator {
             }),
             catchError((err: HttpErrorResponse) => {
               console.log(err?.status);
-              const formErr = { incorrectPassword: err.error?.message };
+              let formErr: object;
+              if (err?.status === 400) {
+                formErr = { incorrectPassword: err.error?.message };
+              } else {
+                formErr = { somethingWentWrong: err.error?.message };
+              }
               control.get('keystoresPassword')?.setErrors(formErr);
-              const myerr = control.get('keystoresPassword')?.getError('incorrectPassword');
-              console.log(myerr);
               return of(formErr);
             }),
           )

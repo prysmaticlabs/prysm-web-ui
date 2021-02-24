@@ -47,14 +47,12 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   loading = false;
   isSmallScreen = false;
   keystoresFormGroup = this.formBuilder.group({
-    keystoresImported: new FormControl([
-      [] as string[],
-    ], [
+    keystoresImported: new FormControl([] as string[][], [
       this.keystoreValidator.validateIntegrity,
     ]),
     keystoresPassword: ['', Validators.required]
   }, {
-    validators: this.keystoreValidator.correctPassword(),
+    asyncValidators: this.keystoreValidator.correctPassword(),
   });
   passwordFormGroup = this.formBuilder.group({
     password: new FormControl('', [

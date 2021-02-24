@@ -32,29 +32,35 @@ export class KeystoreValidator {
     return (
       control: AbstractControl
     ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      const keystoresPassword = control.get('keystoresPassword')?.value;
-      if (keystoresPassword === null) {
-        return of(null);
-      }
-      const keystores: string[] = control.get('keystoresImported')?.value;
-      if (!keystores.length) {
-        return of(null);
-      }
-      const req: ValidateKeystoresRequest = {
-        keystores,
-        keystoresPassword,
-      };
       return control.valueChanges.pipe(
-        debounceTime(2000),
         take(1),
-        switchMap(_ =>
-          this.walletService.validateKeystores(req).pipe(
+        switchMap(value => {
+          const keystores: string[] = control.get('keystoresImported')?.value;
+          if (!keystores.length) {
+            return of(null);
+          }
+          const keystoresPassword: string = control.get('keystoresPassword')?.value;
+          if (keystoresPassword === null || keystoresPassword === '') {
+            return of(null);
+          }
+          const req: ValidateKeystoresRequest = {
+            keystores,
+            keystoresPassword,
+          };
+          return this.walletService.validateKeystores(req).pipe(
+            map(() => {
+              return null;
+            }),
             catchError((err: HttpErrorResponse) => {
-              console.log('logging', err);
-              return of({ incorrectPassword: true });
+              console.log(err?.status);
+              const formErr = { incorrectPassword: err.error?.message };
+              control.get('keystoresPassword')?.setErrors(formErr);
+              const myerr = control.get('keystoresPassword')?.getError('incorrectPassword');
+              console.log(myerr);
+              return of(formErr);
             }),
           )
-        ),
+        }),
       );
     };
   }

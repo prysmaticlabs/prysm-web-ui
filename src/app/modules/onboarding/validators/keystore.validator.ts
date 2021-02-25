@@ -41,7 +41,7 @@ export class KeystoreValidator {
             return of(null);
           }
           const keystoresPassword: string = control.get('keystoresPassword')?.value;
-          if (keystoresPassword === null || keystoresPassword.trim() === '') {
+          if (keystoresPassword === '') {
             return of(null);
           }
           const req: ValidateKeystoresRequest = {

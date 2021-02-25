@@ -50,32 +50,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: 'whatshot',
       children: [
         {
-          name: 'Metrics',
-          icon: 'insert_chart',
-          comingSoon: true,
-        },
-        {
           name: 'System Logs',
           icon: 'memory',
           path: '/dashboard/system/logs',
         },
         {
-          name: 'Peer locations map',
+          name: 'Peer Locations Map',
           icon: 'map',
           path: '/dashboard/system/peers-map',
         }
       ],
     },
     {
-      name: 'Security',
+      name: 'Change Password',
       icon: 'https',
-      children: [
-        {
-          name: 'Change Password',
-          path: '/dashboard/security/change-password',
-          icon: 'settings',
-        },
-      ],
+      path: '/dashboard/security/change-password',
     },
     {
       name: 'Read the Docs',

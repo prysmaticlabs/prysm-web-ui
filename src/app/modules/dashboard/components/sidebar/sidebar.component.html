@@ -9,8 +9,8 @@
     <div class="scrollbar-container scrollable position-relative ps">
       <div class="navigation">
         <div *ngFor="let link of links">
-          <a *ngIf="!link.children && !link.externalUrl" 
-            class="nav-item active" 
+          <a *ngIf="!link.children && !link.externalUrl"
+            class="nav-item active"
             [routerLink]="link.path"
             routerLinkActive="active"
           >
@@ -25,9 +25,9 @@
               </div>
             </button>
           </a>
-          <a *ngIf="!link.children && link.externalUrl" 
-             class="nav-item" 
-             [href]="link.externalUrl" 
+          <a *ngIf="!link.children && link.externalUrl"
+             class="nav-item"
+             [href]="link.externalUrl"
              target="_blank"
           >
             <button mat-button class="nav-button">
@@ -35,13 +35,13 @@
                 <mat-icon aria-hidden="false" class="ml-1" aria-label="Example home icon">
                   {{link.icon}}
                 </mat-icon>
-                <span class="ml-8">
+                <span class="ml-6">
                   {{link.name}}
                 </span>
               </div>
             </button>
           </a>
-          <app-sidebar-expandable-link 
+          <app-sidebar-expandable-link
             *ngIf="link.children"
             [link]="link"
           >

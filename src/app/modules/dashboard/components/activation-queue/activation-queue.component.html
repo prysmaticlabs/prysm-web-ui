@@ -1,73 +1,39 @@
 <mat-card class="bg-paper" *ngIf="(queueData$ | async) as data">
-  <div class="text-xl">
-    Validator Queue
-  </div>
-  <div class="mt-6 text-primary font-semibold text-2xl">
-    {{data.secondsLeftInQueue | amDuration:'seconds'}} left in queue
-  </div>
-  <div class="mt-4 mb-2 text-secondary font-semibold text-base">
-    <span>{{data.churnLimit.length}}</span>
-    Activated per epoch
-  </div>
-  <div class="mt-2 mb-1 text-muted">
-    <mat-icon *ngFor="let i of data.churnLimit" class="mr-1">
-      person
+  <div class="pt-3 pb-5 text-right">
+    <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mr-4 cursor-pointer" [matTooltip]="activationQueueMessage">
+      help_outline
     </mat-icon>
-  </div>
-  <div class="text-sm">
-    <span>{{data.activationPublicKeys.size}}</span>
-    Pending activation
-  </div>
-  <div class="mt-1 text-sm">
-    <span>{{data.exitPublicKeys.size}}</span>
-    Pending exit
-  </div>
-  <div *ngIf="userKeysAwaitingActivation(data) as userKeys">
-    <div class="py-3">
-      <mat-divider></mat-divider>
-    </div>
-    <div class="text-muted">
-      {{userKeys.length}} of your keys pending activation
-    </div>
-    <div *ngFor="let key of (userKeys | slice:0:4)">
-      <div class="text-white text-base my-2 truncate">
-        {{(key | base64tohex)}}
+    <div class="text-center -mt-4">
+      <div class="m-2 text-primary font-semibold text-3xl leading-relaxed">
+        {{data.secondsLeftInQueue | amDuration:'seconds'}} left
       </div>
-      <div 
-        class="flex" 
-        *ngIf="positionInArray(data.originalData.activationPublicKeys, key) as position">
-        <div class="text-muted">{{activationETAForPosition(position, data) | amDuration:'seconds'}} left</div>
-        <div class="ml-2 text-secondary font-semibold">
-          {{position | ordinal}} in line
-        </div>
+      <div class="text-lg">
+        Validator Queue
       </div>
-    </div>
-    <div *ngIf="userKeys.length > 4">
-      ...
-    </div>
-  </div>
-  <div *ngIf="userKeysAwaitingExit(data) as userKeys">
-    <div class="py-3">
-      <mat-divider></mat-divider>
-    </div>
-    <div class="text-muted">
-      {{userKeys.length}} of your keys pending exit
-    </div>
-    <div *ngFor="let key of (userKeys | slice:0:4)">
-      <div class="text-white text-base my-2 truncate">
-        {{(key | base64tohex)}}
+      <div class="mt-4">
+        <mat-progress-bar
+          mode="determinate"
+          color="success"
+          [value]="60">
+        </mat-progress-bar>
       </div>
-      <div 
-        class="flex" 
-        *ngIf="positionInArray(data.originalData.exitPublicKeys, key) as position">
-        <div class="text-muted">{{activationETAForPosition(position, data) | amDuration:'seconds'}} left</div>
-        <div class="ml-2 text-secondary font-semibold">
-          {{position | ordinal}} in line
-        </div>
+      <div class="mt-4 mb-1 text-muted">
+        <mat-icon *ngFor="let i of data.churnLimit" class="mr-1">
+          person
+        </mat-icon>
       </div>
-    </div>
-    <div *ngIf="userKeys.length > 4">
-      ...
+      <div class="mt-2 mb-2 text-secondary font-semibold text-base">
+        <span>{{data.churnLimit.length}}</span>
+        Activated per epoch
+      </div>
+      <div class="text-sm">
+        <span>{{data.activationPublicKeys.size}}</span>
+        Pending Activation /
+        <span>{{data.exitPublicKeys.size}}</span>
+        Pending Exit
+      </div>
+      <div class="mt-1 text-sm">
+      </div>
     </div>
   </div>
 </mat-card>

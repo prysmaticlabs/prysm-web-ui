@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   links: SidebarLink[] = [
     {
-      name: 'Validator Gains & Losses',
+      name: 'Validator Overview',
       icon: 'trending_up',
       path: '/dashboard/gains-and-losses',
     },

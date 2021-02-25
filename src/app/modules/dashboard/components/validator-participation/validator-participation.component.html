@@ -6,7 +6,7 @@
       help_outline
     </mat-icon>
     <div class="text-center">
-      <p 
+      <p
         class="m-8 font-bold text-3xl leading-relaxed text-success">
         --%
       </p>
@@ -14,8 +14,8 @@
         Loading Validator Participation...
       </p>
       <div class="mt-6">
-        <mat-progress-bar 
-          mode="indeterminate" 
+        <mat-progress-bar
+          mode="indeterminate"
           color="primary">
         </mat-progress-bar>
       </div>
@@ -34,14 +34,14 @@
 </mat-card>
 <mat-card class="bg-paper" *ngIf="!loading && participation">
   <div
-    class="bg-paperlight pb-8 py-4 text-right"
+    class="bg-paperlight pt-4 pb-8 text-right"
   >
     <mat-icon aria-hidden="false" aria-label="Example home icon" class="text-muted mr-4 cursor-pointer" [matTooltip]="noFinalityMessage">
       help_outline
     </mat-icon>
-    <div class="text-center">
-      <p 
-        class="m-8 font-bold text-3xl leading-relaxed"
+    <div class="text-center -mt-4">
+      <p
+        class="m-2 font-bold text-3xl leading-relaxed"
         [class.text-success]="participation?.rate > 66.6"
         [class.text-error]="!(participation?.rate > 66.6)">
         {{participation?.rate | number: '1.2-2'}}%
@@ -49,14 +49,14 @@
       <p class="text-lg">
         Global Validator Participation
       </p>
-      <div class="mt-6">
-        <mat-progress-bar 
-          mode="determinate" 
-          [color]="updateProgressColor(participation?.rate)" 
+      <div class="mt-4">
+        <mat-progress-bar
+          mode="determinate"
+          [color]="updateProgressColor(participation?.rate)"
           [value]="participation?.rate">
         </mat-progress-bar>
       </div>
-      <div class="mt-6">
+      <div class="mt-4">
         <span class="text-base font-bold">{{participation?.totalVotedETH}}</span> <span class="font-bold mx-2">/</span>
         <span class="text-base text-muted">{{participation?.totalEligibleETH}}</span>
       </div>

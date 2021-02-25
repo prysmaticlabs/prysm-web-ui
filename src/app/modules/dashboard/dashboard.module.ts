@@ -27,7 +27,7 @@ import { VersionComponent } from './components/version/version.component';
     ValidatorParticipationComponent,
     ValidatorPerformanceSummaryComponent,
     ActivationQueueComponent,
-    VersionComponent
+    VersionComponent,
   ],
   imports: [
     CommonModule,

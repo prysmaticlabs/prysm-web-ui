@@ -30,6 +30,7 @@ export class ActivationQueueComponent {
     private walletService: WalletService,
   ) { }
 
+  activationQueueMessage = 'New validators are inducted into eth2 on a sliding queue basis'
   validatingPublicKeys$ = this.walletService.validatingPublicKeys$;
 
   queueData$ = zip(

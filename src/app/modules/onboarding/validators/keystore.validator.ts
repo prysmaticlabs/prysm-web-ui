@@ -36,15 +36,12 @@ export class KeystoreValidator {
         debounceTime(500),
         take(1),
         switchMap(_ => {
-          console.log('in switch map');
           const keystores: string[] = control.get('keystoresImported')?.value;
           if (!keystores.length) {
-            console.log('no keystores');
             return of(null);
           }
           const keystoresPassword: string = control.get('keystoresPassword')?.value;
-          if (keystoresPassword === null || keystoresPassword === '') {
-            console.log('no keystores password');
+          if (keystoresPassword === null || keystoresPassword.trim() === '') {
             return of(null);
           }
           const req: ValidateKeystoresRequest = {
@@ -53,13 +50,12 @@ export class KeystoreValidator {
           };
           return this.walletService.validateKeystores(req).pipe(
             map(() => {
-              console.log('in map null');
               return null;
             }),
             catchError((err: HttpErrorResponse) => {
               let formErr: object;
-              if (err?.status === 400) {
-                formErr = { incorrectPassword: err.error?.message };
+              if (err.status === 400) {
+                formErr = { incorrectPassword: err.error.message };
               } else {
                 formErr = { somethingWentWrong: true };
               }

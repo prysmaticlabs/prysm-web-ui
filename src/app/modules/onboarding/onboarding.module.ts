@@ -10,7 +10,6 @@ import { OnboardingComponent } from './onboarding.component';
 import { ChooseWalletKindComponent } from './components/choose-wallet-kind/choose-wallet-kind.component';
 import { GenerateMnemonicComponent } from './components/generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from './components/confirm-mnemonic/confirm-mnemonic.component';
-import { UnlockKeysComponent } from './components/unlock-keys/unlock-keys.component';
 
 import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive';
 import { MnemonicValidator } from './validators/mnemonic.validator';
@@ -28,7 +27,6 @@ import { WalletDirectoryFormComponent } from './components/wallet-directory-form
     GenerateMnemonicComponent,
     ConfirmMnemonicComponent,
     NonhdWalletWizardComponent,
-    UnlockKeysComponent,
     WalletDirectoryFormComponent,
   ],
   providers: [MnemonicValidator],

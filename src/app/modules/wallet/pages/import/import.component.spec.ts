@@ -6,11 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockService } from 'ng-mocks';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { LoginComponent } from 'src/app/modules/auth/login/login.component';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { ImportKeystoresRequest, ImportKeystoresResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { ImportComponent } from './import.component';
 
@@ -62,8 +61,8 @@ describe('ImportComponent', () => {
   it('should call the keystores import function upon form submit', () => {
     const keystoresImported = ['a', 'b'];
     const keystoresPassword = 'Passw0rdz2020$';
-    component.importFormGroup.controls.keystoresImported.setValue(keystoresImported);
-    component.passwordFormGroup.controls.keystoresPassword.setValue(keystoresPassword);
+    component.keystoresFormGroup.controls.keystoresImported.setValue(keystoresImported);
+    component.keystoresFormGroup.controls.keystoresPassword.setValue(keystoresPassword);
     component.submit();
     fixture.detectChanges();
     const req: ImportKeystoresRequest = {

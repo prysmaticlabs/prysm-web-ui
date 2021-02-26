@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input } from '@angular/core';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { FormGroup } from '@angular/forms';
-import { from, throwError } from 'rxjs';
+import {from, throwError} from 'rxjs';
 import * as JSZip from 'jszip';
 import { catchError, take, tap } from 'rxjs/operators';
 

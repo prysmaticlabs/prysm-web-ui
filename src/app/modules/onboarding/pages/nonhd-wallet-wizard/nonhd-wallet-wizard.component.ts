@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
+import {Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import {FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
@@ -10,12 +10,15 @@ import { Subject, throwError } from 'rxjs';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
-import { AuthRequest, AuthResponse, CreateWalletRequest, ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
-import { MAX_ALLOWED_KEYSTORES } from 'src/app/modules/core/constants';
+import {
+  AuthRequest,
+  CreateWalletRequest,
+  ImportKeystoresRequest,
+} from 'src/app/proto/validator/accounts/v2/web_api';
+import { KeystoreValidator } from '../../validators/keystore.validator';
 
 enum WizardState {
   WalletDir,
-  ImportAccounts,
   UnlockAccounts,
   WebPassword,
 }
@@ -32,6 +35,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
+    private keystoreValidator: KeystoreValidator,
     private router: Router,
     private authService: AuthenticationService,
     private walletService: WalletService,
@@ -42,15 +46,13 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   loading = false;
   isSmallScreen = false;
-  importFormGroup = this.formBuilder.group({
-    keystoresImported: [
-      [] as string[],
-    ]
-  }, {
-    validators: this.validateImportedKeystores,
-  });
-  unlockFormGroup = this.formBuilder.group({
+  keystoresFormGroup = this.formBuilder.group({
+    keystoresImported: new FormControl([] as string[][], [
+      this.keystoreValidator.validateIntegrity,
+    ]),
     keystoresPassword: ['', Validators.required]
+  }, {
+    asyncValidators: this.keystoreValidator.correctPassword(),
   });
   passwordFormGroup = this.formBuilder.group({
     password: new FormControl('', [
@@ -108,25 +110,11 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  validateImportedKeystores(control: AbstractControl): void {
-    const keystores: Uint8Array[] = control.get('keystoresImported')?.value;
-    if (!keystores || keystores.length === 0) {
-      control.get('keystoresImported')?.setErrors({ noKeystoresUploaded: true });
-      return;
-    }
-    if (keystores.length > MAX_ALLOWED_KEYSTORES) {
-      control.get('keystoresImported')?.setErrors({ tooManyKeystores: true });
-    }
-  }
-
   nextStep(event: Event, state: WizardState): void {
     event.stopPropagation();
     switch (state) {
-      case WizardState.ImportAccounts:
-        this.importFormGroup.markAllAsTouched();
-        break;
       case WizardState.UnlockAccounts:
-        this.unlockFormGroup.markAllAsTouched();
+        this.keystoresFormGroup.markAllAsTouched();
         break;
     }
     this.stepper?.next();
@@ -139,8 +127,8 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       walletPassword: this.passwordFormGroup.get('password')?.value,
     } as CreateWalletRequest;
     const importRequest = {
-      keystoresPassword: this.unlockFormGroup.get('keystoresPassword')?.value,
-      keystoresImported: this.importFormGroup.get('keystoresImported')?.value,
+      keystoresPassword: this.keystoresFormGroup.get('keystoresPassword')?.value,
+      keystoresImported: this.keystoresFormGroup.get('keystoresImported')?.value,
     } as ImportKeystoresRequest;
     this.loading = true;
     const webPassword = this.passwordFormGroup.get('password')?.value;

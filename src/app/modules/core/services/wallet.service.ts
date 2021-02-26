@@ -12,6 +12,7 @@ import {
   ImportKeystoresRequest,
   ImportKeystoresResponse,
   CreateWalletResponse,
+  ValidateKeystoresRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 @Injectable({
@@ -67,5 +68,9 @@ export class WalletService {
 
   importKeystores(request: ImportKeystoresRequest): Observable<ImportKeystoresResponse> {
     return this.http.post<ImportKeystoresResponse>(`${this.apiUrl}/wallet/keystores/import`, request);
+  }
+
+  validateKeystores(request: ValidateKeystoresRequest): Observable<object> {
+    return this.http.post<object>(`${this.apiUrl}/wallet/keystores/validate`, request);
   }
 }

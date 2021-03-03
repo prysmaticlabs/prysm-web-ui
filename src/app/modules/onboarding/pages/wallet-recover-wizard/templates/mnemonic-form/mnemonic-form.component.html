@@ -1,0 +1,50 @@
+
+
+<form [formGroup]="fg" (ngSubmit)="next()">
+    <div class="my-4 text-hint text-lg leading-snug">
+        Enter all 24 words for your mnemonic from the previous step to
+        proceed.
+        Remember this is the <span class="text-error font-semibold">only way</span>
+        you can recover your validator keys if you lose your wallet.
+    </div>
+    <mat-form-field [appearance]="'outline'">
+        <mat-label>Mnemonic</mat-label>
+        <textarea cdkAutosizeMinRows="3"
+            cdkTextareaAutosize
+            cdkAutosizeMaxRows="4" matInput appBlockCopyPaste
+            formControlName="mnemonic"></textarea>
+        <mat-error>
+            <span *ngIf="fg.controls.mnemonic.hasError('required')">
+                The mnemonics are required
+            </span>
+            <span *ngIf="fg.controls.mnemonic.hasError('properFormatting')">
+                Must contain 24 words separated by spaces
+            </span>
+            <span
+                *ngIf="fg?.controls.mnemonic.hasError('mnemonicMismatch')">
+                Entered mnemonic does not match original
+            </span>
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field [appearance]="'outline'">
+        <mat-label>Num accounts</mat-label>
+        <input type="number" matInput formControlName="num_accounts" />
+        <mat-error>
+            <span *ngIf="fg.controls.num_accounts.hasError('required')">
+                The number of accounts is required
+            </span>
+            <span
+                *ngIf="fg.controls.num_accounts.hasError('BiggerThanZero')">
+                The number of accounts must be bigger than zero
+            </span>
+        </mat-error>
+    </mat-form-field>
+
+    <div class="mt-6">
+        <button color="accent" type="button" mat-raised-button
+            (click)="onBackToWalletsRaised.emit()">Back
+            to Wallets</button>
+        <span class="ml-4"><button color="primary" mat-raised-button
+                [disabled]="fg.invalid">Continue</button></span>
+    </div>
+</form>

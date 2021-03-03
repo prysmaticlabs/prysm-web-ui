@@ -2,36 +2,40 @@
   <div class="text-center pb-8">
     <div class="text-white text-3xl">Create a Prysm Wallet</div>
     <div class="text-muted text-lg mt-6 leading-snug">
-      To get started, you will need to create a new wallet in Prysm<br/>to hold your validator keys
-    </div>
-  </div>
-  <div class="onboarding-grid flex-wrap flex justify-center items-center my-auto">
-    <div
-      *ngFor="let selection of walletSelections; index as idx"
-      class="bg-paper onboarding-card text-center flex flex-col my-8 md:my-0"
-      [class.active]="selectedCard === idx"
-      [class.mx-8]="idx === 1"
-      (click)="selectCard(idx)"
-    >
-      <div class="flex justify-center">
-        <img [src]="selection.image"/>
-      </div>
-      <div class="wallet-info">
-        <p class="wallet-kind">
-          {{selection.name}}
-        </p>
-        <p class="wallet-description">
-          {{selection.description}}
-        </p>
-        <p class="wallet-action">
-          <button *ngIf="!selection.comingSoon" class="select-button" mat-raised-button color="accent" (click)="selectedWallet$.next(selection.kind)">
-            Select Wallet
-          </button>
-          <button *ngIf="selection.comingSoon" class="select-button" mat-raised-button disabled>
-            Coming Soon
-          </button>
-        </p>
+      To get started, you will need to create a new wallet in Prysm<br/>to hold
+        your validator keys
       </div>
     </div>
+    <div class="onboarding-grid flex-wrap flex justify-center items-center
+      my-auto">
+      <div
+        *ngFor="let selection of walletSelections; index as idx"
+        class="bg-paper onboarding-card text-center flex flex-col my-8 md:my-0"
+        [class.active]="selectedCard === idx"
+        [class.mx-8]="idx === 1"
+        (click)="selectCard(idx)">
+        <div class="flex justify-center">
+          <img [src]="selection.image" />
+        </div>
+        <div class="wallet-info">
+          <p class="wallet-kind">
+            {{selection.name}}
+          </p>
+          <p class="wallet-description">
+            {{selection.description}}
+          </p>
+          <p class="wallet-action">
+            <button *ngIf="!selection.comingSoon" class="select-button"
+              mat-raised-button color="accent"
+              (click)="selectedWallet$.next(selection.kind)">
+              Select Wallet
+            </button>
+            <button *ngIf="selection.comingSoon" class="select-button"
+              mat-raised-button disabled>
+              Coming Soon
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
-</div>

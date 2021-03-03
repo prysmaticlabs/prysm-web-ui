@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
+import { RecoverWalletRequest } from '../../../proto/validator/accounts/v2/web_api';
 import {
   WalletResponse,
   GenerateMnemonicResponse,
@@ -72,5 +73,8 @@ export class WalletService {
 
   validateKeystores(request: ValidateKeystoresRequest): Observable<object> {
     return this.http.post<object>(`${this.apiUrl}/wallet/keystores/validate`, request);
+  }
+  recover(request: RecoverWalletRequest):Observable<any>{
+    return this.http.post(`${this.apiUrl}/wallet/recover`, request)
   }
 }

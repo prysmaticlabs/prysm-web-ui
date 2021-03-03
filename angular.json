@@ -23,18 +23,22 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/_redirects"
+            "allowedCommonJsDependencies": [
+              "ethers/lib/utils",
+              "rxjs-pipe-ext/lib",
+              "ansi_up",
+              "hash.js",
+              "zrender/lib/svg/svg",
+              "bn.js",
+              "echarts",
+              "zrender/lib/vml/vml"
             ],
+            "assets": ["src/favicon.ico", "src/assets", "src/_redirects"],
             "styles": [
               "src/styles.scss",
               "./node_modules/leaflet/dist/leaflet.css"
             ],
-            "scripts": [
-              "./node_modules/leaflet/dist/leaflet.js"
-            ]
+            "scripts": ["./node_modules/leaflet/dist/leaflet.js"]
           },
           "configurations": {
             "production": {
@@ -70,7 +74,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "prysm-web-ui:build",
+            "browserTarget": "prysm-web-ui:build"
           },
           "configurations": {
             "production": {
@@ -91,13 +95,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
@@ -109,9 +108,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -127,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "prysm-web-ui"
+    }
+  },
+  "defaultProject": "prysm-web-ui",
+  "cli": {
+    "analytics": "febbd90d-29bb-408a-9067-7df1e10d85dc"
+  }
 }

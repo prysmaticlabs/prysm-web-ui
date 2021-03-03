@@ -103,6 +103,7 @@ export class WalletRecoverWizardComponent
   onNext(st: MatStepper, oldForm: FormGroup, newForm: FormGroup) {
     oldForm = newForm;
     st?.next();
+    return oldForm
   }
   login(st: MatStepper, oldForm: FormGroup, newForm: FormGroup) {
     this.authService.signup(newForm.value).subscribe((response) => {
@@ -112,9 +113,9 @@ export class WalletRecoverWizardComponent
   walletRecover(form: FormGroup) {
     if (form.invalid) return;
     const request = <RecoverWalletRequest>{
-      Mnemonic: this.mnemonicFg.get('mnemonic')?.value,
-      Num_accounts: this.mnemonicFg.get('num_accounts')?.value,
-      Wallet_password: form.get('password')?.value,
+      mnemonic: this.mnemonicFg.get('mnemonic')?.value,
+      num_accounts: this.mnemonicFg.get('num_accounts')?.value,
+      wallet_password: form.get('password')?.value,
     };
     this.walletService.recover(request).subscribe((x) => {
       this.onBackToWalletsRaised.emit();

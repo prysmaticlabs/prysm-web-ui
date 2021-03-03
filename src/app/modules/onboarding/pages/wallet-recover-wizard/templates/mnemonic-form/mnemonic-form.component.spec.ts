@@ -1,4 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { MnemonicFormComponent } from './mnemonic-form.component';
 
@@ -8,9 +11,14 @@ describe('MnemonicFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MnemonicFormComponent ]
-    })
-    .compileComponents();
+      declarations: [MnemonicFormComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        HttpClientTestingModule,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

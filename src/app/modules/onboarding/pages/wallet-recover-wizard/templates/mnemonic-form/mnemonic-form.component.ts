@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./mnemonic-form.component.scss'],
 })
 export class MnemonicFormComponent implements OnInit {
-  @Input('fg') fg!: FormGroup;
+  @Input('fg') fg: FormGroup | null = null;
   @Output('onNext') onNext = new EventEmitter<FormGroup>();
   @Output('onBackToWalletsRaised')
   onBackToWalletsRaised = new EventEmitter<void>();
@@ -15,6 +15,7 @@ export class MnemonicFormComponent implements OnInit {
 
   ngOnInit(): void {}
   next() {
+    if (!this.fg) return;
     this.onNext.emit(this.fg);
   }
 }

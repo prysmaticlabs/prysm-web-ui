@@ -206,13 +206,13 @@ export interface RecoverWalletRequest {
   /**
    * 24 word Mnemonics
    */
-  Mnemonic: string;
+  mnemonic: string;
   /**
    * Num of accounts generated from the mnemonic
    */
-  Num_accounts: string;
+  num_accounts: string;
   /**
    * The wallet password
    */
-  Wallet_password: string;
+  wallet_password: string;
 }

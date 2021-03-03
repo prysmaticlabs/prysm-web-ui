@@ -1,6 +1,4 @@
-
-
-<form [formGroup]="fg" (ngSubmit)="next()">
+<form *ngIf="fg" [formGroup]="fg" (ngSubmit)="next()">
     <div class="my-4 text-hint text-lg leading-snug">
         Enter all 24 words for your mnemonic from the previous step to
         proceed.
@@ -39,7 +37,6 @@
             </span>
         </mat-error>
     </mat-form-field>
-
     <div class="mt-6">
         <button color="accent" type="button" mat-raised-button
             (click)="onBackToWalletsRaised.emit()">Back

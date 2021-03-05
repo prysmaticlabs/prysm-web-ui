@@ -14,6 +14,7 @@ import { ActivationQueueComponent } from '../../components/activation-queue/acti
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { ChainService } from 'src/app/modules/core/services/chain.service';
 import { ENVIRONMENT } from 'src/environments/token';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('GainsAndLossesComponent', () => {
   let component: GainsAndLossesComponent;
@@ -23,6 +24,7 @@ describe('GainsAndLossesComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
+        BrowserAnimationsModule,
         HttpClientTestingModule,
         NgxEchartsModule.forRoot({
           echarts: () => import('echarts'),

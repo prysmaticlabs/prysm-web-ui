@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { AccountSelectionsComponent } from './account-selections.component';
@@ -12,6 +13,7 @@ describe('AccountSelectionsComponent', () => {
       declarations: [AccountSelectionsComponent],
       imports: [
         SharedModule,
+        BrowserAnimationsModule,
       ]
     })
     .compileComponents();

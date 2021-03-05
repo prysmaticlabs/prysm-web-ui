@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { ConfirmMnemonicComponent } from './confirm-mnemonic.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { BlockCopyPasteDirective } from '../../directives/block-copy-paste.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const SAMPLE_MNEMONIC = 'tape hungry front clump chapter blush alien sauce spawn victory mother salt purpose drop mask hour foil physical daughter narrow sheriff agree master survey';
 
@@ -24,6 +25,7 @@ describe('ConfirmMnemonicComponent', () => {
       ],
       imports: [
         SharedModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule,
         FormsModule
       ]

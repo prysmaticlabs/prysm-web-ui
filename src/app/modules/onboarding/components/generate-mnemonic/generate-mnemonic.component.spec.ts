@@ -4,6 +4,7 @@ import { GenerateMnemonicComponent } from './generate-mnemonic.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { of } from 'rxjs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('GenerateMnemonicComponent', () => {
   let walletService: WalletService;
@@ -17,6 +18,7 @@ describe('GenerateMnemonicComponent', () => {
       declarations: [ GenerateMnemonicComponent ],
       imports: [
         SharedModule,
+        BrowserAnimationsModule,
       ],
       providers: [
         { provide: WalletService, useValue: spy },

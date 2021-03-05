@@ -27,7 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-
+import { MatListModule } from '@angular/material/list';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MomentModule } from 'ngx-moment';
@@ -46,6 +46,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
+import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 
 @NgModule({
   declarations: [
@@ -59,10 +60,9 @@ import { BalancePipe } from './pipes/balance.pipe';
     PasswordFormComponent,
     LoadingComponent,
     ImportAccountsFormComponent,
+    CreateAccountsFormComponent,
   ],
-  providers: [
-    BreadcrumbService,
-  ],
+  providers: [BreadcrumbService],
   imports: [
     CommonModule,
     MatIconModule,
@@ -73,12 +73,9 @@ import { BalancePipe } from './pipes/balance.pipe';
     MatInputModule,
     NgxFileDropModule,
     MatProgressBarModule,
-    AppRoutingModule,
   ],
   exports: [
     BreadcrumbComponent,
-    BrowserAnimationsModule,
-    BrowserAnimationsModule,
     MatSliderModule,
     MatGridListModule,
     MatCardModule,
@@ -116,6 +113,8 @@ import { BalancePipe } from './pipes/balance.pipe';
     EpochPipe,
     SlotPipe,
     BalancePipe,
+    CreateAccountsFormComponent,
+    MatListModule,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

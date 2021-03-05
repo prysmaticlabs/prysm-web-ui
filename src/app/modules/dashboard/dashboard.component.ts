@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         {
           name: 'Account List',
           icon: 'list',
-          path: '/dashboard/wallet/accounts',
+          path: '/dashboard/wallet',
         },
         {
           name: 'Wallet Information',

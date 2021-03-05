@@ -19,6 +19,7 @@ import {
   CreateWalletResponse,
   AuthRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('HdWalletWizardComponent', () => {
   let component: HdWalletWizardComponent;
@@ -49,6 +50,7 @@ describe('HdWalletWizardComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
+        BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
       providers: [

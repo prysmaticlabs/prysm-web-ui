@@ -6,4 +6,13 @@ export abstract class UtilityValidator {
     if (val > 0) return null;
     return { BiggerThanZero: true };
   }
+
+  static MustBe(value: any): ValidationErrors | null {
+    return (ctrl: AbstractControl) => {
+      if (ctrl.value == value) return null;
+      return {
+        incorectValue: true,
+      };
+    };
+  }
 }

@@ -6,7 +6,7 @@
     "prestart": "ngtw build",
     "start": "ng serve --live-reload && ngtw watch",
     "start:staging": "ng serve --prod=true --live-reload && ngtw watch",
-    "build": "ng build",
+    "build":"ng build",
     "build:dev": "ngtw build && ng build --prod=false",
     "build:prod": "ngtw build && ng build --prod=true",
     "clean": "rm -Rf ./dist",

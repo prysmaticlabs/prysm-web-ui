@@ -9,13 +9,22 @@
                     Once these accounts are exited, the action cannot be
                     reverted.
                 </h3>
-                <mat-form-field class="w-100" *ngFor="let item of keys">
-                    <input matInput [formControlName]="item.accountName" />
-                </mat-form-field>
+                <mat-selection-list (selectionChange)="selectionChange($event)"
+                    #shoes>
+                    <mat-list-option
+                        [value]="item.validatingPublicKey|base64tohex"
+                        *ngFor="let item of keys">
+                        {{item.accountName}}
+                    </mat-list-option>
+                </mat-selection-list>
                 <mat-form-field class="w-100">
                     <mat-label>Confirmation</mat-label>
                     <input matInput formControlName="confirmation" />
-                    <mat-hint>Type agree if you want to exit the keys</mat-hint>
+                    <mat-hint>
+                        <h5>
+                            Type <i>'agree'</i> if you want to exit the keys
+                        </h5>
+                    </mat-hint>
                     <mat-error>
                         <span
                             *ngIf="exitAccountFormGroup?.get('confirmation')?.hasError('required')">

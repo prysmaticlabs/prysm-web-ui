@@ -1,4 +1,4 @@
-import { ValidationErrors, AbstractControl } from '@angular/forms';
+import { ValidationErrors, AbstractControl, FormGroup } from '@angular/forms';
 export abstract class UtilityValidator {
   static BiggerThanZero(ctrl: AbstractControl): ValidationErrors | null {
     if (!ctrl.value || !+ctrl.value) return { BiggerThanZero: true };
@@ -13,6 +13,13 @@ export abstract class UtilityValidator {
       return {
         incorectValue: true,
       };
+    };
+  }
+
+  static MustHaveMoreThanOneControle(grp: FormGroup): ValidationErrors | null {
+    if (Object.keys(grp.controls).length > 1) return null;
+    return {
+      mustSelectOne: true,
     };
   }
 }

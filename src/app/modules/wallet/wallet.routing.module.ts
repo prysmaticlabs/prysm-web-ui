@@ -29,6 +29,20 @@ const routes: Routes = [
             path: '',
             component: AccountsComponent,
           },
+          {
+            path: 'voluntary-exit',
+            data: {
+              breadcrumb: 'Voluntary Exit',
+            },
+            component: AccountVoluntaryExitComponent,
+          },
+          {
+            path: 'import',
+            data: {
+              breadcrumb: 'Import Accounts',
+            },
+            component: ImportComponent,
+          },
         ],
       },
       {
@@ -37,20 +51,6 @@ const routes: Routes = [
           breadcrumb: 'Wallet Details',
         },
         component: WalletDetailsComponent,
-      },
-      {
-        path: 'import',
-        data: {
-          breadcrumb: 'Import Accounts',
-        },
-        component: ImportComponent,
-      },
-      {
-        path: 'voluntary-exit',
-        data: {
-          breadcrumb: 'Account Voluntary Exit',
-        },
-        component: AccountVoluntaryExitComponent,
       },
     ],
   },

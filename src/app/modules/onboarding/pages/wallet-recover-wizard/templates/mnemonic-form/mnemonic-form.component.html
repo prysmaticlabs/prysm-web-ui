@@ -24,22 +24,10 @@
             </span>
         </mat-error>
     </mat-form-field>
-    <mat-form-field [appearance]="'outline'">
-        <mat-label>Num accounts</mat-label>
-        <input type="number" matInput formControlName="num_accounts" />
-        <mat-error>
-            <span *ngIf="fg.controls.num_accounts.hasError('required')">
-                The number of accounts is required
-            </span>
-            <span
-                *ngIf="fg.controls.num_accounts.hasError('BiggerThanZero')">
-                The number of accounts must be bigger than zero
-            </span>
-        </mat-error>
-    </mat-form-field>
+    <app-create-accounts-form #numAccounts [formGroup]="numAccountsFg"></app-create-accounts-form>
     <div class="mt-6">
         <button color="accent" type="button" mat-raised-button
-            (click)="onBackToWalletsRaised.emit()">Back
+            (click)="backToWalletsRaised.emit()">Back
             to Wallets</button>
         <span class="ml-4"><button color="primary" mat-raised-button
                 [disabled]="fg.invalid">Continue</button></span>

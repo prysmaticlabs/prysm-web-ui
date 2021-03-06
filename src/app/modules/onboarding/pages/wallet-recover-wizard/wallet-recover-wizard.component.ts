@@ -14,7 +14,10 @@ import {
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { UtilityValidator } from '../../validators/utility.validator';
 import { MatStepper } from '@angular/material/stepper';
-import { PasswordValidator } from '../../../core/validators/password.validator';
+import {
+  PasswordValidator,
+  StaticPasswordValidator,
+} from '../../../core/validators/password.validator';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { WalletService } from '../../../core/services/wallet.service';
 import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -30,13 +33,13 @@ import { BaseComponent } from '../../../shared/components/base.component';
 export class WalletRecoverWizardComponent
   extends BaseComponent
   implements OnInit {
-  @Output('onBackToWalletsRaised')
-  onBackToWalletsRaised = new EventEmitter<void>();
+  @Output()
+  backToWalletsRaised = new EventEmitter<void>();
   @ViewChild('horizontalStepper', { static: true }) stepper?: MatStepper;
   mnemonicFg!: FormGroup;
   passwordFG!: FormGroup;
   walletPasswordFg!: FormGroup;
-  isSmallScreen: boolean = false;
+  isSmallScreen = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
@@ -61,17 +64,17 @@ export class WalletRecoverWizardComponent
           [
             Validators.required,
             Validators.minLength(8),
-            PasswordValidator.strongPassword,
+            StaticPasswordValidator.strongPassword,
           ]
         ),
         passwordConfirmation: new FormControl('', [
           Validators.required,
           Validators.minLength(8),
-          PasswordValidator.strongPassword,
+          StaticPasswordValidator.strongPassword,
         ]),
       },
       {
-        validators: PasswordValidator.matchingPasswordConfirmation,
+        validators: StaticPasswordValidator.matchingPasswordConfirmation,
       }
     );
     this.walletPasswordFg = this.fb.group(
@@ -82,17 +85,17 @@ export class WalletRecoverWizardComponent
           [
             Validators.required,
             Validators.minLength(8),
-            PasswordValidator.strongPassword,
+            StaticPasswordValidator.strongPassword,
           ]
         ),
         passwordConfirmation: new FormControl('', [
           Validators.required,
           Validators.minLength(8),
-          PasswordValidator.strongPassword,
+          StaticPasswordValidator.strongPassword,
         ]),
       },
       {
-        validators: PasswordValidator.matchingPasswordConfirmation,
+        validators: StaticPasswordValidator.matchingPasswordConfirmation,
       }
     );
   }
@@ -100,27 +103,37 @@ export class WalletRecoverWizardComponent
   ngOnInit(): void {
     this.registerBreakpointObserver();
   }
-  onNext(st: MatStepper, oldForm: FormGroup, newForm: FormGroup) {
+
+  onNext(
+    st: MatStepper,
+    oldForm: FormGroup,
+    newForm: FormGroup
+  ): void | FormGroup {
     oldForm = newForm;
     st?.next();
-    return oldForm
+    return oldForm;
   }
-  login(st: MatStepper, oldForm: FormGroup, newForm: FormGroup) {
+
+  login(st: MatStepper, oldForm: FormGroup, newForm: FormGroup): void {
     this.authService.signup(newForm.value).subscribe((response) => {
       this.onNext(st, oldForm, newForm);
     });
   }
-  walletRecover(form: FormGroup) {
-    if (form.invalid) return;
-    const request = <RecoverWalletRequest>{
+
+  walletRecover(form: FormGroup): void {
+    if (form.invalid) {
+      return;
+    }
+    const request = {
       mnemonic: this.mnemonicFg.get('mnemonic')?.value,
       num_accounts: this.mnemonicFg.get('num_accounts')?.value,
       wallet_password: form.get('password')?.value,
-    };
+    } as RecoverWalletRequest;
     this.walletService.recover(request).subscribe((x) => {
-      this.onBackToWalletsRaised.emit();
+      this.backToWalletsRaised.emit();
     });
   }
+
   registerBreakpointObserver(): void {
     this.breakpointObserver
       .observe([Breakpoints.XSmall, Breakpoints.Small])

@@ -27,7 +27,6 @@ describe('WalletRecoverWizardComponent', () => {
   let fixture: ComponentFixture<WalletRecoverWizardComponent>;
   let walletService: WalletService;
   let authService: AuthenticationService;
-  let formBuilder: FormBuilder;
 
   beforeEach(async(() => {
     walletService = MockService(WalletService);
@@ -36,9 +35,9 @@ describe('WalletRecoverWizardComponent', () => {
       return of({});
     };
     authService.signup = (req: AuthRequest) => {
-      return of(<AuthResponse>{
+      return of({
         token: 'NewToken',
-      });
+      } as AuthResponse);
     };
 
     TestBed.configureTestingModule({
@@ -67,15 +66,16 @@ describe('WalletRecoverWizardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   it('should pass value to new form group', () => {
-    const st = <MatStepper>{
+    const st = {
       next: () => {},
-    };
+    } as MatStepper;
     let oldFg = new FormGroup({});
-    let newFg = new FormGroup({
+    const newFg = new FormGroup({
       firstKey: new FormControl(''),
     });
-    oldFg = component.onNext(st, oldFg, newFg);
+    oldFg = component.onNext(st, oldFg, newFg) as FormGroup;
     expect(oldFg.value).toEqual(newFg.value);
   });
 });

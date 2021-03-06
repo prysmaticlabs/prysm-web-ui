@@ -1,5 +1,18 @@
 import { AbstractControl, Validators } from '@angular/forms';
-
+export class StaticPasswordValidator {
+  static strongPassword = Validators.pattern(
+    /(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}/
+  );
+  static matchingPasswordConfirmation(control: AbstractControl): void {
+    const password: string = control.get('password')?.value;
+    const confirmPassword: string = control.get('passwordConfirmation')?.value;
+    if (password !== confirmPassword) {
+      control
+        .get('passwordConfirmation')
+        ?.setErrors({ passwordMismatch: true });
+    }
+  }
+}
 // PasswordValidator contains form validation for strong
 // password protection in the Prysm web UI.
 export class PasswordValidator {
@@ -21,22 +34,8 @@ export class PasswordValidator {
     /(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}/
   );
 
-  static strongPassword = Validators.pattern(
-    /(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}/
-  );
-
   // Ensure password and password confirmation field values match.
   matchingPasswordConfirmation(control: AbstractControl): void {
-    const password: string = control.get('password')?.value;
-    const confirmPassword: string = control.get('passwordConfirmation')?.value;
-    if (password !== confirmPassword) {
-      control
-        .get('passwordConfirmation')
-        ?.setErrors({ passwordMismatch: true });
-    }
-  }
-
-  static matchingPasswordConfirmation(control: AbstractControl): void {
     const password: string = control.get('password')?.value;
     const confirmPassword: string = control.get('passwordConfirmation')?.value;
     if (password !== confirmPassword) {

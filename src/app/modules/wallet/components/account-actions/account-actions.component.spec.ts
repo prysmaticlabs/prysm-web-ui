@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
@@ -20,6 +21,7 @@ describe('AccountActionsComponent', () => {
       declarations: [AccountActionsComponent],
       imports: [
         SharedModule,
+        BrowserAnimationsModule,
       ],
       providers: [
         { provide: WalletService, useValue: service }

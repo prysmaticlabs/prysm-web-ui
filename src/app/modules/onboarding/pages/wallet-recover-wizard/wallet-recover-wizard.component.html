@@ -71,8 +71,8 @@
                             <mat-step [stepControl]="mnemonicFg"
                                 label="Mnemonics">
                                 <app-mnemonic-form
-                                    (backToWalletsRaised)="backToWalletsRaised.emit()"
-                                    (nextRaised)="onNext(verticalStepper,mnemonicFg,$event)"
+                                    (onBackToWalletsRaised)="backToWalletsRaised.emit()"
+                                    (onNext)="onNext(verticalStepper,mnemonicFg,$event)"
                                     [fg]="mnemonicFg"></app-mnemonic-form>
                             </mat-step>
                             <mat-step [stepControl]="passwordFG" label="Web

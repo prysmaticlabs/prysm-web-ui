@@ -21,6 +21,7 @@ import {
 } from '../../../../proto/validator/accounts/v2/web_api';
 import { of } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('WalletRecoverWizardComponent', () => {
   let component: WalletRecoverWizardComponent;
@@ -50,6 +51,7 @@ describe('WalletRecoverWizardComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
+        BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
     }).compileComponents();
@@ -66,7 +68,6 @@ describe('WalletRecoverWizardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
   it('should pass value to new form group', () => {
     const st = {
       next: () => {},

@@ -15,6 +15,7 @@ import { ValidatorParticipationComponent } from './components/validator-particip
 import { ValidatorPerformanceSummaryComponent } from './components/validator-performance-summary/validator-performance-summary.component';
 import { ActivationQueueComponent } from './components/activation-queue/activation-queue.component';
 import { VersionComponent } from './components/version/version.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { VersionComponent } from './components/version/version.component';
   imports: [
     CommonModule,
     SharedModule,
+    BrowserAnimationsModule,
     RouterModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),

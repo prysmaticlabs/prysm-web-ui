@@ -10,6 +10,7 @@ import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
 import { Peers } from 'src/app/proto/eth/v1alpha1/node';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ValidatorPerformanceSummaryComponent', () => {
   let component: ValidatorPerformanceSummaryComponent;
@@ -48,6 +49,7 @@ describe('ValidatorPerformanceSummaryComponent', () => {
       declarations: [ ValidatorPerformanceSummaryComponent ],
       imports: [
         SharedModule,
+        BrowserAnimationsModule,
         MatTooltipModule,
       ],
       providers: [

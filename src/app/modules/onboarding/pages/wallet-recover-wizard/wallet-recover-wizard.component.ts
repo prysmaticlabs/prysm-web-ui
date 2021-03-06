@@ -14,16 +14,14 @@ import {
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { UtilityValidator } from '../../validators/utility.validator';
 import { MatStepper } from '@angular/material/stepper';
-import {
-  PasswordValidator,
-  StaticPasswordValidator,
-} from '../../../core/validators/password.validator';
+
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { WalletService } from '../../../core/services/wallet.service';
 import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '../../../shared/components/base.component';
+import { StaticPasswordValidator } from '../../../core/validators/password.validator';
 
 @Component({
   selector: 'app-wallet-recover-wizard',
@@ -33,8 +31,7 @@ import { BaseComponent } from '../../../shared/components/base.component';
 export class WalletRecoverWizardComponent
   extends BaseComponent
   implements OnInit {
-  @Output()
-  backToWalletsRaised = new EventEmitter<void>();
+  @Output() backToWalletsRaised = new EventEmitter<void>();
   @ViewChild('horizontalStepper', { static: true }) stepper?: MatStepper;
   mnemonicFg!: FormGroup;
   passwordFG!: FormGroup;

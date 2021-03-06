@@ -3,14 +3,14 @@
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [checked]="selection?.hasValue() && isAllSelected()"
-                      [indeterminate]="selection?.hasValue() && !isAllSelected()">
+          [checked]="selection?.hasValue() && isAllSelected()"
+          [indeterminate]="selection?.hasValue() && !isAllSelected()">
         </mat-checkbox>
       </th>
       <td mat-cell *matCellDef="let row">
         <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? selection?.toggle(row) : null"
-                      [checked]="selection?.isSelected(row)">
+          (change)="$event ? selection?.toggle(row) : null"
+          [checked]="selection?.isSelected(row)">
         </mat-checkbox>
       </td>
     </ng-container>
@@ -22,13 +22,13 @@
 
     <ng-container matColumnDef="publicKey">
       <th mat-header-cell *matHeaderCellDef> Validating Public Key </th>
-      <td 
-        mat-cell 
-        *matCellDef="let row" 
+      <td
+        mat-cell
+        *matCellDef="let row"
         matTooltipPosition="left"
-        matTooltip="Copy to Clipboard" 
+        matTooltip="Copy to Clipboard"
         (click)="copyKeyToClipboard(row.publicKey)"
-        class="cursor-pointer"> 
+        class="cursor-pointer">
         {{row.publicKey | base64tohex | slice:0:8 }}...
       </td>
     </ng-container>
@@ -41,16 +41,19 @@
     <ng-container matColumnDef="balance">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>ETH Balance</th>
       <td mat-cell *matCellDef="let row">
-        <span [class.text-error]="row.lowBalance" [class.text-success]="!row.lowBalance">
+        <span [class.text-error]="row.lowBalance"
+          [class.text-success]="!row.lowBalance">
           {{row.balance | balance}}
         </span>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="effectiveBalance">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> ETH Effective Balance</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ETH Effective
+        Balance</th>
       <td mat-cell *matCellDef="let row">
-        <span [class.text-error]="row.lowBalance" [class.text-success]="!row.lowBalance">
+        <span [class.text-error]="row.lowBalance"
+          [class.text-success]="!row.lowBalance">
           {{row.effectiveBalance | balance}}
         </span>
       </td>
@@ -80,10 +83,21 @@
         Actions
       </th>
       <td mat-cell *matCellDef="let row">
-        <app-icon-trigger-select
-          [menuItems]="menuItems"
-          [data]="row.publicKey"
-          icon="more_horiz"></app-icon-trigger-select>
+        <div class="flex">
+          <app-icon-trigger-select
+            [menuItems]="menuItems"
+            [data]="row.publicKey"
+            icon="more_horiz"></app-icon-trigger-select>
+          <a mat-icon-button
+            matTooltip="Exit validator"
+            [routerLink]="[ '/dashboard', 'wallet','accounts','voluntary-exit']"
+            [queryParams]="{publicKey:row.publicKey | base64tohex}">
+            <mat-icon>exit_to_app</mat-icon>
+          </a>
+          <button matTooltip="Delete account"
+            (click)="openDeleteDialog(row.publicKey)"
+            mat-icon-button><mat-icon>delete</mat-icon></button>
+        </div>
       </td>
     </ng-container>
 

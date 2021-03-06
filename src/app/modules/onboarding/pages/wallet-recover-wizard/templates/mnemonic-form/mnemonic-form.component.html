@@ -27,7 +27,7 @@
     <app-create-accounts-form #numAccounts [formGroup]="numAccountsFg"></app-create-accounts-form>
     <div class="mt-6">
         <button color="accent" type="button" mat-raised-button
-            (click)="backToWalletsRaised.emit()">Back
+            (click)="onBackToWalletsRaised.emit()">Back
             to Wallets</button>
         <span class="ml-4"><button color="primary" mat-raised-button
                 [disabled]="fg.invalid">Continue</button></span>

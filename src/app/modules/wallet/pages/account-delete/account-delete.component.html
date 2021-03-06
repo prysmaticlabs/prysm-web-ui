@@ -1,0 +1,53 @@
+<div mat-matDialogTitle>
+    <h4>
+        Delete selected account/'s
+    </h4>
+</div>
+<form [formGroup]="confirmGroup" (ngSubmit)="confirm()">
+    <mat-dialog-content>
+        <div class="my-6">
+            <mat-chip-list>
+                <mat-chip *ngFor="let pubKey of publicKeys.slice(0, 5)">
+                    {{pubKey | base64tohex | slice:0:16}}...
+                </mat-chip>
+                <mat-chip *ngIf="publicKeys.length> 5">
+                    ...{{publicKeys.length - 3}} more
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+        <div class="mb-6 text-base text-white leading-snug">
+            Type in the words <i>"agree"</i> to confirm deletion of
+            your
+            account(s). <span class="text-error">This cannot be reversed!</span>
+            unless you have a mnemonic phrase
+        </div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Confirmation Text</mat-label>
+            <input
+                matInput
+                formControlName="confirmation"
+                placeholder="Type in agree"
+                name="confirmation"
+                type="text"
+                />
+            <mat-error
+                *ngIf="confirmGroup.controls.confirmation.hasError('required')">
+                Confirmation text is required
+            </mat-error>
+            <mat-error
+                *ngIf="confirmGroup.controls.confirmation.hasError('incorectValue')">
+                Confirmation text does not match
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <div class="flex justify-end w-100">
+            <button type="button" (click)="cancel()" mat-raised-button
+                color="accent">Cancel</button>
+            <button mat-raised-button
+                [disabled]="confirmGroup.invalid"
+                color="primary">Confirm</button>
+        </div>
+    </mat-dialog-actions>
+</form>

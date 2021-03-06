@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
 import { WalletResponse, AuthResponse, CreateWalletRequest, CreateWalletResponse, AuthRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('NonhdWalletWizardComponent', () => {
   let component: NonhdWalletWizardComponent;
@@ -39,6 +40,7 @@ describe('NonhdWalletWizardComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
+        BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
       providers: [

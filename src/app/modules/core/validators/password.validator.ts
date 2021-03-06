@@ -1,5 +1,6 @@
 import { AbstractControl, Validators } from '@angular/forms';
-export class StaticPasswordValidator {
+
+export abstract class StaticPasswordValidator{
   static strongPassword = Validators.pattern(
     /(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}/
   );
@@ -13,6 +14,7 @@ export class StaticPasswordValidator {
     }
   }
 }
+
 // PasswordValidator contains form validation for strong
 // password protection in the Prysm web UI.
 export class PasswordValidator {

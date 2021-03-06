@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from '../../../shared/shared.module';
 import { SidebarExpandableLinkComponent } from './sidebar-expandable-link.component';
@@ -11,6 +12,7 @@ describe('SidebarExpandableLinkComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
+        BrowserAnimationsModule,
       ],
       declarations: [
         SidebarExpandableLinkComponent,

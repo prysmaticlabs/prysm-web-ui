@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class BaseComponent implements OnDestroy {
   destroyed$ = new Subject<void>();
-  back() {
+  back(): void {
     history.back();
   }
   ngOnDestroy(): void {

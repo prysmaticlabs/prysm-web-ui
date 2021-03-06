@@ -10,10 +10,9 @@ import { BaseComponent } from '../../../../../shared/components/base.component';
   styleUrls: ['./mnemonic-form.component.scss'],
 })
 export class MnemonicFormComponent extends BaseComponent implements OnInit {
-  @Input('fg') fg: FormGroup | null = null;
-  @Output('onNext') onNext = new EventEmitter<FormGroup>();
-  @Output('onBackToWalletsRaised')
-  onBackToWalletsRaised = new EventEmitter<void>();
+  @Input() fg: FormGroup | null = null;
+  @Output() nextRaised = new EventEmitter<FormGroup>();
+  @Output() backToWalletsRaised = new EventEmitter<void>();
   constructor(private fb: FormBuilder) {
     super();
   }
@@ -32,16 +31,20 @@ export class MnemonicFormComponent extends BaseComponent implements OnInit {
     this.numAccountsFg.valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe((val) => {
-        if (this.fg) this.passValueToNum_Accounts(this.fg);
+        if (this.fg) {
+          this.passValueToNum_Accounts(this.fg);
+        }
       });
   }
-  next() {
-    if (!this.fg) return;
+  next(): void {
+    if (!this.fg) {
+      return;
+    }
     this.passValueToNum_Accounts(this.fg);
-    this.onNext.emit(this.fg);
+    this.nextRaised.emit(this.fg);
   }
 
-  private passValueToNum_Accounts(fg: FormGroup) {
+  private passValueToNum_Accounts(fg: FormGroup): void {
     fg.get('num_accounts')?.setValue(
       this.numAccountsFg.get('numAccounts')?.value
     );

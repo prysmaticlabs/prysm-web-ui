@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 @Component({
-  selector: 'wallet-component',
+  selector: 'app-wallet-component',
   styles: [''],
-  template: `
-    <router-outlet></router-outlet>
-  `,
+  template: ` <router-outlet></router-outlet> `,
 })
 export class WalletComponent implements OnInit {
   constructor() {}
-  ngOnInit() {}
+  ngOnInit(): void {}
 }

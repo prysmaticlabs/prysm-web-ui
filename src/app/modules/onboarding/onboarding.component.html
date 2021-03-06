@@ -9,7 +9,7 @@
       <app-nonhd-wallet-wizard [resetOnboarding]="resetOnboarding.bind(this)"></app-nonhd-wallet-wizard>
     </div>
     <div *ngSwitchCase="States.RecoverWizard">
-      <app-wallet-recover-wizard (onBackToWalletsRaised)="resetOnboarding()"></app-wallet-recover-wizard>
+      <app-wallet-recover-wizard (backToWalletsRaised)="resetOnboarding()"></app-wallet-recover-wizard>
     </div>
   </div>
 </div>

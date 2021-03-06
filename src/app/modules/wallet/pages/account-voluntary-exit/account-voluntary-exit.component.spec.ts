@@ -54,7 +54,7 @@ describe('AccountVoluntaryExitComponent', () => {
     };
 
     walletService.accounts = () => {
-      let accounts = {
+      const accounts = {
         accounts: [
           {
             validatingPublicKey: '12131231',
@@ -78,8 +78,9 @@ describe('AccountVoluntaryExitComponent', () => {
           } as Account,
         ],
       } as ListAccountsResponse;
-      return of(accounts);;
+      return of(accounts);
     };
+
     TestBed.configureTestingModule({
       declarations: [AccountVoluntaryExitComponent],
       imports: [

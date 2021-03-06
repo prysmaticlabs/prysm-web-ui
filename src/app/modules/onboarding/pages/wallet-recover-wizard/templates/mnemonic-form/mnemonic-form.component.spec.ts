@@ -18,7 +18,6 @@ describe('MnemonicFormComponent', () => {
         ReactiveFormsModule,
         SharedModule,
         BrowserAnimationsModule,
-        
         HttpClientTestingModule,
       ],
     }).compileComponents();

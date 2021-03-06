@@ -97,7 +97,8 @@ export class WalletService {
   recover(request: RecoverWalletRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/wallet/recover`, request);
   }
-  exitAccounts(request: AccountVoluntaryExitRequest) {
+
+  exitAccounts(request: AccountVoluntaryExitRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/wallet/exit-accoints`, request);
   }
 }

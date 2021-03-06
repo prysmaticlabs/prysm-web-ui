@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../../shared/components/base.component';
-import { Observable } from 'rxjs';
 import { WalletService } from '../../../core/services/wallet.service';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   Account,
   AccountVoluntaryExitRequest,
@@ -61,10 +60,10 @@ export class AccountVoluntaryExitComponent
       });
   }
 
-  selectionChange(ev: MatSelectionListChange) {
-    if (this.exitAccountFormGroup?.get(ev.options[0].value))
+  selectionChange(ev: MatSelectionListChange): void {
+    if (this.exitAccountFormGroup?.get(ev.options[0].value)) {
       this.exitAccountFormGroup.removeControl(ev.options[0].value);
-    else {
+    } else {
       this.exitAccountFormGroup?.addControl(
         ev.options[0].value,
         this.formBuilder.control(ev.options[0].value)
@@ -72,25 +71,34 @@ export class AccountVoluntaryExitComponent
     }
   }
 
-  confirmation() {
-    if (this.exitAccountFormGroup?.invalid) return false;
-    const request = <AccountVoluntaryExitRequest>{
+  confirmation(): void | boolean {
+    if (this.exitAccountFormGroup?.invalid) {
+      return false;
+    }
+    const request = {
       publicKeys: this.keys.map((x) => x.validatingPublicKey),
       confrimation: this.exitAccountFormGroup?.get('confirmatio')?.value,
-    };
+    } as AccountVoluntaryExitRequest;
+
     this.walletService.exitAccounts(request).subscribe((x) => {
-      const removedKeys = Object.keys(this.exitAccountFormGroup?.controls??{}).length-1
-      this.snackMsgService.open(`Successfully exited from ${removedKeys} keys`,'Success',{
-        direction:'rtl',
-        politeness:'assertive',
-        duration:4000
-      })
+      const removedKeys =
+        Object.keys(this.exitAccountFormGroup?.controls ?? {}).length - 1;
+      this.snackMsgService.open(
+        `Successfully exited from ${removedKeys} keys`,
+        'Success',
+        {
+          direction: 'rtl',
+          politeness: 'assertive',
+          duration: 4000,
+        }
+      );
       this.back();
     });
   }
+
   private searchbyPublicKey(publicKey: any, x: Account[]): Account[] {
     return publicKey
-      ? x.filter((c) => base64ToHex(c.validatingPublicKey) == publicKey)
+      ? x.filter((c) => base64ToHex(c.validatingPublicKey) === publicKey)
       : x;
   }
 }

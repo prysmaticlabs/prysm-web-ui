@@ -17,6 +17,8 @@ import { MnemonicValidator } from './validators/mnemonic.validator';
 import { HdWalletWizardComponent } from './pages/hd-wallet-wizard/hd-wallet-wizard.component';
 import { NonhdWalletWizardComponent } from './pages/nonhd-wallet-wizard/nonhd-wallet-wizard.component';
 import { WalletDirectoryFormComponent } from './components/wallet-directory-form/wallet-directory-form.component';
+import { WalletRecoverWizardComponent } from './pages/wallet-recover-wizard/wallet-recover-wizard.component';
+import { MnemonicFormComponent } from './pages/wallet-recover-wizard/templates/mnemonic-form/mnemonic-form.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { WalletDirectoryFormComponent } from './components/wallet-directory-form
     ConfirmMnemonicComponent,
     NonhdWalletWizardComponent,
     WalletDirectoryFormComponent,
+    WalletRecoverWizardComponent,
+    MnemonicFormComponent,
   ],
   providers: [MnemonicValidator],
   imports: [

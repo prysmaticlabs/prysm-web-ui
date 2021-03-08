@@ -23,9 +23,9 @@ export class OnboardingComponent implements OnInit, OnDestroy {
     {
       kind: WalletKind.Derived,
       name: 'Recover a Wallet',
-      description: 'Use a 24-word mnemonic phrase to recover existing eth2 keystores',
+      description:
+        'Use a 24-word mnemonic phrase to recover existing eth2 keystores',
       image: '/assets/images/onboarding/lock.svg',
-      comingSoon: true,
     },
     {
       kind: WalletKind.Imported,
@@ -42,25 +42,27 @@ export class OnboardingComponent implements OnInit, OnDestroy {
   // as this fires. This subject will fire in ngOnDestroy.
   destroyed$ = new Subject();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.selectedWallet$.pipe(
-      tap(kind => {
-        switch (kind) {
-          case WalletKind.Derived:
-            this.onboardingState = OnboardingState.RecoverWizard;
-            break;
-          case WalletKind.Imported:
-            this.onboardingState = OnboardingState.ImportWizard;
-            break;
-          default:
-            break;
-        }
-      }),
-      takeUntil(this.destroyed$),
-      catchError(err => throwError(err)),
-    ).subscribe();
+    this.selectedWallet$
+      .pipe(
+        tap((kind) => {
+          switch (kind) {
+            case WalletKind.Derived:
+              this.onboardingState = OnboardingState.RecoverWizard;
+              break;
+            case WalletKind.Imported:
+              this.onboardingState = OnboardingState.ImportWizard;
+              break;
+            default:
+              break;
+          }
+        }),
+        takeUntil(this.destroyed$),
+        catchError((err) => throwError(err))
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {

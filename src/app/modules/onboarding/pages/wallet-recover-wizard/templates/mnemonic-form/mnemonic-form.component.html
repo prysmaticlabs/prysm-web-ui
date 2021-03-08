@@ -1,0 +1,37 @@
+<form *ngIf="fg" [formGroup]="fg" (ngSubmit)="next()">
+    <div class="my-4 text-hint text-lg leading-snug">
+        <p>
+            Enter your 24 word mnemonic you wrote down when using the
+            eth2.0-deposit-cli to recover your validator keys
+        </p>
+    </div>
+    <mat-form-field [appearance]="'outline'">
+        <mat-label>Mnemonic</mat-label>
+        <textarea cdkAutosizeMinRows="3"
+            cdkTextareaAutosize
+            cdkAutosizeMaxRows="4" matInput
+            formControlName="mnemonic"></textarea>
+        <mat-error>
+            <span *ngIf="fg.controls.mnemonic.hasError('required')">
+                The mnemonics are required
+            </span>
+            <span *ngIf="fg.controls.mnemonic.hasError('properFormatting')">
+                Must contain 24 words separated by spaces
+            </span>
+            <span
+                *ngIf="fg?.controls.mnemonic.hasError('mnemonicMismatch')">
+                Entered mnemonic does not match original
+            </span>
+        </mat-error>
+    </mat-form-field>
+    <div>
+        <app-create-accounts-form #numAccounts [formGroup]="numAccountsFg"></app-create-accounts-form>
+    </div>
+    <div class="mt-6">
+        <button color="accent" type="button" mat-raised-button
+            (click)="backToWalletsRaised.emit()">Back
+            to Wallets</button>
+        <span class="ml-4"><button color="primary" mat-raised-button
+                [disabled]="fg.invalid">Continue</button></span>
+    </div>
+</form>

@@ -3,14 +3,13 @@
     <div *ngSwitchCase="States.PickingWallet">
       <app-choose-wallet-kind
         [walletSelections]="walletSelections"
-        [selectedWallet$]="selectedWallet$"
-      ></app-choose-wallet-kind>
+        [selectedWallet$]="selectedWallet$"></app-choose-wallet-kind>
     </div>
     <div *ngSwitchCase="States.ImportWizard">
       <app-nonhd-wallet-wizard [resetOnboarding]="resetOnboarding.bind(this)"></app-nonhd-wallet-wizard>
     </div>
     <div *ngSwitchCase="States.RecoverWizard">
-      <app-hd-wallet-wizard [resetOnboarding]="resetOnboarding.bind(this)"></app-hd-wallet-wizard>
+      <app-wallet-recover-wizard (backToWalletsRaised)="resetOnboarding()"></app-wallet-recover-wizard>
     </div>
   </div>
 </div>

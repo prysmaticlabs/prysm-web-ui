@@ -46,6 +46,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
+import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { BalancePipe } from './pipes/balance.pipe';
     PasswordFormComponent,
     LoadingComponent,
     ImportAccountsFormComponent,
+    CreateAccountsFormComponent,
   ],
   providers: [
     BreadcrumbService,
@@ -116,6 +118,7 @@ import { BalancePipe } from './pipes/balance.pipe';
     EpochPipe,
     SlotPipe,
     BalancePipe,
+    CreateAccountsFormComponent
   ],
 })
 export class SharedModule { }

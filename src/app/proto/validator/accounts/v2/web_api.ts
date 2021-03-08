@@ -201,3 +201,18 @@ export interface ValidateKeystoresRequest {
    */
   keystoresPassword: string;
 }
+
+export interface RecoverWalletRequest {
+  /**
+   * 24 word Mnemonics
+   */
+  mnemonic: string;
+  /**
+   * Num of accounts generated from the mnemonic
+   */
+  num_accounts: string;
+  /**
+   * The wallet password
+   */
+  wallet_password: string;
+}

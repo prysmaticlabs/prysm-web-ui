@@ -19,6 +19,7 @@ import { AccountVoluntaryExitComponent } from './pages/account-voluntary-exit/ac
 import { WalletRoutingModule } from './wallet.routing.module';
 import { WalletComponent } from './wallet.component';
 import { AccountDeleteComponent } from './pages/account-delete/account-delete.component';
+import { AccountBackupComponent } from './pages/account-backup/account-backup.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AccountDeleteComponent } from './pages/account-delete/account-delete.co
     ImportComponent,
     AccountVoluntaryExitComponent,
     AccountDeleteComponent,
+    AccountBackupComponent,
   ],
   imports: [
     WalletRoutingModule,

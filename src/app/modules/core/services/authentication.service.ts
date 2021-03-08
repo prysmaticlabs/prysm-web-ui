@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
 
 import { EnvironmenterService } from './environmenter.service';
 import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { LoginComponent } from '../../auth/login/login.component';
-import { SignupComponent } from '../../auth/signup/signup.component';
+import { ComponentType } from '@angular/cdk/portal';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +23,11 @@ export class AuthenticationService {
   shortLivedToken = '';
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
-  prompt(): Observable<null>  {
+  prompt(loginComp: ComponentType<any>, signUpComp: ComponentType<any>): Observable<null>  {
     if (this.hasSignedUp) {
-      return this.dialog.open(LoginComponent).afterClosed();
+      return this.dialog.open(loginComp).afterClosed();
     }
-    return this.dialog.open(SignupComponent).afterClosed();
+    return this.dialog.open(signUpComp).afterClosed();
   }
 
   login(request: AuthRequest): Observable<AuthResponse> {

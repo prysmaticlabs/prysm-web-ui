@@ -14,6 +14,7 @@ import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_
 
 import { ImportComponent } from './import.component';
 
+
 describe('ImportComponent', () => {
   let component: ImportComponent;
   let fixture: ComponentFixture<ImportComponent>;
@@ -22,8 +23,9 @@ describe('ImportComponent', () => {
   let router: Router;
 
   beforeEach(async(() => {
+
     authService = MockService(AuthenticationService);
-    authService.prompt = (): Observable<null> => {
+    authService.prompt = (LoginComponent, SignupComponent): Observable<null> => {
       return new BehaviorSubject(null).asObservable();
     };
     TestBed.configureTestingModule({

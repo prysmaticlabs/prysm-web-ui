@@ -1,0 +1,40 @@
+<app-breadcrumb></app-breadcrumb>
+<mat-card class="md:w-2/3">
+    <mat-card-header>
+        <div class="text-white font-normal text-xl">
+            Backup Selected Account(s)
+        </div>
+        <div class="mt-2 text-muted font-normal text-base leading-snug">
+            We'll convert your selected accounts into individual, EIP-2335
+            compliant, password protected files compressed into a zip file
+        </div>
+    </mat-card-header>
+    <mat-card-content class="pt-2">
+        <div class="text-muted text-lg">
+            Selected {{publicKeys.length}} Accounts
+        </div>
+        <div class="my-6">
+            <mat-chip-list>
+                <mat-chip *ngFor="let pubKey of publicKeys">
+                    {{pubKey}}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+        <app-password-form title="Encryption Password"
+            subtitle="Password to use for your keystores"
+            label="Encryption Password"
+            confirmationLabel="Confirm Encryption Password"
+            [formGroup]="encryptionPasswordForm"></app-password-form>
+    </mat-card-content>
+    <mat-card-actions>
+        <div class="flex w-100 justify-end">
+            <button (click)="back()" color="accent" mat-raised-button>Cancel</button>
+            <button (click)="backUp()"
+                [disabled]="encryptionPasswordForm.invalid" color="primary"
+                mat-raised-button>Back Up</button>
+            <button (click)="backUpAndDownload()"
+                [disabled]="encryptionPasswordForm.invalid" color="primary"
+                mat-raised-button>Back Up & Download</button>
+        </div>
+    </mat-card-actions>
+</mat-card>

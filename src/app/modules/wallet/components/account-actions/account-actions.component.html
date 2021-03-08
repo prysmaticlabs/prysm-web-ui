@@ -21,6 +21,29 @@
       <mat-icon>exit_to_app</mat-icon>
     </button>
   </a>
+  <a *ngIf="publicKeys.length>0"
+    class="ml-1"
+    [routerLink]="[ '/dashboard', 'wallet','accounts','backup']"
+    [queryParams]="{
+    publicKeys:publicKeys
+    }">
+    <button mat-raised-button
+      color="accent"
+      class="large-btn ml-1">
+      Account Backup
+      <mat-icon>backup</mat-icon>
+    </button>
+  </a>
+  <a class="ml-1" *ngIf="publicKeys.length==0">
+    <button mat-raised-button
+      color="accent"
+      disabled
+      class="large-btn ml-1">
+      Account Backup
+      <mat-icon>backup</mat-icon>
+    </button>
+  </a>
+
   <a class="ml-1">
     <button class="large-btn ml-1" [disabled]="selection?.selected?.length ==0"
       color="warn"

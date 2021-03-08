@@ -23,6 +23,7 @@ import { Peers, Peer, ConnectionState } from 'src/app/proto/eth/v1alpha1/node';
 import { GWEI_PER_ETHER } from '../constants';
 
 import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
+import { BackupAccountsResponse } from '../../../proto/validator/accounts/v2/web_api';
 
 export interface IMocks {
   [key: string]: object;
@@ -115,6 +116,9 @@ export const generateBalancesForEpoch = (url: string) => {
 };
 
 export const Mocks: IMocks = {
+  '/v2/validator/wallet/backup': {
+    zipFile: mockPublicKeys.join(', '),
+  } as BackupAccountsResponse,
   '/v2/validator/wallet/delete': {},
   '/v2/validator/wallet/recover': {},
   '/v2/validator/wallet/account/exit': {},

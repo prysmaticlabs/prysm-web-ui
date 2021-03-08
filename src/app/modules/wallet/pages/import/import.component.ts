@@ -8,6 +8,8 @@ import { AuthenticationService } from 'src/app/modules/core/services/authenticat
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { KeystoreValidator } from '../../../onboarding/validators/keystore.validator';
+import { LoginComponent } from '../../../auth/login/login.component';
+import { SignupComponent } from '../../../auth/signup/signup.component';
 
 @Component({
   selector: 'app-import',
@@ -21,14 +23,14 @@ export class ImportComponent {
     private router: Router,
     private zone: NgZone,
     private authService: AuthenticationService,
-    private keystoreValidator: KeystoreValidator,
-  ) { }
+    private keystoreValidator: KeystoreValidator
+  ) {}
   loading = false;
   keystoresFormGroup = this.fb.group({
     keystoresImported: new FormControl([] as string[][], [
       this.keystoreValidator.validateIntegrity,
     ]),
-    keystoresPassword: ['', Validators.required]
+    keystoresPassword: ['', Validators.required],
   });
 
   submit(): void {
@@ -36,29 +38,36 @@ export class ImportComponent {
       return;
     }
     const req: ImportKeystoresRequest = {
-      keystoresImported: this.keystoresFormGroup.controls.keystoresImported.value,
-      keystoresPassword: this.keystoresFormGroup.controls.keystoresPassword.value,
+      keystoresImported: this.keystoresFormGroup.controls.keystoresImported
+        .value,
+      keystoresPassword: this.keystoresFormGroup.controls.keystoresPassword
+        .value,
     };
     this.loading = true;
 
-    this.authService.prompt().pipe(
-      switchMap(() => this.walletService.importKeystores(req).pipe(
-        take(1),
-        filter(result => result !== undefined),
-        tap(() => {
-          this.snackBar.open('Successfully imported keystores', 'Close', {
-            duration: 4000,
-          });
-          this.loading = false;
-          this.zone.run(() => {
-            this.router.navigate(['/dashboard/wallet/accounts']);
-          });
-        }),
-        catchError(err => {
-          this.loading = false;
-          return throwError(err);
-        })
-      )),
-    ).subscribe();
+    this.authService
+      .prompt(LoginComponent, SignupComponent)
+      .pipe(
+        switchMap(() =>
+          this.walletService.importKeystores(req).pipe(
+            take(1),
+            filter((result) => result !== undefined),
+            tap(() => {
+              this.snackBar.open('Successfully imported keystores', 'Close', {
+                duration: 4000,
+              });
+              this.loading = false;
+              this.zone.run(() => {
+                this.router.navigate(['/dashboard/wallet/accounts']);
+              });
+            }),
+            catchError((err) => {
+              this.loading = false;
+              return throwError(err);
+            })
+          )
+        )
+      )
+      .subscribe();
   }
 }

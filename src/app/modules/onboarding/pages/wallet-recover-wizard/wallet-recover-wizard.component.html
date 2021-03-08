@@ -9,7 +9,7 @@
     <div class="onboarding-grid flex justify-center items-center my-auto">
         <mat-card class="onboarding-wizard-card position-relative y-center">
             <div class="flex items-center">
-                <div class="hidden md:flex signup-img justify-center
+                <div class="hidden md:flex signup-img justify-center p-10
                     items-center">
                     <img src="/assets/images/onboarding/lock.svg" alt="" />
                 </div>
@@ -42,29 +42,48 @@
                                         (click)="horizontalStepper.previous()">Previous</button>
                                     <span class="ml-4"><button color="primary"
                                             mat-raised-button
+                                            [disabled]="passwordFG.invalid"
                                             (click)="login(horizontalStepper,passwordFG,passwordForm?.formGroup)">Continue</button></span>
                                 </div>
                             </mat-step>
                             <mat-step [stepControl]="walletPasswordFg"
                                 label="Wallet password">
-                                <app-password-form
-                                    #walletForm
-                                    title="Wallet Password"
-                                    subtitle="You'll need to input this password
-                                    every time you log back into the web
-                                    interface"
-                                    label="Wallet password"
-                                    confirmationLabel="Confirm wallet password"
-                                    [formGroup]="walletPasswordFg"></app-password-form>
-                                <div class="mt-4">
-                                    <button color="accent" mat-raised-button
-                                        (click)="horizontalStepper.previous()">Previous</button>
-                                    <span class="ml-4">
-                                        <button color="primary"
-                                            mat-raised-button
-                                            (click)="walletRecover(walletForm.formGroup)">Continue</button>
-                                    </span>
-                                </div>
+                                <ng-container *ngIf="loading; else
+                                    horizontalFormTemplate">
+                                    <div class="text-white text-xl mt-4">
+                                        Recovering wallet...
+                                    </div>
+                                    <div class="my-4 text-hint text-lg
+                                        leading-snug">
+                                        Please wait while we are recovering your
+                                        wallet.
+                                    </div>
+                                    <div>
+                                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                                    </div>
+                                </ng-container>
+                                <ng-template #horizontalFormTemplate>
+                                    <app-password-form
+                                        #walletForm
+                                        title="Wallet Password"
+                                        subtitle="You'll need to input this
+                                        password
+                                        every time you log back into the web
+                                        interface"
+                                        label="Wallet password"
+                                        confirmationLabel="Confirm wallet
+                                        password"
+                                        [formGroup]="walletPasswordFg"></app-password-form>
+                                    <div class="mt-4">
+                                        <button color="accent" mat-raised-button
+                                            (click)="verticalStepper.previous()">Previous</button>
+                                        <span class="ml-4"><button
+                                                color="primary"
+                                                mat-raised-button
+                                                [disabled]="walletPasswordFg.invalid"
+                                                (click)="walletRecover(walletForm.formGroup)">Continue</button></span>
+                                    </div>
+                                </ng-template>
                             </mat-step>
                         </mat-horizontal-stepper>
 
@@ -93,27 +112,48 @@
                                         (click)="verticalStepper.previous()">Previous</button>
                                     <span class="ml-4"><button color="primary"
                                             mat-raised-button
+                                            [disabled]="passwordFG.disabled"
                                             (click)="login(verticalStepper,passwordFG,passwordForm?.formGroup)">Continue</button></span>
                                 </div>
                             </mat-step>
                             <mat-step [stepControl]="walletPasswordFg"
                                 label="Wallet password">
-                                <app-password-form
-                                    #walletForm
-                                    title="Wallet Password"
-                                    subtitle="You'll need to input this password
-                                    every time you log back into the web
-                                    interface"
-                                    label="Wallet password"
-                                    confirmationLabel="Confirm wallet password"
-                                    [formGroup]="walletPasswordFg"></app-password-form>
-                                <div class="mt-4">
-                                    <button color="accent" mat-raised-button
-                                        (click)="verticalStepper.previous()">Previous</button>
-                                    <span class="ml-4"><button color="primary"
-                                            mat-raised-button
-                                            (click)="walletRecover(walletForm.formGroup)">Continue</button></span>
-                                </div>
+                                <ng-container *ngIf="loading; else
+                                    formTemplate">
+                                    <div class="text-white text-xl mt-4">
+                                        Recovering wallet...
+                                    </div>
+                                    <div class="my-4 text-hint text-lg
+                                        leading-snug">
+                                        Please wait while we are recovering your
+                                        wallet.
+                                    </div>
+                                    <div>
+                                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                                    </div>
+                                </ng-container>
+                                <ng-template #formTemplate>
+                                    <app-password-form
+                                        #walletForm
+                                        title="Wallet Password"
+                                        subtitle="You'll need to input this
+                                        password
+                                        every time you log back into the web
+                                        interface"
+                                        label="Wallet password"
+                                        confirmationLabel="Confirm wallet
+                                        password"
+                                        [formGroup]="walletPasswordFg"></app-password-form>
+                                    <div class="mt-4">
+                                        <button color="accent" mat-raised-button
+                                            (click)="verticalStepper.previous()">Previous</button>
+                                        <span class="ml-4"><button
+                                                color="primary"
+                                                mat-raised-button
+                                                [disabled]="walletPasswordFg.invalid"
+                                                (click)="walletRecover(walletForm.formGroup)">Continue</button></span>
+                                    </div>
+                                </ng-template>
                             </mat-step>
                         </mat-vertical-stepper>
                     </mat-card-content>

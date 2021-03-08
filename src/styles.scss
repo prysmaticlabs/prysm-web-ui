@@ -13,8 +13,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$prysm-primary: (
-  50: #eceafd,
+$prysm-primary: (50: #eceafd,
   100: #cecbfa,
   200: #aea9f7,
   300: #8c85f3,
@@ -24,8 +23,7 @@ $prysm-primary: (
   700: #5331d0,
   800: #4c22c4,
   900: #4200ac,
-  contrast: (
-    50: white,
+  contrast: (50: white,
     100: white,
     200: white,
     300: white,
@@ -39,11 +37,9 @@ $prysm-primary: (
     A200: white,
     A400: white,
     A700: white,
-  )
-);
+  ));
 
-$prysm-secondary: (
-  50: #fff3e8,
+$prysm-secondary: (50: #fff3e8,
   100: #ffe2c7,
   200: #ffcfa1,
   300: #ffbb7b,
@@ -57,8 +53,7 @@ $prysm-secondary: (
   A200: #ffffff,
   A400: #ffdece,
   A700: #ffcdb4,
-  contrast: (
-    50: white,
+  contrast: (50: white,
     100: white,
     200: white,
     300: white,
@@ -72,17 +67,17 @@ $prysm-secondary: (
     A200: white,
     A400: white,
     A700: white,
-  )
-);
+  ));
+
+.w-75 {
+  width: 75% !important;
+}
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$prysm-web-ui-theme: mat-dark-theme((
-  color: (
-    primary: mat-palette($prysm-primary),
-    accent: mat-palette($prysm-secondary),
-  )
-));
+$prysm-web-ui-theme: mat-dark-theme((color: (primary: mat-palette($prysm-primary),
+      accent: mat-palette($prysm-secondary),
+    )));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -90,7 +85,10 @@ $prysm-web-ui-theme: mat-dark-theme((
 @include angular-material-theme($prysm-web-ui-theme);
 
 /* You can add global styles to this file, and also import other style files */
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
 body {
   margin: 0;
@@ -139,7 +137,9 @@ mat-sidenav {
   border: none;
 }
 
-mat-cell, mat-header-cell, mat-footer-cell {
+mat-cell,
+mat-header-cell,
+mat-footer-cell {
   justify-content: center;
 }
 
@@ -162,15 +162,18 @@ mat-cell, mat-header-cell, mat-footer-cell {
 .mat-stepper-horizontal {
   background-color: transparent !important;
 }
+
 .mat-stepper-vertical {
   background-color: transparent !important;
 }
 
 .mat-dialog-container {
   background-color: $paper !important;
+
   .mat-form-field {
     width: 100%;
   }
+
   .mat-dialog-actions {
     padding: 20px 0px !important;
   }

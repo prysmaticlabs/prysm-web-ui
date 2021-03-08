@@ -9,11 +9,11 @@
     <div class="onboarding-grid flex justify-center items-center my-auto">
         <mat-card class="onboarding-wizard-card position-relative y-center">
             <div class="flex items-center">
-                <div class="hidden md:flex w-1/3 signup-img justify-center
+                <div class="hidden md:flex signup-img justify-center
                     items-center">
                     <img src="/assets/images/onboarding/lock.svg" alt="" />
                 </div>
-                <div class="wizard-container md:flex md:w-2/3
+                <div class="wizard-container md:flex
                     items-center">
                     <mat-card-content>
                         <mat-horizontal-stepper *ngIf="!isSmallScreen"
@@ -59,9 +59,11 @@
                                 <div class="mt-4">
                                     <button color="accent" mat-raised-button
                                         (click)="horizontalStepper.previous()">Previous</button>
-                                    <span class="ml-4"><button color="primary"
+                                    <span class="ml-4">
+                                        <button color="primary"
                                             mat-raised-button
-                                            (click)="walletRecover(walletForm.formGroup)">Continue</button></span>
+                                            (click)="walletRecover(walletForm.formGroup)">Continue</button>
+                                    </span>
                                 </div>
                             </mat-step>
                         </mat-horizontal-stepper>

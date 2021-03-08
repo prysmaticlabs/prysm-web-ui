@@ -52,7 +52,6 @@ export class WalletRecoverWizardComponent
       mnemonic: [
         '',
         [Validators.required, this.mnemonicValidator.properFormatting],
-        [this.mnemonicValidator.matchingMnemonic()],
       ],
       num_accounts: [1, [Validators.required, UtilityValidator.BiggerThanZero]],
     });

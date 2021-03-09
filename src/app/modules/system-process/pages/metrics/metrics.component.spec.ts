@@ -8,7 +8,6 @@ import { ProposedMissedChartComponent } from '../../components/proposed-missed-c
 import { DoubleBarChartComponent } from '../../components/double-bar-chart/double-bar-chart.component';
 import { PieChartComponent } from '../../components/pie-chart/pie-chart.component';
 import { MetricsComponent } from './metrics.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('MetricsComponent', () => {
   let component: MetricsComponent;
@@ -18,7 +17,6 @@ describe('MetricsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        BrowserAnimationsModule,
         NgxEchartsModule.forRoot({
           echarts: () => import('echarts'),
         })

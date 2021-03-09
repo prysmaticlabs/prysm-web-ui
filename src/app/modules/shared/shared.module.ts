@@ -27,7 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { MatListModule } from '@angular/material/list';
+
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MomentModule } from 'ngx-moment';
@@ -62,7 +62,9 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
     ImportAccountsFormComponent,
     CreateAccountsFormComponent,
   ],
-  providers: [BreadcrumbService],
+  providers: [
+    BreadcrumbService,
+  ],
   imports: [
     CommonModule,
     MatIconModule,
@@ -73,9 +75,12 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
     MatInputModule,
     NgxFileDropModule,
     MatProgressBarModule,
+    AppRoutingModule,
   ],
   exports: [
     BreadcrumbComponent,
+    BrowserAnimationsModule,
+    BrowserAnimationsModule,
     MatSliderModule,
     MatGridListModule,
     MatCardModule,
@@ -113,8 +118,7 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
     EpochPipe,
     SlotPipe,
     BalancePipe,
-    CreateAccountsFormComponent,
-    MatListModule,
+    CreateAccountsFormComponent
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

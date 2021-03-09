@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../../shared/shared.module';
 import { VersionComponent } from './version.component';
 
@@ -11,7 +10,6 @@ describe('VersionComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        BrowserAnimationsModule,
       ],
       declarations: [
         VersionComponent,

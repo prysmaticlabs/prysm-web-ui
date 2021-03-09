@@ -1,6 +1,5 @@
-<div class="mt-6 mb-3 md:mb-0 md:mt-0 flex items-center" *ngIf="(walletConfig$ |
-  async) as wallet">
-  <a routerLink="/dashboard/wallet/accounts/import">
+<div class="mt-6 mb-3 md:mb-0 md:mt-0 flex items-center" *ngIf="(walletConfig$ | async) as wallet">
+  <a routerLink="/dashboard/wallet/import">
     <button
       mat-raised-button
       color="accent"
@@ -11,20 +10,5 @@
         <mat-icon>cloud_upload</mat-icon>
       </span>
     </button>
-  </a>
-  <a class="ml-1"
-    [routerLink]="[ '/dashboard', 'wallet','accounts','voluntary-exit']">
-    <button mat-raised-button
-      color="accent"
-      class="large-btn ml-1">
-      Exit Validators
-      <mat-icon>exit_to_app</mat-icon>
-    </button>
-  </a>
-  <a class="ml-1">
-    <button class="large-btn ml-1" [disabled]="selection?.selected?.length ==0"
-      color="warn"
-      (click)="openDelete()"
-      mat-raised-button>Delete Accounts</button>
   </a>
 </div>

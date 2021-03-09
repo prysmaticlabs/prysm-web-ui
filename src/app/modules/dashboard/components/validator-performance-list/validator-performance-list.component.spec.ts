@@ -8,7 +8,6 @@ import {
 import { ValidatorPerformanceListComponent } from './validator-performance-list.component';
 import { of } from 'rxjs';
 import { ValidatorService } from '../../../core/services/validator.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ValidatorListComponent', () => {
   let component: ValidatorPerformanceListComponent;
@@ -35,7 +34,6 @@ describe('ValidatorListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        BrowserAnimationsModule,
       ],
       declarations: [ValidatorPerformanceListComponent],
       providers: [

@@ -14,14 +14,17 @@ import {
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { UtilityValidator } from '../../validators/utility.validator';
 import { MatStepper } from '@angular/material/stepper';
-
+import {
+  PasswordValidator,
+  StaticPasswordValidator,
+} from '../../../core/validators/password.validator';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { WalletService } from '../../../core/services/wallet.service';
 import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '../../../shared/components/base.component';
-import { StaticPasswordValidator } from '../../../core/validators/password.validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wallet-recover-wizard',
@@ -31,17 +34,20 @@ import { StaticPasswordValidator } from '../../../core/validators/password.valid
 export class WalletRecoverWizardComponent
   extends BaseComponent
   implements OnInit {
-  @Output() backToWalletsRaised = new EventEmitter<void>();
+  @Output()
+  backToWalletsRaised = new EventEmitter<void>();
   @ViewChild('horizontalStepper', { static: true }) stepper?: MatStepper;
   mnemonicFg!: FormGroup;
   passwordFG!: FormGroup;
   walletPasswordFg!: FormGroup;
   isSmallScreen = false;
+  loading = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private breakpointObserver: BreakpointObserver,
     private walletService: WalletService,
+    private router: Router,
     private mnemonicValidator: MnemonicValidator
   ) {
     super();
@@ -49,7 +55,6 @@ export class WalletRecoverWizardComponent
       mnemonic: [
         '',
         [Validators.required, this.mnemonicValidator.properFormatting],
-        [this.mnemonicValidator.matchingMnemonic()],
       ],
       num_accounts: [1, [Validators.required, UtilityValidator.BiggerThanZero]],
     });
@@ -121,14 +126,22 @@ export class WalletRecoverWizardComponent
     if (form.invalid) {
       return;
     }
+    this.loading = true;
     const request = {
       mnemonic: this.mnemonicFg.get('mnemonic')?.value,
       num_accounts: this.mnemonicFg.get('num_accounts')?.value,
       wallet_password: form.get('password')?.value,
     } as RecoverWalletRequest;
-    this.walletService.recover(request).subscribe((x) => {
-      this.backToWalletsRaised.emit();
-    });
+    this.walletService
+      .recover(request)
+      .pipe(
+        tap(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe((x) => {
+        this.router.navigate(['dashboard', 'gains-and-losses']);
+      });
   }
 
   registerBreakpointObserver(): void {

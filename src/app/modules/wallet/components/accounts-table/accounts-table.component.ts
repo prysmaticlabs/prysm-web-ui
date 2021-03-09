@@ -9,8 +9,6 @@ import { BEACONCHAIN_EXPLORER } from 'src/app/modules/core/constants';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
-import { AccountDeleteComponent } from '../../pages/account-delete/account-delete.component';
-import { takeUntil, filter, tap } from 'rxjs/operators';
 
 export interface TableData {
   select: number;
@@ -33,12 +31,12 @@ export interface TableData {
 export class AccountsTableComponent implements AfterViewInit {
   @Input() dataSource: MatTableDataSource<TableData> | null = null;
   @Input() selection: SelectionModel<TableData> | null = null;
-  @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
+  @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
   constructor(
     private dialog: MatDialog,
     private clipboard: Clipboard,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+  ) { }
 
   displayedColumns: string[] = [
     'select',
@@ -69,9 +67,9 @@ export class AccountsTableComponent implements AfterViewInit {
   masterToggle(): void {
     if (this.dataSource && this.selection) {
       const sel = this.selection;
-      this.isAllSelected()
-        ? sel.clear()
-        : this.dataSource.data.forEach((row) => sel.select(row));
+      this.isAllSelected() ?
+        sel.clear() :
+        this.dataSource.data.forEach(row => sel.select(row));
     }
   }
 
@@ -105,13 +103,6 @@ export class AccountsTableComponent implements AfterViewInit {
       default:
         return '';
     }
-  }
-
-  openDeleteDialog(publicKey: string): void {
-    const d = this.dialog.open(AccountDeleteComponent, {
-      width: '600px',
-      data: [publicKey],
-    });
   }
 
   private openExplorer(publicKey: string): void {

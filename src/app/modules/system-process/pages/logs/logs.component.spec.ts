@@ -6,7 +6,6 @@ import { LogsService } from '../../../core/services/logs.service';
 import { MockComponent, MockService } from 'ng-mocks';
 import { of } from 'rxjs';
 import { LogsStreamComponent } from '../../components/logs-stream/logs-stream.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LogsComponent', () => {
   let component: LogsComponent;
@@ -17,7 +16,6 @@ describe('LogsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        BrowserAnimationsModule,
       ],
       declarations: [
         LogsComponent,

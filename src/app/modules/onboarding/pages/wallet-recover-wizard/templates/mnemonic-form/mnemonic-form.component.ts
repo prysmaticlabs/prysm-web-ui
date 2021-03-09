@@ -12,7 +12,8 @@ import { BaseComponent } from '../../../../../shared/components/base.component';
 export class MnemonicFormComponent extends BaseComponent implements OnInit {
   @Input() fg: FormGroup | null = null;
   @Output() nextRaised = new EventEmitter<FormGroup>();
-  @Output() backToWalletsRaised = new EventEmitter<void>();
+  @Output()
+  backToWalletsRaised = new EventEmitter<void>();
   constructor(private fb: FormBuilder) {
     super();
   }

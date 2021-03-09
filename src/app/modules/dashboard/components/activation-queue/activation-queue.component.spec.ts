@@ -13,7 +13,6 @@ import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
 import { ChainService } from 'src/app/modules/core/services/chain.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EnvironmenterService } from 'src/app/modules/core/services/environmenter.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ActivationQueueComponent', () => {
   let component: ActivationQueueComponent;
@@ -42,7 +41,6 @@ describe('ActivationQueueComponent', () => {
       declarations: [ ActivationQueueComponent ],
       imports: [
         SharedModule,
-        BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
       providers: [

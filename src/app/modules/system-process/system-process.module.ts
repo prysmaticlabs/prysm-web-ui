@@ -12,7 +12,6 @@ import { DoubleBarChartComponent } from './components/double-bar-chart/double-ba
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { LogsStreamComponent } from './components/logs-stream/logs-stream.component';
 import { PeerLocationsMapComponent } from './pages/peer-locations-map/peer-locations-map.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     CommonModule,
     SharedModule,
-    BrowserAnimationsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     })

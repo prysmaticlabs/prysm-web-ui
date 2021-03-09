@@ -10,8 +10,7 @@
   </div>
   <div
     *ngIf="(tableDataSource$ | async) as dataSource"
-    class="relative flex justify-start flex-wrap items-center md:justify-between
-    mb-4">
+    class="relative flex justify-start flex-wrap items-center md:justify-between mb-4">
     <mat-form-field class="search-bar text-base" appearance="fill">
       <mat-label>Filter rows by pubkey, validator index, or name</mat-label>
       <input
@@ -21,7 +20,7 @@
         (keyup)="applySearchFilter($event, dataSource)">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <app-account-actions [selection]="selection"></app-account-actions>
+    <app-account-actions></app-account-actions>
   </div>
 
   <app-account-selections

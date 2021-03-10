@@ -89,7 +89,7 @@ const routes: Routes = [
             component: AccountVoluntaryExitComponent,
           },
           {
-            path: 'import',
+            path: 'accounts/import',
             data: {
               breadcrumb: 'Import Accounts',
             },

@@ -94,7 +94,7 @@ export class AccountVoluntaryExitComponent
       this.back();
     });
   }
-
+  items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
   private searchbyPublicKey(publicKey: any, x: Account[]): Account[] {
     return publicKey
       ? x.filter((c) => base64ToHex(c.validatingPublicKey) === publicKey)

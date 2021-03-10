@@ -2,32 +2,41 @@
 <div class="md:w-2/3">
     <form [formGroup]="exitAccountFormGroup" (ngSubmit)="confirmation()">
         <mat-card class="bg-paper">
+            <mat-card-header>
+                <mat-card-title>
+                    Account Exit
+                </mat-card-title>
+
+            </mat-card-header>
             <mat-card-content>
-                <h3 class="text-accent">
+                <div class="text-accent my-6 text-hint text-lg leading-relaxed
+                    pl-3 pr-4">
                     Please make sure you understand the consequences of
                     performing a voluntary exit. Once an account is exited, the
-                    action cannot be reverted
-                </h3>
-                <h3>
+                    action cannot be reverted.
                     You will not be able to withdraw your ETH if exited until
                     ETH1 is merged with ETH2, which could happen in over a year
-                </h3>
+                </div>
 
-                <mat-selection-list (selectionChange)="selectionChange($event)"
-                    #shoes>
-                    <mat-list-option
-                        [value]="item.validatingPublicKey|base64tohex"
-                        *ngFor="let item of keys">
-                        {{item.accountName}}
-                    </mat-list-option>
-                </mat-selection-list>
+                <cdk-virtual-scroll-viewport class="example-viewport"
+                    itemSize="50">
+                    <mat-selection-list
+                        (selectionChange)="selectionChange($event)"
+                        #shoes>
+                        <mat-list-option
+                            [value]="item.validatingPublicKey|base64tohex"
+                            *cdkVirtualFor="let item of keys">
+                            {{item.validatingPublicKey|base64tohex|slice:0:16}}...
+                        </mat-list-option>
+                    </mat-selection-list>
+                </cdk-virtual-scroll-viewport>
                 <mat-form-field class="w-2/3">
                     <mat-label>Confirmation</mat-label>
                     <input matInput formControlName="confirmation" />
                     <mat-hint>
-                        <h5>
+                        <span>
                             Type <i>'agree'</i> if you want to exit the keys
-                        </h5>
+                        </span>
                     </mat-hint>
                     <mat-error>
                         <span
@@ -43,7 +52,8 @@
             </mat-card-content>
             <mat-card-actions>
                 <div class="btn-container">
-                    <button mat-raised-button (click)="back()" color="accent">Back
+                    <button mat-raised-button type="button"
+                     (click)="back()" color="accent">Back
                         to
                         Accounts</button>
                     <button mat-raised-button mat-raised-button

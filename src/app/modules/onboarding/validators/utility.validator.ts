@@ -22,7 +22,7 @@ export abstract class UtilityValidator {
     };
   }
 
-  static MustHaveMoreThanOneControle(grp: FormGroup): ValidationErrors | null {
+  static MustHaveMoreThanOneControl(grp: FormGroup): ValidationErrors | null {
     if (Object.keys(grp.controls).length > 1) {
       return null;
     }

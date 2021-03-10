@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
-import { AccountVoluntaryExitRequest, RecoverWalletRequest } from '../../../proto/validator/accounts/v2/web_api';
+import {
+  AccountVoluntaryExitRequest,
+  RecoverWalletRequest,
+} from '../../../proto/validator/accounts/v2/web_api';
 import {
   WalletResponse,
   GenerateMnemonicResponse,
@@ -96,6 +99,6 @@ export class WalletService {
   }
 
   exitAccounts(request: AccountVoluntaryExitRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/wallet/exit-accoints`, request);
+    return this.http.post(`${this.apiUrl}/accounts/exit`, request);
   }
 }

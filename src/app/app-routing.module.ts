@@ -12,6 +12,8 @@ import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.comp
 import { ImportComponent } from './modules/wallet/pages/import/import.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 import { InitializeComponent } from './modules/auth/initialize/initialize.component';
+import { Breadcrumb } from './modules/shared/services/breadcrumb.service';
+import { AccountVoluntaryExitComponent } from './modules/wallet/pages/account-voluntary-exit/account-voluntary-exit.component';
 
 const routes: Routes = [
   {
@@ -26,14 +28,14 @@ const routes: Routes = [
   {
     path: 'onboarding',
     data: {
-      breadcrumb: 'Onboarding'
+      breadcrumb: 'Onboarding',
     },
     component: OnboardingComponent,
   },
   {
     path: 'dashboard',
     data: {
-      breadcrumb: 'Dashboard'
+      breadcrumb: 'Dashboard',
     },
     component: DashboardComponent,
     children: [
@@ -45,48 +47,17 @@ const routes: Routes = [
       {
         path: 'gains-and-losses',
         data: {
-          breadcrumb: 'Gains & Losses'
+          breadcrumb: 'Gains & Losses',
         },
         component: GainsAndLossesComponent,
       },
       {
         path: 'wallet',
         data: {
-          breadcrumb: 'Wallet'
+          breadcrumb: 'wallet',
         },
-        children: [
-          {
-            path: '',
-            redirectTo: 'accounts',
-            pathMatch: 'full',
-          },
-          {
-            path: 'accounts',
-            data: {
-              breadcrumb: 'Accounts',
-            },
-            children: [
-              {
-                path: '',
-                component: AccountsComponent,
-              },
-            ],
-          },
-          {
-            path: 'details',
-            data: {
-              breadcrumb: 'Wallet Details'
-            },
-            component: WalletDetailsComponent,
-          },
-          {
-            path: 'import',
-            data: {
-              breadcrumb: 'Import Accounts'
-            },
-            component: ImportComponent,
-          },
-        ]
+        loadChildren: () =>
+          import('./modules/wallet/wallet.module').then((m) => m.WalletModule),
       },
       {
         path: 'system',
@@ -102,25 +73,25 @@ const routes: Routes = [
           {
             path: 'logs',
             data: {
-              breadcrumb: 'Process Logs'
+              breadcrumb: 'Process Logs',
             },
             component: LogsComponent,
           },
           {
             path: 'metrics',
             data: {
-              breadcrumb: 'Process Metrics'
+              breadcrumb: 'Process Metrics',
             },
             component: MetricsComponent,
           },
           {
             path: 'peers-map',
             data: {
-              breadcrumb: 'Peer locations map'
+              breadcrumb: 'Peer locations map',
             },
             component: PeerLocationsMapComponent,
-          }
-        ]
+          },
+        ],
       },
       {
         path: 'security',
@@ -136,18 +107,18 @@ const routes: Routes = [
           {
             path: 'change-password',
             data: {
-              breadcrumb: 'Change Password'
+              breadcrumb: 'Change Password',
             },
             component: ChangePasswordComponent,
           },
-        ]
-      }
-    ]
-  }
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -16,13 +16,13 @@ import { OnboardingModule } from './modules/onboarding/onboarding.module';
 import { SystemProcessModule } from './modules/system-process/system-process.module';
 import { MockInterceptor } from './modules/core/interceptors/mock.interceptor';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     AuthModule,
@@ -38,6 +38,6 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
     { provide: ENVIRONMENT, useValue: environment },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

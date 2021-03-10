@@ -12,6 +12,7 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { ImportComponent } from './import.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ImportComponent', () => {
   let component: ImportComponent;
@@ -33,6 +34,7 @@ describe('ImportComponent', () => {
         RouterTestingModule,
         SharedModule,
         FormsModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule,
         NgxFileDropModule,
       ],

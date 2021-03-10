@@ -11,6 +11,7 @@ import { AccountSelectionsComponent } from '../../components/account-selections/
 import { AccountActionsComponent } from '../../components/account-actions/account-actions.component';
 import { AccountsTableComponent } from '../../components/accounts-table/accounts-table.component';
 import { AccountsComponent } from './accounts.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AccountsComponent', () => {
   let component: AccountsComponent;
@@ -31,6 +32,7 @@ describe('AccountsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
+        BrowserAnimationsModule
       ],
       declarations: [
         AccountsComponent,

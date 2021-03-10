@@ -12,6 +12,7 @@ import { GenerateMnemonicComponent } from '../../components/generate-mnemonic/ge
 import { ConfirmMnemonicComponent } from '../../components/confirm-mnemonic/confirm-mnemonic.component';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   WalletResponse,
   AuthResponse,
@@ -48,6 +49,7 @@ describe('HdWalletWizardComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         SharedModule,
         HttpClientTestingModule,
       ],

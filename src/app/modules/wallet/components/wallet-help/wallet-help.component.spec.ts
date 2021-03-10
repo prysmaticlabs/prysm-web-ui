@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { WalletHelpComponent } from './wallet-help.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('WalletHelpComponent', () => {
   let component: WalletHelpComponent;
@@ -12,6 +13,7 @@ describe('WalletHelpComponent', () => {
       declarations: [ WalletHelpComponent ],
       imports: [
         SharedModule,
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();

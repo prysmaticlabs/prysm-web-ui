@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { AccountsTableComponent } from './accounts-table.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AccountsTableComponent', () => {
   let component: AccountsTableComponent;
@@ -12,6 +13,7 @@ describe('AccountsTableComponent', () => {
       declarations: [AccountsTableComponent],
       imports: [
         SharedModule,
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();

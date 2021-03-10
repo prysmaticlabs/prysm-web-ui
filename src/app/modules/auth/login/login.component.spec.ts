@@ -9,6 +9,7 @@ import { LoginComponent } from './login.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -23,6 +24,7 @@ describe('LoginComponent', () => {
         RouterTestingModule,
         FormsModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         SharedModule,
       ],
       providers: [

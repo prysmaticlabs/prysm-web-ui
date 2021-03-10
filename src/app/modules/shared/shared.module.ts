@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MatFormFieldModule,
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -47,6 +50,7 @@ import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
 import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -64,6 +68,10 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
   ],
   providers: [
     BreadcrumbService,
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
   ],
   imports: [
     CommonModule,
@@ -118,7 +126,8 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
     EpochPipe,
     SlotPipe,
     BalancePipe,
-    CreateAccountsFormComponent
+    CreateAccountsFormComponent,
+    MatListModule,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

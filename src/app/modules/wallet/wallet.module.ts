@@ -15,6 +15,7 @@ import { AccountSelectionsComponent } from './components/account-selections/acco
 import { AccountActionsComponent } from './components/account-actions/account-actions.component';
 import { ImportComponent } from './pages/import/import.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { AccountVoluntaryExitComponent } from './pages/account-voluntary-exit/account-voluntary-exit.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     AccountSelectionsComponent,
     AccountActionsComponent,
     ImportComponent,
+    AccountVoluntaryExitComponent,
   ],
   imports: [
     CommonModule,

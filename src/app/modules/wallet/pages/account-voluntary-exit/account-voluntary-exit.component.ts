@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-account-voluntary-exit',
@@ -35,7 +36,7 @@ export class AccountVoluntaryExitComponent
   constructor(
     private walletService: WalletService,
     private activatedRoute: ActivatedRoute,
-    private snackMsgService: MatSnackBar,
+    private notificationService: NotificationService,
     private formBuilder: FormBuilder
   ) {
     super();
@@ -118,14 +119,8 @@ export class AccountVoluntaryExitComponent
     this.walletService.exitAccounts(request).subscribe((x) => {
       const exitedKeys =
         Object.keys(this.exitAccountFormGroup?.controls ?? {}).length - 1;
-      this.snackMsgService.open(
-        `Successfully exited ${exitedKeys} key(s)`,
-        'Success',
-        {
-          direction: 'rtl',
-          politeness: 'assertive',
-          duration: 4000,
-        }
+      this.notificationService.notifySuccess(
+        `Successfully exited ${exitedKeys} key(s)`
       );
       this.back();
     });

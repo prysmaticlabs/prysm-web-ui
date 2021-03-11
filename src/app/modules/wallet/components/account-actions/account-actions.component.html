@@ -21,4 +21,10 @@
       <mat-icon>exit_to_app</mat-icon>
     </button>
   </a>
+  <a class="ml-3">
+    <button class="large-btn ml-1" [disabled]="selection?.selected?.length ==0"
+      color="warn"
+      (click)="openDelete()"
+      mat-raised-button>Delete Accounts</button>
+  </a>
 </div>

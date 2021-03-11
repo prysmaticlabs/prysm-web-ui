@@ -5,6 +5,7 @@ import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {
   AccountVoluntaryExitRequest,
+  DeleteAccountsRequest,
   RecoverWalletRequest,
 } from '../../../proto/validator/accounts/v2/web_api';
 import {
@@ -100,5 +101,9 @@ export class WalletService {
 
   exitAccounts(request: AccountVoluntaryExitRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/accounts/exit`, request);
+  }
+
+  deleteAccounts(request: DeleteAccountsRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/wallet/delete`, request);
   }
 }

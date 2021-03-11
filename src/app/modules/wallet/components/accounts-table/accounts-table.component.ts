@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BEACONCHAIN_EXPLORER } from 'src/app/modules/core/constants';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
+import { AccountDeleteComponent } from '../account-delete/account-delete.component';
 
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
 
@@ -111,5 +112,12 @@ export class AccountsTableComponent implements AfterViewInit {
       hex = hex.replace('0x', '');
       window.open(`${BEACONCHAIN_EXPLORER}/validator/${hex}`, '_blank');
     }
+  }
+  
+  openDeleteDialog(publicKey: string): void {
+    const d = this.dialog.open(AccountDeleteComponent, {
+      width: '600px',
+      data: [publicKey],
+    });
   }
 }

@@ -104,6 +104,6 @@ export class WalletService {
   }
 
   deleteAccounts(request: DeleteAccountsRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/wallet/delete`, request);
+    return this.http.post(`${this.apiUrl}/accounts/delete`, request);
   }
 }

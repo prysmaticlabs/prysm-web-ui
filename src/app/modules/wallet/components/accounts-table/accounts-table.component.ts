@@ -32,12 +32,12 @@ export interface TableData {
 export class AccountsTableComponent implements AfterViewInit {
   @Input() dataSource: MatTableDataSource<TableData> | null = null;
   @Input() selection: SelectionModel<TableData> | null = null;
-  @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
+  @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
   constructor(
     private dialog: MatDialog,
     private clipboard: Clipboard,
-    private snackBar: MatSnackBar,
-  ) { }
+    private snackBar: MatSnackBar
+  ) {}
 
   displayedColumns: string[] = [
     'select',
@@ -68,9 +68,9 @@ export class AccountsTableComponent implements AfterViewInit {
   masterToggle(): void {
     if (this.dataSource && this.selection) {
       const sel = this.selection;
-      this.isAllSelected() ?
-        sel.clear() :
-        this.dataSource.data.forEach(row => sel.select(row));
+      this.isAllSelected()
+        ? sel.clear()
+        : this.dataSource.data.forEach((row) => sel.select(row));
     }
   }
 
@@ -113,7 +113,7 @@ export class AccountsTableComponent implements AfterViewInit {
       window.open(`${BEACONCHAIN_EXPLORER}/validator/${hex}`, '_blank');
     }
   }
-  
+
   openDeleteDialog(publicKey: string): void {
     const d = this.dialog.open(AccountDeleteComponent, {
       width: '600px',

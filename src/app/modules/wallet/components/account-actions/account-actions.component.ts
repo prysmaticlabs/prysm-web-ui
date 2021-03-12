@@ -8,24 +8,23 @@ import { AccountDeleteComponent } from '../account-delete/account-delete.compone
 @Component({
   selector: 'app-account-actions',
   templateUrl: './account-actions.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class AccountActionsComponent {
   constructor(
     private walletService: WalletService,
-    private dialog:MatDialog,
-  ) { }
+    private dialog: MatDialog
+  ) {}
   walletConfig$ = this.walletService.walletConfig$;
   @Input() selection: SelectionModel<TableData> | null = null;
   openDelete(): void {
-     if (!this.selection) {
-       return;
-     }
-     const keys = this.selection.selected.map((x) => x.publicKey);
-     this.dialog.open(AccountDeleteComponent, {
-       width: '600px',
-       data: keys,
-     });
-   }
+    if (!this.selection) {
+      return;
+    }
+    const keys = this.selection.selected.map((x) => x.publicKey);
+    this.dialog.open(AccountDeleteComponent, {
+      width: '600px',
+      data: keys,
+    });
+  }
 }

@@ -1,9 +1,9 @@
 <div class="mt-6 mb-3 md:mb-0 md:mt-0 flex items-center" *ngIf="(walletConfig$ |
   async) as wallet">
-  <a routerLink="/dashboard/wallet/accounts/import">
+  <a class="mr-2" routerLink="/dashboard/wallet/accounts/import">
     <button
       mat-raised-button
-      color="accent"
+      color="primary"
       *ngIf="wallet.keymanagerKind === 'IMPORTED'"
       class="large-btn">
       <span class="flex items-center">

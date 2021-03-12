@@ -51,7 +51,7 @@ import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
 import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 import { MatListModule } from '@angular/material/list';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 @NgModule({
   declarations: [
     BreadcrumbComponent,
@@ -86,6 +86,9 @@ import { MatListModule } from '@angular/material/list';
   ],
   exports: [
     BreadcrumbComponent,
+    ScrollingModule,
+    BrowserAnimationsModule,
+    BrowserAnimationsModule,
     MatSliderModule,
     MatGridListModule,
     MatCardModule,

@@ -2,57 +2,79 @@
 <div class="md:w-2/3">
     <form [formGroup]="exitAccountFormGroup" (ngSubmit)="confirmation()">
         <mat-card class="bg-paper">
-            <mat-card-content>
-                <h3 class="text-accent">
-                    Please make sure you understand the consequences of
-                    performing a voluntary exit. Once an account is exited, the
-                    action cannot be reverted
-                </h3>
-                <h3>
-                    You will not be able to withdraw your ETH if exited until
-                    ETH1 is merged with ETH2, which could happen in over a year
-                </h3>
+            <div class="px-6 pb-4">
+                <div class="import-keys-form">
+                    <div class="text-white text-xl mt-4">
+                        Account Exit
+                    </div>
+                    <div class="my-6 text-hint text-lg leading-relaxed">
+                        Please make sure you understand the consequences of
+                        performing a voluntary exit. Once an account is exited,
+                        the
+                        action cannot be reverted.
+                        You will not be able to withdraw your ETH if exited
+                        until
+                        ETH1 is merged with ETH2, which could happen in over a
+                        year
+                    </div>
+                    <mat-checkbox
+                        class="ml-3"
+                        (change)="toggleChange(shoes,$event)"
+                        [formControl]="toggledAll">
+                        <ng-container *ngIf="toggledAll.value; else notToggled">
+                            Unselect all
+                        </ng-container>
+                        <ng-template #notToggled>
+                            Select all
+                        </ng-template>
+                    </mat-checkbox>
+                    <cdk-virtual-scroll-viewport class="example-viewport"
+                        itemSize="50">
+                        <mat-selection-list
+                            (selectionChange)="selectionChange($event)"
+                            #shoes>
 
-                <mat-selection-list (selectionChange)="selectionChange($event)"
-                    #shoes>
-                    <mat-list-option
-                        [value]="item.validatingPublicKey|base64tohex"
-                        *ngFor="let item of keys">
-                        {{item.accountName}}
-                    </mat-list-option>
-                </mat-selection-list>
-                <mat-form-field class="w-2/3">
-                    <mat-label>Confirmation</mat-label>
-                    <input matInput formControlName="confirmation" />
-                    <mat-hint>
-                        <h5>
-                            Type <i>'agree'</i> if you want to exit the keys
-                        </h5>
-                    </mat-hint>
-                    <mat-error>
-                        <span
-                            *ngIf="exitAccountFormGroup?.get('confirmation')?.hasError('required')">
-                            Confirmation is required</span>
+                            <mat-list-option
+                                [value]="item.validatingPublicKey|base64tohex"
+                                *cdkVirtualFor="let item of keys">
+                                {{item.validatingPublicKey|base64tohex|slice:0:16}}...
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </cdk-virtual-scroll-viewport>
+                    <mat-form-field class="w-2/3">
+                        <mat-label>Confirmation</mat-label>
+                        <input matInput formControlName="confirmation" />
+                        <mat-hint>
+                            <span>
+                                Type <i>'agree'</i> if you want to exit the keys
+                            </span>
+                        </mat-hint>
+                        <mat-error>
+                            <span
+                                *ngIf="exitAccountFormGroup?.get('confirmation')?.hasError('required')">
+                                Confirmation is required</span>
 
-                        <span
-                            *ngIf="exitAccountFormGroup?.get('confirmation')?.hasError('incorectValue')">
-                            You must type agree
-                        </span>
-                    </mat-error>
-                </mat-form-field>
-            </mat-card-content>
-            <mat-card-actions>
-                <div class="btn-container">
-                    <button mat-raised-button (click)="back()" color="accent">Back
-                        to
-                        Accounts</button>
-                    <button mat-raised-button mat-raised-button
-                        [disabled]="exitAccountFormGroup?.invalid"
-                        color="primary">
-                        Confirm
-                    </button>
+                            <span
+                                *ngIf="exitAccountFormGroup?.get('confirmation')?.hasError('incorectValue')">
+                                You must type 'agree'
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
                 </div>
-            </mat-card-actions>
+                <mat-card-actions>
+                    <div class="btn-container pl-2">
+                        <button mat-raised-button type="button"
+                            (click)="back()" color="accent">Back
+                            to
+                            Accounts</button>
+                        <button mat-raised-button mat-raised-button
+                            [disabled]="exitAccountFormGroup?.invalid"
+                            color="primary">
+                            Confirm
+                        </button>
+                    </div>
+                </mat-card-actions>
+            </div>
         </mat-card>
     </form>
 </div>

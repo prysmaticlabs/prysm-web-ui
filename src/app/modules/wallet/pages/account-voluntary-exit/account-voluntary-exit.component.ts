@@ -15,8 +15,15 @@ import {
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 import { ActivatedRoute } from '@angular/router';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
-import { MatSelectionListChange } from '@angular/material/list';
+import {
+  MatSelectionList,
+  MatSelectionListChange,
+} from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSelectChange } from '@angular/material/select';
+import { FormControl } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-account-voluntary-exit',
@@ -29,13 +36,17 @@ export class AccountVoluntaryExitComponent
   constructor(
     private walletService: WalletService,
     private activatedRoute: ActivatedRoute,
-    private snackMsgService: MatSnackBar,
+    private notificationService: NotificationService,
     private formBuilder: FormBuilder
   ) {
     super();
   }
   exitAccountFormGroup: FormGroup | undefined | null;
+
   keys: Account[] = [];
+
+  toggledAll = new FormControl(false);
+
   ngOnInit(): void {
     const publicKey = this.activatedRoute.snapshot.queryParams.publicKey;
     this.exitAccountFormGroup = this.formBuilder.group(
@@ -60,6 +71,32 @@ export class AccountVoluntaryExitComponent
       });
   }
 
+  toggleChange(selectionList: MatSelectionList, ev: MatCheckboxChange): void {
+    if (ev.checked) {
+      selectionList.selectAll();
+      this.toggledAll.setValue(true);
+      selectionList.selectedOptions.selected.forEach((x) => {
+        if (
+          this.exitAccountFormGroup &&
+          !this.exitAccountFormGroup?.get(x.value)
+        ) {
+          this.exitAccountFormGroup.addControl(
+            x.value,
+            this.formBuilder.control(x.value)
+          );
+        }
+      });
+    } else {
+      selectionList.selectedOptions.selected.forEach((x) => {
+        if (this.exitAccountFormGroup?.get(x.value)) {
+          this.exitAccountFormGroup.removeControl(x.value);
+        }
+      });
+      selectionList.deselectAll();
+      this.toggledAll.setValue(false);
+    }
+  }
+
   selectionChange(ev: MatSelectionListChange): void {
     if (this.exitAccountFormGroup?.get(ev.options[0].value)) {
       this.exitAccountFormGroup.removeControl(ev.options[0].value);
@@ -82,14 +119,8 @@ export class AccountVoluntaryExitComponent
     this.walletService.exitAccounts(request).subscribe((x) => {
       const exitedKeys =
         Object.keys(this.exitAccountFormGroup?.controls ?? {}).length - 1;
-      this.snackMsgService.open(
-        `Successfully exited ${exitedKeys} key(s)`,
-        'Success',
-        {
-          direction: 'rtl',
-          politeness: 'assertive',
-          duration: 4000,
-        }
+      this.notificationService.notifySuccess(
+        `Successfully exited ${exitedKeys} key(s)`
       );
       this.back();
     });

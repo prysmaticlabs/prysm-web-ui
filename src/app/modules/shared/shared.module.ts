@@ -45,13 +45,13 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { BreadcrumbService } from './services/breadcrumb.service';
-import { AppRoutingModule } from 'src/app/app-routing.module';
+
 import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
 import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 import { MatListModule } from '@angular/material/list';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 @NgModule({
   declarations: [
     BreadcrumbComponent,
@@ -86,6 +86,7 @@ import { MatListModule } from '@angular/material/list';
   ],
   exports: [
     BreadcrumbComponent,
+    ScrollingModule,
     MatSliderModule,
     MatGridListModule,
     MatCardModule,

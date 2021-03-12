@@ -18,16 +18,14 @@ import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
 @Component({
   selector: 'app-account-voluntary-exit',
   templateUrl: './account-voluntary-exit.component.html',
-  styleUrls: ['./account-voluntary-exit.component.scss']
+  styleUrls: ['./account-voluntary-exit.component.scss'],
 })
-export class AccountVoluntaryExitComponent   extends BaseComponent
-implements OnInit {
-
-
+export class AccountVoluntaryExitComponent
+  extends BaseComponent
+  implements OnInit {
   constructor(
     private walletService: WalletService,
     private activatedRoute: ActivatedRoute,
@@ -48,7 +46,7 @@ implements OnInit {
         ],
       },
       {
-        validators: UtilityValidator.MustHaveMoreThanOneControle,
+        validators: UtilityValidator.MustHaveMoreThanOneControl,
       } as AbstractControlOptions
     );
 
@@ -79,14 +77,13 @@ implements OnInit {
     }
     const request = {
       publicKeys: this.keys.map((x) => x.validatingPublicKey),
-      confrimation: this.exitAccountFormGroup?.get('confirmatio')?.value,
     } as AccountVoluntaryExitRequest;
 
     this.walletService.exitAccounts(request).subscribe((x) => {
-      const removedKeys =
+      const exitedKeys =
         Object.keys(this.exitAccountFormGroup?.controls ?? {}).length - 1;
       this.snackMsgService.open(
-        `Successfully exited from ${removedKeys} keys`,
+        `Successfully exited ${exitedKeys} key(s)`,
         'Success',
         {
           direction: 'rtl',

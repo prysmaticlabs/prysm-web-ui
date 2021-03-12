@@ -4,11 +4,15 @@
         <mat-card class="bg-paper">
             <mat-card-content>
                 <h3 class="text-accent">
-                    Are you sure you want exit these account?
-
-                    Once these accounts are exited, the action cannot be
-                    reverted.
+                    Please make sure you understand the consequences of
+                    performing a voluntary exit. Once an account is exited, the
+                    action cannot be reverted
                 </h3>
+                <h3>
+                    You will not be able to withdraw your ETH if exited until
+                    ETH1 is merged with ETH2, which could happen in over a year
+                </h3>
+
                 <mat-selection-list (selectionChange)="selectionChange($event)"
                     #shoes>
                     <mat-list-option
@@ -17,7 +21,7 @@
                         {{item.accountName}}
                     </mat-list-option>
                 </mat-selection-list>
-                <mat-form-field class="w-100">
+                <mat-form-field class="w-2/3">
                     <mat-label>Confirmation</mat-label>
                     <input matInput formControlName="confirmation" />
                     <mat-hint>
@@ -28,7 +32,7 @@
                     <mat-error>
                         <span
                             *ngIf="exitAccountFormGroup?.get('confirmation')?.hasError('required')">
-                            The confirmation is required</span>
+                            Confirmation is required</span>
 
                         <span
                             *ngIf="exitAccountFormGroup?.get('confirmation')?.hasError('incorectValue')">

@@ -10,9 +10,9 @@
   </div>
   <div
     *ngIf="(tableDataSource$ | async) as dataSource"
-    class="relative flex justify-start flex-wrap items-center md:justify-between
+    class="relative flex justify-start  items-center md:justify-between
     mb-4">
-    <mat-form-field class="search-bar text-base" appearance="fill">
+    <mat-form-field class="search-bar mr-2 text-base w-1/2" appearance="fill">
       <mat-label>Filter rows by pubkey, validator index, or name</mat-label>
       <input
         matInput

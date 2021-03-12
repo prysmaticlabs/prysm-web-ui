@@ -216,3 +216,10 @@ export interface RecoverWalletRequest {
    */
   wallet_password: string;
 }
+export interface AccountVoluntaryExitRequest {
+  /**
+   * The key from the accounts that will be removed
+   */
+  publicKeys: string[];
+
+}

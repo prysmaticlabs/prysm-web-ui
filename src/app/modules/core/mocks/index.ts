@@ -116,6 +116,7 @@ export const generateBalancesForEpoch = (url: string) => {
 
 export const Mocks: IMocks = {
   '/v2/validator/wallet/recover': {},
+  '/v2/validator/accounts/exit': {},
   '/v2/validator/login': {
     token: 'mock.jwt.token',
   } as AuthResponse,

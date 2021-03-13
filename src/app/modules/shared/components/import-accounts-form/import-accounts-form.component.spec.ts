@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { ImportAccountsFormComponent } from './import-accounts-form.component';
@@ -12,6 +13,7 @@ describe('ImportAccountsFormComponent', () => {
       declarations: [ImportAccountsFormComponent],
       imports: [
         NgxFileDropModule,
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();

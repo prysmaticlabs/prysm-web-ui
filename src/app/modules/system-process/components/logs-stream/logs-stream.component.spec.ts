@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { LogsStreamComponent } from './logs-stream.component';
@@ -9,12 +10,9 @@ describe('LogsStreamComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LogsStreamComponent ],
-      imports: [
-        SharedModule,
-      ]
-    })
-    .compileComponents();
+      declarations: [LogsStreamComponent],
+      imports: [BrowserAnimationsModule, SharedModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

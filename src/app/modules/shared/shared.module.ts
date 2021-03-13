@@ -45,7 +45,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { BreadcrumbService } from './services/breadcrumb.service';
-import { AppRoutingModule } from 'src/app/app-routing.module';
+
 import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
@@ -83,13 +83,10 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatInputModule,
     NgxFileDropModule,
     MatProgressBarModule,
-    AppRoutingModule,
   ],
   exports: [
     BreadcrumbComponent,
     ScrollingModule,
-    BrowserAnimationsModule,
-    BrowserAnimationsModule,
     MatSliderModule,
     MatGridListModule,
     MatCardModule,

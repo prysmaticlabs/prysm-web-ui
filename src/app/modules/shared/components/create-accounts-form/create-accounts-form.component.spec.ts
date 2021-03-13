@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../shared.module';
 
 import { CreateAccountsFormComponent } from './create-accounts-form.component';
@@ -15,6 +16,7 @@ describe('CreateAccountsFormComponent', () => {
       imports: [
         SharedModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         FormsModule
       ]
     })

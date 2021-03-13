@@ -9,6 +9,7 @@ import { EventsService } from 'src/app/modules/core/services/events.service';
 import { Breadcrumb, BreadcrumbService } from '../../services/breadcrumb.service';
 
 import { BreadcrumbComponent } from './breadcrumb.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
@@ -42,6 +43,7 @@ describe('BreadcrumbComponent', () => {
       imports: [
         MatIconModule,
         RouterTestingModule,
+        BrowserAnimationsModule
       ],
       declarations: [BreadcrumbComponent],
       providers: [

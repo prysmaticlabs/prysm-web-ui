@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { MockService } from 'ng-mocks';
 import { CommonModule } from '@angular/common';
 import { ChainHead } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('BeaconNodeStatusComponent', () => {
   let component: BeaconNodeStatusComponent;
@@ -20,6 +21,7 @@ describe('BeaconNodeStatusComponent', () => {
       imports: [
         CommonModule,
         SharedModule,
+        BrowserAnimationsModule
       ],
       declarations: [ BeaconNodeStatusComponent ],
       providers: [

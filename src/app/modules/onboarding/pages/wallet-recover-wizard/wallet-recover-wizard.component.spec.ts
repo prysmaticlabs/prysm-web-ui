@@ -21,6 +21,9 @@ import {
 } from '../../../../proto/validator/accounts/v2/web_api';
 import { of } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('WalletRecoverWizardComponent', () => {
   let component: WalletRecoverWizardComponent;
@@ -50,6 +53,8 @@ describe('WalletRecoverWizardComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
+        BrowserAnimationsModule,
+        RouterTestingModule,
         HttpClientTestingModule,
       ],
     }).compileComponents();

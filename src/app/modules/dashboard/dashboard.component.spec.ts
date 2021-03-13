@@ -10,6 +10,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard.component';
 import { BeaconNodeService } from '../core/services/beacon-node.service';
 import { BeaconStatusResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -21,6 +22,7 @@ describe('DashboardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        BrowserAnimationsModule,
         SharedModule,
       ],
       providers: [

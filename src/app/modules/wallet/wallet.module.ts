@@ -17,6 +17,8 @@ import { ImportComponent } from './pages/import/import.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { AccountVoluntaryExitComponent } from './pages/account-voluntary-exit/account-voluntary-exit.component';
 import { AccountDeleteComponent } from './components/account-delete/account-delete.component';
+import { WalletRoutingModule } from './wallet.routing.module';
+import { WalletComponent } from './wallet.component';
 
 @NgModule({
   declarations: [
@@ -32,14 +34,16 @@ import { AccountDeleteComponent } from './components/account-delete/account-dele
     ImportComponent,
     AccountVoluntaryExitComponent,
     AccountDeleteComponent,
+    WalletComponent,
   ],
   imports: [
     CommonModule,
+    WalletRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
     SharedModule,
-    NgxFileDropModule
+    NgxFileDropModule,
   ],
 })
-export class WalletModule { }
+export class WalletModule {}

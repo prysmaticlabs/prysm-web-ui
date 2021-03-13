@@ -19,6 +19,7 @@ import { NonhdWalletWizardComponent } from './pages/nonhd-wallet-wizard/nonhd-wa
 import { WalletDirectoryFormComponent } from './components/wallet-directory-form/wallet-directory-form.component';
 import { WalletRecoverWizardComponent } from './pages/wallet-recover-wizard/wallet-recover-wizard.component';
 import { MnemonicFormComponent } from './pages/wallet-recover-wizard/templates/mnemonic-form/mnemonic-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MnemonicFormComponent } from './pages/wallet-recover-wizard/templates/m
   providers: [MnemonicValidator],
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
     SharedModule,
     RouterModule,
     ReactiveFormsModule,

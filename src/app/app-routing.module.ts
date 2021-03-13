@@ -54,48 +54,10 @@ const routes: Routes = [
       {
         path: 'wallet',
         data: {
-          breadcrumb: 'Wallet',
+          breadcrumb: 'wallet',
         },
-        children: [
-          {
-            path: '',
-            redirectTo: 'accounts',
-            pathMatch: 'full',
-          },
-          {
-            path: 'accounts',
-            data: {
-              breadcrumb: 'Accounts',
-            },
-            children: [
-              {
-                path: '',
-                component: AccountsComponent,
-              },
-            ],
-          },
-          {
-            path: 'details',
-            data: {
-              breadcrumb: 'Wallet Details',
-            },
-            component: WalletDetailsComponent,
-          },
-          {
-            path: 'accounts/voluntary-exit',
-            data: {
-              breadcrumb: 'Voluntary Exit',
-            },
-            component: AccountVoluntaryExitComponent,
-          },
-          {
-            path: 'accounts/import',
-            data: {
-              breadcrumb: 'Import Accounts',
-            },
-            component: ImportComponent,
-          },
-        ],
+        loadChildren: () =>
+          import('./modules/wallet/wallet.module').then((m) => m.WalletModule),
       },
       {
         path: 'system',

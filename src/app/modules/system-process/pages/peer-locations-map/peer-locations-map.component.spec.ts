@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { GeoCoordinate, GeoLocatorService } from '../../../core/services/geo-locator.service';
 
 import { PeerLocationsMapComponent } from './peer-locations-map.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 declare let L: any;
 
 describe('PeerLocationsMapComponent', () => {
@@ -14,6 +15,7 @@ describe('PeerLocationsMapComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        BrowserAnimationsModule
       ],
       declarations: [PeerLocationsMapComponent],
       providers: [

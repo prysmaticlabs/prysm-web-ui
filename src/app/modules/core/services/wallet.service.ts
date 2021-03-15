@@ -5,6 +5,8 @@ import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {
   AccountVoluntaryExitRequest,
+  BackupAccountsRequest,
+  BackupAccountsResponse,
   DeleteAccountsRequest,
   RecoverWalletRequest,
 } from '../../../proto/validator/accounts/v2/web_api';
@@ -105,5 +107,14 @@ export class WalletService {
 
   deleteAccounts(request: DeleteAccountsRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/accounts/delete`, request);
+  }
+
+  backUpAccounts(
+    request: BackupAccountsRequest
+  ): Observable<BackupAccountsResponse> {
+    return this.http.post<BackupAccountsResponse>(
+      `${this.apiUrl}/accounts/backup`,
+      request
+    );
   }
 }

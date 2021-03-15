@@ -8,6 +8,10 @@
       Full list of all validating public keys managed by your Prysm wallet
     </p>
   </div>
+
+  <app-account-selections
+    [selection]="selection"></app-account-selections>
+    
   <div
     *ngIf="(tableDataSource$ | async) as dataSource"
     class="relative flex justify-start  items-center md:justify-between
@@ -23,9 +27,6 @@
     </mat-form-field>
     <app-account-actions [selection]="selection"></app-account-actions>
   </div>
-
-  <app-account-selections
-    [selection]="selection"></app-account-selections>
 
   <div class="mat-elevation-z8 relative">
     <div class="table-loading-shade" *ngIf="loading">

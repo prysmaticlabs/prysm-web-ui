@@ -69,20 +69,6 @@ export class AccountBackupComponent extends BaseComponent implements OnInit {
     const request = this.getRequestForm();
     this.backupRequest(request).subscribe((x) => this.back());
   }
-  backUpAndDownload(): void {
-    if (this.encryptionPasswordForm.invalid) {
-      return;
-    }
-    const request = this.getRequestForm();
-
-    this.backupRequest(request).subscribe((x: BackupAccountsResponse) => {
-      const blob = new Blob([x.zipFile], {
-        type: 'text/plain;charset=utf-8',
-      });
-      FileSaver.saveAs(blob, 'hello world.txt');
-      this.back();
-    });
-  }
 
   private backupRequest(
     request: BackupAccountsRequest

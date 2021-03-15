@@ -187,3 +187,9 @@ mat-footer-cell {
 .snackbar-warn {
   background-color: #e95455;
 }
+
+@media (max-width:1024px) {
+  button {
+    font-size: 0.75rem !important;
+  }
+}

@@ -94,6 +94,9 @@
             [queryParams]="{publicKey:row.publicKey | base64tohex}">
             <mat-icon>exit_to_app</mat-icon>
           </a>
+          <button matTooltip="Delete account"
+            (click)="openDeleteDialog(row.publicKey)"
+            mat-icon-button><mat-icon>delete</mat-icon></button>
         </div>
       </td>
     </ng-container>

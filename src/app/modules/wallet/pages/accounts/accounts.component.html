@@ -8,10 +8,15 @@
       Full list of all validating public keys managed by your Prysm wallet
     </p>
   </div>
+
+  <app-account-selections
+    [selection]="selection"></app-account-selections>
+    
   <div
     *ngIf="(tableDataSource$ | async) as dataSource"
-    class="relative flex justify-start flex-wrap items-center md:justify-between mb-4">
-    <mat-form-field class="search-bar text-base" appearance="fill">
+    class="relative flex justify-start  items-center md:justify-between
+    mb-4">
+    <mat-form-field class="search-bar mr-2 text-base w-1/2" appearance="fill">
       <mat-label>Filter rows by pubkey, validator index, or name</mat-label>
       <input
         matInput
@@ -20,11 +25,8 @@
         (keyup)="applySearchFilter($event, dataSource)">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <app-account-actions></app-account-actions>
+    <app-account-actions [selection]="selection"></app-account-actions>
   </div>
-
-  <app-account-selections
-    [selection]="selection"></app-account-selections>
 
   <div class="mat-elevation-z8 relative">
     <div class="table-loading-shade" *ngIf="loading">

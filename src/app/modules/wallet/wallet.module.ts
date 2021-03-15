@@ -16,6 +16,7 @@ import { AccountActionsComponent } from './components/account-actions/account-ac
 import { ImportComponent } from './pages/import/import.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { AccountVoluntaryExitComponent } from './pages/account-voluntary-exit/account-voluntary-exit.component';
+import { AccountDeleteComponent } from './components/account-delete/account-delete.component';
 import { WalletRoutingModule } from './wallet.routing.module';
 import { WalletComponent } from './wallet.component';
 
@@ -32,6 +33,7 @@ import { WalletComponent } from './wallet.component';
     AccountActionsComponent,
     ImportComponent,
     AccountVoluntaryExitComponent,
+    AccountDeleteComponent,
     WalletComponent,
   ],
   imports: [

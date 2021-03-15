@@ -222,3 +222,10 @@ export interface AccountVoluntaryExitRequest {
    */
   publicKeys: string[];
 }
+
+export interface DeleteAccountsRequest {
+  /**
+   *  Public keys to delete.
+   */
+  publicKeys: string[];
+}

@@ -21,7 +21,7 @@
             <div class="flex w-100 justify-end">
                 <button (click)="back()" color="accent" mat-raised-button>Cancel</button>
                 <button (click)="backUp()"
-                    [disabled]="encryptionPasswordForm.invalid"
+                    [disabled]="encryptionPasswordForm.invalid||accountBackForm.invalid"
                     color="primary"
                     mat-raised-button>Submit</button>
                 

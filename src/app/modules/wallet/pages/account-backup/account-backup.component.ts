@@ -20,6 +20,7 @@ import { StaticPasswordValidator } from '../../../core/validators/password.valid
 import { BaseComponent } from '../../../shared/components/base.component';
 import * as FileSaver from 'file-saver';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 
 @Component({
   selector: 'app-account-backup',
@@ -36,7 +37,9 @@ export class AccountBackupComponent extends BaseComponent implements OnInit {
   }
 
   toggledAll = new FormControl(false);
-  accountBackForm = this.formBuilder.group({});
+  accountBackForm = this.formBuilder.group({}, {
+    validators: [UtilityValidator.LengthMustBeBiggerThanOrEqual(1)],
+  } as AbstractControlOptions);
   encryptionPasswordForm = this.formBuilder.group(
     {
       password: [
@@ -80,9 +83,7 @@ export class AccountBackupComponent extends BaseComponent implements OnInit {
         );
       }),
       catchError((err) => {
-        this.notificationService.notifyError(
-          'An error occurred during backup'
-        );
+        this.notificationService.notifyError('An error occurred during backup');
         throw err;
       })
     );

@@ -49,7 +49,7 @@ export class AccountVoluntaryExitComponent
       ],
     },
     {
-      validators: UtilityValidator.MustHaveMoreThanOneControl,
+      validators: UtilityValidator.LengthMustBeBiggerThanOrEqual(2),
     } as AbstractControlOptions
   );
 

@@ -81,7 +81,7 @@ export class AccountBackupComponent extends BaseComponent implements OnInit {
       }),
       catchError((err) => {
         this.notificationService.notifyError(
-          'Error happened while backing up the accounts'
+          'An error occurred during backup'
         );
         throw err;
       })

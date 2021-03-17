@@ -1,0 +1,59 @@
+<app-breadcrumb></app-breadcrumb>
+<div *ngIf="!isImport" class="onboarding bg-default flex h-screen">
+    <div class="mx-auto overflow-y-auto">
+        <div class="text-center pb-8">
+            <div class="text-white text-3xl">Import/Export Slashing protection</div>
+        </div>
+        <div
+            class="onboarding-grid flex-wrap flex justify-center items-center
+            my-auto">
+            <div #import (click)="toggleActive(export,import)" class="bg-paper
+                onboarding-card text-center flex flex-col my-8
+                md:my-0">
+                <div class="wallet-info">
+                    <p class="wallet-kind">
+                        Import Slashing Protection
+                    </p>
+                    <p class="wallet-description">
+                        Import a slashing protection Json
+                    </p>
+                    <p class="mt-5">
+                        <a mat-raised-button
+                            [routerLink]="['./']"
+                            [queryParams]="{'import':true}"
+                            class="large-btn"
+                            color="accent">
+                            <mat-icon>cloud_upload</mat-icon>
+                            import
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <div (click)="toggleActive(import,export)" #export class="bg-paper
+                onboarding-card text-center flex flex-col my-8
+                mx-8
+                md:my-0 active">
+                <div class="wallet-info">
+                    <p class="wallet-kind">
+                        Export Slashing Protection
+                    </p>
+                    <p class="wallet-description">
+                        Get a slashing protection Json
+                    </p>
+                    <p class="mt-5">
+                        <button mat-raised-button
+                            (click)="exportSlashingProtection()"
+                            class="large-btn"
+                            color="accent">
+                            <mat-icon>cloud_download</mat-icon>
+                            Export
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isImport">
+    <app-import-protection></app-import-protection>
+</div>

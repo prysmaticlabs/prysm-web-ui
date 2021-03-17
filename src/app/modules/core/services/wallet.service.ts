@@ -4,6 +4,10 @@ import { Observable, throwError } from 'rxjs';
 import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {
+  ExportSlashingProtectionResponse,
+  ImportSlashingProtectionRequest,
+} from '../../../proto/validator/accounts/v2/web_api';
+import {
   AccountVoluntaryExitRequest,
   BackupAccountsRequest,
   BackupAccountsResponse,
@@ -109,6 +113,17 @@ export class WalletService {
     return this.http.post(`${this.apiUrl}/accounts/delete`, request);
   }
 
+  exportSlashingProtection(): Observable<ExportSlashingProtectionResponse> {
+    return this.http.get<ExportSlashingProtectionResponse>(
+      `${this.apiUrl}/slashing-protection/export`
+    );
+  }
+
+  importSlashingProtection(
+    request: ImportSlashingProtectionRequest
+  ): Observable<any> {
+    return this.http.post(`${this.apiUrl}/slashing-protection/import`, request);
+  }
   backUpAccounts(
     request: BackupAccountsRequest
   ): Observable<BackupAccountsResponse> {

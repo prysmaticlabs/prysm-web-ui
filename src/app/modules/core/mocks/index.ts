@@ -7,6 +7,7 @@ import {
   Account,
   ImportKeystoresResponse,
   HasUsedWebResponse,
+  ExportSlashingProtectionResponse,
   BackupAccountsResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
@@ -28,6 +29,42 @@ import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
 export interface IMocks {
   [key: string]: object;
 }
+
+export const mockSlashingProtection = {
+  metadata: {
+    interchange_format_version: '5',
+    genesis_validators_root:
+      '0x04700007fabc8282644aed6d1c7c9e21d38a03a0c4ba193f3afe428824b3a673',
+  },
+  data: [
+    {
+      pubkey:
+        '0xb845089a1457f811bfc000588fbb4e713669be8ce060ea6be3c6ece09afc3794106c91ca73acda5e5457122d58723bed',
+      signed_blocks: [
+        {
+          slot: '81952',
+          signing_root:
+            '0x4ff6f743a43f3b4f95350831aeaf0a122a1a392922c45d804280284a69eb850b',
+        },
+        {
+          slot: '81951',
+        },
+      ],
+      signed_attestations: [
+        {
+          source_epoch: '2290',
+          target_epoch: '3007',
+          signing_root:
+            '0x587d6a4f59a58fe24f406e0502413e77fe1babddee641fda30034ed37ecc884d',
+        },
+        {
+          source_epoch: '2290',
+          target_epoch: '3008',
+        },
+      ],
+    },
+  ],
+};
 
 export const mockPublicKeys: string[] = [
   hexToBase64(
@@ -116,6 +153,10 @@ export const generateBalancesForEpoch = (url: string) => {
 };
 
 export const Mocks: IMocks = {
+  '/v2/validator/slashing-protection/import': {},
+  '/v2/validator/slashing-protection/export': {
+    file: JSON.stringify(mockSlashingProtection),
+  } as ExportSlashingProtectionResponse,
   '/v2/validator/accounts/backup': {
     zipFile: mockPublicKeys.join(', '),
   } as BackupAccountsResponse,

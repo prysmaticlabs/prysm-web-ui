@@ -1,0 +1,44 @@
+
+<div class="import-keys-form">
+    <div class="text-white text-xl mt-4">
+        Import Slashing protections
+    </div>
+    <ng-container *ngIf="!isUploading">
+        <div class="my-6 text-hint text-lg leading-relaxed">
+            Upload any folder of slashing protection files
+        </div>
+        <div class="my-6 flex flex-wrap">
+            <div class="w-full md:w-1/2">
+                <app-import-dropzone [accept]="'.json'"
+                    (fileChange)="fileChange($event)"></app-import-dropzone>
+            </div>
+        </div>
+        <div>
+            <button (click)="back()" class="mr-2" mat-raised-button
+                color="accent">
+                Cancel
+            </button>
+            <button (click)="confirmImport()" [disabled]="!fileObjStr"
+                mat-raised-button color="primary">
+                Confirm Import
+            </button>
+        </div>
+    </ng-container>
+</div>
+
+<ng-container *ngIf="isUploading">
+    <div class="my-4 text-hint text-lg leading-relaxed">
+        Hang in there while we
+        <ng-container *ngIf="fileStatus == fileStatuses.uploading; else
+            validateTemplate">
+            upload
+        </ng-container>
+        <ng-template #validateTemplate>
+            validate
+        </ng-template>
+        your files...
+    </div>
+    <div class="pb-2">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+</ng-container>

@@ -1,7 +1,7 @@
-import {Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { FormGroup } from '@angular/forms';
-import {from, throwError} from 'rxjs';
+import { from, throwError } from 'rxjs';
 import * as JSZip from 'jszip';
 import { catchError, take, tap } from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ import { catchError, take, tap } from 'rxjs/operators';
 export class ImportAccountsFormComponent {
   @Input() formGroup: FormGroup | null = null;
 
-  constructor() { }
+  constructor() {}
 
   // Properties.
   MAX_FILES_BEFORE_PREVIEW = 3;
@@ -23,42 +23,29 @@ export class ImportAccountsFormComponent {
   // Unzip an uploaded zip file and attempt
   // to get all its keystores to update the form group.
   unzipFile(zipFile: File): void {
-    from(JSZip.loadAsync(zipFile)).pipe(
-      take(1),
-      tap((blob: JSZip) => {
-        blob.forEach(async (item) => {
-          const res = await blob.file(item)?.async('string');
-          if (res) {
-            this.updateImportedKeystores(item, JSON.parse(res));
-          }
-        });
-      }),
-      catchError(err => {
-        return throwError(err);
-      })
-    ).subscribe();
+    from(JSZip.loadAsync(zipFile))
+      .pipe(
+        take(1),
+        tap((blob: JSZip) => {
+          blob.forEach(async (item) => {
+            const res = await blob.file(item)?.async('string');
+            if (res) {
+              this.updateImportedKeystores(item, JSON.parse(res));
+            }
+          });
+        }),
+        catchError((err) => {
+          return throwError(err);
+        })
+      )
+      .subscribe();
   }
-
-  dropped(droppedFiles: NgxFileDropEntry[]): void {
-    this.uploading = true;
-    let numFilesUploaded = 0;
-    this.invalidFiles = [];
-    for (const droppedFile of droppedFiles) {
-      if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file(async (file: File) => {
-          const text = await file.text();
-          numFilesUploaded++;
-          if (numFilesUploaded ===  droppedFiles.length) {
-            this.uploading = false;
-          }
-          if (file.type === 'application/zip') {
-            this.unzipFile(file);
-          } else {
-            this.updateImportedKeystores(file.name, JSON.parse(text));
-          }
-        });
-      }
+  fileChangeHandler(obj: { file: File; txt: string }): void {
+    const { file, txt } = obj;
+    if (file.type === 'application/zip') {
+      this.unzipFile(file);
+    } else {
+      this.updateImportedKeystores(file.name, JSON.parse(txt));
     }
   }
 
@@ -68,7 +55,8 @@ export class ImportAccountsFormComponent {
       return;
     }
 
-    const imported = this.formGroup?.get('keystoresImported')?.value as string[];
+    const imported = this.formGroup?.get('keystoresImported')
+      ?.value as string[];
     const jsonString = JSON.stringify(jsonFile);
     if (imported.includes(jsonString)) {
       this.invalidFiles.push('Duplicate: ' + fileName);
@@ -76,14 +64,18 @@ export class ImportAccountsFormComponent {
     }
 
     this.filesPreview.push(fileName);
-    this.formGroup?.get('keystoresImported')?.setValue([...imported, jsonString]);
+    this.formGroup
+      ?.get('keystoresImported')
+      ?.setValue([...imported, jsonString]);
   }
 
   private isKeystoreFileValid(jsonFile: object): boolean {
     // Lazy way checking if the attributes exists.
-    return 'crypto' in jsonFile
-        && 'pubkey' in jsonFile
-        && 'uuid' in jsonFile
-        && 'version' in jsonFile;
+    return (
+      'crypto' in jsonFile &&
+      'pubkey' in jsonFile &&
+      'uuid' in jsonFile &&
+      'version' in jsonFile
+    );
   }
 }

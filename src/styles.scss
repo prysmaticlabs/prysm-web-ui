@@ -73,6 +73,10 @@ $prysm-secondary: (50: #fff3e8,
   width: 75% !important;
 }
 
+.w-100 {
+  width: 100% !important;
+}
+
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $prysm-web-ui-theme: mat-dark-theme((color: (primary: mat-palette($prysm-primary),

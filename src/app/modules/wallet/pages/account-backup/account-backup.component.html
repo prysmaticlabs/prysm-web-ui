@@ -1,0 +1,31 @@
+<app-breadcrumb></app-breadcrumb>
+<mat-card class="md:w-2/3">
+    <div class="px-6 pb-4">
+        <div class="import-keys-form">
+            <div class="text-white text-xl mt-4">
+                Back Up Selected Account(s)
+            </div>
+            <div class="my-6 text-hint text-lg leading-relaxed">
+                We'll convert your selected accounts into individual, EIP-2335
+                compliant, password protected files compressed into a zip file
+            </div>
+
+            <app-accounts-form-selection [formGroup]="accountBackForm"></app-accounts-form-selection>
+            <app-password-form title="Encryption Password"
+                subtitle="Password to use for your keystores"
+                label="Encryption Password"
+                confirmationLabel="Confirm Encryption Password"
+                [formGroup]="encryptionPasswordForm"></app-password-form>
+        </div>
+        <mat-card-actions>
+            <div class="flex w-100 justify-end">
+                <button (click)="back()" color="accent" mat-raised-button>Cancel</button>
+                <button (click)="backUp()"
+                    [disabled]="encryptionPasswordForm.invalid||accountBackForm.invalid"
+                    color="primary"
+                    mat-raised-button>Submit</button>
+                
+            </div>
+        </mat-card-actions>
+    </div>
+</mat-card>

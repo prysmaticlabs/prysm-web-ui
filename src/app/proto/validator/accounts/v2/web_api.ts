@@ -229,3 +229,20 @@ export interface DeleteAccountsRequest {
    */
   publicKeys: string[];
 }
+export interface BackupAccountsRequest {
+  /**
+   *  Public keys to backup.
+   */
+  publicKeys: string[];
+  /**
+   *  Keystores password to encrypt the backed-up accounts.
+   */
+  keystoresPassword: string;
+}
+
+export interface BackupAccountsResponse {
+  /**
+   *  Public keys to backup.
+   */
+  zipFile: string;
+}

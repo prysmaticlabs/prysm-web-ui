@@ -7,6 +7,7 @@ import {
   Account,
   ImportKeystoresResponse,
   HasUsedWebResponse,
+  BackupAccountsResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   ChainHead,
@@ -115,6 +116,9 @@ export const generateBalancesForEpoch = (url: string) => {
 };
 
 export const Mocks: IMocks = {
+  '/v2/validator/accounts/backup': {
+    zipFile: mockPublicKeys.join(', '),
+  } as BackupAccountsResponse,
   '/v2/validator/wallet/recover': {},
   '/v2/validator/accounts/exit': {},
   '/v2/validator/accounts/delete': {},

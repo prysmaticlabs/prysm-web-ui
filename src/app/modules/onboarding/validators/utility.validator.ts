@@ -22,12 +22,14 @@ export abstract class UtilityValidator {
     };
   }
 
-  static MustHaveMoreThanOneControl(grp: FormGroup): ValidationErrors | null {
-    if (Object.keys(grp.controls).length > 1) {
-      return null;
-    }
-    return {
-      mustSelectOne: true,
+  static LengthMustBeBiggerThanOrEqual(length = 0): ValidationErrors | null {
+    return (grp: FormGroup) => {
+      if (Object.keys(grp.controls).length >= length) {
+        return null;
+      }
+      return {
+        mustSelectOne: true,
+      };
     };
   }
 }

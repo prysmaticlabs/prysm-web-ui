@@ -21,8 +21,18 @@
       <mat-icon>exit_to_app</mat-icon>
     </button>
   </a>
+  <a class="ml-3"
+    [routerLink]="[ '/dashboard', 'wallet','accounts','backup']">
+    <button mat-raised-button
+      color="accent"
+      class="large-btn ml-1">
+      Back Up Accounts
+      <mat-icon>backup</mat-icon>
+    </button>
+  </a>
+
   <a class="ml-3">
-    <button class="large-btn ml-1" *ngIf="selection?.selected?.length >0"
+    <button class="large-btn ml-1" *ngIf="selection?.selected?.length>0"
       color="warn"
       (click)="openDelete()"
       mat-raised-button>Delete Selected Accounts</button>

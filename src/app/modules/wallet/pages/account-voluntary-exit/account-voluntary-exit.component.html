@@ -17,30 +17,8 @@
                         ETH1 is merged with ETH2, which could happen in over a
                         year
                     </div>
-                    <mat-checkbox
-                        class="ml-3"
-                        (change)="toggleChange(shoes,$event)"
-                        [formControl]="toggledAll">
-                        <ng-container *ngIf="toggledAll.value; else notToggled">
-                            Unselect all
-                        </ng-container>
-                        <ng-template #notToggled>
-                            Select all
-                        </ng-template>
-                    </mat-checkbox>
-                    <cdk-virtual-scroll-viewport class="example-viewport"
-                        itemSize="50">
-                        <mat-selection-list
-                            (selectionChange)="selectionChange($event)"
-                            #shoes>
-
-                            <mat-list-option
-                                [value]="item.validatingPublicKey|base64tohex"
-                                *cdkVirtualFor="let item of keys">
-                                {{item.validatingPublicKey|base64tohex|slice:0:16}}...
-                            </mat-list-option>
-                        </mat-selection-list>
-                    </cdk-virtual-scroll-viewport>
+                    <app-accounts-form-selection [publicKey]="publicKey"
+                        [formGroup]="exitAccountFormGroup"></app-accounts-form-selection>
                     <mat-form-field class="w-2/3">
                         <mat-label>Confirmation</mat-label>
                         <input matInput formControlName="confirmation" />

@@ -15,9 +15,9 @@ export class ImportAccountsFormComponent {
   constructor() {}
 
   // Properties.
-  MAX_FILES_BEFORE_PREVIEW = 3;
+
   invalidFiles: string[] = [];
-  filesPreview: string[] = [];
+
   uploading = false;
 
   // Unzip an uploaded zip file and attempt
@@ -40,12 +40,20 @@ export class ImportAccountsFormComponent {
       )
       .subscribe();
   }
-  fileChangeHandler(obj: { file: File; txt: string }): void {
-    const { file, txt } = obj;
+  fileChangeHandler(obj: {
+    file: File;
+    context: any;
+    validationResult: (context: any, file: File, ...responses: any[]) => void;
+  }): void {
+    const { file, context, validationResult } = obj;
     if (file.type === 'application/zip') {
       this.unzipFile(file);
+      validationResult(context, file, this.invalidFiles);
     } else {
-      this.updateImportedKeystores(file.name, JSON.parse(txt));
+      file.text().then((txt) => {
+        this.updateImportedKeystores(file.name, JSON.parse(txt));
+        validationResult(context, file, this.invalidFiles);
+      });
     }
   }
 
@@ -62,8 +70,6 @@ export class ImportAccountsFormComponent {
       this.invalidFiles.push('Duplicate: ' + fileName);
       return;
     }
-
-    this.filesPreview.push(fileName);
     this.formGroup
       ?.get('keystoresImported')
       ?.setValue([...imported, jsonString]);

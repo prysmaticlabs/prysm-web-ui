@@ -45,7 +45,9 @@
         your node is not running
       </mat-error>
     </mat-form-field>
-    <div class="my-6 flex flex-wrap">
+    <app-import-dropzone [accept]="'.json,.zip'"
+      (fileChange)="fileChangeHandler($event)"></app-import-dropzone>
+    <!-- <div class="my-6 flex flex-wrap">
       <div class="w-full md:w-1/2">
         <app-import-dropzone [accept]="'.json,.zip'"
           (fileChange)="fileChangeHandler($event)"></app-import-dropzone>
@@ -61,7 +63,7 @@
           <span *ngIf="filesPreview.length> MAX_FILES_BEFORE_PREVIEW">...</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="my-6 flex flex-wrap">
       <mat-error *ngIf="formGroup && formGroup.touched &&
         formGroup.controls.keystoresImported.hasError('noKeystoresUploaded')">
@@ -72,12 +74,12 @@
         Max 50 keystore files allowed. If you have more than that, we recommend
         an HD wallet instead
       </mat-error>
-      <mat-error *ngIf="invalidFiles.length">
+      <!-- <mat-error *ngIf="invalidFiles.length">
         Not adding these files:
         <ul class="ml-8 list-inside list-disc">
           <li *ngFor="let file of invalidFiles">{{file}}</li>
         </ul>
-      </mat-error>
+      </mat-error> -->
     </div>
   </form>
 </div>

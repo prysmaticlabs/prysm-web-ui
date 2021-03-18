@@ -8,12 +8,17 @@ import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 })
 export class ImportDropzoneComponent implements OnInit {
   constructor() {}
+  MAX_FILES_BEFORE_PREVIEW = 3;
+  filesPreview: string[] = [];
   uploading = false;
-  invalidFiles = [];
+  invalidFiles: any[] = [];
 
   @Input() accept: string | undefined;
-
-  @Output() fileChange = new EventEmitter<{ file: File; txt: string }>();
+  @Output() fileChange = new EventEmitter<{
+    file: File;
+    context: any;
+    validationResult: (context: any, file: File, ...responses: any[]) => void;
+  }>();
 
   ngOnInit(): void {}
   dropped(droppedFiles: NgxFileDropEntry[]): void {
@@ -24,18 +29,25 @@ export class ImportDropzoneComponent implements OnInit {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
 
-        fileEntry.file(async (file: File) => {
-          const text = await file.text();
+        fileEntry.file((file: File) => {
           numFilesUploaded++;
           if (numFilesUploaded === droppedFiles.length) {
             this.uploading = false;
           }
           this.fileChange.emit({
             file: (file),
-            txt: (text),
+            context: this,
+            validationResult: this.onValidationResult,
           });
         });
       }
+    }
+  }
+
+  private onValidationResult(ctx: any, file: File, responses: any[]): void {
+    ctx.invalidFiles = responses;
+    if (responses.length === 0) {
+      ctx.filesPreview.push(file.name);
     }
   }
 }

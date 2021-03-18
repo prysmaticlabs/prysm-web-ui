@@ -45,7 +45,7 @@ export class SlashingProtectionComponent
             type: 'text/plain;charset=utf-8',
           });
           const d = new Date();
-          const fileName = `slashingp-protections${d.toDateTimeString()}.json`;
+          const fileName = `slashing-protection-${d.toDateTimeString()}.json`;
           FileSaver.saveAs(blob, fileName);
         })
       )

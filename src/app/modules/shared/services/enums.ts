@@ -1,7 +1,8 @@
 export enum FileStatus {
   default = 1,
   validating = 10,
-  uploading = 20,
-  error = 30,
-  uploaded = 40,
+  validated = 20,
+  uploading = 30,
+  error = 40,
+  uploaded = 50,
 }

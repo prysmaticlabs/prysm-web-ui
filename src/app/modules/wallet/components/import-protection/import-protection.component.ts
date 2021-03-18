@@ -22,36 +22,55 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
   fileStatus = FileStatus.default;
   fileStatuses = FileStatus;
   isUploading = false;
-  fileObjStr = '';
+  importedFiles: any[] = [];
+  importedKeys: string[] = [];
+
+  file: File | undefined;
   ngOnInit(): void {}
-  fileChange(fileObj: { file: File; txt: string }): void {
-    this.fileObjStr = fileObj.txt;
+  fileChange(fileObj: {
+    file: File;
+    context: any;
+    validationResult: (context: any, file: File, ...responses: any[]) => void;
+  }): void {
+    this.file = fileObj.file;
+    this.file.text().then((txt) => {
+      const validationResult = this.validateFile(txt);
+      if (!validationResult.result) {
+        fileObj.validationResult(fileObj.context, fileObj.file, [
+          validationResult.response,
+        ]);
+      } else {
+        fileObj.validationResult(fileObj.context, fileObj.file, []);
+      }
+    });
   }
 
-  validateFile(jsTxt: string): boolean {
+  validateFile(jsTxt: string): { result: boolean; response: string } {
     this.fileStatus = FileStatus.validating;
     if (!JSON.parse(jsTxt)) {
       this.fileStatus = FileStatus.error;
-      return false;
+      return { result: false, response: `Invalid Format: ${this.file?.name}` };
     }
     const jObj = JSON.parse(jsTxt);
     if (!jObj.metadata || !jObj.data || jObj.data.length === 0) {
       this.fileStatus = FileStatus.error;
-      return false;
+      return { result: false, response: `Invalid Format: ${this.file?.name}` };
     }
-    return true;
+    if (this.importedKeys.includes(this.file?.name ?? '')) {
+      return { result: false, response: `Duplicate File : ${this.file?.name}` };
+    }
+    this.importedKeys.push(this.file?.name ?? '');
+    this.importedFiles.push(jObj);
+    this.fileStatus = FileStatus.validated;
+    return { result: true, response: `` };
   }
 
   confirmImport(): void {
     this.isUploading = true;
     setTimeout(() => {
-      if (!this.validateFile(this.fileObjStr)) {
-        this.isUploading = false;
-        return;
-      }
       this.fileStatus = FileStatus.uploading;
       const request = {
-        slashingProtectionJSON: this.fileObjStr,
+        slashingProtectionJSON: JSON.stringify(this.importedFiles),
       } as ImportSlashingProtectionRequest;
 
       this.walletService
@@ -67,7 +86,7 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
           catchError((error) => {
             this.isUploading = false;
             this.notificationService.notifyError(
-              'Error happened while import your slashing protection'
+              'An error occured while importing your slashing protection'
             );
             return error;
           })

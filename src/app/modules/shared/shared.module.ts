@@ -17,7 +17,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
@@ -30,11 +29,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
 import { MomentModule } from 'ngx-moment';
-
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { PasswordFormComponent } from './components/password-form/password-form.component';
 import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
@@ -45,13 +41,14 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { BreadcrumbService } from './services/breadcrumb.service';
-
 import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
 import { CreateAccountsFormComponent } from './components/create-accounts-form/create-accounts-form.component';
 import { MatListModule } from '@angular/material/list';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ImportDropzoneComponent } from './components/import-dropzone/import-dropzone.component';
+import {OverlayModule} from '@angular/cdk/overlay';
 @NgModule({
   declarations: [
     BreadcrumbComponent,
@@ -65,6 +62,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     LoadingComponent,
     ImportAccountsFormComponent,
     CreateAccountsFormComponent,
+    ImportDropzoneComponent,
   ],
   providers: [
     BreadcrumbService,
@@ -126,6 +124,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     BalancePipe,
     CreateAccountsFormComponent,
     MatListModule,
+    OverlayModule,
+    ImportDropzoneComponent,
   ],
 })
 export class SharedModule {}

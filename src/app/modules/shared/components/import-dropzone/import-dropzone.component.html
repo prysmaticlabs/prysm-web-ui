@@ -1,0 +1,37 @@
+<div class="my-6 flex flex-wrap">
+    <div class="w-full md:w-1/2">
+        <ngx-file-drop dropZoneLabel="Drop files here"
+            (onFileDrop)="dropped($event)"
+            [accept]="accept">
+            <ng-template
+                ngx-file-drop-content-tmp
+                let-openFileSelector="openFileSelector"
+                class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <img src="/assets/images/upload.svg" />
+                </div>
+                <button mat-stroked-button (click)="openFileSelector()"
+                    [disabled]="uploading">Browse Files</button>
+            </ng-template>
+        </ngx-file-drop>
+    </div>
+    <div class="w-full md:w-1/2">
+        <div *ngIf="filesPreview" class="text-white text-xl px-0 md:px-6 py-6
+            md:py-2">
+            <span class="font-semibold text-secondary">{{filesPreview.length}}</span>
+            Files Selected
+            <div *ngFor="let file of filesPreview">
+                <div class="mt-3 text-muted text-base">{{file}}</div>
+            </div>
+            <span *ngIf="filesPreview.length> MAX_FILES_BEFORE_PREVIEW">...</span>
+        </div>
+    </div>
+    <div class="my-6 flex flex-wrap">
+        <mat-error *ngIf="invalidFiles.length">
+            Not adding these files:
+            <ul class="ml-8 list-inside list-disc">
+                <li *ngFor="let file of invalidFiles">{{file}}</li>
+            </ul>
+        </mat-error>
+    </div>
+</div>

@@ -14,10 +14,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private beaconNodeService: BeaconNodeService,
     private breakpointObserver: BreakpointObserver,
-    private router: Router) {
-    router.events.pipe(
-      takeUntil(this.destroyed$$)
-    ).subscribe((val) => {
+    private router: Router
+  ) {
+    router.events.pipe(takeUntil(this.destroyed$$)).subscribe((val) => {
       if (this.isSmallScreen) {
         this.isOpened = false;
       }
@@ -39,6 +38,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           path: '/dashboard/wallet/accounts',
         },
         {
+          name: 'Slashing Protection',
+          icon: 'shield',
+          path: '/dashboard/wallet/slashing-protection',
+        },
+        {
           name: 'Wallet Information',
           path: '/dashboard/wallet/details',
           icon: 'settings_applications',
@@ -58,7 +62,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           name: 'Peer Locations Map',
           icon: 'map',
           path: '/dashboard/system/peers-map',
-        }
+        },
       ],
     },
     {
@@ -69,7 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {
       name: 'Read the Docs',
       icon: 'style',
-      externalUrl: 'https://docs.prylabs.network'
+      externalUrl: 'https://docs.prylabs.network',
     },
   ];
 
@@ -78,9 +82,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private destroyed$$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.beaconNodeService.nodeStatusPoll$.pipe(
-      takeUntil(this.destroyed$$),
-    ).subscribe();
+    this.beaconNodeService.nodeStatusPoll$
+      .pipe(takeUntil(this.destroyed$$))
+      .subscribe();
     this.registerBreakpointObserver();
   }
 
@@ -98,19 +102,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   registerBreakpointObserver(): void {
-    this.breakpointObserver.observe([
-      Breakpoints.XSmall,
-      Breakpoints.Small
-    ]).pipe(
-      tap(result => {
-        this.isSmallScreen = result.matches;
-        this.isOpened = !this.isSmallScreen;
-      }),
-      takeUntil(this.destroyed$$),
-    ).subscribe();
+    this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
+      .pipe(
+        tap((result) => {
+          this.isSmallScreen = result.matches;
+          this.isOpened = !this.isSmallScreen;
+        }),
+        takeUntil(this.destroyed$$)
+      )
+      .subscribe();
   }
 }
-
-
-
-

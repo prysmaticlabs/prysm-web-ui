@@ -9,18 +9,21 @@ export class NotificationService {
   constructor(private snackBar: MatSnackBar) {}
 
   notifySuccess(msg: string, duration = 4000): void {
-    this.snackBar.open(msg, 'Success', this.snackConfig(duration));
+    this.snackBar.open(msg, 'Success', this.getSnackBarConfig(duration));
   }
 
   notifyError(msg: string, duration = 4000): void {
-    this.snackBar.open(msg, 'Error', this.snackConfig(duration));
+    this.snackBar.open(msg, 'Error', this.getSnackBarConfig(duration));
   }
 
   notifyWithComponent(component: ComponentType<any>, duration = 4000): void {
-    this.snackBar.openFromComponent(component, this.snackConfig(duration));
+    this.snackBar.openFromComponent(
+      component,
+      this.getSnackBarConfig(duration)
+    );
   }
 
-  private snackConfig(duration = 4000): MatSnackBarConfig<any> {
+  getSnackBarConfig(duration: number): MatSnackBarConfig<any> {
     return {
       duration: (duration),
       horizontalPosition: 'right',

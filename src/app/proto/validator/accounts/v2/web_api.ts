@@ -229,6 +229,20 @@ export interface DeleteAccountsRequest {
    */
   publicKeys: string[];
 }
+
+export interface ExportSlashingProtectionResponse {
+  /**
+   * The slashing protection json
+   */
+  file: string;
+}
+
+export interface ImportSlashingProtectionRequest {
+  /**
+   * JSON representin the slash protection
+   */
+  slashingProtectionJSON: string;
+}
 export interface BackupAccountsRequest {
   /**
    *  Public keys to backup.

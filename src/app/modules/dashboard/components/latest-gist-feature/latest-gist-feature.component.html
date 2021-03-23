@@ -1,0 +1,29 @@
+<mat-card>
+    <div class="flex items-center justify-between">
+        <div class="text-white text-lg">
+            Latest Software Updates
+        </div>
+        <div>
+            <div>
+                <button mat-icon-button>
+                    <mat-icon matTooltip="We recommend
+                        keeping your software up to
+                        date, as every release brings improvements to Prysm"
+                        class="text-2xl text-muted">help_outline
+                    </mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 mb-4 grid grid-cols-1 gap-2">
+        <div *ngIf="loading" class="text-center">
+            <div class="flex justify-center my-3">
+                <mat-spinner color="accent"></mat-spinner>
+            </div>
+            <p>
+                Please wait whie we retrieve the information
+            </p>
+        </div>
+        <app-git-info [GitInfo]="gitResponse$|async"></app-git-info>
+    </div>
+</mat-card>

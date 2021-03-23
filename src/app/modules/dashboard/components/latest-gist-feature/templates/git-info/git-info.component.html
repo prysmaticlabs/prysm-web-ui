@@ -1,0 +1,26 @@
+<div *ngIf="GitInfo">
+    <div class="mb-3">
+        <div class="min-w-sm text-muted">Version</div>
+        <div class="text-lg pl-1">{{GitInfo.name}}</div>
+    </div>
+    <div class="mb-3">
+        <div class="min-w-sm text-muted">Release date</div>
+        <div class="text-lg pl-1">{{GitInfo.published_at|date}}</div>
+    </div>
+    <div class="mb-3">
+        <div class="min-w-sm text-muted">Description</div>
+        <pre *ngIf="!readMore" class="text-lg pl-1 pre-wrap">{{GitInfo.body|slice:0:400}}</pre>
+        <pre *ngIf="readMore" class="text-lg pl-1 pre-wrap">{{GitInfo.body}}</pre>
+    </div>
+    <div class="flex justify-end">
+        <button *ngIf="displayReadMore" (click)="readMore= !readMore"
+            mat-raised-button>
+            <ng-container *ngIf="!readMore; else readLess">
+                Read More
+            </ng-container>
+            <ng-template #readLess>
+                Read Less
+            </ng-template>
+        </button>
+    </div>
+</div>

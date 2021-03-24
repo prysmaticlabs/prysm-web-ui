@@ -10,6 +10,8 @@ import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { AccountDeleteComponent } from '../account-delete/account-delete.component';
 
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
+import { UserService } from '../../../shared/services/user.service';
+import { Router } from '@angular/router';
 
 export interface TableData {
   select: number;

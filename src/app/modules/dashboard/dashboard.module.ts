@@ -16,6 +16,8 @@ import { ValidatorPerformanceSummaryComponent } from './components/validator-per
 import { ActivationQueueComponent } from './components/activation-queue/activation-queue.component';
 import { VersionComponent } from './components/version/version.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LatestGistFeatureComponent } from './components/latest-gist-feature/latest-gist-feature.component';
+import { GitInfoComponent } from './components/latest-gist-feature/templates/git-info/git-info.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ValidatorParticipationComponent,
     ValidatorPerformanceSummaryComponent,
     ActivationQueueComponent,
-    VersionComponent
+    VersionComponent,
+    LatestGistFeatureComponent,
+    GitInfoComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
-    })
-  ]
+    }),
+  ],
 })
-export class DashboardModule { }
+export class DashboardModule {}

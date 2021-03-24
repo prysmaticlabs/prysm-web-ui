@@ -1,0 +1,20 @@
+<div *ngIf="GitInfo">
+    <div class="mb-3">
+        <div class="min-w-sm text-muted">Version</div>
+        <div class="text-lg pl-1">{{GitInfo.name}}</div>
+    </div>
+    <div class="mb-3">
+        <div class="min-w-sm text-muted">Release date</div>
+        <div class="text-lg pl-1">{{GitInfo.published_at|date}}</div>
+    </div>
+    <div class="mb-3">
+        <div class="min-w-sm text-muted">Description</div>
+        <pre class="text-lg pl-1 pre-wrap">{{GitInfo.body|slice:0:400}}</pre>
+    </div>
+    <div class="flex justify-end">
+        <a href="https://github.com/prysmaticlabs/prysm/releases"
+            target="_blank" mat-raised-button>
+            Read More
+        </a>
+    </div>
+</div>

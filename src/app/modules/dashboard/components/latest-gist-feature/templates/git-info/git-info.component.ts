@@ -9,7 +9,6 @@ import { GitResponse } from '../../../../types/git-response';
 export class GitInfoComponent implements OnInit {
   descriptionLength = 300;
   displayReadMore = false;
-  readMore = false;
 
   private gitInfo: GitResponse | undefined;
   @Input()

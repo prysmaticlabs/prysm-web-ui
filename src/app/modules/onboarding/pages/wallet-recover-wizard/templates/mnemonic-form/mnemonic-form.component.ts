@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAX_ACCOUNTS_CREATION } from 'src/app/modules/core/constants';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from '../../../../../shared/components/base.component';
+import { UtilityService } from '../../../../../shared/services/utility.service';
+import { Observable } from 'rxjs';
+import { ISelectListItem } from 'src/app/modules/shared/types/select-list-item';
 
 @Component({
   selector: 'app-mnemonic-form',
@@ -14,9 +17,12 @@ export class MnemonicFormComponent extends BaseComponent implements OnInit {
   @Output() nextRaised = new EventEmitter<FormGroup>();
   @Output()
   backToWalletsRaised = new EventEmitter<void>();
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, utilityService: UtilityService) {
     super();
+    this.languages$ = utilityService.languages$();
   }
+
+  languages$: Observable<ISelectListItem[]>;
 
   numAccountsFg = this.fb.group({
     numAccounts: [

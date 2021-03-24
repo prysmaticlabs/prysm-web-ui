@@ -57,6 +57,7 @@ export class WalletRecoverWizardComponent
         [Validators.required, this.mnemonicValidator.properFormatting],
       ],
       num_accounts: [1, [Validators.required, UtilityValidator.BiggerThanZero]],
+      language: ['english', [Validators.required]],
     });
     this.passwordFG = this.fb.group(
       {
@@ -131,6 +132,7 @@ export class WalletRecoverWizardComponent
       mnemonic: this.mnemonicFg.get('mnemonic')?.value,
       num_accounts: this.mnemonicFg.get('num_accounts')?.value,
       wallet_password: form.get('password')?.value,
+      language: this.mnemonicFg.get('language')?.value,
     } as RecoverWalletRequest;
     this.walletService
       .recover(request)

@@ -215,6 +215,10 @@ export interface RecoverWalletRequest {
    * The wallet password
    */
   wallet_password: string;
+  /**
+   * The language of the mnemonic
+   */
+  language: string;
 }
 export interface AccountVoluntaryExitRequest {
   /**

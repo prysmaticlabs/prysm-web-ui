@@ -7,13 +7,8 @@ import { LogsComponent } from './modules/system-process/pages/logs/logs.componen
 import { MetricsComponent } from './modules/system-process/pages/metrics/metrics.component';
 import { ChangePasswordComponent } from './modules/security/pages/change-password/change-password.component';
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
-import { WalletDetailsComponent } from './modules/wallet/pages/wallet-details/wallet-details.component';
-import { AccountsComponent } from './modules/wallet/pages/accounts/accounts.component';
-import { ImportComponent } from './modules/wallet/pages/import/import.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 import { InitializeComponent } from './modules/auth/initialize/initialize.component';
-import { Breadcrumb } from './modules/shared/services/breadcrumb.service';
-import { AccountVoluntaryExitComponent } from './modules/wallet/pages/account-voluntary-exit/account-voluntary-exit.component';
 
 const routes: Routes = [
   {

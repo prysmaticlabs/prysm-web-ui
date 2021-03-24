@@ -24,6 +24,15 @@
             </span>
         </mat-error>
     </mat-form-field>
+    <mat-form-field>
+        <mat-label>Language of your mnemonic</mat-label>
+        <mat-select formControlName="language">
+            <mat-option [value]="item.value" *ngFor="let item of
+                languages$|async">
+                {{item.text}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
     <div>
         <app-create-accounts-form #numAccounts [formGroup]="numAccountsFg"></app-create-accounts-form>
     </div>

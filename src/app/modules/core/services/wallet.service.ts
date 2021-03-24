@@ -124,6 +124,7 @@ export class WalletService {
   ): Observable<any> {
     return this.http.post(`${this.apiUrl}/slashing-protection/import`, request);
   }
+
   backUpAccounts(
     request: BackupAccountsRequest
   ): Observable<BackupAccountsResponse> {

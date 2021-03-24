@@ -31,6 +31,7 @@
               "zrender/lib/svg/svg",
               "bn.js",
               "echarts",
+              "file-saver",
               "zrender/lib/vml/vml"
             ],
             "assets": ["src/favicon.ico", "src/assets", "src/_redirects"],

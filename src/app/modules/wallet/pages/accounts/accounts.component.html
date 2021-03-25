@@ -41,6 +41,7 @@
     <mat-paginator
       (page)="handlePageEvent($event)"
       [length]="totalData"
+      [pageSize]="pageSize"
       [pageSizeOptions]="pageSizes">
     </mat-paginator>
   </div>

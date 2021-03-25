@@ -11,7 +11,6 @@ export class UserService {
   }
 
   private userKeyStore = 'user-prysm';
-
   private user: User | null | undefined;
   private onUserChange = new BehaviorSubject<User>((null as any) as User);
   user$ = this.onUserChange.asObservable();

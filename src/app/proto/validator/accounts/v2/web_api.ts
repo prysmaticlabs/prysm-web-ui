@@ -220,16 +220,10 @@ export interface RecoverWalletRequest {
    */
   language: string;
 }
-export interface AccountVoluntaryExitRequest {
-  /**
-   * The key from the accounts that will be removed
-   */
-  publicKeys: string[];
-}
 
-export interface DeleteAccountsRequest {
+export interface PublicKeysRequest {
   /**
-   *  Public keys to delete.
+   *  Public keys as base64 encoded bytes.
    */
   publicKeys: string[];
 }
@@ -247,6 +241,7 @@ export interface ImportSlashingProtectionRequest {
    */
   slashingProtectionJSON: string;
 }
+
 export interface BackupAccountsRequest {
   /**
    *  Public keys to backup.

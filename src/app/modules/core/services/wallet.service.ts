@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, share, shareReplay } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {
   ExportSlashingProtectionResponse,
   ImportSlashingProtectionRequest,
 } from '../../../proto/validator/accounts/v2/web_api';
 import {
-  AccountVoluntaryExitRequest,
   BackupAccountsRequest,
   BackupAccountsResponse,
-  DeleteAccountsRequest,
+  PublicKeysRequest,
   RecoverWalletRequest,
 } from '../../../proto/validator/accounts/v2/web_api';
 import {
@@ -101,15 +100,16 @@ export class WalletService {
       request
     );
   }
+
   recover(request: RecoverWalletRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/wallet/recover`, request);
   }
 
-  exitAccounts(request: AccountVoluntaryExitRequest): Observable<any> {
+  exitAccounts(request: PublicKeysRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/accounts/exit`, request);
   }
 
-  deleteAccounts(request: DeleteAccountsRequest): Observable<any> {
+  deleteAccounts(request: PublicKeysRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/accounts/delete`, request);
   }
 

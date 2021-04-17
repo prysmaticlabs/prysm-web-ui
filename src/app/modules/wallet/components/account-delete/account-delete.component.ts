@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DeleteAccountsRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { PublicKeysRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
 import { tap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -36,7 +35,7 @@ export class AccountDeleteComponent implements OnInit {
   confirm(): void {
     const request = {
       publicKeys: this.data,
-    } as DeleteAccountsRequest;
+    } as PublicKeysRequest;
 
     this.walletService
       .deleteAccounts(request)

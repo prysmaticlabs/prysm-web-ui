@@ -37,7 +37,7 @@ export class ValidatorService {
         params += `${this.encodePublicKey(key)}&publicKeys=`;
       });
       const balances = this.balances(publicKeys, 0, publicKeys.length);
-      const httpReq = this.http.get<ValidatorPerformanceResponse>(`${this.apiUrl}/beacon/performance${params}`);
+      const httpReq = this.http.get<ValidatorPerformanceResponse>(`${this.apiUrl}/beacon/voting-summary${params}`);
       return zip(httpReq, balances).pipe(
         map(([perf, bals]) => {
           return {

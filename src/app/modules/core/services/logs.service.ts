@@ -17,15 +17,15 @@ export class LogsService {
 
   validatorLogs(): Observable<string> {
     // Use mock data in development mode.
-    if (!this.environmenter.env.production) {
-      const data = mockValidatorLogs.split('\n').map((v, _) => v);
-      return of(data).pipe(
-        mergeAll(),
-        concatMap(x => of(x).pipe(
-          delay(1500),
-        ))
-      );
-    }
+    // if (!this.environmenter.env.production) {
+    //   const data = mockValidatorLogs.split('\n').map((v, _) => v);
+    //   return of(data).pipe(
+    //     mergeAll(),
+    //     concatMap(x => of(x).pipe(
+    //       delay(1500),
+    //     ))
+    //   );
+    // }
     return stream(`${this.apiUrl}/health/logs/validator/stream`).pipe(
       map((obj: any) => obj.result.logs),
       mergeAll(),
@@ -34,15 +34,15 @@ export class LogsService {
 
   beaconLogs(): Observable<string> {
     // Use mock data in development mode.
-    if (!this.environmenter.env.production) {
-      const data = mockBeaconLogs.split('\n').map((v, _) => v);
-      return of(data).pipe(
-        mergeAll(),
-        concatMap(x => of(x).pipe(
-          delay(1500),
-        ))
-      );
-    }
+    // if (!this.environmenter.env.production) {
+    //   const data = mockBeaconLogs.split('\n').map((v, _) => v);
+    //   return of(data).pipe(
+    //     mergeAll(),
+    //     concatMap(x => of(x).pipe(
+    //       delay(1500),
+    //     ))
+    //   );
+    // }
     return stream(`${this.apiUrl}/health/logs/beacon/stream`).pipe(
       map((obj: any) => obj.result.logs),
       mergeAll(),

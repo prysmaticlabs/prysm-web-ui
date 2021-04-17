@@ -1,28 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../../shared/components/base.component';
 import { WalletService } from '../../../core/services/wallet.service';
-import { map } from 'rxjs/operators';
 import {
   Account,
-  AccountVoluntaryExitRequest,
+  PublicKeysRequest,
 } from '../../../../proto/validator/accounts/v2/web_api';
 import {
-  FormGroup,
   FormBuilder,
   Validators,
   AbstractControlOptions,
 } from '@angular/forms';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 import { ActivatedRoute } from '@angular/router';
-import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
-import {
-  MatSelectionList,
-  MatSelectionListChange,
-} from '@angular/material/list';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSelectChange } from '@angular/material/select';
-import { FormControl } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
@@ -55,7 +44,6 @@ export class AccountVoluntaryExitComponent
 
   keys: Account[] = [];
 
-  toggledAll = new FormControl(false);
   publicKey: string | undefined;
 
   ngOnInit(): void {
@@ -68,7 +56,7 @@ export class AccountVoluntaryExitComponent
     }
     const request = {
       publicKeys: this.keys.map((x) => x.validatingPublicKey),
-    } as AccountVoluntaryExitRequest;
+    } as PublicKeysRequest;
 
     this.walletService.exitAccounts(request).subscribe((x) => {
       const exitedKeys =

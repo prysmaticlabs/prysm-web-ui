@@ -9,9 +9,7 @@ import { MAX_ACCOUNTS_CREATION } from 'src/app/modules/core/constants';
 export class CreateAccountsFormComponent {
   @Input() formGroup: FormGroup | null = null;
   @Input() title = 'Create new validator accounts';
-  @Input() subtitle = `Generate new accounts in your wallet and obtain the deposit
-  data you need to activate them into the deposit contract via the
-  <a href="https://medalla.launchpad.ethereum.org/" target="_blank" class="text-primary">eth2 launchpad</a>`;
+  @Input() subtitle = `Generate at least 1 account(s) in your Prysm wallet`;
   constructor() { }
   maxAccounts = MAX_ACCOUNTS_CREATION;
 }

@@ -536,7 +536,7 @@ export const Mocks: IMocks = {
       votedEther: '1136975000000000',
     } as ValidatorParticipation,
   } as ValidatorParticipationResponse,
-  '/v2/validator/beacon/performance': {
+  '/v2/validator/beacon/voting-summary': {
     currentEffectiveBalances: ['31000000000', '31000000000', '31000000000'],
     correctlyVotedHead: [true, true, false],
     correctlyVotedSource: [true, true, false],

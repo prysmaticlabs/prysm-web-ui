@@ -103,9 +103,7 @@ export class ActivationQueueComponent {
       });
     }
     let secondsLeftInQueue: number;
-    if (queue.churnLimit >= activationKeysSet.size) {
-      secondsLeftInQueue = 1;
-    }
+
     const epochsLeft = activationKeysSet.size / queue.churnLimit;
     secondsLeftInQueue = epochsLeft * SECONDS_PER_EPOCH;
 

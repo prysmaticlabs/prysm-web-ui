@@ -3,12 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import { EnvironmenterService } from './environmenter.service';
+import { EnvironmenterService } from '../../core/services/environmenter.service';
 import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { LoginComponent } from '../../auth/login/login.component';
-import { SignupComponent } from '../../auth/signup/signup.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,23 +14,34 @@ import { SignupComponent } from '../../auth/signup/signup.component';
 export class AuthenticationService {
   constructor(
     private http: HttpClient,
-    private environmenter: EnvironmenterService,
-    private dialog: MatDialog,
+    private environmenter: EnvironmenterService
   ) {
   }
   hasSignedUp = false;
   shortLivedToken = '';
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
-  prompt(): Observable<null>  {
-    if (this.hasSignedUp) {
-      return this.dialog.open(LoginComponent).afterClosed();
-    }
-    return this.dialog.open(SignupComponent).afterClosed();
-  }
+  private TOKENNAME = 'prysm_access_token';
+  private TOKENEXPIRATIONNAME = 'prysm_access_token_expiration';
+
+  private accessToken: string = '';
+  private accessTokenExpiration: number = 0;
 
   login(request: AuthRequest): Observable<AuthResponse> {
     return this.authenticate(`${this.apiUrl}/login`, request);
+  }
+  
+  loginWithToken(token: string): Observable<AuthResponse>{
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, token).pipe(
+      tap((res: AuthResponse) => {
+        if(res){
+          this.accessToken = res.token;
+          this.accessTokenExpiration = res.tokenExpiration;
+          window.localStorage.setItem(this.TOKENNAME, res.token);
+          window.localStorage.setItem(this.TOKENEXPIRATIONNAME, res.tokenExpiration.toString());
+        }
+      })
+    );
   }
 
   signup(request: AuthRequest): Observable<AuthResponse> {
@@ -49,13 +58,22 @@ export class AuthenticationService {
     );
   }
 
+  getToken(): string | null{
+    return window.localStorage.getItem(this.TOKENNAME) ?? (this.accessToken !== ''? this.accessToken: null);
+  }
+
+  getTokenExpiration(): number | null {
+    let tokenExpiration = window.localStorage.getItem(this.TOKENEXPIRATIONNAME);
+    return tokenExpiration ? Number(tokenExpiration) : (this.accessTokenExpiration !== 0? this.accessTokenExpiration: null);
+  }
+
   // Authenticate the user with a password and extract the JWT token
   // from the response object. Uses take to prevent multiple calls to the backend.
   authenticate(method: string, request: AuthRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(method, request).pipe(
       tap((res: AuthResponse) => {
         this.shortLivedToken = res.token;
-      }),
+      })
     );
   }
 }

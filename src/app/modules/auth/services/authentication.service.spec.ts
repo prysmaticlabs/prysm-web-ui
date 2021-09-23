@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { AuthenticationService } from './authentication.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthRequest, AuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { EnvironmenterService } from './environmenter.service';
+import { EnvironmenterService } from '../../core/services/environmenter.service';
 import { MatDialog } from '@angular/material/dialog';
 
 describe('AuthenticationService', () => {

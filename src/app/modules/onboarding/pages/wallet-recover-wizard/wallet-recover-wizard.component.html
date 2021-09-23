@@ -26,26 +26,6 @@
                                     (nextRaised)="onNext(horizontalStepper,mnemonicFg,$event)"
                                     [fg]="mnemonicFg"></app-mnemonic-form>
                             </mat-step>
-                            <mat-step [stepControl]="passwordFG" label="Web
-                                password">
-                                <app-password-form
-                                    #passwordForm
-                                    title="Web UI Password"
-                                    subtitle="You'll need to input this password
-                                    every time you log back into the web
-                                    interface"
-                                    label="Web password"
-                                    confirmationLabel="Confirm web password"
-                                    [formGroup]="passwordFG"></app-password-form>
-                                <div class="mt-4">
-                                    <button color="accent" mat-raised-button
-                                        (click)="horizontalStepper.previous()">Previous</button>
-                                    <span class="ml-4"><button color="primary"
-                                            mat-raised-button
-                                            [disabled]="passwordFG.invalid"
-                                            (click)="login(horizontalStepper,passwordFG,passwordForm?.formGroup)">Continue</button></span>
-                                </div>
-                            </mat-step>
                             <mat-step [stepControl]="walletPasswordFg"
                                 label="Wallet password">
                                 <ng-container *ngIf="loading; else
@@ -95,26 +75,6 @@
                                     (backToWalletsRaised)="backToWalletsRaised.emit()"
                                     (nextRaised)="onNext(verticalStepper,mnemonicFg,$event)"
                                     [fg]="mnemonicFg"></app-mnemonic-form>
-                            </mat-step>
-                            <mat-step [stepControl]="passwordFG" label="Web
-                                password">
-                                <app-password-form
-                                    #passwordForm
-                                    title="Web UI Password"
-                                    subtitle="You'll need to input this password
-                                    every time you log back into the web
-                                    interface"
-                                    label="Web password"
-                                    confirmationLabel="Confirm web password"
-                                    [formGroup]="passwordFG"></app-password-form>
-                                <div class="mt-4">
-                                    <button color="accent" mat-raised-button
-                                        (click)="verticalStepper.previous()">Previous</button>
-                                    <span class="ml-4"><button color="primary"
-                                            mat-raised-button
-                                            [disabled]="passwordFG.disabled"
-                                            (click)="login(verticalStepper,passwordFG,passwordForm?.formGroup)">Continue</button></span>
-                                </div>
                             </mat-step>
                             <mat-step [stepControl]="walletPasswordFg"
                                 label="Wallet password">

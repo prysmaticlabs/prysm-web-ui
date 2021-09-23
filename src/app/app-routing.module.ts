@@ -9,6 +9,8 @@ import { ChangePasswordComponent } from './modules/security/pages/change-passwor
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 import { InitializeComponent } from './modules/auth/initialize/initialize.component';
+import { AuthGuard } from './modules/auth/guards/auth.guard';
+import { HasWalletGuard } from './modules/auth/guards/hasWallet.guard';
 
 const routes: Routes = [
   {
@@ -25,6 +27,8 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Onboarding',
     },
+    runGuardsAndResolvers: 'always',
+    canActivate:[AuthGuard, HasWalletGuard],
     component: OnboardingComponent,
   },
   {
@@ -32,6 +36,8 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Dashboard',
     },
+    runGuardsAndResolvers: 'always',
+    canActivate:[AuthGuard, HasWalletGuard],
     component: DashboardComponent,
     children: [
       {

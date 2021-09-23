@@ -165,6 +165,7 @@ export const Mocks: IMocks = {
   '/v2/validator/accounts/delete': {},
   '/v2/validator/login': {
     token: 'mock.jwt.token',
+    tokenExpiration: 1231234131
   } as AuthResponse,
   '/v2/validator/signup': {
     token: 'mock.jwt.token',

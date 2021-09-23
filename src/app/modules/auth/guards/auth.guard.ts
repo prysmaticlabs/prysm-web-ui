@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({
@@ -8,13 +9,13 @@ import { AuthenticationService } from '../services/authentication.service';
 export class AuthGuard implements CanActivate {
     constructor(private authService: AuthenticationService, private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const accessToken = this.authService.getToken();
         const accessTokenExpiration = this.authService.getTokenExpiration();
-        console.log('guardworking')
-        console.log(accessToken,accessTokenExpiration)
+        console.log('guardworking');
+        console.log(accessToken, accessTokenExpiration);
         // validate if user is authenticated and if the token expiration exists
-        if(!accessToken || !accessTokenExpiration || !this.validateAccessTokenExpiration(accessTokenExpiration)){
+        if (!accessToken || !accessTokenExpiration || !this.validateAccessTokenExpiration(accessTokenExpiration)){
             return this.router.parseUrl('/initialize');
         } else {
             return true;

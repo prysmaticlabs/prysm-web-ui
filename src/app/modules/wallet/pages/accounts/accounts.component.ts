@@ -103,7 +103,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         tap((x) => {
           this.pageSize = x.acountsPerPage;
           this.pageSizes = x.pageSizeOptions;
-          //console.log(x.acountsPerPage);
+          // console.log(x.acountsPerPage);
         })
       )
       .subscribe();

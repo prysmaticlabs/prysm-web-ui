@@ -20,7 +20,7 @@ describe('ImportComponent', () => {
   let router: Router;
 
   beforeEach(async(() => {
-    
+
     TestBed.configureTestingModule({
       declarations: [
         ImportComponent,

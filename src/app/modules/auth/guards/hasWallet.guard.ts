@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthenticationService } from '../services/authentication.service';
 import { HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { url } from 'inspector';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,12 +11,12 @@ import { url } from 'inspector';
 export class HasWalletGuard implements CanActivate {
     constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         return this.authenticationService.checkHasUsedWeb().pipe(
             map((res: HasUsedWebResponse) => {
-                console.log('walletguard working', route)
-                let urlCases: { [key: string]: (router: Router) => true | UrlTree } = {
-                    'onboarding': function(router:Router) {
+                console.log('walletguard working', route);
+                const urlCases: { [key: string]: (router: Router) => true | UrlTree } = {
+                    onboarding: function (router: Router) {
                         if (!res.hasWallet) {
                             return true;
                         }
@@ -24,7 +24,7 @@ export class HasWalletGuard implements CanActivate {
                             return router.parseUrl('/dashboard');
                         }
                     },
-                    'dashboard': function(router:Router) {
+                    dashboard: function (router: Router){
                         if (!res.hasWallet) {
                             return router.parseUrl('/onboarding');
                         }
@@ -32,11 +32,11 @@ export class HasWalletGuard implements CanActivate {
                             return true;
                         }
                     }
-                }
-                let urlSegment = route.url[0];
+                };
+                const urlSegment = route.url[0];
                 return urlCases[urlSegment.path](this.router);
             }));
     }
 
-    
+
 }

@@ -12,7 +12,7 @@ describe('JwtInterceptor', () => {
 
   beforeEach(() => {
     authService = MockService(AuthenticationService);
-   
+
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -36,8 +36,8 @@ describe('JwtInterceptor', () => {
 
     it('should include authorization headers if user is logged in', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
-        authService.getToken = () =>{
-          return 'hello'
+        authService.getToken = () => {
+          return 'hello';
         };
         http.get('/').subscribe(
           response => {

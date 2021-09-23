@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    //dispatch action for initialize
+    // dispatch action for initialize
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {

@@ -130,7 +130,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-   
+
     this.walletService.createWallet(request).pipe(
       switchMap(() => {
         return this.walletService.importKeystores(importRequest).pipe(

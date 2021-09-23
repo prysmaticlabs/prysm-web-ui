@@ -24,17 +24,17 @@ export class AuthenticationService {
   private TOKENNAME = 'prysm_access_token';
   private TOKENEXPIRATIONNAME = 'prysm_access_token_expiration';
 
-  private accessToken: string = '';
-  private accessTokenExpiration: number = 0;
+  private accessToken = '';
+  private accessTokenExpiration = 0;
 
   login(request: AuthRequest): Observable<AuthResponse> {
     return this.authenticate(`${this.apiUrl}/login`, request);
   }
-  
+
   loginWithToken(token: string): Observable<AuthResponse>{
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, token).pipe(
       tap((res: AuthResponse) => {
-        if(res){
+        if (res){
           this.accessToken = res.token;
           this.accessTokenExpiration = res.tokenExpiration;
           window.localStorage.setItem(this.TOKENNAME, res.token);
@@ -59,12 +59,12 @@ export class AuthenticationService {
   }
 
   getToken(): string | null{
-    return window.localStorage.getItem(this.TOKENNAME) ?? (this.accessToken !== ''? this.accessToken: null);
+    return window.localStorage.getItem(this.TOKENNAME) ?? (this.accessToken !== '' ? this.accessToken : null);
   }
 
   getTokenExpiration(): number | null {
-    let tokenExpiration = window.localStorage.getItem(this.TOKENEXPIRATIONNAME);
-    return tokenExpiration ? Number(tokenExpiration) : (this.accessTokenExpiration !== 0? this.accessTokenExpiration: null);
+    const tokenExpiration = window.localStorage.getItem(this.TOKENEXPIRATIONNAME);
+    return tokenExpiration ? Number(tokenExpiration) : (this.accessTokenExpiration !== 0 ? this.accessTokenExpiration : null);
   }
 
   // Authenticate the user with a password and extract the JWT token

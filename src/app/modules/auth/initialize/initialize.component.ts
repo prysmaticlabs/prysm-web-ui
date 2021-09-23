@@ -19,20 +19,20 @@ export class InitializeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let accessToken = this.routeSnapshot.snapshot.queryParams['token'];
+    const accessToken = this.routeSnapshot.snapshot.queryParams['token'];
     if (accessToken) {
       this.authenticationService.loginWithToken(accessToken).pipe(mergeMap(() => {
-        //console.log(this.authenticationService.getToken())
-        if(this.authenticationService.getToken()){
+        // console.log(this.authenticationService.getToken())
+        if (this.authenticationService.getToken()){
           this.router.navigate(['/dashboard']);
-        } 
+        }
         return EMPTY;
       })).subscribe();
     } else {
-      //console.log(this.authenticationService.getToken())
-      if(this.authenticationService.getToken()){
+      // console.log(this.authenticationService.getToken())
+      if (this.authenticationService.getToken()){
         this.router.navigate(['/dashboard']);
-      } 
+      }
     }
   }
 

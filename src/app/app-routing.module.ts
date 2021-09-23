@@ -28,7 +28,7 @@ const routes: Routes = [
       breadcrumb: 'Onboarding',
     },
     runGuardsAndResolvers: 'always',
-    canActivate:[AuthGuard, HasWalletGuard],
+    canActivate: [AuthGuard, HasWalletGuard],
     component: OnboardingComponent,
   },
   {
@@ -37,7 +37,7 @@ const routes: Routes = [
       breadcrumb: 'Dashboard',
     },
     runGuardsAndResolvers: 'always',
-    canActivate:[AuthGuard, HasWalletGuard],
+    canActivate: [AuthGuard, HasWalletGuard],
     component: DashboardComponent,
     children: [
       {

@@ -23,7 +23,7 @@ export class HasWalletGuard implements CanActivate {
                 ];
                 const foundUrlCase = urlCases.find((urlCase)=>{ 
                     return urlCase.path === urlSegment.path && urlCase.hasWallet === res.hasWallet;
-                })
+                });
                 return foundUrlCase ? foundUrlCase.result : false;
             }));
     }

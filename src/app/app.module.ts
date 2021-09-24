@@ -18,20 +18,32 @@ import { MockInterceptor } from './modules/core/interceptors/mock.interceptor';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+const frameworkModules = [
+  BrowserModule,
+  BrowserAnimationsModule,
+  HttpClientModule
+];
+
+const thirdPartyModules = [
+  NgxSkeletonLoaderModule
+];
+
+const prysmModules = [
+  AppRoutingModule,
+  AuthModule,
+  DashboardModule,
+  WalletModule,
+  OnboardingModule,
+  SystemProcessModule,
+  SecurityModule
+];
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    AuthModule,
-    DashboardModule,
-    NgxSkeletonLoaderModule,
-    WalletModule,
-    OnboardingModule,
-    SystemProcessModule,
-    SecurityModule,
+    ...frameworkModules,
+    ...thirdPartyModules,
+    ...prysmModules
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

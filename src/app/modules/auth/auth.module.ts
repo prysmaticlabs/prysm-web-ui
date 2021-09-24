@@ -12,8 +12,8 @@ import { NotFoundComponent } from './error_pages/notfound.component';
 
 @NgModule({
   declarations: [
-    LoginComponent, 
-    InitializeComponent, 
+    LoginComponent,
+    InitializeComponent,
     SignupComponent,
     NotFoundComponent
   ],

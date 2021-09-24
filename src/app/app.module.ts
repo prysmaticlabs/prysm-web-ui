@@ -18,7 +18,7 @@ import { MockInterceptor } from './modules/core/interceptors/mock.interceptor';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-const frameworkModules = [  
+const frameworkModules = [
   BrowserModule,
   BrowserAnimationsModule,
   HttpClientModule

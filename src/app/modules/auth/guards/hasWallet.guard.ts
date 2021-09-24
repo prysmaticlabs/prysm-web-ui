@@ -14,27 +14,17 @@ export class HasWalletGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         return this.authenticationService.checkHasUsedWeb().pipe(
             map((res: HasUsedWebResponse) => {
-                console.log('walletguard working', route);
-                const urlCases: { [key: string]: (router: Router) => true | UrlTree } = {
-                    onboarding: function (router: Router) {
-                        if (!res.hasWallet) {
-                            return true;
-                        }
-                        else {
-                            return router.parseUrl('/dashboard');
-                        }
-                    },
-                    dashboard: function (router: Router){
-                        if (!res.hasWallet) {
-                            return router.parseUrl('/onboarding');
-                        }
-                        else {
-                            return true;
-                        }
-                    }
-                };
                 const urlSegment = route.url[0];
-                return urlCases[urlSegment.path](this.router);
+                const urlCases = [
+                    {path:'onboarding',hasWallet:true, result:this.router.parseUrl('/dashboard')},
+                    {path:'onboarding',hasWallet:false, result:true},
+                    {path:'dashboard',hasWallet:true, result:true},
+                    {path:'dashboard',hasWallet:false, result:this.router.parseUrl('/onboarding')}
+                ];
+                const foundUrlCase = urlCases.find((urlCase)=>{ 
+                    return urlCase.path === urlSegment.path && urlCase.hasWallet === res.hasWallet;
+                })
+                return foundUrlCase ? foundUrlCase.result : false;
             }));
     }
 

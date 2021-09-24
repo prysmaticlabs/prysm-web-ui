@@ -32,6 +32,8 @@ export class AuthenticationService {
   }
 
   loginWithToken(token: string): Observable<AuthResponse>{
+    window.localStorage.removeItem(this.TOKENNAME);
+    window.localStorage.removeItem(this.TOKENEXPIRATIONNAME);
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, token).pipe(
       tap((res: AuthResponse) => {
         if (res){

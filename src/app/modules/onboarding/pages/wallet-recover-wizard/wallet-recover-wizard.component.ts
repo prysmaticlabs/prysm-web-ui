@@ -18,7 +18,7 @@ import {
   PasswordValidator,
   StaticPasswordValidator,
 } from '../../../core/validators/password.validator';
-import { AuthenticationService } from '../../../core/services/authentication.service';
+import { AuthenticationService } from '../../../auth/services/authentication.service';
 import { WalletService } from '../../../core/services/wallet.service';
 import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';

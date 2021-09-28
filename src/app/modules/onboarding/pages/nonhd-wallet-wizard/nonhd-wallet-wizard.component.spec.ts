@@ -6,11 +6,10 @@ import { Router } from '@angular/router';
 import { MockService } from 'ng-mocks';
 import { Observable, of } from 'rxjs';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
+
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { CreateWalletRequest, CreateWalletResponse, WalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { NonhdWalletWizardComponent } from './nonhd-wallet-wizard.component';
-
-
 
 describe('NonhdWalletWizardComponent', () => {
   let component: NonhdWalletWizardComponent;

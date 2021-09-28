@@ -9,7 +9,9 @@ import { MatStepper } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockService } from 'ng-mocks';
+
 import { of } from 'rxjs';
+
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { RecoverWalletRequest } from '../../../../proto/validator/accounts/v2/web_api';

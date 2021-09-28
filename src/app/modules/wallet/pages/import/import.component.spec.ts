@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockService } from 'ng-mocks';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { of } from 'rxjs';
+
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';

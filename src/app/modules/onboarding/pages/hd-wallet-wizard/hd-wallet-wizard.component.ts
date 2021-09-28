@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Subject, throwError } from 'rxjs';
 import { catchError, takeUntil, tap } from 'rxjs/operators';
+
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { CreateWalletRequest, CreateWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';

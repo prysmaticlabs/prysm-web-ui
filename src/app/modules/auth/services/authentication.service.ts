@@ -37,17 +37,17 @@ export class AuthenticationService {
     this.accessTokenExpiration = tokenExpiration;
     window.localStorage.setItem(this.TOKENNAME, token);
     window.localStorage.setItem(this.TOKENEXPIRATIONNAME, tokenExpiration.toString());
-    
+
     throw new HttpErrorResponse({
       error: 'myerror',
       headers: undefined,
       status: 401,
       statusText: 'hmm is this working' ,
-      url: 'http://127.0.0.1:7500/v2/validator'
+      url: 'http://127.0.0.1:7500/api/v2/validator'
   });
   }
 
-  clearCachedToken():void{
+  clearCachedToken(): void{
     this.accessToken = '';
     this.accessTokenExpiration = 0;
     window.localStorage.removeItem(this.TOKENNAME);

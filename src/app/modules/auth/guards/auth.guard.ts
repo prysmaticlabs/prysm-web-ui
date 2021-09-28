@@ -9,7 +9,10 @@ import { AuthenticationService } from '../services/authentication.service';
 export class AuthGuard implements CanActivate {
     constructor(private authService: AuthenticationService, private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+    Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean | UrlTree {
         const accessToken = this.authService.getToken();
         const accessTokenExpiration = this.authService.getTokenExpiration();
         // validate if user is authenticated and if the token expiration exists

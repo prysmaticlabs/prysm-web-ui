@@ -40,7 +40,7 @@ const prysmModules = [
     ...thirdPartyModules,
     ...prysmModules
   ],
- 
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -11,17 +11,20 @@ import { AuthenticationService } from '../services/authentication.service';
 export class HasWalletGuard implements CanActivate {
     constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+    Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean | UrlTree {
         return this.authenticationService.checkHasUsedWeb().pipe(
             map((res: HasUsedWebResponse) => {
                 const urlSegment = route.url[0];
                 const urlCases = [
-                    {path:'onboarding',hasWallet:true, result:this.router.parseUrl('/dashboard')},
-                    {path:'onboarding',hasWallet:false, result:true},
-                    {path:'dashboard',hasWallet:true, result:true},
-                    {path:'dashboard',hasWallet:false, result:this.router.parseUrl('/onboarding')}
+                    {path: 'onboarding', hasWallet: true, result: this.router.parseUrl('/dashboard')},
+                    {path: 'onboarding', hasWallet: false, result: true},
+                    {path: 'dashboard', hasWallet: true, result: true},
+                    {path: 'dashboard', hasWallet: false, result: this.router.parseUrl('/onboarding')}
                 ];
-                const foundUrlCase = urlCases.find((urlCase)=>{ 
+                const foundUrlCase = urlCases.find((urlCase) => {
                     return urlCase.path === urlSegment.path && urlCase.hasWallet === res.hasWallet;
                 });
                 return foundUrlCase ? foundUrlCase.result : false;

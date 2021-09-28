@@ -22,6 +22,8 @@ import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
 
+import {ExternalLinkDirective} from './directives/external-link.directive';
+
 import { BreadcrumbService } from './services/breadcrumb.service';
 
 const thirdPartyModules = [
@@ -48,14 +50,17 @@ const pipes = [
   SlotPipe
 ];
 
+const directives = [
+  ExternalLinkDirective
+];
+
 const services = [BreadcrumbService];
 
 @NgModule({
   declarations: [
     ...components,
-    ...pipes
-
-
+    ...pipes,
+    ...directives
   ],
   providers: [
     ...services

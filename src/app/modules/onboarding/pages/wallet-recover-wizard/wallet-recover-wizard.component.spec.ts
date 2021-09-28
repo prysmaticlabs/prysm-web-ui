@@ -9,7 +9,7 @@ import {
   AbstractControlOptions,
 } from '@angular/forms';
 import { MockService } from 'ng-mocks';
-import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
+import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 

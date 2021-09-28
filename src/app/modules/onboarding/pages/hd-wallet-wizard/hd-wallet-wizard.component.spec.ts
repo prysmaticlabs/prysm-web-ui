@@ -11,7 +11,7 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { GenerateMnemonicComponent } from '../../components/generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from '../../components/confirm-mnemonic/confirm-mnemonic.component';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
+import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   WalletResponse,

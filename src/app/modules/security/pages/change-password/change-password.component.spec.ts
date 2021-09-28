@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
-import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
+import { AuthenticationService } from '../../../auth/services/authentication.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { ChangePasswordRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { take, tap } from 'rxjs/operators';
 import { HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { AuthenticationService } from '../../core/services/authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-initialize',

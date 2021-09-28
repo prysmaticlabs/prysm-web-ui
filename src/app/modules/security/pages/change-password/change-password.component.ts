@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { throwError } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
+import { AuthenticationService } from '../../../auth/services/authentication.service';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { ChangePasswordRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 

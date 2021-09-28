@@ -20,10 +20,14 @@ export class InitializeComponent implements OnInit {
     const accessTokenExpiration = this.routeSnapshot.snapshot.queryParams['tokenExpiration'];
     // cache the token and token expiration for use
     if (accessToken && accessTokenExpiration) {
+      
       this.authenticationService.cacheToken(accessToken, accessTokenExpiration);
+      //console.log('cached token');
     }
+
     // redirect users to dashboard if token is already cached
     if (this.authenticationService.getToken()){
+      //console.log('redirecting');
       this.router.navigate(['/dashboard']);
     }
   }

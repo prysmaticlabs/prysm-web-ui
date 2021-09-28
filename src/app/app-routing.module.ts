@@ -5,7 +5,6 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { GainsAndLossesComponent } from './modules/dashboard/pages/gains-and-losses/gains-and-losses.component';
 import { LogsComponent } from './modules/system-process/pages/logs/logs.component';
 import { MetricsComponent } from './modules/system-process/pages/metrics/metrics.component';
-import { ChangePasswordComponent } from './modules/security/pages/change-password/change-password.component';
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 import { InitializeComponent } from './modules/auth/initialize/initialize.component';
@@ -93,26 +92,6 @@ const routes: Routes = [
               breadcrumb: 'Peer locations map',
             },
             component: PeerLocationsMapComponent,
-          },
-        ],
-      },
-      {
-        path: 'security',
-        data: {
-          breadcrumb: 'Security',
-        },
-        children: [
-          {
-            path: '',
-            redirectTo: 'change-password',
-            pathMatch: 'full',
-          },
-          {
-            path: 'change-password',
-            data: {
-              breadcrumb: 'Change Password',
-            },
-            component: ChangePasswordComponent,
           },
         ],
       },

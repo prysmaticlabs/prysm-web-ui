@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { ErrorService } from './error.service';
+import { GlobalErrorHandler } from './global-error-handler';
 
-describe('ErrorService', () => {
-  let service: ErrorService;
+describe('GlobalErrorHandler', () => {
+  let service: GlobalErrorHandler;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -12,7 +12,7 @@ describe('ErrorService', () => {
         MatSnackBarModule,
       ]
     });
-    service = TestBed.inject(ErrorService);
+    service = TestBed.inject(GlobalErrorHandler);
   });
 
   it('should be created', () => {

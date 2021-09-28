@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { tap } from 'rxjs/operators';
@@ -31,19 +31,27 @@ export class AuthenticationService {
     return this.authenticate(`${this.apiUrl}/login`, request);
   }
 
-  loginWithToken(token: string): Observable<AuthResponse>{
+  cacheToken(token: string, tokenExpiration: number): void{
+    this.clearCachedToken();
+    this.accessToken = token;
+    this.accessTokenExpiration = tokenExpiration;
+    window.localStorage.setItem(this.TOKENNAME, token);
+    window.localStorage.setItem(this.TOKENEXPIRATIONNAME, tokenExpiration.toString());
+    
+    throw new HttpErrorResponse({
+      error: 'myerror',
+      headers: undefined,
+      status: 401,
+      statusText: 'hmm is this working' ,
+      url: 'http://127.0.0.1:7500/v2/validator'
+  });
+  }
+
+  clearCachedToken():void{
+    this.accessToken = '';
+    this.accessTokenExpiration = 0;
     window.localStorage.removeItem(this.TOKENNAME);
     window.localStorage.removeItem(this.TOKENEXPIRATIONNAME);
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, token).pipe(
-      tap((res: AuthResponse) => {
-        if (res){
-          this.accessToken = res.token;
-          this.accessTokenExpiration = res.tokenExpiration;
-          window.localStorage.setItem(this.TOKENNAME, res.token);
-          window.localStorage.setItem(this.TOKENEXPIRATIONNAME, res.tokenExpiration.toString());
-        }
-      })
-    );
   }
 
   signup(request: AuthRequest): Observable<AuthResponse> {

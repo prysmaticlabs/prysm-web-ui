@@ -18,16 +18,14 @@ export class InitializeComponent implements OnInit {
 
   ngOnInit(): void {
     const accessToken = this.routeSnapshot.snapshot.queryParams['token'];
-    if (accessToken) {
-      this.authenticationService.loginWithToken(accessToken).pipe(tap(() => {
-        if (this.authenticationService.getToken()){
-          this.router.navigate(['/dashboard']);
-        }
-      })).subscribe();
-    } else {
-      if (this.authenticationService.getToken()){
-        this.router.navigate(['/dashboard']);
-      }
+    const accessTokenExpiration = this.routeSnapshot.snapshot.queryParams['tokenExpiration'];
+    // cache the token and token expiration for use
+    if (accessToken && accessTokenExpiration) {
+      this.authenticationService.cacheToken(accessToken, accessTokenExpiration);
+    }
+    // redirect users to dashboard if token is already cached
+    if (this.authenticationService.getToken()){
+      this.router.navigate(['/dashboard']);
     }
   }
 

@@ -9,12 +9,10 @@ import { ChangePasswordComponent } from './modules/security/pages/change-passwor
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 import { InitializeComponent } from './modules/auth/initialize/initialize.component';
-<<<<<<< HEAD
 import { AuthGuard } from './modules/auth/guards/auth.guard';
 import { HasWalletGuard } from './modules/auth/guards/hasWallet.guard';
-=======
 import { NotFoundComponent } from './modules/auth/error_pages/notfound.component';
->>>>>>> master
+
 
 const routes: Routes = [
   {

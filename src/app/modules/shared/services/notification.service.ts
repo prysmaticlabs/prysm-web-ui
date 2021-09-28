@@ -8,15 +8,20 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 export class NotificationService {
   constructor(private snackBar: MatSnackBar) {}
 
-  notifySuccess(msg: string, duration = 4000): void {
+  private readonly DURATION = 4000;
+
+  notifySuccess(msg: string, duration = this.DURATION): void {
     this.snackBar.open(msg, 'Success', this.getSnackBarConfig(duration));
   }
 
-  notifyError(msg: string, duration = 4000): void {
-    this.snackBar.open(msg, 'Error', this.getSnackBarConfig(duration));
+  notifyError(msg: string, duration = this.DURATION): void {
+    this.snackBar.open(msg, 'Close', {
+      duration: 7000,
+      panelClass: 'snackbar-warn',
+    });
   }
 
-  notifyWithComponent(component: ComponentType<any>, duration = 4000): void {
+  notifyWithComponent(component: ComponentType<any>, duration = this.DURATION): void {
     this.snackBar.openFromComponent(
       component,
       this.getSnackBarConfig(duration)
@@ -28,7 +33,7 @@ export class NotificationService {
       duration: (duration),
       horizontalPosition: 'right',
       verticalPosition: 'top',
-      politeness: 'polite',
+      politeness: 'polite'
     };
   }
 }

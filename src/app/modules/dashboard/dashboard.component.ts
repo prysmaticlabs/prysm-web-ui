@@ -66,11 +66,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ],
     },
     {
-      name: 'Change Password',
-      icon: 'https',
-      path: '/dashboard/security/change-password',
-    },
-    {
       name: 'Read the Docs',
       icon: 'style',
       externalUrl: 'https://docs.prylabs.network',

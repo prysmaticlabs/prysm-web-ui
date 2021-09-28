@@ -54,7 +54,7 @@ const services = [BreadcrumbService];
   declarations: [
     ...components,
     ...pipes
-    
+
 
   ],
   providers: [

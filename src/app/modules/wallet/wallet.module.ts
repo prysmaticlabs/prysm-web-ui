@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
+import { WalletRoutingModule } from './wallet.routing.module';
+
 import { AccountsComponent } from './pages/accounts/accounts.component';
 import { IconTriggerSelectComponent } from './components/icon-trigger-select/icon-trigger-select.component';
 import { WalletDetailsComponent } from './pages/wallet-details/wallet-details.component';
@@ -14,10 +16,8 @@ import { AccountsTableComponent } from './components/accounts-table/accounts-tab
 import { AccountSelectionsComponent } from './components/account-selections/account-selections.component';
 import { AccountActionsComponent } from './components/account-actions/account-actions.component';
 import { ImportComponent } from './pages/import/import.component';
-import { NgxFileDropModule } from 'ngx-file-drop';
 import { AccountVoluntaryExitComponent } from './pages/account-voluntary-exit/account-voluntary-exit.component';
 import { AccountDeleteComponent } from './components/account-delete/account-delete.component';
-import { WalletRoutingModule } from './wallet.routing.module';
 import { WalletComponent } from './wallet.component';
 import { SlashingProtectionComponent } from './pages/slashing-protection/slashing-protection.component';
 import { ImportProtectionComponent } from './components/import-protection/import-protection.component';
@@ -50,8 +50,7 @@ import { AccountBackupComponent } from './pages/account-backup/account-backup.co
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    SharedModule,
-    NgxFileDropModule,
+    SharedModule
   ],
 })
 export class WalletModule {}

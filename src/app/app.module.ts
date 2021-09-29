@@ -1,6 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,17 +10,11 @@ import { WalletModule } from './modules/wallet/wallet.module';
 import { SecurityModule } from './modules/security/security.module';
 import { OnboardingModule } from './modules/onboarding/onboarding.module';
 import { SystemProcessModule } from './modules/system-process/system-process.module';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './modules/core/core.module';
 
 const frameworkModules = [
   BrowserModule,
   BrowserAnimationsModule
-];
-
-const thirdPartyModules = [
-  NgxSkeletonLoaderModule
 ];
 
 const prysmModules = [
@@ -38,7 +32,6 @@ const prysmModules = [
   declarations: [AppComponent],
   imports: [
     ...frameworkModules,
-    ...thirdPartyModules,
     ...prysmModules
   ],
   bootstrap: [AppComponent]

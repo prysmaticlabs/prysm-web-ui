@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -6,6 +6,7 @@ import {ComponentFrameworkModule} from '../component-framework/component-framewo
 
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { MomentModule } from 'ngx-moment';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
@@ -22,12 +23,15 @@ import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
 
+import {ExternalLinkDirective} from './directives/external-link.directive';
+
 import { BreadcrumbService } from './services/breadcrumb.service';
 
 const thirdPartyModules = [
   MomentModule,
   NgxFileDropModule,
-  NgxSkeletonLoaderModule
+  NgxSkeletonLoaderModule,
+  NgxEchartsModule
 ];
 
 const components = [
@@ -48,14 +52,17 @@ const pipes = [
   SlotPipe
 ];
 
+const directives = [
+  ExternalLinkDirective
+];
+
 const services = [BreadcrumbService];
 
 @NgModule({
   declarations: [
     ...components,
-    ...pipes
-
-
+    ...pipes,
+    ...directives
   ],
   providers: [
     ...services
@@ -71,8 +78,20 @@ const services = [BreadcrumbService];
     ...thirdPartyModules,
     ...components,
     ...pipes,
-
+    ...directives,
     ComponentFrameworkModule
   ],
 })
-export class SharedModule {}
+export class SharedModule {
+  static forRoot(): ModuleWithProviders<SharedModule>[] {
+    return [
+      {
+        ngModule: SharedModule,
+        providers: [...services]
+      },
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      }),
+    ];
+  }
+}

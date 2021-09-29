@@ -15,6 +15,8 @@ export class InitializeComponent implements OnInit {
     private routeSnapshot: ActivatedRoute
   ) { }
 
+  displayWarning = true;
+
   ngOnInit(): void {
     const accessToken = this.routeSnapshot.snapshot.queryParams['token'];
     const accessTokenExpiration = this.routeSnapshot.snapshot.queryParams['tokenExpiration'];
@@ -26,10 +28,14 @@ export class InitializeComponent implements OnInit {
     }
 
     // redirect users to dashboard if token is already cached
-    if (this.authenticationService.getToken()){
-      //console.log('redirecting');
-      this.router.navigate(['/dashboard']);
-    }
+    // if (this.authenticationService.getToken()){
+    //   //console.log('redirecting');
+    //   this.displayWarning = false;
+    //   this.router.navigate(['/dashboard']);
+    // } else {
+    //   this.displayWarning = true;
+    // }
+
   }
 
 }

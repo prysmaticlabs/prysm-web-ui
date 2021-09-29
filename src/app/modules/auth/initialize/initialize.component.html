@@ -1,5 +1,24 @@
 <div class="bg-default flex h-screen ">
-    <p>
-        please follow instructions in the command line interface to authenticate
-    </p>
+    <div class="flex flex-col w-screen ">
+        <div class ="flex flex-row justify-center">
+            <img src="/assets/images/initialize/PrysmStripe.png" alt="Prysm Logo"/>
+        </div>
+        <div class ="flex flex-row justify-center">
+            <h1>
+                Initializing Prysm Web User Interface...
+            </h1>
+        </div>
+        <div *ngIf="displayWarning" class="flex flex-row justify-center">
+            <section class="flex flex-col w-400 rounded-lg bg-red-500 leading-normal p-5 ">
+                <h2 >
+                    Oops.. either your session token has expired, was cleared, or is invalid. 
+                </h2>
+                <p class="text-lg ">
+                    Please return to your command line interface for instructions on regainning access to the web-ui.<br/>
+                    <i>Your validator will continue to run normally even if your web access is lost.</i> <br/>
+                    For more information, you can look at our <a href="https://docs.prylabs.network" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">Prysm Docs</a>
+                </p>
+            </section>
+        </div>
+    </div>
 </div>

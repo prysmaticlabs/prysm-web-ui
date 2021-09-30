@@ -5,10 +5,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { EnvironmenterService } from './environmenter.service';
+import { EnvironmenterService } from '../../core/services/environmenter.service';
 import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { LoginComponent } from '../../auth/login/login.component';
-import { SignupComponent } from '../../auth/signup/signup.component';
+import { LoginComponent } from '../login/login.component';
+import { SignupComponent } from '../signup/signup.component';
 
 @Injectable({
   providedIn: 'root'

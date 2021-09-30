@@ -9,6 +9,7 @@ import { ChangePasswordComponent } from './modules/security/pages/change-passwor
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 import { InitializeComponent } from './modules/auth/initialize/initialize.component';
+import { NotFoundComponent } from './modules/auth/error_pages/notfound.component';
 
 const routes: Routes = [
   {
@@ -110,6 +111,8 @@ const routes: Routes = [
       },
     ],
   },
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

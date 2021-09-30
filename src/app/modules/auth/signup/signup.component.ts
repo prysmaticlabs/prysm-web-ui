@@ -5,7 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
 
-import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
+import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { AuthRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 

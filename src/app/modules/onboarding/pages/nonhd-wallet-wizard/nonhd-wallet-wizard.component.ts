@@ -9,7 +9,7 @@ import { Subject, throwError } from 'rxjs';
 
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
+import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
 import {
   AuthRequest,
   CreateWalletRequest,

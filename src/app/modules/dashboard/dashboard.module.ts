@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { NgxEchartsModule } from 'ngx-echarts';
-
 import { SharedModule } from '../../modules/shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { GainsAndLossesComponent } from './pages/gains-and-losses/gains-and-losses.component';
@@ -37,11 +35,8 @@ import { GitInfoComponent } from './components/latest-gist-feature/templates/git
   imports: [
     CommonModule,
     BrowserAnimationsModule,
-    SharedModule,
-    RouterModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
-    }),
+    SharedModule.forRoot(),
+    RouterModule
   ],
 })
 export class DashboardModule {}

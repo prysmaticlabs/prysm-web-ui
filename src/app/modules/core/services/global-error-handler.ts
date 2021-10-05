@@ -26,7 +26,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.handleHttpError(error);
       } else {
         console.log('Threw unknown Error', error);
-        this.notificationService.notifyError('Unknown Error, please check the browser developer console and contact the supporting team');
+        this.notificationService.notifyError('Unknown Error, review browser console');
       }
     } catch (e) {
       console.log('An unknown error occured, please contact the team for assistance. ');
@@ -40,15 +40,15 @@ export class GlobalErrorHandler implements ErrorHandler {
     const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
     if (error.url && error.url.indexOf(this.environmenter.env.validatorEndpoint) === -1){
       console.log('External API url:', error);
-      this.notificationService.notifyError(error.message);
+      this.notificationService.notifyError('External API error, review browser console');
     } else {
       if (error.status === 401 || (isIEOrEdge && error.status===0) ){
-        console.log('redirecting');
+        console.log('Unauthorized ... redirecting...');
         this.authService.clearCachedToken();
         this.router.navigate(['initialize']);
       } else {
         console.log('Internal API url: ', error);
-        this.notificationService.notifyError(error.message);
+        this.notificationService.notifyError('Internal API error, review browser console');
       }
     }
 

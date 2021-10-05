@@ -55,7 +55,7 @@ export class AuthenticationService {
   }
 
   checkHasUsedWeb(): Observable<HasUsedWebResponse> {
-    return this.http.get<HasUsedWebResponse>(`${this.apiUrl}/initialized`).pipe(
+    return this.http.get<HasUsedWebResponse>(`${this.apiUrl}/initialize`).pipe(
       tap((res: HasUsedWebResponse) => this.hasSignedUp = res.hasSignedUp),
     );
   }

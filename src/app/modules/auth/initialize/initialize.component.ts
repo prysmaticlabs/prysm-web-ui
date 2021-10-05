@@ -19,7 +19,7 @@ export class InitializeComponent implements OnInit {
 
   ngOnInit(): void {
     const accessToken = this.routeSnapshot.snapshot.queryParams['token'];
-    const accessTokenExpiration = this.routeSnapshot.snapshot.queryParams['tokenExpiration'];
+    const accessTokenExpiration = this.routeSnapshot.snapshot.queryParams['expiration'];
     // cache the token and token expiration for use
     if (accessToken && accessTokenExpiration) {
       

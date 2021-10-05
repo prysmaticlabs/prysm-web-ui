@@ -20,27 +20,24 @@ export class MockInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!this.environmenter.env.production) {
-      let endpoint = '';
-      if (this.contains(request.url, VALIDATOR_API_PREFIX)) {
-        endpoint = this.extractEndpoint(request.url, VALIDATOR_API_PREFIX);
-      }
-      const balanceRequest = request.url.indexOf(`${VALIDATOR_API_PREFIX}/beacon/balances`);
-      if (balanceRequest !== -1) {
-        return of(new HttpResponse({
-          status: 200,
-          body: generateBalancesForEpoch(request.url),
-        }));
-      }
-      if (!endpoint) {
-        return next.handle(request);
-      }
+    let endpoint = '';
+    if (this.contains(request.url, VALIDATOR_API_PREFIX)) {
+      endpoint = this.extractEndpoint(request.url, VALIDATOR_API_PREFIX);
+    }
+    const balanceRequest = request.url.indexOf(`${VALIDATOR_API_PREFIX}/beacon/balances`);
+    if (balanceRequest !== -1) {
       return of(new HttpResponse({
         status: 200,
-        body: Mocks[endpoint],
+        body: generateBalancesForEpoch(request.url),
       }));
     }
-    return next.handle(request);
+    if (!endpoint) {
+      return next.handle(request);
+    }
+    return of(new HttpResponse({
+      status: 200,
+      body: Mocks[endpoint],
+    }));
   }
 
   private extractEndpoint(url: string, suffix: string): string {

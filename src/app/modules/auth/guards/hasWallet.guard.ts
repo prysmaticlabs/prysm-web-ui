@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -9,7 +9,10 @@ import { AuthenticationService } from '../services/authentication.service';
     providedIn: 'root'
 })
 export class HasWalletGuard implements CanActivate {
-    constructor(private authenticationService: AuthenticationService, private router: Router) { }
+    constructor(
+        private authenticationService: AuthenticationService, 
+        private router: Router,
+        private globalErrorHandler: ErrorHandler) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<boolean | UrlTree>
@@ -28,6 +31,11 @@ export class HasWalletGuard implements CanActivate {
                     return urlCase.path === urlSegment.path && urlCase.hasWallet === res.hasWallet;
                 });
                 return foundUrlCase ? foundUrlCase.result : false;
+            }),
+            catchError((error)=>{
+                console.log("Intialize API Error: ",error);
+                this.globalErrorHandler.handleError(error);
+                return Promise.resolve(false);
             }));
     }
 

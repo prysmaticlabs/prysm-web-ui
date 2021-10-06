@@ -19,11 +19,11 @@ export class GlobalErrorHandler implements ErrorHandler {
       if (typeof error === 'string'){
         console.log('Threw type string Error', error);
         this.notificationService.notifyError(error);
+      } else if (error instanceof HttpErrorResponse){
+        this.handleHttpError(error);
       } else if ( error instanceof Error) {
         console.log('Threw type Error', error);
         this.notificationService.notifyError(error.message);
-      } else if (error instanceof HttpErrorResponse){
-        this.handleHttpError(error);
       } else {
         console.log('Threw unknown Error', error);
         this.notificationService.notifyError('Unknown Error, review browser console');

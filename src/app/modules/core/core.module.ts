@@ -8,6 +8,16 @@ import { ENVIRONMENT } from '../../../environments/token';
 import { environment } from '../../../environments/environment';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { MockInterceptor } from './interceptors/mock.interceptor';
+
+const commonProviders = [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: ENVIRONMENT, useValue: environment },
+];
+
+const mockProviders = [
+    { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true }
+];
+
 @NgModule({
     declarations: [],
     imports: [
@@ -15,16 +25,8 @@ import { MockInterceptor } from './interceptors/mock.interceptor';
         HttpClientModule
     ],
     providers: [
-
-        {
-            // processes all errors
-            provide: ErrorHandler,
-            useClass: GlobalErrorHandler,
-        },
-
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
-        { provide: ENVIRONMENT, useValue: environment },
+        ... commonProviders,
+        ... environment.mockInterceptor ? mockProviders : []
     ],
   })
 export class CoreModule {}

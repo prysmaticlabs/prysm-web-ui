@@ -10,6 +10,11 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { MockInterceptor } from './interceptors/mock.interceptor';
 
 const commonProviders = [
+    {
+        // processes all errors
+        provide: ErrorHandler,
+        useClass: GlobalErrorHandler,
+    },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: ENVIRONMENT, useValue: environment },
 ];

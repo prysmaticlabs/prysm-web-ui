@@ -9,12 +9,21 @@ import { environment } from '../../../environments/environment';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { MockInterceptor } from './interceptors/mock.interceptor';
 
+import { GlobalDialogComponent } from './components/global-dialog/global-dialog.component';
+
+import { GlobalDialogService } from './components/global-dialog/global-dialog.service';
+
+const components = [
+    GlobalDialogComponent 
+];
+
 const commonProviders = [
     {
         // processes all errors
         provide: ErrorHandler,
         useClass: GlobalErrorHandler,
     },
+    GlobalDialogService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: ENVIRONMENT, useValue: environment },
 ];
@@ -24,10 +33,15 @@ const mockProviders = [
 ];
 
 @NgModule({
-    declarations: [],
+    declarations: [
+        ...components
+    ],
     imports: [
         CommonModule,
         HttpClientModule
+    ],
+    exports: [
+        ...components
     ],
     providers: [
         ... commonProviders,

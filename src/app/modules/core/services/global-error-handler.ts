@@ -43,14 +43,21 @@ export class GlobalErrorHandler implements ErrorHandler {
       this.notificationService.notifyError('External API error, review browser console');
     } else {
       if (error.status === 401 || (isIEOrEdge && error.status===0) ){
-        console.log('Unauthorized ... redirecting...');
-        this.authService.clearCachedToken();
-        this.router.navigate(['initialize']);
+        this.cleanUpAuthCacheAndRedirect();
+      } else if(error.status >= 400 && error.status < 600){
+        console.log('Network or System Error...', error);
+        
       } else {
         console.log('Internal API url: ', error);
         this.notificationService.notifyError('Internal API error, review browser console');
       }
     }
 
+  }
+
+  private cleanUpAuthCacheAndRedirect(): void{
+    console.log('Unauthorized ... redirecting...');
+    this.authService.clearCachedToken();
+    this.router.navigate(['initialize']);
   }
 }

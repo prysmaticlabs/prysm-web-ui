@@ -3,20 +3,23 @@
         <div class ="flex flex-row justify-center">
             <img src="/assets/images/initialize/PrysmStripe.png" alt="Prysm Logo"/>
         </div>
-        <div class ="flex flex-row justify-center">
+        <div *ngIf="!displayWarning" class ="flex flex-row justify-center">
             <h1>
                 Initializing Prysm Web User Interface...
             </h1>
         </div>
         <div *ngIf="displayWarning" class="flex flex-row justify-center">
-            <section class="flex flex-col w-400 rounded-lg bg-red-500 leading-normal p-5 ">
+            <section class="flex flex-col w-400 rounded-lg bg-indigo-700 leading-normal p-5 ">
                 <h2 >
                     Oops.. either your session token has expired, was cleared, or is invalid. 
                 </h2>
+                <h3>
+                    Please return to your command line interface for instructions on regainning access to the web-ui.
+                </h3>
                 <p class="text-lg ">
-                    Please return to your command line interface for instructions on regainning access to the web-ui.<br/>
                     <i>Your validator will continue to run normally even if your web access is lost.</i> <br/>
-                    For more information, you can look at our <a href="https://docs.prylabs.network" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">Prysm Docs</a>
+                    For more information, you can look at our <a href="https://docs.prylabs.network" class="underline text-blue-200 hover:text-blue-400 visited:text-purple-400">Prysm Docs</a> <br/>
+                    or join us on <a href="https://discord.gg/YMVYzv6" class="underline text-blue-200 hover:text-blue-400 visited:text-purple-400">Discord</a>
                 </p>
             </section>
         </div>

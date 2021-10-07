@@ -1,8 +1,8 @@
-import { DialogConfigMessageActionType, DialogContentAlertType } from './types';
+import { HttpErrorResponse } from '@angular/common/http';
+import { DialogContentAlertType } from './types';
 
 export interface DialogConfigMessage {
-    action: DialogConfigMessageActionType;
-    payload?: string | DialogConfig;
+    payload: DialogConfig;
 };
 
 export interface DialogConfig {
@@ -13,5 +13,5 @@ export interface DialogConfig {
 
 export interface DialogContentAlert {
     type: DialogContentAlertType;
-    message: string;
+    message: string | Error | HttpErrorResponse;
 }

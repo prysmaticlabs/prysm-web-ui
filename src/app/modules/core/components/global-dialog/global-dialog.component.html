@@ -1,7 +1,16 @@
-<!-- <h1 mat-dialog-title>{{title}}</h1> -->
+<h1 mat-dialog-title>{{title}}</h1>
 <div mat-dialog-content>
- <!-- {{content}} -->
- testing
+  <p>
+    {{content}}
+  </p>
+  <div *ngIf="alert" class="rounded-lg bg-indigo-700 leading-normal p-5">
+    <p *ngIf="!isInstanceOfError()">
+      {{alert.message}}
+    </p>
+    <pre *ngIf="isInstanceOfError()">
+      {{alert.message | json}}
+    </pre>
+  </div>
 </div>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>

@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { errors } from 'ethers';
 import { AuthenticationService } from '../../auth/services/authentication.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { GlobalDialogService } from '../components/global-dialog/global-dialog.service';
+import { DialogContentAlertType } from '../components/global-dialog/model/types';
 import { EnvironmenterService } from './environmenter.service';
 
 @Injectable()
@@ -48,7 +50,17 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.cleanUpAuthCacheAndRedirect();
       } else if(error.status >= 400 && error.status < 600 || error.status===0){
         console.log('Network or System Error...', error);
-        this.globalDialogService.open();
+        this.globalDialogService.close();
+        this.globalDialogService.open({
+          payload:{
+            title: 'Network or System Error',
+            content: `A network or system error has occured please review the alert below. Contact support if error is unknown.`,
+            alert: {
+              type: DialogContentAlertType.ERROR,
+              message: error
+            }
+          }
+        });
       } else {
         console.log('Internal API url: ', error);
         this.notificationService.notifyError('Internal API error, review browser console');

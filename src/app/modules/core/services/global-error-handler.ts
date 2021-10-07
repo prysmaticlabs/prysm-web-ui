@@ -3,6 +3,7 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../auth/services/authentication.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { GlobalDialogService } from '../components/global-dialog/global-dialog.service';
 import { EnvironmenterService } from './environmenter.service';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     private notificationService: NotificationService,
     private authService: AuthenticationService,
     private environmenter: EnvironmenterService,
+    private globalDialogService: GlobalDialogService,
     private router: Router
   ) { }
 
@@ -44,9 +46,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     } else {
       if (error.status === 401 || (isIEOrEdge && error.status===0) ){
         this.cleanUpAuthCacheAndRedirect();
-      } else if(error.status >= 400 && error.status < 600){
+      } else if(error.status >= 400 && error.status < 600 || error.status===0){
         console.log('Network or System Error...', error);
-        
+        this.globalDialogService.open();
       } else {
         console.log('Internal API url: ', error);
         this.notificationService.notifyError('Internal API error, review browser console');

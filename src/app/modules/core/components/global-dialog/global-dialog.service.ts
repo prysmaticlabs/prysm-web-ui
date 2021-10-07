@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/internal/Subject';
-
+import { MatDialog } from '@angular/material/dialog';
+import { GlobalDialogComponent } from './global-dialog.component';
+import { DialogConfigMessage } from './model/interfaces';
+import { DialogConfigMessageActionType } from './model/types';
 @Injectable()
 export class GlobalDialogService {
-    dialogConfigMessage$ = new Subject();
+    
 
-    constructor() { }
+    constructor(public dialog: MatDialog) { }
 
     open(): void {
-
+       this.dialog.open(GlobalDialogComponent)
     }
 
     close(): void {
-
+       
     }
 }

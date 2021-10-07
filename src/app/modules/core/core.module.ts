@@ -12,6 +12,7 @@ import { MockInterceptor } from './interceptors/mock.interceptor';
 import { GlobalDialogComponent } from './components/global-dialog/global-dialog.component';
 
 import { GlobalDialogService } from './components/global-dialog/global-dialog.service';
+import { SharedModule } from '../shared/shared.module';
 
 const components = [
     GlobalDialogComponent 
@@ -32,13 +33,18 @@ const mockProviders = [
     { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true }
 ];
 
+const prysmModules = [
+    SharedModule
+];
+
 @NgModule({
     declarations: [
         ...components
     ],
     imports: [
         CommonModule,
-        HttpClientModule
+        HttpClientModule,
+        ... prysmModules
     ],
     exports: [
         ...components

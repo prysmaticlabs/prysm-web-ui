@@ -3,7 +3,7 @@
   <p>
     {{content}}
   </p>
-  <div *ngIf="alert" class="rounded-lg bg-indigo-700 leading-normal p-5">
+  <div *ngIf="alert" class="rounded-lg bg-indigo-700 leading-normal p-5 overflow-auto">
     <p *ngIf="!isInstanceOfError()">
       {{alert.message}}
     </p>

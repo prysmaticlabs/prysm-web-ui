@@ -8,14 +8,14 @@ import { DialogConfig, DialogConfigMessage, DialogContentAlert } from './model/i
     templateUrl: 'global-dialog.component.html'
 })
 export class GlobalDialogComponent implements OnInit {
-    constructor(@Inject(MAT_DIALOG_DATA) public data:DialogConfigMessage) { }
+    constructor(@Inject(MAT_DIALOG_DATA) public data: DialogConfigMessage) { }
 
-    title: string = '';
-    content: string = '';
+    title = '';
+    content = '';
 
     alert: DialogContentAlert | null | undefined = null;
 
-    ngOnInit() { 
+    ngOnInit(): void {
         const dialogConfig: DialogConfig = this.data.payload;
         this.title = dialogConfig.title;
         this.content = dialogConfig.content;
@@ -24,8 +24,8 @@ export class GlobalDialogComponent implements OnInit {
         console.log(dialogConfig.alert);
     }
 
-    isInstanceOfError():boolean {
-        if(this.alert){
+    isInstanceOfError(): boolean {
+        if (this.alert){
             return this.alert.message instanceof Error || this.alert.message instanceof HttpErrorResponse;
         }
         return false;

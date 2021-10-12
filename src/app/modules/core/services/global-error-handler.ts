@@ -46,13 +46,13 @@ export class GlobalErrorHandler implements ErrorHandler {
       console.log('External API url:', error);
       this.notificationService.notifyError('External API error, review browser console');
     } else {
-      if (error.status === 401 || (isIEOrEdge && error.status===0) ){
+      if (error.status === 401 || (isIEOrEdge && error.status === 0) ){
         this.cleanUpAuthCacheAndRedirect();
-      } else if(error.status >= 400 && error.status < 600 || error.status===0){
+      } else if (error.status >= 400 && error.status < 600 || error.status === 0){
         console.log('Network or System Error...', error);
         this.globalDialogService.close();
         this.globalDialogService.open({
-          payload:{
+          payload: {
             title: 'Network or System Error',
             content: `A network or system error has occured please review the alert below. Contact support if error is unknown.`,
             alert: {

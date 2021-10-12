@@ -34,13 +34,6 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'slashing-protection',
-        data: {
-          breadcrumb: 'Slashin Protection',
-        },
-        component: SlashingProtectionComponent,
-      },
-      {
         path: 'details',
         data: {
           breadcrumb: 'Wallet Details',

@@ -15,7 +15,7 @@ import { GlobalDialogService } from './components/global-dialog/global-dialog.se
 import { SharedModule } from '../shared/shared.module';
 
 const components = [
-    GlobalDialogComponent 
+    GlobalDialogComponent
 ];
 
 const commonProviders = [

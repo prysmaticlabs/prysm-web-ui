@@ -10,7 +10,7 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class HasWalletGuard implements CanActivate {
     constructor(
-        private authenticationService: AuthenticationService, 
+        private authenticationService: AuthenticationService,
         private router: Router,
         private globalErrorHandler: ErrorHandler) { }
 
@@ -32,8 +32,8 @@ export class HasWalletGuard implements CanActivate {
                 });
                 return foundUrlCase ? foundUrlCase.result : false;
             }),
-            catchError((error)=>{
-                console.log("Intialize API Error: ",error);
+            catchError((error) => {
+                console.log('Intialize API Error: ', error);
                 this.globalErrorHandler.handleError(error);
                 return Promise.resolve(false);
             }));

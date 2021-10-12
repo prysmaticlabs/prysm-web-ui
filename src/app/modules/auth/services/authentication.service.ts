@@ -24,8 +24,6 @@ export class AuthenticationService {
   private TOKENNAME = 'prysm_access_token';
   private TOKENEXPIRATIONNAME = 'prysm_access_token_expiration';
 
-  private accessToken = '';
-  private accessTokenExpiration = 0;
 
   login(request: AuthRequest): Observable<AuthResponse> {
     return this.authenticate(`${this.apiUrl}/login`, request);
@@ -33,15 +31,11 @@ export class AuthenticationService {
 
   cacheToken(token: string, tokenExpiration: number): void{
     this.clearCachedToken();
-    this.accessToken = token;
-    this.accessTokenExpiration = tokenExpiration;
     window.localStorage.setItem(this.TOKENNAME, token);
     window.localStorage.setItem(this.TOKENEXPIRATIONNAME, tokenExpiration.toString());
   }
 
   clearCachedToken(): void{
-    this.accessToken = '';
-    this.accessTokenExpiration = 0;
     window.localStorage.removeItem(this.TOKENNAME);
     window.localStorage.removeItem(this.TOKENEXPIRATIONNAME);
   }
@@ -61,12 +55,12 @@ export class AuthenticationService {
   }
 
   getToken(): string | null{
-    return window.localStorage.getItem(this.TOKENNAME) ?? (this.accessToken !== '' ? this.accessToken : null);
+    return window.localStorage.getItem(this.TOKENNAME);
   }
 
   getTokenExpiration(): number | null {
     const tokenExpiration = window.localStorage.getItem(this.TOKENEXPIRATIONNAME);
-    return tokenExpiration ? Number(tokenExpiration) : (this.accessTokenExpiration !== 0 ? this.accessTokenExpiration : null);
+    return Number(tokenExpiration);
   }
 
   // Authenticate the user with a password and extract the JWT token

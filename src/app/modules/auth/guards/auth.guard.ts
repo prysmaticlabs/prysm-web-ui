@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
         const accessToken = this.authService.getToken();
         const accessTokenExpiration = this.authService.getTokenExpiration();
         // validate if user is authenticated and if the token expiration exists
-        if (!accessToken || !accessTokenExpiration || !this.validateAccessTokenExpiration(accessTokenExpiration)){
+        if (!accessToken || (accessTokenExpiration && !this.validateAccessTokenExpiration(accessTokenExpiration))){
             return this.router.parseUrl('/initialize');
         } else {
             return true;

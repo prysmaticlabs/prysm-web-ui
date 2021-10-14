@@ -21,7 +21,7 @@ export class InitializeComponent implements OnInit {
     const accessToken = this.routeSnapshot.snapshot.queryParams['token'];
     const accessTokenExpiration = this.routeSnapshot.snapshot.queryParams['expiration'];
     // cache the token and token expiration for use
-    if (accessToken && accessTokenExpiration) {
+    if (accessToken ) {
 
       this.authenticationService.cacheToken(accessToken, accessTokenExpiration);
       // console.log('cached token');

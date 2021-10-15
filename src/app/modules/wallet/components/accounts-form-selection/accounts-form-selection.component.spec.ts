@@ -7,7 +7,7 @@ import { MockService } from 'ng-mocks';
 import { SharedModule } from '../../../shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { ListAccountsResponse } from '../../../../proto/validator/accounts/v2/web_api';
+import { Account, ListAccountsResponse } from '../../../../proto/validator/accounts/v2/web_api';
 
 describe('AccountsFormSelectionComponent', () => {
   let component: AccountsFormSelectionComponent;

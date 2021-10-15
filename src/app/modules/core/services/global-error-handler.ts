@@ -46,7 +46,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       console.log('External API url:', error);
       this.notificationService.notifyError('External API error, review browser console');
     } else {
-      if (error.status === 401 || (isIEOrEdge && error.status === 0) ){
+      if (error.status === 401 ){
         this.cleanUpAuthCacheAndRedirect();
       } else if (error.status >= 400 && error.status < 600 || error.status === 0){
         console.log('Network or System Error...', error);
@@ -54,7 +54,8 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.globalDialogService.open({
           payload: {
             title: 'Network or System Error',
-            content: `A network or system error has occured please review the alert below. Contact support if error is unknown.`,
+            content: error.status === 0 ? `There is no server response...please review your system.` :
+            `A network or system error has occured please review the alert below. Contact support if error is unknown.`,
             alert: {
               type: DialogContentAlertType.ERROR,
               message: error

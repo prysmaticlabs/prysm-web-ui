@@ -54,7 +54,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.globalDialogService.open({
           payload: {
             title: 'Network or System Error',
-            content: error.status === 0 ? `There is no server response...please review your system.` :
+            content: error.status === 0 ? `There is no server response...please review your system logs.` :
             `A network or system error has occured please review the alert below. Contact support if error is unknown.`,
             alert: {
               type: DialogContentAlertType.ERROR,
@@ -71,8 +71,8 @@ export class GlobalErrorHandler implements ErrorHandler {
   }
 
   private cleanUpAuthCacheAndRedirect(): void{
-    console.log('Unauthorized ... redirecting...');
     this.authService.clearCachedToken();
+    console.log('Unauthorized ... redirecting...');
     this.router.navigate(['initialize']);
   }
 }

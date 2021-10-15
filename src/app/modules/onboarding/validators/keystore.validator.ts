@@ -56,7 +56,9 @@ export class KeystoreValidator {
               let formErr: object;
               if (err.status === 400) {
                 formErr = { incorrectPassword: err.error.message };
-              } else {
+              } else if (err.status === 401) {
+                throw err;
+              }else {
                 formErr = { somethingWentWrong: true };
               }
               control.get('keystoresPassword')?.setErrors(formErr);

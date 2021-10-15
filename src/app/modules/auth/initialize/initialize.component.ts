@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -12,7 +12,8 @@ export class InitializeComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private routeSnapshot: ActivatedRoute
+    private routeSnapshot: ActivatedRoute,
+    private ref: ChangeDetectorRef
   ) { }
 
   displayWarning = false;
@@ -34,8 +35,14 @@ export class InitializeComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     } else {
       console.log('Warning: unauthorized');
-      this.displayWarning = true;
+
     }
+    setTimeout(() =>
+    {
+      this.displayWarning = true;
+      this.ref.markForCheck();
+    },
+    5000);
 
   }
 

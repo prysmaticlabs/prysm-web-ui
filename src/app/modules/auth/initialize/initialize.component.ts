@@ -35,14 +35,9 @@ export class InitializeComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     } else {
       console.log('Warning: unauthorized');
-
-    }
-    setTimeout(() =>
-    {
       this.displayWarning = true;
       this.ref.markForCheck();
-    },
-    5000);
+    }
 
   }
 

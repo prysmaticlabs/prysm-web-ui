@@ -38,7 +38,7 @@
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
     "ngx-echarts": "^5.2.2",
-    "ngx-file-drop": "^9.0.1",
+    "ngx-file-drop": "^11.2.0",
     "ngx-moment": "^5.0.0",
     "ngx-skeleton-loader": "^2.7.0",
     "resize-observer-polyfill": "^1.5.1",

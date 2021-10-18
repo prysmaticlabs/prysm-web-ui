@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccountDeleteComponent } from './account-delete.component';
 import { WalletService } from '../../../core/services/wallet.service';
@@ -16,7 +16,7 @@ describe('AccountDeleteComponent', () => {
   let walletService: WalletService;
   let snackBar: MatSnackBar;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     snackBar = MockService(MatSnackBar);
     const mockDialogDef = {

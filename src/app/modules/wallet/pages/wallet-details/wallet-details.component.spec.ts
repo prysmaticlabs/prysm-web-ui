@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MockComponent, MockService } from 'ng-mocks';
 import { of } from 'rxjs';
@@ -17,7 +17,7 @@ describe('WalletDetailsComponent', () => {
   let fixture: ComponentFixture<WalletDetailsComponent>;
   service.walletConfig$ = of({} as WalletResponse);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         WalletDetailsComponent,

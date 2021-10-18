@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   FormGroup,
   FormsModule,
@@ -31,7 +31,7 @@ describe('WalletRecoverWizardComponent', () => {
   let walletService: WalletService;
   let authService: AuthenticationService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     authService = MockService(AuthenticationService);
     walletService.recover = (req: RecoverWalletRequest) => {

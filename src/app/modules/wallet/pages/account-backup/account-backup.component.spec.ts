@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccountBackupComponent } from './account-backup.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,7 +19,7 @@ describe('AccountBackupComponent', () => {
   let walletService: WalletService;
   let notification: NotificationService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     walletService.backUpAccounts = ({}) => {
       return of({ zipFile: 'Hello' } as BackupAccountsResponse);

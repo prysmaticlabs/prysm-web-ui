@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LatestGistFeatureComponent } from './latest-gist-feature.component';
 import { SharedModule } from '../../../shared/shared.module';
@@ -8,7 +8,7 @@ describe('LatestGistFeatureComponent', () => {
   let component: LatestGistFeatureComponent;
   let fixture: ComponentFixture<LatestGistFeatureComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LatestGistFeatureComponent],
       imports: [HttpClientTestingModule],

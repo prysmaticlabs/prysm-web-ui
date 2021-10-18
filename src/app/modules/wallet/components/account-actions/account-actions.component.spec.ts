@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
@@ -15,7 +15,7 @@ describe('AccountActionsComponent', () => {
     keymanagerKind: 'DERIVED',
   } as WalletResponse);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AccountActionsComponent],
       imports: [

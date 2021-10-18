@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MockService } from 'ng-mocks';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 
@@ -9,7 +9,7 @@ describe('SlashingProtectionComponent', () => {
   let component: SlashingProtectionComponent;
   let fixture: ComponentFixture<SlashingProtectionComponent>;
   let walletService: WalletService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     TestBed.configureTestingModule({
       declarations: [SlashingProtectionComponent],

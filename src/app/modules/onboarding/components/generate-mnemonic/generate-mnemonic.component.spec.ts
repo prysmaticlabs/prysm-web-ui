@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, fakeAsync, waitForAsync } from '@angular/core/testing';
 
 import { GenerateMnemonicComponent } from './generate-mnemonic.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
@@ -13,7 +13,7 @@ describe('GenerateMnemonicComponent', () => {
   let component: GenerateMnemonicComponent;
   let fixture: ComponentFixture<GenerateMnemonicComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GenerateMnemonicComponent ],
       imports: [

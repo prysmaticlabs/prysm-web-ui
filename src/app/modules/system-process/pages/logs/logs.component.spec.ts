@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LogsComponent } from './logs.component';
 import { SharedModule } from '../../../shared/shared.module';
@@ -13,7 +13,7 @@ describe('LogsComponent', () => {
   let fixture: ComponentFixture<LogsComponent>;
   let service: LogsService = MockService(LogsService);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,

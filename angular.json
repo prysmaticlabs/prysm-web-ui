@@ -33,12 +33,18 @@
               "file-saver",
               "zrender/lib/vml/vml"
             ],
-            "assets": ["src/favicon.ico", "src/assets", "src/_redirects"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/_redirects"
+            ],
             "styles": [
               "src/styles.scss",
               "./node_modules/leaflet/dist/leaflet.css"
             ],
-            "scripts": ["./node_modules/leaflet/dist/leaflet.js"],
+            "scripts": [
+              "./node_modules/leaflet/dist/leaflet.js"
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -74,7 +80,7 @@
                 }
               ]
             },
-            "staging":{
+            "staging": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -113,7 +119,7 @@
             "production": {
               "browserTarget": "prysm-web-ui:build:production"
             },
-            "staging":{
+            "staging": {
               "browserTarget": "prysm-web-ui:build:staging"
             }
           }
@@ -131,20 +137,23 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         },
         "e2e": {
@@ -164,6 +173,7 @@
   },
   "defaultProject": "prysm-web-ui",
   "cli": {
-    "analytics": "febbd90d-29bb-408a-9067-7df1e10d85dc"
+    "analytics": "febbd90d-29bb-408a-9067-7df1e10d85dc",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

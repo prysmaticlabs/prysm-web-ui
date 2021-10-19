@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MockService } from 'ng-mocks';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { VersionComponent } from './version.component';

@@ -40,10 +40,9 @@
     "ngx-echarts": "^7.0.2",
     "ngx-file-drop": "^11.2.0",
     "ngx-moment": "^5.0.0",
-    "ngx-skeleton-loader": "^2.7.0",
-    "resize-observer-polyfill": "^1.5.1",
+    "ngx-skeleton-loader": "^4.0.0",
     "rxjs": "~6.5.5",
-    "rxjs-pipe-ext": "^2.1.0",
+    "rxjs-pipe-ext": "^3.0.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
   },

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { GitResponse } from '../../../../types/git-response';
 
 @Component({
@@ -6,7 +6,7 @@ import { GitResponse } from '../../../../types/git-response';
   templateUrl: './git-info.component.html',
   styleUrls: ['./git-info.component.scss'],
 })
-export class GitInfoComponent implements OnInit {
+export class GitInfoComponent {
   descriptionLength = 300;
   displayReadMore = false;
 
@@ -24,5 +24,4 @@ export class GitInfoComponent implements OnInit {
   }
   constructor() {}
 
-  ngOnInit(): void {}
 }

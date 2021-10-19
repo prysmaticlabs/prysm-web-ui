@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-loading',
   templateUrl: './loading.component.html'
 })
-export class LoadingComponent implements OnInit {
+export class LoadingComponent {
 
   @Input() loading = false;
   @Input() hasError = false;
@@ -25,9 +25,6 @@ export class LoadingComponent implements OnInit {
 
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   getMessage(): string | null {
     let message: string | null = null;

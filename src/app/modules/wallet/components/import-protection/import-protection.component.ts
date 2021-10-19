@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BaseComponent } from '../../../shared/components/base.component';
-import { WalletService } from '../../../core/services/wallet.service';
-import { FileStatus } from '../../../shared/services/enums';
+import { Component } from '@angular/core';
+import { catchError, tap } from 'rxjs/operators';
 import { ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
-import { tap, catchError } from 'rxjs/operators';
+import { WalletService } from '../../../core/services/wallet.service';
+import { BaseComponent } from '../../../shared/components/base.component';
+import { FileStatus } from '../../../shared/services/enums';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
   templateUrl: './import-protection.component.html',
   styleUrls: ['./import-protection.component.scss'],
 })
-export class ImportProtectionComponent extends BaseComponent implements OnInit {
+export class ImportProtectionComponent extends BaseComponent {
   constructor(
     private walletService: WalletService,
     private notificationService: NotificationService
@@ -26,7 +26,6 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
   importedKeys: string[] = [];
 
   file: File | undefined;
-  ngOnInit(): void {}
   fileChange(fileObj: {
     file: File;
     context: any;

@@ -1,10 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { tap } from 'rxjs/operators';
 import { DeleteAccountsRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
-import { tap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 import { NotificationService } from '../../../shared/services/notification.service';
 
@@ -13,7 +12,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
   templateUrl: './account-delete.component.html',
   styleUrls: ['./account-delete.component.scss'],
 })
-export class AccountDeleteComponent implements OnInit {
+export class AccountDeleteComponent {
   constructor(
     private ref: MatDialogRef<AccountDeleteComponent>,
     private walletService: WalletService,
@@ -27,7 +26,7 @@ export class AccountDeleteComponent implements OnInit {
   confirmGroup: FormGroup = this.formBuilder.group({
     confirmation: ['', [Validators.required, UtilityValidator.MustBe('agree')]],
   });
-  ngOnInit(): void {}
+  
 
   cancel(): void {
     this.ref.close();

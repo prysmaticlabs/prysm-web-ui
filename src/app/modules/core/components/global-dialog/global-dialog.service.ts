@@ -5,7 +5,6 @@ import { DialogConfigMessage } from './model/interfaces';
 @Injectable()
 export class GlobalDialogService {
 
-
     constructor(public dialog: MatDialog) { }
 
     open(message: DialogConfigMessage): void {

@@ -1,16 +1,11 @@
+import { ErrorHandler, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-<<<<<<< HEAD
 
 import { GlobalErrorHandler } from './services/global-error-handler';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ENVIRONMENT } from '../../../environments/token';
-=======
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
->>>>>>> master
 import { environment } from '../../../environments/environment';
-import { ENVIRONMENT } from '../../../environments/token';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { MockInterceptor } from './interceptors/mock.interceptor';
 

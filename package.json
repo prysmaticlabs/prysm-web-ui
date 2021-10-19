@@ -70,7 +70,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "ng-mocks": "^12.5.0",
-    "ng-tailwindcss": "^2.3.2",
+    "ng-tailwindcss": "^2.3.4",
     "protractor": "~7.0.0",
     "puppeteer": "^5.5.0",
     "tailwindcss": "^2.2.17",

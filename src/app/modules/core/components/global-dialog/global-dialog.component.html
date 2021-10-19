@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+  <p>
+    {{content}}
+  </p>
+  <div *ngIf="alert" class="rounded-lg bg-indigo-700 leading-normal p-5 overflow-auto">
+    <p *ngIf="!isInstanceOfError()">
+      {{alert.message}}
+    </p>
+    <pre *ngIf="isInstanceOfError()">
+      {{alert.message | json}}
+    </pre>
+  </div>
+</div>
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Close</button>
+</mat-dialog-actions>

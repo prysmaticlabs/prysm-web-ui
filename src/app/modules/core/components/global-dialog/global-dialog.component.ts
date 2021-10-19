@@ -30,6 +30,4 @@ export class GlobalDialogComponent implements OnInit {
         }
         return false;
     }
-
-
 }

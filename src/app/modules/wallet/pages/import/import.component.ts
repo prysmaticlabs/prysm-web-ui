@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError, filter, take, tap } from 'rxjs/operators';
+import { LANDING_URL } from 'src/app/modules/core/constants';
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -52,7 +53,7 @@ export class ImportComponent {
 
               this.loading = false;
               this.zone.run(() => {
-                this.router.navigate(['/dashboard/wallet/accounts']);
+                this.router.navigate(['/'+LANDING_URL+'/wallet/accounts']);
               });
             }),
             catchError((err) => {

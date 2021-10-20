@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { LANDING_URL } from '../../core/constants';
 
 @Component({
   selector: 'app-initialize',
@@ -30,7 +31,7 @@ export class InitializeComponent implements OnInit {
     if (this.authenticationService.getToken()){
       console.log('redirecting');
       this.displayWarning = false;
-      this.router.navigate(['/dashboard']);
+      this.router.navigate([LANDING_URL]);
     } else {
       console.log('Warning: unauthorized');
       this.displayWarning = true;

@@ -14,6 +14,7 @@ import {
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import { KeystoreValidator } from '../../validators/keystore.validator';
 
+import { LANDING_URL } from 'src/app/modules/core/constants';
 
 
 enum WizardState {
@@ -136,7 +137,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       switchMap(() => {
         return this.walletService.importKeystores(importRequest).pipe(
           tap(() => {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate([LANDING_URL]);
           }),
           catchError(err => {
             this.loading = false;

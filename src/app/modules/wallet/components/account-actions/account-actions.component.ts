@@ -4,6 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { TableData } from '../accounts-table/accounts-table.component';
 import { AccountDeleteComponent } from '../account-delete/account-delete.component';
+import { LANDING_URL } from 'src/app/modules/core/constants';
+
+
 
 @Component({
   selector: 'app-account-actions',
@@ -11,6 +14,9 @@ import { AccountDeleteComponent } from '../account-delete/account-delete.compone
   styles: [],
 })
 export class AccountActionsComponent {
+
+  readonly LANDING_URL = '/'+LANDING_URL;
+
   constructor(
     private walletService: WalletService,
     private dialog: MatDialog

@@ -5,6 +5,9 @@ import { catchError, map } from 'rxjs/operators';
 import { HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { AuthenticationService } from '../services/authentication.service';
 
+import { LANDING_URL } from '../../core/constants';
+import { ONBOARDING_URL } from '../../core/constants';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -22,10 +25,10 @@ export class HasWalletGuard implements CanActivate {
             map((res: HasUsedWebResponse) => {
                 const urlSegment = route.url[0];
                 const urlCases = [
-                    {path: 'onboarding', hasWallet: true, result: this.router.parseUrl('/dashboard')},
-                    {path: 'onboarding', hasWallet: false, result: true},
-                    {path: 'dashboard', hasWallet: true, result: true},
-                    {path: 'dashboard', hasWallet: false, result: this.router.parseUrl('/onboarding')}
+                    {path: ONBOARDING_URL, hasWallet: true, result: this.router.parseUrl(LANDING_URL)},
+                    {path: ONBOARDING_URL, hasWallet: false, result: true},
+                    {path: LANDING_URL, hasWallet: true, result: true},
+                    {path: LANDING_URL, hasWallet: false, result: this.router.parseUrl(ONBOARDING_URL)}
                 ];
                 const foundUrlCase = urlCases.find((urlCase) => {
                     return urlCase.path === urlSegment.path && urlCase.hasWallet === res.hasWallet;

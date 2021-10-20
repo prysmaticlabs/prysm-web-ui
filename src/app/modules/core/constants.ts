@@ -10,3 +10,6 @@ export const DIALOG_WIDTH = '600px';
 export const BEACONCHAIN_EXPLORER = 'https://beaconcha.in';
 export const WS_RECONNECT_INTERVAL = 3000;
 export const GEO_COORDINATES_API = 'http://ip-api.com/batch';
+
+export const LANDING_URL = 'dashboard';
+export const ONBOARDING_URL = 'onboarding';

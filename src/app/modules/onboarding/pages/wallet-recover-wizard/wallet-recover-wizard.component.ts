@@ -16,6 +16,7 @@ import {
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { takeUntil, tap } from 'rxjs/operators';
+import { LANDING_URL } from 'src/app/modules/core/constants';
 import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
 import {
@@ -134,7 +135,7 @@ export class WalletRecoverWizardComponent
         })
       )
       .subscribe((x) => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate([LANDING_URL]);
       });
   }
 

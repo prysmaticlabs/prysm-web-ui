@@ -10,6 +10,7 @@ import { Breadcrumb, BreadcrumbService } from '../../services/breadcrumb.service
 
 import { BreadcrumbComponent } from './breadcrumb.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LANDING_URL } from 'src/app/modules/core/constants';
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
@@ -19,22 +20,22 @@ describe('BreadcrumbComponent', () => {
     {
       displayName: 'Dashboard',
       route: { path: 'dashboard' },
-      url: '/dashboard',
+      url: '/'+LANDING_URL,
     },
     {
       displayName: 'Wallet',
       route: { path: 'wallet' },
-      url: '/dashboard/wallet',
+      url: '/'+LANDING_URL+'/wallet',
     },
     {
       displayName: 'Accounts',
       route: { path: 'accounts' },
-      url: '/dashboard/wallet/accounts',
+      url: '/'+LANDING_URL+'/wallet/accounts',
     },
     {
       displayName: 'Create',
       route: { path: 'create' },
-      url: '/dashboard/wallet/accounts/create',
+      url: '/'+LANDING_URL+'/wallet/accounts/create',
     },
   ];
 

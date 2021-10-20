@@ -170,7 +170,7 @@ export const Mocks: IMocks = {
   '/v2/validator/signup': {
     token: 'mock.jwt.token',
   } as AuthResponse,
-  '/v2/validator/initialized': {
+  '/v2/validator/initialize': {
     hasSignedUp: true,
     hasWallet: true,
   } as HasUsedWebResponse,

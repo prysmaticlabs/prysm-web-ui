@@ -32,7 +32,7 @@ export class AuthenticationService {
   cacheToken(token: string, tokenExpiration: number): void{
     this.clearCachedToken();
     window.localStorage.setItem(this.TOKENNAME, token);
-    window.localStorage.setItem(this.TOKENEXPIRATIONNAME, tokenExpiration.toString());
+    tokenExpiration ? window.localStorage.setItem(this.TOKENEXPIRATIONNAME, tokenExpiration.toString()) : null ;
   }
 
   clearCachedToken(): void{

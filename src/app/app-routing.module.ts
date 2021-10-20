@@ -12,6 +12,8 @@ import { AuthGuard } from './modules/auth/guards/auth.guard';
 import { HasWalletGuard } from './modules/auth/guards/hasWallet.guard';
 import { NotFoundComponent } from './modules/auth/error_pages/notfound.component';
 
+import { LANDING_URL } from './modules/core/constants';
+import { ONBOARDING_URL } from './modules/core/constants';
 
 const routes: Routes = [
   {
@@ -24,18 +26,18 @@ const routes: Routes = [
     component: InitializeComponent,
   },
   {
-    path: 'onboarding',
+    path: ONBOARDING_URL,
     data: {
-      breadcrumb: 'Onboarding',
+      breadcrumb: ONBOARDING_URL,
     },
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard, HasWalletGuard],
     component: OnboardingComponent,
   },
   {
-    path: 'dashboard',
+    path: LANDING_URL,
     data: {
-      breadcrumb: 'Dashboard',
+      breadcrumb: LANDING_URL,
     },
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard, HasWalletGuard],

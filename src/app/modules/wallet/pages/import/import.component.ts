@@ -53,7 +53,7 @@ export class ImportComponent {
 
               this.loading = false;
               this.zone.run(() => {
-                this.router.navigate(['/'+LANDING_URL+'/wallet/accounts']);
+                this.router.navigate(['/' + LANDING_URL + '/wallet/accounts']);
               });
             }),
             catchError((err) => {

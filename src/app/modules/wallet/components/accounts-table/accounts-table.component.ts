@@ -34,7 +34,7 @@ export class AccountsTableComponent implements AfterViewInit {
   @Input() selection: SelectionModel<TableData> | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
 
-  readonly LANDING_URL = '/'+LANDING_URL;
+  readonly LANDING_URL = '/' + LANDING_URL;
 
   constructor(
     private dialog: MatDialog,

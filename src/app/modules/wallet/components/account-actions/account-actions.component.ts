@@ -15,7 +15,7 @@ import { LANDING_URL } from 'src/app/modules/core/constants';
 })
 export class AccountActionsComponent {
 
-  readonly LANDING_URL = '/'+LANDING_URL;
+  readonly LANDING_URL = '/' + LANDING_URL;
 
   constructor(
     private walletService: WalletService,

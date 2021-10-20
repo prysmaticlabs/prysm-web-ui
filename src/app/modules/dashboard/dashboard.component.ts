@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {
       name: 'Validator Gains & Losses',
       icon: 'trending_up',
-      path: '/'+LANDING_URL+'/gains-and-losses',
+      path: '/' + LANDING_URL + '/gains-and-losses',
     },
     {
       name: 'Wallet & Accounts',
@@ -36,11 +36,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         {
           name: 'Account List',
           icon: 'list',
-          path: '/'+LANDING_URL+'/wallet/accounts',
+          path: '/' + LANDING_URL + '/wallet/accounts',
         },
         {
           name: 'Wallet Information',
-          path: '/'+LANDING_URL+'/wallet/details',
+          path: '/' + LANDING_URL + '/wallet/details',
           icon: 'settings_applications',
         },
       ],
@@ -52,12 +52,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         {
           name: 'System Logs',
           icon: 'memory',
-          path: '/'+LANDING_URL+'/system/logs',
+          path: '/' + LANDING_URL + '/system/logs',
         },
         {
           name: 'Peer Locations Map',
           icon: 'map',
-          path: '/'+LANDING_URL+'/system/peers-map',
+          path: '/' + LANDING_URL + '/system/peers-map',
         },
       ],
     },

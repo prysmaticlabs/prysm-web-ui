@@ -20,22 +20,22 @@ describe('BreadcrumbComponent', () => {
     {
       displayName: 'Dashboard',
       route: { path: 'dashboard' },
-      url: '/'+LANDING_URL,
+      url: '/' + LANDING_URL,
     },
     {
       displayName: 'Wallet',
       route: { path: 'wallet' },
-      url: '/'+LANDING_URL+'/wallet',
+      url: '/' + LANDING_URL + '/wallet',
     },
     {
       displayName: 'Accounts',
       route: { path: 'accounts' },
-      url: '/'+LANDING_URL+'/wallet/accounts',
+      url: '/' + LANDING_URL + '/wallet/accounts',
     },
     {
       displayName: 'Create',
       route: { path: 'create' },
-      url: '/'+LANDING_URL+'/wallet/accounts/create',
+      url: '/' + LANDING_URL + '/wallet/accounts/create',
     },
   ];
 

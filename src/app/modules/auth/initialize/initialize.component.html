@@ -6,7 +6,7 @@
         <div *ngIf="!displayWarning" class ="flex flex-row justify-center">
             <div class="flex flex-col">
                 <h1>
-                    Initializing Prysm Web User Interface... 
+                    Initializing Prysm Web User Interface...
                 </h1>
                 <mat-spinner class="m-o m-auto"></mat-spinner>
             </div>
@@ -16,13 +16,15 @@
                 <h1>
                     <b>Oops.. either your session token has expired, was cleared, or is invalid.</b>
                 </h1>
-                <p class="text-lg "> 
-                    Please return to your command line interface for instructions on regainning access to the web-ui or ... <br/>
-                    run this validator cli command to retrieve instructions again <code class="bg-indigo-900 p-1 rounded"> validator web auth-token </code>
+                <p class="text-lg ">
+                    Please return to your command line interface for instructions on gaining access to the web-ui <br/>
+                    by running the command <code class="bg-indigo-900 p-1 rounded">validator web generate-auth-token </code> <br/> This will
+                    generate a new authentication URL you can click on and visit to authenticate with the Prysm web-ui <br/> We no longer require
+                    passwords for authentication
                 </p>
                 <p class="text-lg ">
-                    <b>Your validator will continue to run normally even if your web access is lost.</b> <br/>
-                    For more information, you can look at our <a href="https://docs.prylabs.network" class="underline text-blue-200 hover:text-blue-400 visited:text-purple-400">Prysm Docs</a> <br/>
+                    <b>Your validator will continue to run normally even if your web access is lost</b> <br/>
+                    For more information, you can look at our <a href="https://docs.prylabs.network/docs/prysm-usage/web-interface" class="underline text-blue-200 hover:text-blue-400 visited:text-purple-400">Documentation</a> for the web-ui <br/>
                     or join us on <a href="https://discord.gg/YMVYzv6" class="underline text-blue-200 hover:text-blue-400 visited:text-purple-400">Discord</a>
                 </p>
             </section>

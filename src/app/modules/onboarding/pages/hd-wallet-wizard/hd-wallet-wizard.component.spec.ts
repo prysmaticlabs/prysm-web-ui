@@ -11,33 +11,25 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { GenerateMnemonicComponent } from '../../components/generate-mnemonic/generate-mnemonic.component';
 import { ConfirmMnemonicComponent } from '../../components/confirm-mnemonic/confirm-mnemonic.component';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   WalletResponse,
-  AuthResponse,
   CreateWalletRequest,
   CreateWalletResponse,
-  AuthRequest,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 describe('HdWalletWizardComponent', () => {
   let component: HdWalletWizardComponent;
   let fixture: ComponentFixture<HdWalletWizardComponent>;
   let walletService: WalletService;
-  let authService: AuthenticationService;
   let router: Router;
 
   beforeEach(async(() => {
     walletService = MockService(WalletService);
-    authService = MockService(AuthenticationService);
     walletService.createWallet = (req: CreateWalletRequest): Observable<CreateWalletResponse> => {
       return of({
         wallet: { walletPath: 'hello' } as WalletResponse,
       } as CreateWalletResponse);
-    };
-    authService.signup = (req: AuthRequest): Observable<AuthResponse> => {
-      return of({ token: 'hello' } as AuthResponse);
     };
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     TestBed.configureTestingModule({
@@ -55,13 +47,11 @@ describe('HdWalletWizardComponent', () => {
       ],
       providers: [
         { provide: WalletService, useValue: walletService },
-        { provide: AuthenticationService, useValue: authService },
         { provide: Router, useValue: routerSpy },
       ]
     })
     .compileComponents();
     walletService = TestBed.inject(WalletService);
-    authService = TestBed.inject(AuthenticationService);
     router = TestBed.inject(Router);
   }));
 
@@ -77,8 +67,6 @@ describe('HdWalletWizardComponent', () => {
 
   describe('Create wallet', () => {
     it('should get deposit data upon wallet creation and signup', () => {
-      component.passwordFormGroup.controls.password.setValue('Passw0rdz2020$');
-      component.passwordFormGroup.controls.passwordConfirmation.setValue('Passw0rdz2020$');
       component.accountsFormGroup.controls.numAccounts.setValue(5);
       component.mnemonicFormGroup.controls.mnemonic.setValue('hello fish');
       component.createWallet(new Event('submit'));

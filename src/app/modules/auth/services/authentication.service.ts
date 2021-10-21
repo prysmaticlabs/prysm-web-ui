@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { EnvironmenterService } from '../../core/services/environmenter.service';
 import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { LoginComponent } from '../login/login.component';
-import { SignupComponent } from '../signup/signup.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,23 +14,32 @@ import { SignupComponent } from '../signup/signup.component';
 export class AuthenticationService {
   constructor(
     private http: HttpClient,
-    private environmenter: EnvironmenterService,
-    private dialog: MatDialog,
+    private environmenter: EnvironmenterService
   ) {
   }
   hasSignedUp = false;
   shortLivedToken = '';
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
-  prompt(): Observable<null>  {
-    if (this.hasSignedUp) {
-      return this.dialog.open(LoginComponent).afterClosed();
-    }
-    return this.dialog.open(SignupComponent).afterClosed();
-  }
+  private TOKENNAME = 'prysm_access_token';
+  private TOKENEXPIRATIONNAME = 'prysm_access_token_expiration';
+
 
   login(request: AuthRequest): Observable<AuthResponse> {
     return this.authenticate(`${this.apiUrl}/login`, request);
+  }
+
+  cacheToken(token: string, tokenExpiration: number): void{
+    this.clearCachedToken();
+    window.localStorage.setItem(this.TOKENNAME, token);
+    if (tokenExpiration){
+      window.localStorage.setItem(this.TOKENEXPIRATIONNAME, tokenExpiration.toString());
+    }
+  }
+
+  clearCachedToken(): void{
+    window.localStorage.removeItem(this.TOKENNAME);
+    window.localStorage.removeItem(this.TOKENEXPIRATIONNAME);
   }
 
   signup(request: AuthRequest): Observable<AuthResponse> {
@@ -44,9 +51,18 @@ export class AuthenticationService {
   }
 
   checkHasUsedWeb(): Observable<HasUsedWebResponse> {
-    return this.http.get<HasUsedWebResponse>(`${this.apiUrl}/initialized`).pipe(
+    return this.http.get<HasUsedWebResponse>(`${this.apiUrl}/initialize`).pipe(
       tap((res: HasUsedWebResponse) => this.hasSignedUp = res.hasSignedUp),
     );
+  }
+
+  getToken(): string | null{
+    return window.localStorage.getItem(this.TOKENNAME);
+  }
+
+  getTokenExpiration(): number | null {
+    const tokenExpiration = window.localStorage.getItem(this.TOKENEXPIRATIONNAME);
+    return Number(tokenExpiration);
   }
 
   // Authenticate the user with a password and extract the JWT token
@@ -55,7 +71,7 @@ export class AuthenticationService {
     return this.http.post<AuthResponse>(method, request).pipe(
       tap((res: AuthResponse) => {
         this.shortLivedToken = res.token;
-      }),
+      })
     );
   }
 }

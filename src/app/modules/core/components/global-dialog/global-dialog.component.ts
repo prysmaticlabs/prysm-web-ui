@@ -10,6 +10,9 @@ import { DialogConfig, DialogConfigMessage, DialogContentAlert } from './model/i
 export class GlobalDialogComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: DialogConfigMessage) { }
 
+    panelOpenState = false;
+    copyButtonText = 'Copy';
+
     title = '';
     content = '';
 
@@ -20,8 +23,6 @@ export class GlobalDialogComponent implements OnInit {
         this.title = dialogConfig.title;
         this.content = dialogConfig.content;
         this.alert = dialogConfig.alert;
-
-        console.log(dialogConfig.alert);
     }
 
     isInstanceOfError(): boolean {
@@ -30,4 +31,12 @@ export class GlobalDialogComponent implements OnInit {
         }
         return false;
     }
+
+    changeCopyText(): void {
+        this.copyButtonText = 'Copied';
+        setTimeout(() => {this.copyButtonText = 'Copy'; }, 1500);
+    }
+
+
+
 }

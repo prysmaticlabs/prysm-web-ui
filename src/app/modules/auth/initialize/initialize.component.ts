@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { LANDING_URL } from '../../core/constants';
@@ -13,15 +13,21 @@ export class InitializeComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private routeSnapshot: ActivatedRoute,
+    private route: ActivatedRoute,
     private ref: ChangeDetectorRef
-  ) { }
+  ) {
+    // override the route reuse strategy
+    this.router.routeReuseStrategy.shouldReuseRoute = (): boolean => {
+      return false;
+    };
+
+  }
 
   displayWarning = false;
 
   ngOnInit(): void {
-    const accessToken = this.routeSnapshot.snapshot.queryParams['token'];
-    const accessTokenExpiration = this.routeSnapshot.snapshot.queryParams['expiration'];
+    const accessToken = this.route.snapshot.queryParams['token'];
+    const accessTokenExpiration = this.route.snapshot.queryParams['expiration'];
     // cache the token and token expiration for use
     if (accessToken ) {
       this.authenticationService.cacheToken(accessToken, accessTokenExpiration);
@@ -35,9 +41,9 @@ export class InitializeComponent implements OnInit {
     } else {
       console.log('Warning: unauthorized');
       this.displayWarning = true;
-      this.ref.markForCheck();
     }
 
   }
+
 
 }

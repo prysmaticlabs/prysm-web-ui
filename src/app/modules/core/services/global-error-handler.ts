@@ -18,6 +18,10 @@ export class GlobalErrorHandler implements ErrorHandler {
     private router: Router
   ) { }
 
+  readonly NO_SERVER_RESPONSE = `One of your services seem to be down, or cannot communicate between one another. Double check if your services are up and if your network settings are affecting any services.`;
+  readonly NETWORK_OR_SYSTEM_ERROR = `A network or system error has occured.`;
+
+
   handleError(error: string | Error | HttpErrorResponse): void{
     try {
       if (typeof error === 'string'){
@@ -48,16 +52,30 @@ export class GlobalErrorHandler implements ErrorHandler {
     } else {
       if (error.status === 401 ){
         this.cleanUpAuthCacheAndRedirect();
-      } else if (error.status >= 400 && error.status < 600 || error.status === 0){
+      } else if (error.status === 503 || error.status === 0) {
+        console.log('No server response', error);
+        this.globalDialogService.open({
+          payload: {
+            title: 'No Service Response',
+            content: this.NO_SERVER_RESPONSE ,
+            alert: {
+              type: DialogContentAlertType.ERROR,
+              title: error.status + ' ' + error.statusText ,
+              description: error.url ?? 'error message',
+              message: error
+            }
+          }
+        });
+      } else if (error.status >= 400 && error.status < 600){
         console.log('Network or System Error...', error);
-        this.globalDialogService.close();
         this.globalDialogService.open({
           payload: {
             title: 'Network or System Error',
-            content: error.status === 0 ? `There is no server response...please review your system logs.` :
-            `A network or system error has occured please review the alert below. Contact support if error is unknown.`,
+            content: this.NETWORK_OR_SYSTEM_ERROR,
             alert: {
               type: DialogContentAlertType.ERROR,
+              title: error.status + ' ' + error.statusText ,
+              description: error.url ?? 'error message',
               message: error
             }
           }

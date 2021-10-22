@@ -1,17 +1,32 @@
 <h1 mat-dialog-title>{{title}}</h1>
-<div mat-dialog-content>
+<div mat-dialog-content class="min-w-700">
   <p>
     {{content}}
   </p>
-  <div *ngIf="alert" class="rounded-lg bg-indigo-700 leading-normal p-5 overflow-auto">
-    <p *ngIf="!isInstanceOfError()">
-      {{alert.message}}
-    </p>
-    <pre *ngIf="isInstanceOfError()">
-      {{alert.message | json}}
-    </pre>
-  </div>
+  <p *ngIf="alert">
+    For more information and common error solutions, you can look at our <a href="https://docs.prylabs.network/docs/prysm-usage/web-interface" class="underline text-blue-200 hover:text-blue-400 visited:text-purple-400">Documentation</a> for the web-ui <br/>
+    or create an issue on <a href="https://github.com/prysmaticlabs" class="underline text-blue-200 hover:text-blue-400 visited:text-purple-400">Github</a>
+  </p>
+  <mat-accordion *ngIf="alert">
+    <mat-expansion-panel (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{alert.title}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{alert.description}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div *ngIf="panelOpenState" class="rounded-lg bg-indigo-700 leading-normal p-5 overflow-auto">
+        <p *ngIf="!isInstanceOfError()">{{alert.message}}</p>
+        <pre *ngIf="isInstanceOfError()">{{alert.message | json}}</pre>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  
 </div>
 <mat-dialog-actions align="end">
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Close</button>
+    <button *ngIf="alert && panelOpenState" mat-button [cdkCopyToClipboard]="isInstanceOfError() ? (alert.message | json) : alert.message" (click)="changeCopyText()">{{copyButtonText}}</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial #btnFocus=matButton [autofocus]="btnFocus.focus()">Close</button>
 </mat-dialog-actions>

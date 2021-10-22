@@ -13,5 +13,7 @@ export interface DialogConfig {
 
 export interface DialogContentAlert {
     type: DialogContentAlertType;
+    title: string;
+    description: string;
     message: string | Error | HttpErrorResponse;
 }

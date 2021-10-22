@@ -5,12 +5,26 @@ import { DialogConfigMessage } from './model/interfaces';
 @Injectable()
 export class GlobalDialogService {
 
-    constructor(public dialog: MatDialog) { }
+    queue: DialogConfigMessage[] = [];
+    constructor(public dialog: MatDialog) {
+      this.dialog.afterAllClosed.subscribe(event => {
+         if (this.queue.length){
+            this.dialog.open(GlobalDialogComponent, {
+               data: this.queue.shift()
+            });
+         }
+      });
+    }
 
     open(message: DialogConfigMessage): void {
-       this.dialog.open(GlobalDialogComponent, {
+      if (!this.dialog.openDialogs || !this.dialog.openDialogs.length){
+         this.dialog.open(GlobalDialogComponent, {
             data: message
-       });
+         });
+      } else {
+         this.queue.push(message);
+      }
+
     }
 
     close(): void {

@@ -46,16 +46,14 @@ export class AccountBackupComponent extends BaseComponent implements OnInit {
         '',
         [
           Validators.required,
-          StaticPasswordValidator.strongPassword,
-          Validators.minLength(8),
+          Validators.minLength(8)
         ],
       ],
       passwordConfirmation: [
         '',
         [
           Validators.required,
-          StaticPasswordValidator.strongPassword,
-          Validators.minLength(8),
+          Validators.minLength(8)
         ],
       ],
     },

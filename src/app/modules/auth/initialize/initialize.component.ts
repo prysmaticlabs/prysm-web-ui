@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service';
 import { LANDING_URL } from '../../core/constants';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-initialize',
@@ -13,8 +13,7 @@ export class InitializeComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private route: ActivatedRoute,
-    private ref: ChangeDetectorRef
+    private route: ActivatedRoute
   ) {
     // override the route reuse strategy
     this.router.routeReuseStrategy.shouldReuseRoute = (): boolean => {

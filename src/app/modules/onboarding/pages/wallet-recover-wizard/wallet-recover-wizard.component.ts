@@ -15,7 +15,8 @@ import {
 } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
-import { takeUntil, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError, takeUntil, tap } from 'rxjs/operators';
 import { LANDING_URL } from 'src/app/modules/core/constants';
 import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
@@ -128,6 +129,10 @@ export class WalletRecoverWizardComponent
       .pipe(
         tap(() => {
           this.loading = false;
+        }),
+        catchError(err => {
+          this.loading = false;
+          return throwError(err);
         })
       )
       .subscribe((x) => {

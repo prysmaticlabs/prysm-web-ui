@@ -66,13 +66,11 @@ export class WalletRecoverWizardComponent
           [
             Validators.required,
             Validators.minLength(8),
-            StaticPasswordValidator.strongPassword,
           ]
         ),
         passwordConfirmation: new FormControl('', [
           Validators.required,
-          Validators.minLength(8),
-          StaticPasswordValidator.strongPassword,
+          Validators.minLength(8)
         ]),
       },
       {
@@ -86,14 +84,12 @@ export class WalletRecoverWizardComponent
 
           [
             Validators.required,
-            Validators.minLength(8),
-            StaticPasswordValidator.strongPassword,
+            Validators.minLength(8)
           ]
         ),
         passwordConfirmation: new FormControl('', [
           Validators.required,
-          Validators.minLength(8),
-          StaticPasswordValidator.strongPassword,
+          Validators.minLength(8)
         ]),
       },
       {

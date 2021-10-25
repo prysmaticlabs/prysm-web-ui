@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientXsrfModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,9 +14,11 @@ import { OnboardingModule } from './modules/onboarding/onboarding.module';
 import { SystemProcessModule } from './modules/system-process/system-process.module';
 import { CoreModule } from './modules/core/core.module';
 
+
 const frameworkModules = [
   BrowserModule,
-  BrowserAnimationsModule
+  BrowserAnimationsModule,
+  HttpClientXsrfModule
 ];
 
 const prysmModules = [

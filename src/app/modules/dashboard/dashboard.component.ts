@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
+import { LANDING_URL } from '../core/constants';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {
       name: 'Validator Gains & Losses',
       icon: 'trending_up',
-      path: '/dashboard/gains-and-losses',
+      path: '/' + LANDING_URL + '/gains-and-losses',
     },
     {
       name: 'Wallet & Accounts',
@@ -35,16 +36,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         {
           name: 'Account List',
           icon: 'list',
-          path: '/dashboard/wallet/accounts',
-        },
-        {
-          name: 'Slashing Protection',
-          icon: 'shield',
-          path: '/dashboard/wallet/slashing-protection',
+          path: '/' + LANDING_URL + '/wallet/accounts',
         },
         {
           name: 'Wallet Information',
-          path: '/dashboard/wallet/details',
+          path: '/' + LANDING_URL + '/wallet/details',
           icon: 'settings_applications',
         },
       ],
@@ -56,19 +52,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         {
           name: 'System Logs',
           icon: 'memory',
-          path: '/dashboard/system/logs',
+          path: '/' + LANDING_URL + '/system/logs',
         },
         {
           name: 'Peer Locations Map',
           icon: 'map',
-          path: '/dashboard/system/peers-map',
+          path: '/' + LANDING_URL + '/system/peers-map',
         },
       ],
-    },
-    {
-      name: 'Change Password',
-      icon: 'https',
-      path: '/dashboard/security/change-password',
     },
     {
       name: 'Read the Docs',

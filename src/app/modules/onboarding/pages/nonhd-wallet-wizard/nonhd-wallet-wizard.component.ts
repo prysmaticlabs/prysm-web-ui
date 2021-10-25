@@ -1,21 +1,21 @@
-import {Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import {FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
-
-import { delay, tap, takeUntil, switchMap, catchError } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
-
-import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
+import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
+import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
+
 import {
-  AuthRequest,
   CreateWalletRequest,
-  ImportKeystoresRequest,
+  ImportKeystoresRequest
 } from 'src/app/proto/validator/accounts/v2/web_api';
 import { KeystoreValidator } from '../../validators/keystore.validator';
+
+import { LANDING_URL } from 'src/app/modules/core/constants';
+
 
 enum WizardState {
   WalletDir,
@@ -37,7 +37,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private keystoreValidator: KeystoreValidator,
     private router: Router,
-    private authService: AuthenticationService,
     private walletService: WalletService,
   ) {}
 
@@ -131,21 +130,14 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       keystoresImported: this.keystoresFormGroup.get('keystoresImported')?.value,
     } as ImportKeystoresRequest;
     this.loading = true;
-    const webPassword = this.passwordFormGroup.get('password')?.value;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup({
-      password: webPassword,
-      passwordConfirmation: webPassword,
-    } as AuthRequest).pipe(
-      delay(500), // Add short delay to prevent flickering in UI in case of error.
-      switchMap(() =>
-        this.walletService.createWallet(request)
-      ),
+
+    this.walletService.createWallet(request).pipe(
       switchMap(() => {
         return this.walletService.importKeystores(importRequest).pipe(
           tap(() => {
-            this.router.navigate(['/dashboard/gains-and-losses']);
+            this.router.navigate([LANDING_URL]);
           }),
           catchError(err => {
             this.loading = false;

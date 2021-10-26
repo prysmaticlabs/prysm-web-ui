@@ -1,12 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-
-import { EnvironmenterService } from '../../core/services/environmenter.service';
 import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { EnvironmenterService } from '../../core/services/environmenter.service';
+
+
 
 @Injectable({
   providedIn: 'root'

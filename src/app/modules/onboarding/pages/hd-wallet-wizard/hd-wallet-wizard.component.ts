@@ -65,13 +65,11 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   walletPasswordFormGroup = this.formBuilder.group({
     password: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
-      this.passwordValidator.strongPassword,
+      Validators.minLength(8)
     ]),
     passwordConfirmation: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
-      this.passwordValidator.strongPassword,
+      Validators.minLength(8)
     ]),
   }, {
     validators: this.passwordValidator.matchingPasswordConfirmation,

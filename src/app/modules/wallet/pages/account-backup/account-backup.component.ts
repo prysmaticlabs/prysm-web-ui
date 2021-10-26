@@ -39,16 +39,14 @@ export class AccountBackupComponent extends BaseComponent {
         '',
         [
           Validators.required,
-          StaticPasswordValidator.strongPassword,
-          Validators.minLength(8),
+          Validators.minLength(8)
         ],
       ],
       passwordConfirmation: [
         '',
         [
           Validators.required,
-          StaticPasswordValidator.strongPassword,
-          Validators.minLength(8),
+          Validators.minLength(8)
         ],
       ],
     },

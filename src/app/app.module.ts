@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { WalletModule } from './modules/wallet/wallet.module';
-import { SecurityModule } from './modules/security/security.module';
 import { OnboardingModule } from './modules/onboarding/onboarding.module';
 import { SystemProcessModule } from './modules/system-process/system-process.module';
 import { CoreModule } from './modules/core/core.module';
@@ -28,8 +27,7 @@ const prysmModules = [
   DashboardModule,
   WalletModule,
   OnboardingModule,
-  SystemProcessModule,
-  SecurityModule
+  SystemProcessModule
 ];
 
 @NgModule({

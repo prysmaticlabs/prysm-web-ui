@@ -14,7 +14,7 @@ describe('JwtInterceptor', () => {
 
   beforeEach(() => {
     authService = MockService(AuthenticationService);
-    environmenterService = jasmine.createSpyObj('EnvironmenterService', ['env','validatorEndpoint']);
+    environmenterService = jasmine.createSpyObj('EnvironmenterService', ['env', 'validatorEndpoint']);
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -35,7 +35,7 @@ describe('JwtInterceptor', () => {
       ]
     });
     authService = TestBed.inject(AuthenticationService);
-  
+
   });
 
   describe('intercept HTTP requests', () => {
@@ -46,7 +46,7 @@ describe('JwtInterceptor', () => {
           return 'hello';
         };
         environmenterService.env.validatorEndpoint = '/';
-        
+
 
         http.get('/').subscribe(
           response => {
@@ -68,7 +68,7 @@ describe('JwtInterceptor', () => {
     it('should not include authorization headers if no token found', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
         environmenterService.env.validatorEndpoint = '/';
-        
+
 
         http.get('/').subscribe(
           response => {

@@ -69,7 +69,7 @@
             </mat-step>
           </mat-horizontal-stepper>
         </div>
-        <div *ngIf="isSmallScreen" class="wizard-container flex w-full md:hidden items-center">
+        <div *ngIf="isSmallScreen" class="wizard-container flex w-full items-center">
           <mat-vertical-stepper class="bg-paper rounded-r" linear #stepper>
             <mat-step label="Overview">
               <app-generate-mnemonic></app-generate-mnemonic>

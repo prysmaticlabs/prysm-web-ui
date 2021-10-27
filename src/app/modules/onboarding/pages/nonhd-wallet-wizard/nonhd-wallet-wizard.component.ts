@@ -134,11 +134,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
         return this.walletService.importKeystores(importRequest).pipe(
           tap(() => {
             this.router.navigate([LANDING_URL]);
-          }),
-          catchError(err => {
-            this.loading = false;
-            return throwError(err);
-          }),
+          })
         );
       }),
       catchError(err => {

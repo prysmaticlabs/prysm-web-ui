@@ -1,30 +1,31 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   Component,
   EventEmitter,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
-  FormGroup,
   FormBuilder,
-  Validators,
-  FormControl,
+
+  FormControl, FormGroup,
+
+  Validators
 } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
+import { Router } from '@angular/router';
+import { throwError } from 'rxjs';
+import { catchError, takeUntil, tap } from 'rxjs/operators';
+import { LANDING_URL } from 'src/app/modules/core/constants';
+import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletService } from '../../../core/services/wallet.service';
+import {
+  StaticPasswordValidator
+} from '../../../core/validators/password.validator';
+import { BaseComponent } from '../../../shared/components/base.component';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { UtilityValidator } from '../../validators/utility.validator';
-import { MatStepper } from '@angular/material/stepper';
-import {
-  PasswordValidator,
-  StaticPasswordValidator,
-} from '../../../core/validators/password.validator';
-import { AuthenticationService } from '../../../auth/services/authentication.service';
-import { WalletService } from '../../../core/services/wallet.service';
-import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { takeUntil, tap } from 'rxjs/operators';
-import { BaseComponent } from '../../../shared/components/base.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wallet-recover-wizard',
@@ -44,7 +45,6 @@ export class WalletRecoverWizardComponent
   loading = false;
   constructor(
     private fb: FormBuilder,
-    private authService: AuthenticationService,
     private breakpointObserver: BreakpointObserver,
     private walletService: WalletService,
     private router: Router,
@@ -67,13 +67,11 @@ export class WalletRecoverWizardComponent
           [
             Validators.required,
             Validators.minLength(8),
-            StaticPasswordValidator.strongPassword,
           ]
         ),
         passwordConfirmation: new FormControl('', [
           Validators.required,
-          Validators.minLength(8),
-          StaticPasswordValidator.strongPassword,
+          Validators.minLength(8)
         ]),
       },
       {
@@ -87,14 +85,12 @@ export class WalletRecoverWizardComponent
 
           [
             Validators.required,
-            Validators.minLength(8),
-            StaticPasswordValidator.strongPassword,
+            Validators.minLength(8)
           ]
         ),
         passwordConfirmation: new FormControl('', [
           Validators.required,
-          Validators.minLength(8),
-          StaticPasswordValidator.strongPassword,
+          Validators.minLength(8)
         ]),
       },
       {
@@ -117,12 +113,6 @@ export class WalletRecoverWizardComponent
     return oldForm;
   }
 
-  login(st: MatStepper, oldForm: FormGroup, newForm: FormGroup): void {
-    this.authService.signup(newForm.value).subscribe((response) => {
-      this.onNext(st, oldForm, newForm);
-    });
-  }
-
   walletRecover(form: FormGroup): void {
     if (form.invalid) {
       return;
@@ -139,10 +129,14 @@ export class WalletRecoverWizardComponent
       .pipe(
         tap(() => {
           this.loading = false;
+        }),
+        catchError(err => {
+          this.loading = false;
+          return throwError(err);
         })
       )
       .subscribe((x) => {
-        this.router.navigate(['dashboard', 'gains-and-losses']);
+        this.router.navigate([LANDING_URL]);
       });
   }
 

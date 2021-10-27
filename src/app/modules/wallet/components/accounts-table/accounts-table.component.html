@@ -90,7 +90,7 @@
             icon="more_horiz"></app-icon-trigger-select>
           <a mat-icon-button
             matTooltip="Exit validator"
-            [routerLink]="[ '/dashboard', 'wallet','accounts','voluntary-exit']"
+            [routerLink]="[ LANDING_URL, 'wallet','accounts','voluntary-exit']"
             [queryParams]="{publicKey:row.publicKey | base64tohex}">
             <mat-icon>exit_to_app</mat-icon>
           </a>

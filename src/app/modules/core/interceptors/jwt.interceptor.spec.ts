@@ -5,12 +5,14 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { JwtInterceptor } from './jwt.interceptor';
 import { AuthenticationService } from '../../auth/services/authentication.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockComponent, MockService } from 'ng-mocks';
 
 describe('JwtInterceptor', () => {
   let authService: AuthenticationService;
 
   beforeEach(() => {
-    authService = jasmine.createSpyObj(['token']);
+    authService = MockService(AuthenticationService);
+
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -34,7 +36,9 @@ describe('JwtInterceptor', () => {
 
     it('should include authorization headers if user is logged in', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
-        authService.shortLivedToken = 'hello';
+        authService.getToken = () => {
+          return 'hello';
+        };
         http.get('/').subscribe(
           response => {
             expect(response).toBeTruthy();
@@ -54,7 +58,6 @@ describe('JwtInterceptor', () => {
 
     it('should not include authorization headers if no token found', inject([HttpClient, HttpTestingController],
       (http: HttpClient, mock: HttpTestingController) => {
-        authService.shortLivedToken = '';
         http.get('/').subscribe(
           response => {
             expect(response).toBeTruthy();

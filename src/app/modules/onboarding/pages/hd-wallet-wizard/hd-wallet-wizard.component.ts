@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-
-import { delay, tap, takeUntil, catchError, switchMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
+import { catchError, takeUntil, tap } from 'rxjs/operators';
 
-import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
-import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
-import { AuthRequest, CreateWalletRequest, CreateWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { CreateWalletRequest, CreateWalletResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { MnemonicValidator } from '../../validators/mnemonic.validator';
+
+
 
 enum WizardState {
   Overview,
@@ -33,7 +33,6 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private mnemonicValidator: MnemonicValidator,
     private walletService: WalletService,
-    private authService: AuthenticationService,
   ) {}
 
   // Properties.
@@ -62,30 +61,15 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
       Validators.min(1),
     ]),
   });
-  passwordFormGroup = this.formBuilder.group({
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-      this.passwordValidator.strongPassword,
-    ]),
-    passwordConfirmation: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-      this.passwordValidator.strongPassword,
-    ]),
-  }, {
-    validators: this.passwordValidator.matchingPasswordConfirmation,
-  });
+
   walletPasswordFormGroup = this.formBuilder.group({
     password: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
-      this.passwordValidator.strongPassword,
+      Validators.minLength(8)
     ]),
     passwordConfirmation: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
-      this.passwordValidator.strongPassword,
+      Validators.minLength(8)
     ]),
   }, {
     validators: this.passwordValidator.matchingPasswordConfirmation,
@@ -140,26 +124,17 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
       numAccounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
     } as CreateWalletRequest;
-    const webPassword = this.passwordFormGroup.controls.password.value;
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-    this.authService.signup({
-      password: webPassword,
-      passwordConfirmation: webPassword,
-    } as AuthRequest).pipe(
-      delay(500), // Delay to prevent flickering on loading.
-      switchMap(() => {
-        return this.walletService.createWallet(request).pipe(
-          tap((res: CreateWalletResponse) => {
-            this.loading = false;
-          }),
-          catchError(err => {
-            this.loading = false;
-            return throwError(err);
-          }),
-        );
-      })
-    ).subscribe();
+    this.walletService.createWallet(request).pipe(
+            tap((res: CreateWalletResponse) => {
+              this.loading = false;
+            }),
+            catchError(err => {
+              this.loading = false;
+              return throwError(err);
+            })
+      ).subscribe();
   }
 }

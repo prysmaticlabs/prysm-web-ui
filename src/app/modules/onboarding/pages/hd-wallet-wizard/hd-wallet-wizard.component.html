@@ -34,18 +34,6 @@
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletDir)">Continue</button></span>
               </div>
             </mat-step>
-            <mat-step [stepControl]="passwordFormGroup" label="Web Password">
-                <app-password-form
-                  title="Pick a strong web password"
-                  subtitle="You'll need to input this password every time you log back into the web interface"
-                  label="Web password"
-                  confirmationLabel="Confirm web password"
-                  [formGroup]="passwordFormGroup"></app-password-form>
-                <div class="mt-6">
-                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletPassword)">Continue</button></span>
-                </div>
-            </mat-step>
             <mat-step [stepControl]="walletPasswordFormGroup" label="Wallet">
               <div *ngIf="loading">
                 <div class="text-white text-xl mt-4">
@@ -103,18 +91,6 @@
                 <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
                 <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletDir)">Continue</button></span>
               </div>
-            </mat-step>
-            <mat-step [stepControl]="passwordFormGroup" label="Web Password">
-                <app-password-form
-                  title="Pick a strong web password"
-                  subtitle="You'll need to input this password every time you log back into the web interface"
-                  label="Web password"
-                  confirmationLabel="Confirm web password"
-                  [formGroup]="passwordFormGroup"></app-password-form>
-                <div class="mt-6">
-                  <button color="accent" mat-raised-button (click)="stepper.previous()">Previous</button>
-                  <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.WalletPassword)">Continue</button></span>
-                </div>
             </mat-step>
             <mat-step [stepControl]="walletPasswordFormGroup" label="Wallet">
               <div *ngIf="loading">

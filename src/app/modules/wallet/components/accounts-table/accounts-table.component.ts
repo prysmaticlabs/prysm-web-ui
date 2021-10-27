@@ -5,13 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BEACONCHAIN_EXPLORER } from 'src/app/modules/core/constants';
+import { BEACONCHAIN_EXPLORER, LANDING_URL } from 'src/app/modules/core/constants';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { AccountDeleteComponent } from '../account-delete/account-delete.component';
-
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
-import { UserService } from '../../../shared/services/user.service';
-import { Router } from '@angular/router';
+
 
 export interface TableData {
   select: number;
@@ -35,6 +33,9 @@ export class AccountsTableComponent implements AfterViewInit {
   @Input() dataSource: MatTableDataSource<TableData> | null = null;
   @Input() selection: SelectionModel<TableData> | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
+
+  readonly LANDING_URL = '/' + LANDING_URL;
+
   constructor(
     private dialog: MatDialog,
     private clipboard: Clipboard,

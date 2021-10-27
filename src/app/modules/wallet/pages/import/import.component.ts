@@ -1,10 +1,10 @@
 import { Component, NgZone } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/modules/core/services/authentication.service';
+import { catchError, filter, take, tap } from 'rxjs/operators';
+import { LANDING_URL } from 'src/app/modules/core/constants';
+
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { KeystoreValidator } from '../../../onboarding/validators/keystore.validator';
@@ -18,10 +18,8 @@ export class ImportComponent {
   constructor(
     private fb: FormBuilder,
     private walletService: WalletService,
-    private snackBar: MatSnackBar,
     private router: Router,
     private zone: NgZone,
-    private authService: AuthenticationService,
     private notificationService: NotificationService,
     private keystoreValidator: KeystoreValidator
   ) {}
@@ -45,12 +43,8 @@ export class ImportComponent {
     };
     this.loading = true;
 
-    this.authService
-      .prompt()
-      .pipe(
-        switchMap(() =>
-          this.walletService.importKeystores(req).pipe(
-            take(1),
+    this.walletService.importKeystores(req).pipe(
+          take(1),
             filter((result) => result !== undefined),
             tap(() => {
               this.notificationService.notifySuccess(
@@ -59,16 +53,13 @@ export class ImportComponent {
 
               this.loading = false;
               this.zone.run(() => {
-                this.router.navigate(['/dashboard/wallet/accounts']);
+                this.router.navigate(['/' + LANDING_URL + '/wallet/accounts']);
               });
             }),
             catchError((err) => {
               this.loading = false;
               return throwError(err);
             })
-          )
-        )
-      )
-      .subscribe();
+    ).subscribe();
   }
 }

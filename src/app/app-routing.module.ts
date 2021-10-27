@@ -5,10 +5,15 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { GainsAndLossesComponent } from './modules/dashboard/pages/gains-and-losses/gains-and-losses.component';
 import { LogsComponent } from './modules/system-process/pages/logs/logs.component';
 import { MetricsComponent } from './modules/system-process/pages/metrics/metrics.component';
-import { ChangePasswordComponent } from './modules/security/pages/change-password/change-password.component';
 import { OnboardingComponent } from './modules/onboarding/onboarding.component';
 import { PeerLocationsMapComponent } from './modules/system-process/pages/peer-locations-map/peer-locations-map.component';
 import { InitializeComponent } from './modules/auth/initialize/initialize.component';
+import { AuthGuard } from './modules/auth/guards/auth.guard';
+import { HasWalletGuard } from './modules/auth/guards/hasWallet.guard';
+import { NotFoundComponent } from './modules/auth/error_pages/notfound.component';
+
+import { LANDING_URL } from './modules/core/constants';
+import { ONBOARDING_URL } from './modules/core/constants';
 
 const routes: Routes = [
   {
@@ -21,17 +26,21 @@ const routes: Routes = [
     component: InitializeComponent,
   },
   {
-    path: 'onboarding',
+    path: ONBOARDING_URL,
     data: {
-      breadcrumb: 'Onboarding',
+      breadcrumb: ONBOARDING_URL,
     },
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard, HasWalletGuard],
     component: OnboardingComponent,
   },
   {
-    path: 'dashboard',
+    path: LANDING_URL,
     data: {
-      breadcrumb: 'Dashboard',
+      breadcrumb: LANDING_URL,
     },
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard, HasWalletGuard],
     component: DashboardComponent,
     children: [
       {
@@ -88,28 +97,10 @@ const routes: Routes = [
           },
         ],
       },
-      {
-        path: 'security',
-        data: {
-          breadcrumb: 'Security',
-        },
-        children: [
-          {
-            path: '',
-            redirectTo: 'change-password',
-            pathMatch: 'full',
-          },
-          {
-            path: 'change-password',
-            data: {
-              breadcrumb: 'Change Password',
-            },
-            component: ChangePasswordComponent,
-          },
-        ],
-      },
     ],
   },
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

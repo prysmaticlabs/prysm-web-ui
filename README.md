@@ -47,3 +47,6 @@ Then, do
 
 You should see protos being regenerated under `./src/app/proto`, which will be used as the types in our frontend application.
 
+### Environment variables
+
+Environment variables are injected via the environmenter service under core/services. this is key to determining some logic in the system such as with interceptors to prevent header leakage.

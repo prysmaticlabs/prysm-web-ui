@@ -112,7 +112,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
         this.keystoresFormGroup.markAllAsTouched();
         break;
     }
-    this.stepper?.next();
+    if (this.keystoresFormGroup.valid){
+      this.stepper?.next();
+    }
   }
 
   createWallet(event: Event): void {

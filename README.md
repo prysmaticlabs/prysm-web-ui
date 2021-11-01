@@ -15,6 +15,26 @@ npm start
 ```
 navigate to http://localhost:4200
 
+## Environment 
+
+### Environment Variables
+
+Environment variables are injected via the environmenter service under core/services. this is key to determining some logic in the system such as with interceptors to prevent header leakage.
+
+### Develop Environment
+
+Web UI in development mode uses mock data by default
+
+The recommended way to run prysm web is from the validator client itself via the `--web` flag. If you are building the web UI from source and doing `npm start`, you **will be using fake, mock data!** Keep that in mind if you are trying to use real accounts with the web UI.
+
+Develop URL login
+
+for authentication in develop you may use any token in the url query parameter i.e. `localhost:4200/initialize?token=anytoken`
+
+### Staging Environment
+
+run `npm run start:staging` will run a 'like' production build where the backend expects to be connected to `localhost:7500`. You will need to start the validator client with `--web` but interact with your angular application on `localhost:4200`.
+
 ## Build
 
 Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
@@ -31,7 +51,7 @@ Run `npm run test:watch` to execute the unit tests in watch mode via [Karma](htt
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Development
+## Development Tips
 
 ### Generating typescript protos
 
@@ -47,6 +67,3 @@ Then, do
 
 You should see protos being regenerated under `./src/app/proto`, which will be used as the types in our frontend application.
 
-### Environment variables
-
-Environment variables are injected via the environmenter service under core/services. this is key to determining some logic in the system such as with interceptors to prevent header leakage.

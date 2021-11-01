@@ -17,12 +17,26 @@
     <div class="my-6 text-hint text-lg leading-relaxed">
       Upload any folder of keystore files such as the validator_keys folder that
       was created during the eth2 launchpad's eth2.0-deposit-cli process here.
-      You can drag and drop the directory or individual files.
+      You can drag and drop the directory or individual files. Onboarding requires keystores to use the same password.
+      Additional keystores with other passwords can be uploaded one at a time after onboarding.
     </div>
   </div>
   <form [formGroup]="formGroup">
+    <app-import-dropzone [accept]="'.json,.zip'"
+      (fileChange)="fileChangeHandler($event)"></app-import-dropzone>
+    <div class="my-6 flex flex-wrap">
+      <mat-error class="warning" *ngIf="formGroup && formGroup.touched &&
+        formGroup.controls.keystoresImported.hasError('noKeystoresUploaded')">
+        Please upload at least 1 valid keystore file
+      </mat-error>
+      <mat-error class="warning" *ngIf="formGroup && formGroup.touched &&
+        formGroup.controls.keystoresImported.hasError('tooManyKeystores')">
+        Max 50 keystore files allowed. If you have more than that, we recommend
+        an HD wallet instead
+      </mat-error>
+    </div>
     <mat-form-field appearance="outline">
-      <mat-label>Password to unlock keystores</mat-label>
+      <mat-label>Password to unlock keystores <span class="text-red-600">*</span></mat-label>
       <input
         matInput
         formControlName="keystoresPassword"
@@ -32,31 +46,18 @@
         type="password"
         />
       <mat-error class="warning"
-        *ngIf="formGroup?.controls.keystoresPassword.hasError('required')">
+        *ngIf="formGroup?.controls.keystoresPassword.hasError('required') && formGroup?.touched ">
         Password for keystores is required
       </mat-error>
       <mat-error class="warning"
-        *ngIf="formGroup?.controls.keystoresPassword.hasError('incorrectPassword')">
+        *ngIf="formGroup?.controls.keystoresPassword.hasError('incorrectPassword') && formGroup?.touched">
         {{formGroup?.controls.keystoresPassword.getError('incorrectPassword')}}
       </mat-error>
       <mat-error class="warning"
-        *ngIf="formGroup?.controls.keystoresPassword.hasError('somethingWentWrong')">
+        *ngIf="formGroup?.controls.keystoresPassword.hasError('somethingWentWrong') && formGroup?.touched">
         Something went wrong when attempting to decrypt your keystores, perhaps
         your node is not running
       </mat-error>
     </mat-form-field>
-    <app-import-dropzone [accept]="'.json,.zip'"
-      (fileChange)="fileChangeHandler($event)"></app-import-dropzone>
-    <div class="my-6 flex flex-wrap">
-      <mat-error *ngIf="formGroup && formGroup.touched &&
-        formGroup.controls.keystoresImported.hasError('noKeystoresUploaded')">
-        Please upload at least 1 valid keystore file
-      </mat-error>
-      <mat-error *ngIf="formGroup && formGroup.touched &&
-        formGroup.controls.keystoresImported.hasError('tooManyKeystores')">
-        Max 50 keystore files allowed. If you have more than that, we recommend
-        an HD wallet instead
-      </mat-error>
-    </div>
   </form>
 </div>

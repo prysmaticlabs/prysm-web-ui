@@ -70,7 +70,7 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
     setTimeout(() => {
       this.fileStatus = FileStatus.uploading;
       const request = {
-        slashingProtectionJSON: JSON.stringify(this.importedFiles),
+        slashingProtectionJson: JSON.stringify(this.importedFiles),
       } as ImportSlashingProtectionRequest;
 
       this.walletService

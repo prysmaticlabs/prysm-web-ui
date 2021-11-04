@@ -27,7 +27,7 @@ export class LogsService {
       );
     }
     return stream(`${this.apiUrl}/health/logs/validator/stream`).pipe(
-      map((obj: any) =>  obj.Logs),
+      map((obj: any) =>  obj?obj.logs:''),
       mergeAll(),
     );
   }
@@ -44,7 +44,7 @@ export class LogsService {
       );
     }
     return stream(`${this.apiUrl}/health/logs/beacon/stream`).pipe(
-      map((obj: any) => obj.logs),
+      map((obj: any) => obj?obj.logs:''),
       mergeAll(),
     );
   }

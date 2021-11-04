@@ -13,7 +13,7 @@ import {
 import {
   ChainHead,
   ValidatorParticipationResponse,
-  ValidatorPerformanceResponse,
+  ValidatorSummaryResponse,
   ValidatorQueue,
   Validators,
   Validators_ValidatorContainer,
@@ -537,7 +537,7 @@ export const Mocks: IMocks = {
       votedEther: '1136975000000000',
     } as ValidatorParticipation,
   } as ValidatorParticipationResponse,
-  '/v2/validator/beacon/performance': {
+  '/v2/validator/beacon/summary': {
     currentEffectiveBalances: ['31000000000', '31000000000', '31000000000'],
     correctlyVotedHead: [true, true, false],
     correctlyVotedSource: [true, true, false],
@@ -553,7 +553,7 @@ export const Mocks: IMocks = {
     balancesAfterEpochTransition: ['31200823019', '31216596259', '31204412779'],
     publicKeys: mockPublicKeys,
     missingValidators: [],
-  } as ValidatorPerformanceResponse,
+  } as ValidatorSummaryResponse,
   '/v2/validator/beacon/queue': {
     churnLimit: 4,
     activationPublicKeys: [mockPublicKeys[0], mockPublicKeys[1]],

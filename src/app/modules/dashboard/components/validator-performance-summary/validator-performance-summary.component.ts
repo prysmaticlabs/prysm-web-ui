@@ -100,10 +100,10 @@ export class ValidatorPerformanceSummaryComponent {
     this.loading = false;
     return {
       averageInclusionDistance,
-      correctlyVotedHeadPercent: votedHeadPercentage !== -1?(votedHeadPercentage * 100):null,
+      correctlyVotedHeadPercent: votedHeadPercentage !== -1 ? (votedHeadPercentage * 100) : null,
       overallScore,
       recentEpochGains,
-      totalBalance: perf.balances && perf.balances.length != 0 ? formatUnits(totalBalance, 'gwei').toString(): null,
+      totalBalance: perf.balances && perf.balances.length !== 0 ? formatUnits(totalBalance, 'gwei').toString() : null,
     } as PerformanceData;
   }
 

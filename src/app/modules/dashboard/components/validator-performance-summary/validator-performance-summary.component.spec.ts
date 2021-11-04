@@ -30,7 +30,17 @@ describe('ValidatorPerformanceSummaryComponent', () => {
     balancesBeforeEpochTransition: ['31000000000', '31000000000'],
     balancesAfterEpochTransition: ['32000000000', '32000000000'],
     epoch: '',
-    balances: [],
+    balances: [{
+
+      publicKey: '0xa2b5aaad9c6efefe7bb9b1243a043404f3362937cfb6b31833929833173f476630ea2cfeb0d9ddf15f97ca8685948820',
+
+
+      index: 0,
+
+      balance: '2000000000',
+
+      status: ''
+    }],
     nextPageToken: '',
     totalSize: 0,
     inclusionSlots: [],
@@ -75,7 +85,7 @@ describe('ValidatorPerformanceSummaryComponent', () => {
 
   describe('transformPerformanceData', () => {
     it('should properly determine average effective balance', () => {
-      expect(transformedData.totalBalance).toEqual('0.0');
+      expect(transformedData.totalBalance).toEqual('2.0');
     });
     it('should properly determine average inclusion distance', () => {
       expect(transformedData.averageInclusionDistance).toEqual(1.5);

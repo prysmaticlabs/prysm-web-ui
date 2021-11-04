@@ -3,7 +3,7 @@ import { MockService } from 'ng-mocks';
 import { SharedModule } from '../../../shared/shared.module';
 import {
   ValidatorBalances,
-  ValidatorPerformanceResponse,
+  ValidatorSummaryResponse,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ValidatorPerformanceListComponent } from './validator-performance-list.component';
 import { of } from 'rxjs';
@@ -30,7 +30,7 @@ describe('ValidatorListComponent', () => {
       balances: [],
       nextPageToken: '',
       totalSize: 0,
-    } as ValidatorPerformanceResponse & ValidatorBalances);
+    } as ValidatorSummaryResponse & ValidatorBalances);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [

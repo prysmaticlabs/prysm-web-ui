@@ -4,7 +4,7 @@ import { ValidatorPerformanceSummaryComponent, PerformanceData } from './validat
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
-import { ValidatorBalances, ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorBalances, ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
@@ -36,7 +36,7 @@ describe('ValidatorPerformanceSummaryComponent', () => {
     inclusionSlots: [],
     publicKeys: [],
     missingValidators: [],
-  } as ValidatorPerformanceResponse & ValidatorBalances;
+  } as ValidatorSummaryResponse & ValidatorBalances;
 
   service['performance$'] = of(defaultPerformanceData);
   walletService['validatingPublicKeys$'] = of([] as string[]);

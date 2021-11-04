@@ -462,7 +462,7 @@ export interface ActiveSetChanges {
   ejectedIndices: number[];
 }
 
-export interface ValidatorPerformanceRequest {
+export interface ValidatorSummaryRequest {
   /**
    *  A list of 48 byte validator public keys.
    */
@@ -473,7 +473,7 @@ export interface ValidatorPerformanceRequest {
   indices: number[];
 }
 
-export interface ValidatorPerformanceResponse {
+export interface ValidatorSummaryResponse {
   /**
    *  A list of validator effective balances mapped 1-to-1 with the request's
    *  public keys.

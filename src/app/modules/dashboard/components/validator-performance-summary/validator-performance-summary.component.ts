@@ -8,7 +8,7 @@ import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
 
 import { GWEI_PER_ETHER, FAR_FUTURE_EPOCH } from 'src/app/modules/core/constants';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
-import { ValidatorBalances, ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorBalances, ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 
 export interface PerformanceData {
@@ -59,7 +59,7 @@ export class ValidatorPerformanceSummaryComponent {
     map(this.transformPerformanceData.bind(this)),
   );
 
-  private transformPerformanceData(perf: ValidatorPerformanceResponse & ValidatorBalances): PerformanceData {
+  private transformPerformanceData(perf: ValidatorSummaryResponse & ValidatorBalances): PerformanceData {
     const totalBalance = perf.balances.reduce(
       (prev, curr) => {
         if (curr && curr.balance) {

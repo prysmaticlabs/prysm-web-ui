@@ -17,7 +17,7 @@ export class LogsService {
 
   validatorLogs(): Observable<string> {
     // Use mock data in development mode.
-    if (!this.environmenter.env.production) {
+    if (this.environmenter.env.mockInterceptor) {
       const data = mockValidatorLogs.split('\n').map((v, _) => v);
       return of(data).pipe(
         mergeAll(),
@@ -27,14 +27,14 @@ export class LogsService {
       );
     }
     return stream(`${this.apiUrl}/health/logs/validator/stream`).pipe(
-      map((obj: any) => obj.result.logs),
+      map((obj: any) =>  obj.Logs),
       mergeAll(),
     );
   }
 
   beaconLogs(): Observable<string> {
     // Use mock data in development mode.
-    if (!this.environmenter.env.production) {
+    if (this.environmenter.env.mockInterceptor) {
       const data = mockBeaconLogs.split('\n').map((v, _) => v);
       return of(data).pipe(
         mergeAll(),
@@ -44,7 +44,7 @@ export class LogsService {
       );
     }
     return stream(`${this.apiUrl}/health/logs/beacon/stream`).pipe(
-      map((obj: any) => obj.result.logs),
+      map((obj: any) => obj.logs),
       mergeAll(),
     );
   }

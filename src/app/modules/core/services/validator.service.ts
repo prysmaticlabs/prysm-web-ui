@@ -8,7 +8,7 @@ import range from 'src/app/modules/core/utils/range';
 import { WalletService } from './wallet.service';
 
 import {
-  ValidatorBalances, ValidatorPerformanceResponse, Validators,
+  ValidatorBalances, ValidatorSummaryResponse, Validators,
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { ListAccountsResponse, LogsEndpointResponse, VersionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { EnvironmenterService } from './environmenter.service';
@@ -30,14 +30,14 @@ export class ValidatorService {
     share(),
   );
 
-  performance$: Observable<ValidatorPerformanceResponse & ValidatorBalances> = this.walletService.validatingPublicKeys$.pipe(
+  performance$: Observable<ValidatorSummaryResponse & ValidatorBalances> = this.walletService.validatingPublicKeys$.pipe(
     switchMap((publicKeys: string[]) => {
       let params = `?publicKeys=`;
       publicKeys.forEach((key, _) => {
         params += `${this.encodePublicKey(key)}&publicKeys=`;
       });
       const balances = this.balances(publicKeys, 0, publicKeys.length);
-      const httpReq = this.http.get<ValidatorPerformanceResponse>(`${this.apiUrl}/beacon/performance${params}`);
+      const httpReq = this.http.get<ValidatorSummaryResponse>(`${this.apiUrl}/beacon/summary${params}`);
       return zip(httpReq, balances).pipe(
         map(([perf, bals]) => {
           return {

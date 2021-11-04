@@ -4,7 +4,7 @@ import { ValidatorPerformanceSummaryComponent, PerformanceData } from './validat
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
-import { ValidatorBalances, ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorBalances, ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
@@ -30,13 +30,23 @@ describe('ValidatorPerformanceSummaryComponent', () => {
     balancesBeforeEpochTransition: ['31000000000', '31000000000'],
     balancesAfterEpochTransition: ['32000000000', '32000000000'],
     epoch: '',
-    balances: [],
+    balances: [{
+
+      publicKey: '0xa2b5aaad9c6efefe7bb9b1243a043404f3362937cfb6b31833929833173f476630ea2cfeb0d9ddf15f97ca8685948820',
+
+
+      index: 0,
+
+      balance: '2000000000',
+
+      status: ''
+    }],
     nextPageToken: '',
     totalSize: 0,
     inclusionSlots: [],
     publicKeys: [],
     missingValidators: [],
-  } as ValidatorPerformanceResponse & ValidatorBalances;
+  } as ValidatorSummaryResponse & ValidatorBalances;
 
   service['performance$'] = of(defaultPerformanceData);
   walletService['validatingPublicKeys$'] = of([] as string[]);
@@ -75,7 +85,7 @@ describe('ValidatorPerformanceSummaryComponent', () => {
 
   describe('transformPerformanceData', () => {
     it('should properly determine average effective balance', () => {
-      expect(transformedData.totalBalance).toEqual('0.0');
+      expect(transformedData.totalBalance).toEqual('2.0');
     });
     it('should properly determine average inclusion distance', () => {
       expect(transformedData.averageInclusionDistance).toEqual(1.5);

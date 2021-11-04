@@ -17,8 +17,7 @@
     <div class="my-6 text-hint text-lg leading-relaxed">
       Upload any folder of keystore files such as the validator_keys folder that
       was created during the eth2 launchpad's eth2.0-deposit-cli process here.
-      You can drag and drop the directory or individual files. Onboarding requires keystores to use the same password.
-      Additional keystores with other passwords can be uploaded one at a time after onboarding.
+      You can drag and drop the directory or individual files.
     </div>
   </div>
   <form [formGroup]="formGroup">
@@ -59,5 +58,6 @@
         your node is not running
       </mat-error>
     </mat-form-field>
+    <app-import-protection></app-import-protection>
   </form>
 </div>

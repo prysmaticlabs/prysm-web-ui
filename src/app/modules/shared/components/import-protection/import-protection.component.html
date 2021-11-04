@@ -1,0 +1,48 @@
+
+<div class="pb-4">
+    <div class="import-keys-form">
+        <div class="text-white text-xl mt-4">
+            Import Slashing protections (recommended)
+        </div>
+        <ng-container *ngIf="!isUploading">
+            <div class="my-6 text-hint text-lg leading-relaxed"> Upload
+                your
+                slashing protection file. To read more about
+                how to obtain this file, see our documentation portal
+                <a class="text-blue-600"
+                    href="https://docs.prylabs.network/docs/wallet/slashing-protection/"
+                    target="_blank">
+                    here
+                </a>
+            </div>
+            <app-import-dropzone [accept]="'.json'"
+                (fileChange)="fileChange($event)"></app-import-dropzone>
+            <div>
+                <button (click)="confirmImport()"
+                    [disabled]="importedFiles.length==0"
+                    mat-raised-button color="primary">
+                    Confirm Import
+                </button>
+            </div>
+        </ng-container>
+    </div>
+
+    <ng-container *ngIf="isUploading">
+        <div class="my-4 text-hint text-lg leading-relaxed">
+            Hang in there while we
+            <ng-container *ngIf="fileStatus == fileStatuses.uploading;
+                else
+                validateTemplate">
+                upload
+            </ng-container>
+            <ng-template #validateTemplate>
+                validate
+            </ng-template>
+            your files...
+        </div>
+        <div class="pb-2">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+    </ng-container>
+</div>
+

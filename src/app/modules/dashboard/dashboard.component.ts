@@ -39,6 +39,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           path: '/' + LANDING_URL + '/wallet/accounts',
         },
         {
+          name: 'Slashing Protection',
+          icon: 'shield',
+          path: '/dashboard/wallet/slashing-protection',
+        },
+        {
           name: 'Wallet Information',
           path: '/' + LANDING_URL + '/wallet/details',
           icon: 'settings_applications',

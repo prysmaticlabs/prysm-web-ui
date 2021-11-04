@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { from, throwError } from 'rxjs';
 import * as JSZip from 'jszip';
 import { catchError, take, tap } from 'rxjs/operators';
+import { DropFile } from '../import-dropzone/import-dropzone.component';
 
 @Component({
   selector: 'app-import-accounts-form',
@@ -40,11 +41,7 @@ export class ImportAccountsFormComponent {
       )
       .subscribe();
   }
-  fileChangeHandler(obj: {
-    file: File;
-    context: any;
-    validationResult: (context: any, file: File, ...responses: any[]) => void;
-  }): void {
+  fileChangeHandler(obj: DropFile): void {
     const { file, context, validationResult } = obj;
     if (file.type === 'application/zip') {
       this.unzipFile(file);

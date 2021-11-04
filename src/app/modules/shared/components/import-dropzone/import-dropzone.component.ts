@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 
 @Component({
@@ -6,7 +6,7 @@ import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
   templateUrl: './import-dropzone.component.html',
   styleUrls: ['./import-dropzone.component.scss'],
 })
-export class ImportDropzoneComponent implements OnInit {
+export class ImportDropzoneComponent{
   constructor() {}
   MAX_FILES_BEFORE_PREVIEW = 3;
   filesPreview: string[] = [];
@@ -19,8 +19,7 @@ export class ImportDropzoneComponent implements OnInit {
     context: any;
     validationResult: (context: any, file: File, ...responses: any[]) => void;
   }>();
-
-  ngOnInit(): void {}
+  
   dropped(droppedFiles: NgxFileDropEntry[]): void {
     this.uploading = true;
     let numFilesUploaded = 0;
@@ -38,7 +37,7 @@ export class ImportDropzoneComponent implements OnInit {
             file: (file),
             context: this,
             validationResult: this.onValidationResult,
-          });
+          } as DropFile);
         });
       }
     }
@@ -50,4 +49,10 @@ export class ImportDropzoneComponent implements OnInit {
       ctx.filesPreview.push(file.name);
     }
   }
+}
+
+export interface DropFile {
+  file: File;
+  context: ImportDropzoneComponent;
+  validationResult: (context: ImportDropzoneComponent, file: File, ...responses: any[]) => void;
 }

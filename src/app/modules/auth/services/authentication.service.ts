@@ -23,11 +23,6 @@ export class AuthenticationService {
   private TOKENNAME = 'prysm_access_token';
   private TOKENEXPIRATIONNAME = 'prysm_access_token_expiration';
 
-
-  login(request: AuthRequest): Observable<AuthResponse> {
-    return this.authenticate(`${this.apiUrl}/login`, request);
-  }
-
   cacheToken(token: string, tokenExpiration: number): void{
     this.clearCachedToken();
     window.localStorage.setItem(this.TOKENNAME, token);
@@ -39,14 +34,6 @@ export class AuthenticationService {
   clearCachedToken(): void{
     window.localStorage.removeItem(this.TOKENNAME);
     window.localStorage.removeItem(this.TOKENEXPIRATIONNAME);
-  }
-
-  signup(request: AuthRequest): Observable<AuthResponse> {
-    return this.authenticate(`${this.apiUrl}/signup`, request);
-  }
-
-  changeUIPassword(request: ChangePasswordRequest): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/password/edit`, request);
   }
 
   checkHasUsedWeb(): Observable<HasUsedWebResponse> {
@@ -64,13 +51,4 @@ export class AuthenticationService {
     return Number(tokenExpiration);
   }
 
-  // Authenticate the user with a password and extract the JWT token
-  // from the response object. Uses take to prevent multiple calls to the backend.
-  authenticate(method: string, request: AuthRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(method, request).pipe(
-      tap((res: AuthResponse) => {
-        this.shortLivedToken = res.token;
-      })
-    );
-  }
 }

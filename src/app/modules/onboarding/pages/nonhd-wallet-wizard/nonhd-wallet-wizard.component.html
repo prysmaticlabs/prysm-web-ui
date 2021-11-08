@@ -17,7 +17,7 @@
               <app-import-accounts-form [formGroup]="keystoresFormGroup"></app-import-accounts-form>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockAccounts)">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockAccounts)" [disabled]="keystoresFormGroup.invalid">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="walletPasswordFormGroup" label="Wallet">
@@ -54,7 +54,7 @@
             </mat-step>
           </mat-horizontal-stepper>
         </div>
-        <div *ngIf="isSmallScreen" class="wizard-container flex w-full md:hidden items-center">
+        <div *ngIf="isSmallScreen" class="wizard-container flex w-full items-center">
           <mat-vertical-stepper class="bg-paper rounded-r" linear #stepper>
             <mat-step label="Import Keys">
               <app-import-accounts-form [formGroup]="keystoresFormGroup"></app-import-accounts-form>

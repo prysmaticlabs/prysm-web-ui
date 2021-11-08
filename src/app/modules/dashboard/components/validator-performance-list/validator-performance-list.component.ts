@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { BigNumber } from 'ethers';
-import { ValidatorPerformanceResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { throwError } from 'rxjs';
 import { catchError, map, take, tap, takeUntil, filter } from 'rxjs/operators';
 import { ValidatorService } from '../../../core/services/validator.service';
@@ -57,7 +57,7 @@ export class ValidatorPerformanceListComponent
     super();
     this.validatorService.performance$
       .pipe(
-        map((performance: ValidatorPerformanceResponse) => {
+        map((performance: ValidatorSummaryResponse) => {
           const list: ValidatorListItem[] = [];
           if (performance) {
             for (let i = 0; i < performance.publicKeys.length; i++) {

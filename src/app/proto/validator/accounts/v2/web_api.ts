@@ -245,7 +245,7 @@ export interface ImportSlashingProtectionRequest {
   /**
    * JSON representin the slash protection
    */
-  slashingProtectionJSON: string;
+  slashingProtectionJson: string;
 }
 export interface BackupAccountsRequest {
   /**

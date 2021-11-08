@@ -53,18 +53,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   }, {
     asyncValidators: this.keystoreValidator.correctPassword(),
   });
-  passwordFormGroup = this.formBuilder.group({
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8)
-    ]),
-    passwordConfirmation: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8)
-    ]),
-  }, {
-    validators: this.passwordValidator.matchingPasswordConfirmation,
-  });
   walletPasswordFormGroup = this.formBuilder.group({
     password: new FormControl('', [
       Validators.required,
@@ -106,20 +94,21 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   }
 
   nextStep(event: Event, state: WizardState): void {
-    event.stopPropagation();
     switch (state) {
       case WizardState.UnlockAccounts:
         this.keystoresFormGroup.markAllAsTouched();
         break;
     }
-    this.stepper?.next();
+    if (this.keystoresFormGroup.valid){
+      this.stepper?.next();
+    }
   }
 
   createWallet(event: Event): void {
     event.stopPropagation();
     const request = {
       keymanager: 'IMPORTED',
-      walletPassword: this.passwordFormGroup.get('password')?.value,
+      walletPassword: this.walletPasswordFormGroup.get('password')?.value,
     } as CreateWalletRequest;
     const importRequest = {
       keystoresPassword: this.keystoresFormGroup.get('keystoresPassword')?.value,
@@ -128,17 +117,12 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-
     this.walletService.createWallet(request).pipe(
       switchMap(() => {
         return this.walletService.importKeystores(importRequest).pipe(
           tap(() => {
             this.router.navigate([LANDING_URL]);
-          }),
-          catchError(err => {
-            this.loading = false;
-            return throwError(err);
-          }),
+          })
         );
       }),
       catchError(err => {

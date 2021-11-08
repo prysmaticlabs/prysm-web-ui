@@ -20,7 +20,7 @@
           </mat-icon>
         </div>
         <div class="text-primary font-semibold text-2xl mt-2">
-          {{perf.totalBalance | number: '1.4-4'}} ETH
+          {{perf.totalBalance ?  (perf.totalBalance | number: '1.4-4')+'ETH' : 'N/A'}} 
         </div>
       </div>
       <div>
@@ -53,7 +53,7 @@
           </mat-icon>
         </div>
         <div class="text-primary font-semibold text-2xl mt-2">
-          {{perf.correctlyVotedHeadPercent | number: '1.2-2'}}%
+          {{perf.correctlyVotedHeadPercent ? (perf.correctlyVotedHeadPercent | number: '1.2-2')+'%' : 'N/A'}}
         </div>
       </div>
       <div>

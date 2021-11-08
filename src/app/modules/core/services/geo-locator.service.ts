@@ -27,11 +27,13 @@ export class GeoLocatorService {
   getPeerCoordinates(): Observable<GeoCoordinate[]> {
     return this.beaconService.peers$.pipe(
       map((peers: Peers) => {
-        return peers.peers.map(peer => {
+        return peers.peers.filter(peer => {
+          return peer.address.match(/^\/ip(4|6)\//);
+        }).map(peer => {
           return peer.address.split('/')[2];
         });
       }),
-      switchMap(ips => this.http.post<GeoCoordinate[]>(GEO_COORDINATES_API, JSON.stringify(ips)))
+      switchMap(ips => this.http.post<GeoCoordinate[]>(GEO_COORDINATES_API, JSON.stringify(ips.slice(0, 100))))
     );
   }
 }

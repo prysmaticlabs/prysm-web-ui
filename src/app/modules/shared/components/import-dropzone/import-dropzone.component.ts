@@ -57,6 +57,12 @@ export class ImportDropzoneComponent{
     }
   }
 
+  removeFiles(files:File[]):void{
+    files.forEach(file => {
+      this.removeFile(file);
+    });
+  }
+
 
   pushValidationResult({file,responses}:{file: File, responses: string[]}): void {
     this.invalidFiles = responses;

@@ -3,6 +3,7 @@
   <mat-card class="bg-paper import-accounts">
     <div class="px-6 pb-4">
       <app-import-accounts-form [formGroup]="keystoresFormGroup"></app-import-accounts-form>
+      <app-import-protection #slashingProtection></app-import-protection>
       <div class="my-4"></div>
       <div class="flex">
         <a routerLink="/dashboard/wallet/accounts"><button mat-raised-button color="accent">Back to Accounts</button></a>

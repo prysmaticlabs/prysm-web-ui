@@ -11,11 +11,13 @@ import { DropFile } from '../import-dropzone/import-dropzone.component';
 })
 export class ImportAccountsFormComponent {
   @Input() formGroup: FormGroup | null = null;
-
+  
   constructor() {}
 
   // Properties.
   invalidFiles: string[] = [];
+
+  
 
   // Unzip an uploaded zip file and attempt
   // to get all its keystores to update the form group.
@@ -49,6 +51,7 @@ export class ImportAccountsFormComponent {
         this.updateImportedKeystores(file.name, JSON.parse(txt));
         context.pushValidationResult({file: file, responses: this.invalidFiles});
       });
+      
     }
   }
 

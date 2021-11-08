@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
@@ -6,6 +6,7 @@ import { catchError, filter, take, tap } from 'rxjs/operators';
 import { LANDING_URL } from 'src/app/modules/core/constants';
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
+import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
 import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { KeystoreValidator } from '../../../onboarding/validators/keystore.validator';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -15,6 +16,8 @@ import { NotificationService } from '../../../shared/services/notification.servi
   templateUrl: './import.component.html',
 })
 export class ImportComponent {
+  @ViewChild('slashingProtection') slashingProtection: ImportProtectionComponent | undefined;
+  
   constructor(
     private fb: FormBuilder,
     private walletService: WalletService,
@@ -32,6 +35,7 @@ export class ImportComponent {
   });
 
   submit(): void {
+    
     if (this.keystoresFormGroup.invalid) {
       return;
     }

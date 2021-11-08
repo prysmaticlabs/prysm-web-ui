@@ -29,10 +29,9 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
 
   file: File | undefined;
   ngOnInit(): void {}
-  fileChange(fileObj: DropFile): void {
+  async fileChange(fileObj: DropFile): Promise<void> {
     if(fileObj.action === DropFileAction.IMPORT){
-      console.log(fileObj)
-      const validationResult = this.validateFile(fileObj);
+      const validationResult = await this.validateFile(fileObj);
       fileObj.context.pushValidationResult({file:fileObj.file,responses:validationResult});
     } else if(fileObj.action === DropFileAction.DELETE){
       // remove file from importedFiles only
@@ -41,14 +40,14 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
     }
   }
 
-  private validateFile(fileObject: DropFile): string[] {
+  private validateFile(fileObject: DropFile): Promise<string[]> {
     const file = fileObject.file;
     if(file.size === 0){
       this.fileStatus = FileStatus.error;
-      return [`Empty file: ${file?.name}`];
+      return new Promise((resolve, reject) => { resolve([`Empty file: ${file?.name}`])});
     }
-
-    file.text().then((jsTxt) => {
+    
+    return file.text().then((jsTxt) => {
       this.fileStatus = FileStatus.validating;
       if (!JSON.parse(jsTxt)) {
         this.fileStatus = FileStatus.error;
@@ -66,8 +65,9 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
       this.importedFileNames.push(file?.name ?? '');
       this.importedFiles.push(jObj);
       this.fileStatus = FileStatus.validated;
-    });
-    return [];
+      return [];
+    }).catch((err)=>{return [`Invalid Format: ${file?.name}`];});
+    
   }
 
   confirmImport(): void {

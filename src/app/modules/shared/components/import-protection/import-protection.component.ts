@@ -5,7 +5,7 @@ import { FileStatus } from '../../services/enums';
 import { ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { tap, catchError } from 'rxjs/operators';
 import { NotificationService } from '../../services/notification.service';
-import { DropFile } from 'src/app/modules/shared/components/import-dropzone/import-dropzone.component';
+import { DropFile,DropFileAction} from 'src/app/modules/shared/components/import-dropzone/import-dropzone.component';
 import { EIPSlashingProtectionFormat } from '../../../wallet/pages/slashing-protection/model/interface';
 
 @Component({
@@ -30,44 +30,44 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
   file: File | undefined;
   ngOnInit(): void {}
   fileChange(fileObj: DropFile): void {
-    const validationResult = this.validateFile(fileObj);
-    if (!validationResult.result) {
-      fileObj.validationResult(fileObj.context, fileObj.file, [
-        validationResult.response,
-      ]);
-    } else {
-      fileObj.validationResult(fileObj.context, fileObj.file, []);
+    if(fileObj.action === DropFileAction.IMPORT){
+      console.log(fileObj)
+      const validationResult = this.validateFile(fileObj);
+      fileObj.context.pushValidationResult({file:fileObj.file,responses:validationResult});
+    } else if(fileObj.action === DropFileAction.DELETE){
+      // remove file from importedFiles only
+      this.importedFileNames = [];
+      this.importedFiles = [];
     }
-    
   }
 
-  private validateFile(fileObject: DropFile): { result: boolean; response: string } {
+  private validateFile(fileObject: DropFile): string[] {
     const file = fileObject.file;
     if(file.size === 0){
       this.fileStatus = FileStatus.error;
-      return { result: false, response: `Empty file: ${file?.name}` };
+      return [`Empty file: ${file?.name}`];
     }
 
     file.text().then((jsTxt) => {
       this.fileStatus = FileStatus.validating;
       if (!JSON.parse(jsTxt)) {
         this.fileStatus = FileStatus.error;
-        return { result: false, response: `Invalid Format: ${file?.name}` };
+        return [`Invalid Format: ${file?.name}`] ;
       }
       const jObj: EIPSlashingProtectionFormat = JSON.parse(jsTxt);
       if (!jObj.metadata || !jObj.data || jObj.data.length === 0) {
         this.fileStatus = FileStatus.error;
-        return { result: false, response: `Invalid Format: ${file?.name}` };
+        return [`Invalid Format: ${file?.name}`] ;
       }
       if (this.importedFileNames.includes(file?.name ?? '')) {
-        return { result: false, response: `Duplicate File : ${file?.name}` };
+        return [`Duplicate File : ${file?.name}`];
       }
       
       this.importedFileNames.push(file?.name ?? '');
       this.importedFiles.push(jObj);
       this.fileStatus = FileStatus.validated;
     });
-    return { result: true, response: `` };
+    return [];
   }
 
   confirmImport(): void {

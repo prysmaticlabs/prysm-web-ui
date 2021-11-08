@@ -1,16 +1,5 @@
 <div class="import-keys-form">
-  <div *ngIf="uploading">
-    <div class="text-white text-xl mt-4">
-      Uploading files...
-    </div>
-    <div class="my-4 text-hint text-lg leading-relaxed">
-      Hang in there while we upload your keystore files...
-    </div>
-    <div class="pb-2">
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </div>
-  </div>
-  <div *ngIf="!uploading">
+  <div>
     <div class="text-white text-xl mt-4">
       Import Validating Keys
     </div>
@@ -34,6 +23,7 @@
         an HD wallet instead
       </mat-error>
     </div>
+    
     <mat-form-field appearance="outline">
       <mat-label>Password to unlock keystores <span class="text-red-600">*</span></mat-label>
       <input

@@ -79,8 +79,7 @@
 .import-keys-form {
   .ngx-file-drop__drop-zone {
     border: 4px dashed $primary !important;
-    border-radius: 0px !important;
-    height: 170px !important;
+    border-radius: 25px !important;
     padding-top: 30px !important;
     padding-bottom: 30px !important;
   }
@@ -88,7 +87,6 @@
     color: $white !important;
     text-align: center !important;
     display: block !important;
-    height: 170px !important;
     img {
       height: 50px !important;
     }

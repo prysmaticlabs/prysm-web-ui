@@ -16,14 +16,7 @@
                 </a>
             </div>
             <app-import-dropzone [accept]="'.json'"
-                (fileChange)="fileChange($event)"></app-import-dropzone>
-            <div>
-                <button (click)="confirmImport()"
-                    [disabled]="importedFiles.length==0"
-                    mat-raised-button color="primary">
-                    Confirm Import
-                </button>
-            </div>
+                (fileChange)="fileChange($event)" [multiple]="false"></app-import-dropzone>
         </ng-container>
     </div>
 

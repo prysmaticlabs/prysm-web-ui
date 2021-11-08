@@ -8,17 +8,15 @@ import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 })
 export class ImportDropzoneComponent{
   constructor() {}
-  MAX_FILES_BEFORE_PREVIEW = 3;
-  filesPreview: string[] = [];
+  uploadedFiles: File[] = [];
   uploading = false;
-  invalidFiles: any[] = [];
+  invalidFiles: string[] = [];
 
   @Input() accept: string | undefined;
-  @Output() fileChange = new EventEmitter<{
-    file: File;
-    context: any;
-    validationResult: (context: any, file: File, ...responses: any[]) => void;
-  }>();
+
+  @Input() multiple: boolean = true;
+
+  @Output() fileChange = new EventEmitter<DropFile>();
   
   dropped(droppedFiles: NgxFileDropEntry[]): void {
     this.uploading = true;
@@ -27,32 +25,54 @@ export class ImportDropzoneComponent{
     for (const droppedFile of droppedFiles) {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-
         fileEntry.file((file: File) => {
           numFilesUploaded++;
           if (numFilesUploaded === droppedFiles.length) {
             this.uploading = false;
           }
+          // console.log( file.text().then((txt) => {
+          //   let x:{pubkey:string} = JSON.parse(txt);
+          //   console.log('0x'+x.pubkey.slice(0,6))
+          // }));
+         
           this.fileChange.emit({
             file: (file),
-            context: this,
-            validationResult: this.onValidationResult,
+            action: DropFileAction.IMPORT,
+            context: this
           } as DropFile);
         });
       }
     }
   }
 
-  private onValidationResult(ctx: any, file: File, responses: any[]): void {
-    ctx.invalidFiles = responses;
+  removeFile(file: File): void {
+    const index = this.uploadedFiles.findIndex(f => f.name === file.name);
+    if (index >= 0) {
+      this.uploadedFiles.splice(index, 1);
+      this.fileChange.emit({
+        file: (file),
+        action: DropFileAction.DELETE,
+        context: this
+      } as DropFile);
+    }
+  }
+
+
+  pushValidationResult({file,responses}:{file: File, responses: string[]}): void {
+    this.invalidFiles = responses;
     if (responses.length === 0) {
-      ctx.filesPreview.push(file.name);
+      this.uploadedFiles.push(file);
     }
   }
 }
 
 export interface DropFile {
   file: File;
+  action: DropFileAction
   context: ImportDropzoneComponent;
-  validationResult: (context: ImportDropzoneComponent, file: File, ...responses: any[]) => void;
+}
+
+export enum DropFileAction {
+  IMPORT,
+  DELETE
 }

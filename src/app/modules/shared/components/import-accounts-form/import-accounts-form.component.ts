@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { FormGroup } from '@angular/forms';
-import { from, throwError } from 'rxjs';
 import * as JSZip from 'jszip';
+import { from, throwError } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
 import { DropFile } from '../import-dropzone/import-dropzone.component';
 
@@ -16,10 +15,7 @@ export class ImportAccountsFormComponent {
   constructor() {}
 
   // Properties.
-
   invalidFiles: string[] = [];
-
-  uploading = false;
 
   // Unzip an uploaded zip file and attempt
   // to get all its keystores to update the form group.
@@ -41,20 +37,23 @@ export class ImportAccountsFormComponent {
       )
       .subscribe();
   }
+
   fileChangeHandler(obj: DropFile): void {
-    const { file, context, validationResult } = obj;
+    const { file, context } = obj;
     if (file.type === 'application/zip') {
       this.unzipFile(file);
-      validationResult(context, file, this.invalidFiles);
+      
+      context.pushValidationResult({file: file, responses: this.invalidFiles});
     } else {
       file.text().then((txt) => {
         this.updateImportedKeystores(file.name, JSON.parse(txt));
-        validationResult(context, file, this.invalidFiles);
+        context.pushValidationResult({file: file, responses: this.invalidFiles});
       });
     }
   }
 
   private updateImportedKeystores(fileName: string, jsonFile: object): void {
+    
     if (!this.isKeystoreFileValid(jsonFile)) {
       this.invalidFiles.push('Invalid Format: ' + fileName);
       return;

@@ -160,7 +160,11 @@ export const Mocks: IMocks = {
   '/v2/validator/accounts/backup': {
     zipFile: mockPublicKeys.join(', '),
   } as BackupAccountsResponse,
-  '/v2/validator/wallet/recover': {},
+  '/v2/validator/wallet/recover': {
+    keymanagerConfig: { direct_eip_version: 'EIP-2335' },
+    keymanagerKind: 'IMPORTED',
+    walletPath: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2',
+  } as WalletResponse,
   '/v2/validator/accounts/exit': {},
   '/v2/validator/accounts/delete': {},
   '/v2/validator/login': {
@@ -172,7 +176,7 @@ export const Mocks: IMocks = {
   } as AuthResponse,
   '/v2/validator/initialize': {
     hasSignedUp: true,
-    hasWallet: true,
+    hasWallet: false,
   } as HasUsedWebResponse,
   '/v2/validator/wallet': {
     keymanagerConfig: { direct_eip_version: 'EIP-2335' },

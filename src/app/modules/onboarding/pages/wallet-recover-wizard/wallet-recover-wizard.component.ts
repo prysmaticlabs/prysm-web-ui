@@ -37,7 +37,7 @@ export class WalletRecoverWizardComponent
   implements OnInit {
   @Output()
   backToWalletsRaised = new EventEmitter<void>();
-  @ViewChild('horizontalStepper', { static: true }) stepper?: MatStepper;
+  @ViewChild('stepper') stepper?: MatStepper;
   mnemonicFg!: FormGroup;
   passwordFG!: FormGroup;
   walletPasswordFg!: FormGroup;

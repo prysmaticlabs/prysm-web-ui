@@ -16,64 +16,14 @@
                 <div class="wizard-container md:flex
                     items-center">
                     <mat-card-content>
-                        <mat-horizontal-stepper *ngIf="!isSmallScreen"
-                            #horizontalStepper
-                            [linear]="true">
+                        <mat-stepper  [orientation]="!isSmallScreen?'horizontal':'vertical'"
+                            #stepper
+                            linear>
                             <mat-step [stepControl]="mnemonicFg"
                                 label="Mnemonics">
                                 <app-mnemonic-form
                                     (backToWalletsRaised)="backToWalletsRaised.emit()"
-                                    (nextRaised)="onNext(horizontalStepper,mnemonicFg,$event)"
-                                    [fg]="mnemonicFg"></app-mnemonic-form>
-                            </mat-step>
-                            <mat-step [stepControl]="walletPasswordFg"
-                                label="Wallet password">
-                                <ng-container *ngIf="loading; else
-                                    horizontalFormTemplate">
-                                    <div class="text-white text-xl mt-4">
-                                        Recovering wallet...
-                                    </div>
-                                    <div class="my-4 text-hint text-lg
-                                        leading-snug">
-                                        Please wait while we are recovering your
-                                        wallet.
-                                    </div>
-                                    <div>
-                                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-                                    </div>
-                                </ng-container>
-                                <ng-template #horizontalFormTemplate>
-                                    <app-password-form
-                                        #walletForm
-                                        title="Wallet Password"
-                                        subtitle="You'll need to input this
-                                        password
-                                        every time you log back into the web
-                                        interface"
-                                        label="Wallet password"
-                                        confirmationLabel="Confirm wallet
-                                        password"
-                                        [formGroup]="walletPasswordFg"></app-password-form>
-                                    <div class="mt-4">
-                                        <button color="accent" mat-raised-button
-                                            (click)="verticalStepper.previous()">Previous</button>
-                                        <span class="ml-4"><button
-                                                color="primary"
-                                                mat-raised-button
-                                                [disabled]="walletPasswordFg.invalid"
-                                                (click)="walletRecover(walletForm.formGroup)">Continue</button></span>
-                                    </div>
-                                </ng-template>
-                            </mat-step>
-                        </mat-horizontal-stepper>
-
-                        <mat-vertical-stepper *ngIf="isSmallScreen"
-                            #verticalStepper [linear]="true">
-                            <mat-step [stepControl]="mnemonicFg"
-                                label="Mnemonics">
-                                <app-mnemonic-form
-                                    (backToWalletsRaised)="backToWalletsRaised.emit()"
-                                    (nextRaised)="onNext(verticalStepper,mnemonicFg,$event)"
+                                    (nextRaised)="onNext(stepper,mnemonicFg,$event)"
                                     [fg]="mnemonicFg"></app-mnemonic-form>
                             </mat-step>
                             <mat-step [stepControl]="walletPasswordFg"
@@ -106,7 +56,7 @@
                                         [formGroup]="walletPasswordFg"></app-password-form>
                                     <div class="mt-4">
                                         <button color="accent" mat-raised-button
-                                            (click)="verticalStepper.previous()">Previous</button>
+                                            (click)="stepper.previous()">Previous</button>
                                         <span class="ml-4"><button
                                                 color="primary"
                                                 mat-raised-button
@@ -115,7 +65,7 @@
                                     </div>
                                 </ng-template>
                             </mat-step>
-                        </mat-vertical-stepper>
+                        </mat-stepper>
                     </mat-card-content>
                 </div>
             </div>

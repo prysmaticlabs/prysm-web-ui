@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { of } from 'rxjs';
@@ -16,7 +16,7 @@ describe('BeaconNodeStatusComponent', () => {
   let fixture: ComponentFixture<BeaconNodeStatusComponent>;
   let service: BeaconNodeService = MockService(BeaconNodeService);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,

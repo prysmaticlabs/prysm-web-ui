@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MAX_ACCOUNTS_CREATION } from 'src/app/modules/core/constants';
 
 @Component({
   selector: 'app-create-accounts-form',
@@ -13,5 +12,4 @@ export class CreateAccountsFormComponent {
   data you need to activate them into the deposit contract via the
   <a href="https://medalla.launchpad.ethereum.org/" target="_blank" class="text-primary">eth2 launchpad</a>`;
   constructor() { }
-  maxAccounts = MAX_ACCOUNTS_CREATION;
 }

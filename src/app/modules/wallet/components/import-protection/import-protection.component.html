@@ -24,7 +24,7 @@
                             Cancel
                         </button>
                         <button (click)="confirmImport()"
-                            [disabled]="importedFiles.length==0"
+                            [disabled]="importedFiles.length===0"
                             mat-raised-button color="primary">
                             Confirm Import
                         </button>
@@ -35,7 +35,7 @@
             <ng-container *ngIf="isUploading">
                 <div class="my-4 text-hint text-lg leading-relaxed">
                     Hang in there while we
-                    <ng-container *ngIf="fileStatus == fileStatuses.uploading;
+                    <ng-container *ngIf="fileStatus === fileStatuses.uploading;
                         else
                         validateTemplate">
                         upload

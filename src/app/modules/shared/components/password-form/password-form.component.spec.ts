@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PasswordFormComponent } from './password-form.component';
 import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ describe('PasswordFormComponent', () => {
   let component: PasswordFormComponent;
   let fixture: ComponentFixture<PasswordFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PasswordFormComponent ],
       imports: [

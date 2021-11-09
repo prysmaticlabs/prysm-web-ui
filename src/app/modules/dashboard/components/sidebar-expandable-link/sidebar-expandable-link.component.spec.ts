@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SharedModule } from '../../../shared/shared.module';
 import { SidebarExpandableLinkComponent } from './sidebar-expandable-link.component';
@@ -8,7 +8,7 @@ describe('SidebarExpandableLinkComponent', () => {
   let component: SidebarExpandableLinkComponent;
   let fixture: ComponentFixture<SidebarExpandableLinkComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,

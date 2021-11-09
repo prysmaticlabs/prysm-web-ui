@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockService } from 'ng-mocks';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { of } from 'rxjs';
+
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
@@ -20,8 +21,7 @@ describe('ImportComponent', () => {
   let service: WalletService = MockService(WalletService);
   let router: Router;
 
-  beforeEach(async(() => {
-
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ImportComponent,

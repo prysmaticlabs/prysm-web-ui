@@ -5,7 +5,7 @@
   <div class="my-4 text-hint text-lg leading-snug" [innerHTML]="subtitle">
   </div>
   <mat-form-field appearance="outline">
-    <mat-label>Number of accounts (max {{maxAccounts}})</mat-label>
+    <mat-label>Number of accounts<span class="text-red-600">*</span></mat-label>
     <input
       matInput
       formControlName="numAccounts" 

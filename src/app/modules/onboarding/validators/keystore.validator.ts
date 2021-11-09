@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import {map, debounceTime, take, switchMap, catchError} from 'rxjs/operators';
 
 import { WalletService } from '../../core/services/wallet.service';
-import { MAX_ALLOWED_KEYSTORES } from '../../core/constants';
 import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -21,9 +20,6 @@ export class KeystoreValidator {
     const keystores: Uint8Array[] = control.value;
     if (!keystores || keystores.length === 0) {
       return { noKeystoresUploaded: true };
-    }
-    if (keystores.length > MAX_ALLOWED_KEYSTORES) {
-      return { tooManyKeystores: true };
     }
     return null;
   }

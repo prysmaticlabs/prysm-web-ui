@@ -30,7 +30,7 @@ type voidFunc = () => void;
   templateUrl: './nonhd-wallet-wizard.component.html',
 })
 export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
-  @Input() resetOnboarding: voidFunc | null = null;
+  @Input() resetOnboarding: voidFunc = ()=>{};
 
   constructor(
     private formBuilder: FormBuilder,

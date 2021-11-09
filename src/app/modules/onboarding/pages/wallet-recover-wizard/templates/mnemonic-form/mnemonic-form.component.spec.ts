@@ -29,6 +29,12 @@ describe('MnemonicFormComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should error if less mnemonic less than 1 account', () => {
+    component.numAccountsFg.controls.numAccounts.setValue(-1);
+    const errors = component.numAccountsFg.controls.numAccounts.errors || {};
+    expect(errors['min']).toBeTruthy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

@@ -1,33 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { WalletService } from '../../../core/services/wallet.service';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Component } from '@angular/core';
 import {
-  Account,
-  BackupAccountsRequest,
-  BackupAccountsResponse,
-} from 'src/app/proto/validator/accounts/v2/web_api';
-import {
-  FormControl,
-  Validators,
-  FormBuilder,
-  AbstractControlOptions,
-  FormGroup,
+  AbstractControlOptions, FormBuilder, FormControl,
+  Validators
 } from '@angular/forms';
-import { MatSelectionList } from '@angular/material/list';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import {
+  BackupAccountsRequest,
+  BackupAccountsResponse
+} from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletService } from '../../../core/services/wallet.service';
 import { StaticPasswordValidator } from '../../../core/validators/password.validator';
-import { BaseComponent } from '../../../shared/components/base.component';
-import * as FileSaver from 'file-saver';
-import { NotificationService } from '../../../shared/services/notification.service';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
+import { BaseComponent } from '../../../shared/components/base.component';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-account-backup',
   templateUrl: './account-backup.component.html',
   styleUrls: ['./account-backup.component.scss'],
 })
-export class AccountBackupComponent extends BaseComponent implements OnInit {
+export class AccountBackupComponent extends BaseComponent {
   constructor(
     private walletService: WalletService,
     private notificationService: NotificationService,
@@ -61,7 +54,6 @@ export class AccountBackupComponent extends BaseComponent implements OnInit {
       validators: [StaticPasswordValidator.matchingPasswordConfirmation],
     } as AbstractControlOptions
   );
-  ngOnInit(): void {}
 
   backUp(): void {
     if (this.encryptionPasswordForm.invalid) {

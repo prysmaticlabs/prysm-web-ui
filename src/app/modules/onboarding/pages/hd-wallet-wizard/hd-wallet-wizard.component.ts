@@ -27,7 +27,7 @@ type voidFunc = () => void;
   templateUrl: './hd-wallet-wizard.component.html',
 })
 export class HdWalletWizardComponent implements OnInit, OnDestroy {
-  @Input() resetOnboarding: voidFunc | null = null;
+  @Input() resetOnboarding: voidFunc = ()=>{};
   constructor(
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,

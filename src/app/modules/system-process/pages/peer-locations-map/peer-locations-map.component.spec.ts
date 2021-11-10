@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
 import { GeoCoordinate, GeoLocatorService } from '../../../core/services/geo-locator.service';
@@ -12,7 +12,7 @@ describe('PeerLocationsMapComponent', () => {
   let fixture: ComponentFixture<PeerLocationsMapComponent>;
   const service: GeoLocatorService = MockService(GeoLocatorService);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule

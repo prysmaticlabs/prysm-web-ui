@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccountVoluntaryExitComponent } from './account-voluntary-exit.component';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
@@ -20,7 +20,7 @@ describe('AccountVoluntaryExitComponent', () => {
   let activatedRouteStub: ActivatedRoute;
   let walletService: WalletService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     activatedRouteStub = MockService(ActivatedRoute);
     activatedRouteStub.snapshot = {

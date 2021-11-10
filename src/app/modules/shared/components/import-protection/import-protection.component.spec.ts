@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ImportProtectionComponent } from './import-protection.component';
 import { WalletService } from '../../../core/services/wallet.service';
@@ -12,7 +12,7 @@ describe('ImportProtectionComponent', () => {
   let walletService: WalletService;
   let notificationService: NotificationService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     notificationService = MockService(NotificationService);
     TestBed.configureTestingModule({

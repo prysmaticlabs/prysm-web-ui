@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MockService } from 'ng-mocks';
 import { of } from 'rxjs';
@@ -33,7 +33,7 @@ describe('ValidatorParticipationComponent', () => {
   } as ValidatorParticipationResponse;
   (service as any)['participation$'] = of(defaultParticipationResponse);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ValidatorParticipationComponent ],
       imports: [

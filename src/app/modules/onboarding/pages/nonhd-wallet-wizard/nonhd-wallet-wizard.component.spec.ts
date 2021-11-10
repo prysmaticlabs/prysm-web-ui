@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ describe('NonhdWalletWizardComponent', () => {
   let walletService: WalletService;
   let router: Router;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     walletService.createWallet = (req: CreateWalletRequest): Observable<CreateWalletResponse> => {
       return of({

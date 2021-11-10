@@ -30,8 +30,10 @@ describe('ValidatorListComponent', () => {
       balances: [],
       nextPageToken: '',
       totalSize: 0,
+
     } as ValidatorSummaryResponse & ValidatorBalances);
   beforeEach(async(() => {
+
     TestBed.configureTestingModule({
       imports: [
         SharedModule,

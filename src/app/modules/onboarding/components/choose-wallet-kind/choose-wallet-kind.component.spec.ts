@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { WalletSelection, WalletKind } from '../../types/wallet';
@@ -9,7 +9,7 @@ describe('ChooseWalletKindComponent', () => {
   let component: ChooseWalletKindComponent;
   let fixture: ComponentFixture<ChooseWalletKindComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ChooseWalletKindComponent ]
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AccountsFormSelectionComponent } from './accounts-form-selection.component';
@@ -14,7 +14,7 @@ describe('AccountsFormSelectionComponent', () => {
   let fixture: ComponentFixture<AccountsFormSelectionComponent>;
   let walletService: WalletService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     walletService.accounts = () => {
       return of(({

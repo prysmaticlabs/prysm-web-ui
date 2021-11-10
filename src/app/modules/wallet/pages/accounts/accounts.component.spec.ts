@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MockComponent, MockService } from 'ng-mocks';
 import { of } from 'rxjs';
@@ -28,7 +28,7 @@ describe('AccountsComponent', () => {
       }] as Account[],
     } as ListAccountsResponse);
   };
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,

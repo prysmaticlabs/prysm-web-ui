@@ -4,7 +4,6 @@ import { of, Observable, BehaviorSubject, throwError  } from 'rxjs';
 
 import { WalletService } from '../../core/services/wallet.service';
 import { KeystoreValidator } from './keystore.validator';
-import { MAX_ALLOWED_KEYSTORES } from '../../core/constants';
 import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
@@ -25,19 +24,6 @@ describe('KeystoreValidator', () => {
   describe('Validate integrity', () => {
     it('should error if user keystores in input are empty', () => {
       const keystores: string[][] = [];
-      const validator = new KeystoreValidator(walletService);
-      const validationFunc = validator.validateIntegrity;
-      const formControl = {
-        value: keystores,
-      };
-      expect(validationFunc(formControl as AbstractControl)).toBeTruthy();
-    });
-
-    it('should error if number of keystores is above max allowed', () => {
-      const keystores: string[][] = [];
-      for (let i = 0; i <= MAX_ALLOWED_KEYSTORES; i++) {
-        keystores.push(['hi']);
-      }
       const validator = new KeystoreValidator(walletService);
       const validationFunc = validator.validateIntegrity;
       const formControl = {

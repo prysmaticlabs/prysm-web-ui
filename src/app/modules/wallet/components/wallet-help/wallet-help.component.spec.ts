@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { WalletHelpComponent } from './wallet-help.component';
@@ -8,7 +8,7 @@ describe('WalletHelpComponent', () => {
   let component: WalletHelpComponent;
   let fixture: ComponentFixture<WalletHelpComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WalletHelpComponent ],
       imports: [

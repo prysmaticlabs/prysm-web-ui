@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MAX_ACCOUNTS_CREATION } from 'src/app/modules/core/constants';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from '../../../../../shared/components/base.component';
 import { UtilityService } from '../../../../../shared/services/utility.service';
@@ -29,8 +28,7 @@ export class MnemonicFormComponent extends BaseComponent implements OnInit {
       1,
       [
         Validators.required,
-        Validators.min(1),
-        Validators.max(MAX_ACCOUNTS_CREATION),
+        Validators.min(1)
       ],
     ],
   });

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -14,7 +14,7 @@ describe('MetricsComponent', () => {
   let component: MetricsComponent;
   let fixture: ComponentFixture<MetricsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,

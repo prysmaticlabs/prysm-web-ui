@@ -6,7 +6,7 @@
         </p>
     </div>
     <mat-form-field [appearance]="'outline'">
-        <mat-label>Mnemonic</mat-label>
+        <mat-label>Mnemonic<span class="text-red-600">*</span></mat-label>
         <textarea cdkAutosizeMinRows="3"
             cdkTextareaAutosize
             cdkAutosizeMaxRows="4" matInput
@@ -25,7 +25,7 @@
         </mat-error>
     </mat-form-field>
     <mat-form-field>
-        <mat-label>Language of your mnemonic</mat-label>
+        <mat-label>Language of your mnemonic<span class="text-red-600">*</span></mat-label>
         <mat-select formControlName="language">
             <mat-option [value]="item.value" *ngFor="let item of
                 languages$|async">

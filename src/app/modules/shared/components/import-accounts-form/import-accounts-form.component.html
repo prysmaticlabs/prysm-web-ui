@@ -11,20 +11,45 @@
   </div>
   <form [formGroup]="formGroup">
     <app-import-dropzone [accept]="'.json,.zip'"
-      (fileChange)="fileChangeHandler($event)"></app-import-dropzone>
+      (fileChange)="fileChangeHandler($event)" #dropzone></app-import-dropzone>
     <div class="my-6 flex flex-wrap">
       <mat-error class="warning" *ngIf="formGroup && formGroup.touched &&
         formGroup.controls.keystoresImported.hasError('noKeystoresUploaded')">
         Please upload at least 1 valid keystore file
       </mat-error>
-      <mat-error class="warning" *ngIf="formGroup && formGroup.touched &&
-        formGroup.controls.keystoresImported.hasError('tooManyKeystores')">
-        Max 50 keystore files allowed. If you have more than that, we recommend
-        an HD wallet instead
-      </mat-error>
     </div>
-
-    <mat-form-field appearance="outline">
+    <mat-selection-list *ngIf="keystoresImported?.length > 0" class="rounded-md bg-purple-900 override" style="padding-top:0px;" #shoes>
+      <div class="bg-indigo-800 rounded-t-md flex flex-row items-center w-full p-5">
+        <div class="flex flex-1 self-stretch items-center "> 
+          <mat-slide-toggle class="p-2" [formControl]="uniqueToggleFormControl">Unique Passwords Mode</mat-slide-toggle>
+        </div>
+        <div class="flex-none"> 
+          <button mat-raised-button color="primary" >Remove</button>
+        </div>
+      </div>
+      <div class="overflow-y-auto keystore-list-wrapper">
+        <ng-container formArrayName="keystoresImported">
+          <mat-list-item *ngFor="let keystoreForm of keystoresImported.controls; let i=index">
+            <div class="flex flex-row items-center w-full" [formGroup]="keystoreForm"> 
+              <div class="flex self-stretch items-center ">
+                <mat-checkbox class="p-5 " formControlName="isSelected"></mat-checkbox>
+              </div>
+              <div class="flex flex-1 self-stretch items-center ">
+                <span class="p-2">{{keystoreForm.get('pubkeyShort').value}}</span>
+              </div>
+              <div class="flex flex-1 self-stretch items-center ">
+                <mat-form-field class="w-full p-2" appearance="outline">
+                    <mat-label>Password to unlock keystores <span class="text-red-600">*</span></mat-label>
+                    <input placeholder="Enter the password you used to originally create the
+                    keystores" formControlName="keystorePassword" type="password" matInput/>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-list-item>
+        </ng-container>
+      </div>
+    </mat-selection-list>
+    <!-- <mat-form-field appearance="outline">
       <mat-label>Password to unlock keystores <span class="text-red-600">*</span></mat-label>
       <input
         matInput
@@ -47,6 +72,6 @@
         Something went wrong when attempting to decrypt your keystores, perhaps
         your node is not running
       </mat-error>
-    </mat-form-field>
+    </mat-form-field> -->
   </form>
 </div>

@@ -176,7 +176,7 @@ export const Mocks: IMocks = {
   } as AuthResponse,
   '/v2/validator/initialize': {
     hasSignedUp: true,
-    hasWallet: false,
+    hasWallet: true,
   } as HasUsedWebResponse,
   '/v2/validator/wallet': {
     keymanagerConfig: { direct_eip_version: 'EIP-2335' },

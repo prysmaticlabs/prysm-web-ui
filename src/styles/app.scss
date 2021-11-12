@@ -5,3 +5,22 @@
 @import "./layouts/index";
 @import "./views/index";
 @import "./tailwind-generated";
+
+// override framework layout
+.override .mat-list-item {
+    height: auto !important;
+}
+
+.override .mat-list-item .mat-list-item-content {
+    padding:0px !important;
+}
+
+.override .mat-form-field {
+    display: flex;
+}
+
+.override .mat-form-field .mat-form-field-wrapper {
+    display: flex;
+    flex: 1 1 0%;
+    padding-bottom:0px !important;
+}

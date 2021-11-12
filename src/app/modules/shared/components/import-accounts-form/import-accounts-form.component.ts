@@ -1,24 +1,29 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as JSZip from 'jszip';
 import { from, throwError } from 'rxjs';
-import { catchError, take, tap } from 'rxjs/operators';
-import { DropFile } from '../import-dropzone/import-dropzone.component';
+import { catchError, map, take, tap } from 'rxjs/operators';
+import { DropFile, ImportDropzoneComponent } from '../import-dropzone/import-dropzone.component';
 
 @Component({
   selector: 'app-import-accounts-form',
   templateUrl: './import-accounts-form.component.html',
 })
-export class ImportAccountsFormComponent {
+export class ImportAccountsFormComponent implements OnInit {
   @Input() formGroup: FormGroup | null = null;
-  
-  constructor() {}
+  @ViewChild('dropzone') dropzone: ImportDropzoneComponent | undefined;
 
-  // Properties.
-  invalidFiles: string[] = [];
+  constructor(private formBuilder: FormBuilder) {}
 
-  
+  keystores: string[] = [];
 
+  uniqueToggleFormControl = this.formBuilder.control(false);
+
+  ngOnInit(): void {
+    this.uniqueToggleFormControl.valueChanges.subscribe((value) => {
+      console.log(value);
+    });
+  }
   // Unzip an uploaded zip file and attempt
   // to get all its keystores to update the form group.
   unzipFile(zipFile: File): void {
@@ -26,12 +31,24 @@ export class ImportAccountsFormComponent {
       .pipe(
         take(1),
         tap((blob: JSZip) => {
-          blob.forEach(async (item) => {
-            const res = await blob.file(item)?.async('string');
-            if (res) {
-              this.updateImportedKeystores(item, JSON.parse(res));
-            }
+          const keystores: any =[];
+          blob.forEach((item, file) => {
+             //keystores[i] = await blob.file(item)?.async('string')
+            blob.file(item)?.async('string').then((res)=>{
+               console.log(item)
+              console.log(blob)
+              
+              if (res) {
+                console.log(res)
+                this.updateImportedKeystores(item, JSON.parse(res));
+              }
+            });
           });
+
+          keystores.forEach((keystore:string) => {
+            console.log(JSON.parse(keystore));
+          })
+         
         }),
         catchError((err) => {
           return throwError(err);
@@ -41,37 +58,61 @@ export class ImportAccountsFormComponent {
   }
 
   fileChangeHandler(obj: DropFile): void {
-    const { file, context } = obj;
-    if (file.type === 'application/zip') {
-      this.unzipFile(file);
-      
-      context.pushValidationResult({file: file, responses: this.invalidFiles});
+    if (obj.file.type === 'application/zip') {
+      this.unzipFile(obj.file);
     } else {
-      file.text().then((txt) => {
-        this.updateImportedKeystores(file.name, JSON.parse(txt));
-        context.pushValidationResult({file: file, responses: this.invalidFiles});
+      obj.file.text().then((txt) => {
+        this.updateImportedKeystores(obj.file.name, JSON.parse(txt));
       });
       
     }
   }
 
-  private updateImportedKeystores(fileName: string, jsonFile: object): void {
+  displayPubKey(keystore: {pubkey:string}): string {
+    
+    return '0x'+keystore.pubkey.slice(0,6);
+  }
+
+  removeKeystore(keystore:string): void {
+    const keystores = this.formGroup?.get('keystoresImported')?.value as string[];
+    const index = keystores.indexOf(keystore);
+    if (index > -1) {
+      keystores.splice(index, 1);
+      this.formGroup?.get('keystoresImported')?.setValue(keystores);
+    }
+  }
+
+  get keystoresImported(): FormArray {
+    return this.formGroup?.controls['keystoresImported'] as FormArray ;
+  }
+
+  private updateImportedKeystores(fileName: string, jsonFile: {pubkey:string}): void {
     
     if (!this.isKeystoreFileValid(jsonFile)) {
-      this.invalidFiles.push('Invalid Format: ' + fileName);
+      this.dropzone?.addInvalidFileReason('Invalid Format: ' + fileName);
       return;
     }
+    if(this.keystoresImported.controls.length > 0){
+      const imported = this.keystoresImported.controls.map((fg) => JSON.stringify(fg.get('keystore')?.value));
+      const jsonString = JSON.stringify(jsonFile);
+      if (imported.includes(jsonString)) {
+        this.dropzone?.addInvalidFileReason('Duplicate: ' + fileName);
+        console.log('Duplicate: ' + fileName);
+        return;
+      }
+    }
+    
+    const keystoresFormGroup : FormGroup = this.formBuilder.group({
+      pubkeyShort: this.displayPubKey(jsonFile),
+      isSelected:[false],
+      keystore: [jsonFile],
+      keystorePassword: ['', Validators.required],
+    });
+    
+    this.keystoresImported?.push(keystoresFormGroup);
 
-    const imported = this.formGroup?.get('keystoresImported')
-      ?.value as string[];
-    const jsonString = JSON.stringify(jsonFile);
-    if (imported.includes(jsonString)) {
-      this.invalidFiles.push('Duplicate: ' + fileName);
-      return;
-    }
-    this.formGroup
-      ?.get('keystoresImported')
-      ?.setValue([...imported, jsonString]);
+    //this.dropzone?.uploadedFiles
+    
   }
 
   private isKeystoreFileValid(jsonFile: object): boolean {

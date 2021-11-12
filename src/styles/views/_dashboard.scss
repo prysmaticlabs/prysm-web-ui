@@ -49,16 +49,7 @@
   background-repeat: no-repeat !important;
 }
 
-.import-accounts {
-  .mat-form-field {
-    width: 80%;
-  }
-}
-
 .create-accounts {
-  .mat-form-field {
-    width: 80%;
-  }
   .mat-input-element {
     color: $white;
   }
@@ -90,6 +81,9 @@
     img {
       height: 50px !important;
     }
+  }
+  .keystore-list-wrapper{
+    max-height:334px;
   }
 }
 

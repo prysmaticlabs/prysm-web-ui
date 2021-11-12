@@ -19,7 +19,7 @@ export class ImportComponent {
   @ViewChild('slashingProtection') slashingProtection: ImportProtectionComponent | undefined;
   
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private walletService: WalletService,
     private router: Router,
     private zone: NgZone,
@@ -27,11 +27,8 @@ export class ImportComponent {
     private keystoreValidator: KeystoreValidator
   ) {}
   loading = false;
-  keystoresFormGroup = this.fb.group({
-    keystoresImported: new FormControl([] as string[][], [
-      this.keystoreValidator.validateIntegrity,
-    ]),
-    keystoresPassword: ['', Validators.required],
+  keystoresFormGroup = this.formBuilder.group({
+    keystoresImported: this.formBuilder.array([])
   });
 
   submit(): void {

@@ -45,6 +45,11 @@ export class ImportDropzoneComponent{
     }
   }
 
+  addInvalidFileReason(reason: string): void {
+    console.log('adding reason')
+    this.invalidFiles = [...this.invalidFiles,reason];
+  }
+
   removeFile(file: File): void {
     const index = this.uploadedFiles.findIndex(f => f.name === file.name);
     if (index >= 0) {
@@ -64,12 +69,12 @@ export class ImportDropzoneComponent{
   }
 
 
-  pushValidationResult({file,responses}:{file: File, responses: string[]}): void {
-    this.invalidFiles = responses;
-    if (responses.length === 0) {
-      this.uploadedFiles.push(file);
-    }
-  }
+  // pushValidationResult({file,responses}:{file: File, responses: string[]}): void {
+  //   this.invalidFiles = responses;
+  //   if (responses.length === 0) {
+  //     this.uploadedFiles.push(file);
+  //   }
+  // }
 }
 
 export interface DropFile {

@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { Subject, throwError } from 'rxjs';
@@ -45,14 +45,16 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   loading = false;
   isSmallScreen = false;
+
   keystoresFormGroup = this.formBuilder.group({
-    keystoresImported: new FormControl([] as string[][], [
-      this.keystoreValidator.validateIntegrity,
-    ]),
-    keystoresPassword: ['', Validators.required]
-  }, {
-    asyncValidators: this.keystoreValidator.correctPassword(),
+    keystoresImported: this.formBuilder.array([]) as FormArray
   });
+//,keystoresPassword: ['', Validators.required]
+  // new FormControl([] as string[][], [
+  //   this.keystoreValidator.validateIntegrity,
+  // ]),
+  //  asyncValidators: this.keystoreValidator.correctPassword(),
+
   walletPasswordFormGroup = this.formBuilder.group({
     password: new FormControl('', [
       Validators.required,

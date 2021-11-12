@@ -7,9 +7,6 @@
                 ngx-file-drop-content-tmp
                 let-openFileSelector="openFileSelector"
                 class="text-center">
-                <!-- <div class="flex items-center justify-center mb-4">
-                    <img src="/assets/images/upload.svg" />
-                </div> -->
                 <span *ngIf="(multiple === false && uploadedFiles.length === 1)">
                     <span class="p-2">{{uploadedFiles[0].name || 'invalid file'}}</span> <button mat-stroked-button (click)="removeFile(uploadedFiles[0])">x</button>
                 </span>
@@ -19,18 +16,6 @@
             </ng-template>
         </ngx-file-drop>
     </div>
-    <!-- <div class="w-full">
-        <div *ngIf="filesPreview" class="text-white text-xl px-0 md:px-6 py-6
-            md:py-2">
-            <span class="font-semibold text-secondary">{{filesPreview.length}}</span>
-            Files Selected
-            <div *ngFor="let file of filesPreview">
-                <div class="mt-3 text-muted text-base">{{file}}</div>
-            </div>
-            <span *ngIf="filesPreview.length> MAX_FILES_BEFORE_PREVIEW">...</span>
-        </div>
-    </div>
-     -->
      <div class="my-6 flex flex-wrap">
         <mat-error *ngIf="invalidFiles.length">
             Not adding these files:

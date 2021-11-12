@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { WalletService } from '../../../core/services/wallet.service';
 import { FileStatus } from '../../services/enums';
 import { ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { tap, catchError } from 'rxjs/operators';
 import { NotificationService } from '../../services/notification.service';
-import { DropFile,DropFileAction} from 'src/app/modules/shared/components/import-dropzone/import-dropzone.component';
+import { DropFile,DropFileAction, ImportDropzoneComponent} from 'src/app/modules/shared/components/import-dropzone/import-dropzone.component';
 import { EIPSlashingProtectionFormat } from '../../../wallet/pages/slashing-protection/model/interface';
 
 @Component({
@@ -14,12 +14,16 @@ import { EIPSlashingProtectionFormat } from '../../../wallet/pages/slashing-prot
   styleUrls: ['./import-protection.component.scss'],
 })
 export class ImportProtectionComponent extends BaseComponent implements OnInit {
+
+  @ViewChild('dropzone') dropzone: ImportDropzoneComponent | undefined;
+
   constructor(
     private walletService: WalletService,
     private notificationService: NotificationService
   ) {
     super();
   }
+
 
   fileStatus = FileStatus.default;
   fileStatuses = FileStatus;
@@ -29,10 +33,9 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
 
   file: File | undefined;
   ngOnInit(): void {}
-  async fileChange(fileObj: DropFile): Promise<void> {
+  fileChange(fileObj: DropFile): void {
     if(fileObj.action === DropFileAction.IMPORT){
-      const validationResult = await this.validateFile(fileObj);
-      fileObj.context.pushValidationResult({file:fileObj.file,responses:validationResult});
+      this.processFile(fileObj);
     } else if(fileObj.action === DropFileAction.DELETE){
       // remove file from importedFiles only
       this.importedFileNames = [];
@@ -40,33 +43,37 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
     }
   }
 
-  private validateFile(fileObject: DropFile): Promise<string[]> {
+  private processFile(fileObject: DropFile): void {
     const file = fileObject.file;
     if(file.size === 0){
       this.fileStatus = FileStatus.error;
-      return new Promise((resolve, reject) => { resolve([`Empty file: ${file?.name}`])});
+      this.dropzone?.addInvalidFileReason(`Empty file: ${file?.name}`);
+      return;
     }
-    
-    return file.text().then((jsTxt) => {
+
+    file.text().then((jsTxt) => {
       this.fileStatus = FileStatus.validating;
       if (!JSON.parse(jsTxt)) {
         this.fileStatus = FileStatus.error;
-        return [`Invalid Format: ${file?.name}`] ;
+        this.dropzone?.addInvalidFileReason(`Invalid Format: ${file?.name}`);
+        return;
       }
       const jObj: EIPSlashingProtectionFormat = JSON.parse(jsTxt);
       if (!jObj.metadata || !jObj.data || jObj.data.length === 0) {
         this.fileStatus = FileStatus.error;
-        return [`Invalid Format: ${file?.name}`] ;
+        this.dropzone?.addInvalidFileReason(`Invalid Format: ${file?.name}`);
+        return;
       }
       if (this.importedFileNames.includes(file?.name ?? '')) {
-        return [`Duplicate File : ${file?.name}`];
+        this.dropzone?.addInvalidFileReason(`Duplicate File : ${file?.name}`);
+        return;
       }
       
       this.importedFileNames.push(file?.name ?? '');
       this.importedFiles.push(jObj);
       this.fileStatus = FileStatus.validated;
-      return [];
-    }).catch((err)=>{return [`Invalid Format: ${file?.name}`];});
+      this.dropzone?.uploadedFiles.push(file);
+    }).catch((err)=>{this.dropzone?.addInvalidFileReason(`Invalid Format: ${file?.name}`)});
     
   }
 

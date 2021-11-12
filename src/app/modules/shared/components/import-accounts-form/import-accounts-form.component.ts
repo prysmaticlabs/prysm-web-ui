@@ -15,46 +15,16 @@ export class ImportAccountsFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  keystores: string[] = [];
-
   uniqueToggleFormControl = this.formBuilder.control(false);
+
+  get keystoresImported(): FormArray {
+    return this.formGroup?.controls['keystoresImported'] as FormArray ;
+  }
 
   ngOnInit(): void {
     this.uniqueToggleFormControl.valueChanges.subscribe((value) => {
       console.log(value);
     });
-  }
-  // Unzip an uploaded zip file and attempt
-  // to get all its keystores to update the form group.
-  unzipFile(zipFile: File): void {
-    from(JSZip.loadAsync(zipFile))
-      .pipe(
-        take(1),
-        tap((blob: JSZip) => {
-          const keystores: any =[];
-          blob.forEach((item, file) => {
-             //keystores[i] = await blob.file(item)?.async('string')
-            blob.file(item)?.async('string').then((res)=>{
-               console.log(item)
-              console.log(blob)
-              
-              if (res) {
-                console.log(res)
-                this.updateImportedKeystores(item, JSON.parse(res));
-              }
-            });
-          });
-
-          keystores.forEach((keystore:string) => {
-            console.log(JSON.parse(keystore));
-          })
-         
-        }),
-        catchError((err) => {
-          return throwError(err);
-        })
-      )
-      .subscribe();
   }
 
   fileChangeHandler(obj: DropFile): void {
@@ -68,26 +38,53 @@ export class ImportAccountsFormComponent implements OnInit {
     }
   }
 
-  displayPubKey(keystore: {pubkey:string}): string {
-    
+  // Unzip an uploaded zip file and attempt
+  // to get all its keystores to update the form group.
+  unzipFile(zipFile: File): void {
+    from(JSZip.loadAsync(zipFile))
+      .pipe(
+        take(1),
+        tap((blob: JSZip) => {
+          blob.forEach((item) => {
+            const file = blob.file(item);
+            if(file){
+              file.async('string').then((txt) => {
+                try {
+                this.updateImportedKeystores(item, JSON.parse(txt));
+                } catch(err){
+                  // sometimes zip contains extra info that processes like a file
+                  // do nothing for parsing errors, will be validated for correct json in function
+                }
+              });
+            } else {
+              this.dropzone?.addInvalidFileReason('Error Reading File:'+item);
+            }
+          });
+        }),
+        catchError((err) => {
+          return throwError(err);
+        })
+      )
+      .subscribe();
+  }
+
+  private displayPubKey(keystore: {pubkey:string}): string {
     return '0x'+keystore.pubkey.slice(0,6);
   }
 
-  removeKeystore(keystore:string): void {
-    const keystores = this.formGroup?.get('keystoresImported')?.value as string[];
-    const index = keystores.indexOf(keystore);
-    if (index > -1) {
-      keystores.splice(index, 1);
-      this.formGroup?.get('keystoresImported')?.setValue(keystores);
-    }
-  }
-
-  get keystoresImported(): FormArray {
-    return this.formGroup?.controls['keystoresImported'] as FormArray ;
+  removeKeystores(): void {
+    this.keystoresImported.controls = this.keystoresImported.controls.filter((fg) => {
+      const selected = fg.get('isSelected')?.value;
+      if(selected){
+        // remove from imported dropzone
+        this.dropzone?.removeFile(fg.get('keystore')?.value);
+      }
+      // keep the form groups that are not selected
+      return !selected;
+    });
   }
 
   private updateImportedKeystores(fileName: string, jsonFile: {pubkey:string}): void {
-    
     if (!this.isKeystoreFileValid(jsonFile)) {
       this.dropzone?.addInvalidFileReason('Invalid Format: ' + fileName);
       return;
@@ -97,7 +94,6 @@ export class ImportAccountsFormComponent implements OnInit {
       const jsonString = JSON.stringify(jsonFile);
       if (imported.includes(jsonString)) {
         this.dropzone?.addInvalidFileReason('Duplicate: ' + fileName);
-        console.log('Duplicate: ' + fileName);
         return;
       }
     }
@@ -110,8 +106,6 @@ export class ImportAccountsFormComponent implements OnInit {
     });
     
     this.keystoresImported?.push(keystoresFormGroup);
-
-    //this.dropzone?.uploadedFiles
     
   }
 

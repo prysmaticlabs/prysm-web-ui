@@ -30,11 +30,7 @@ export class ImportDropzoneComponent{
           if (numFilesUploaded === droppedFiles.length) {
             this.uploading = false;
           }
-          // console.log( file.text().then((txt) => {
-          //   let x:{pubkey:string} = JSON.parse(txt);
-          //   console.log('0x'+x.pubkey.slice(0,6))
-          // }));
-         
+          
           this.fileChange.emit({
             file: (file),
             action: DropFileAction.IMPORT,
@@ -46,7 +42,6 @@ export class ImportDropzoneComponent{
   }
 
   addInvalidFileReason(reason: string): void {
-    console.log('adding reason')
     this.invalidFiles = [...this.invalidFiles,reason];
   }
 
@@ -67,14 +62,6 @@ export class ImportDropzoneComponent{
       this.removeFile(file);
     });
   }
-
-
-  // pushValidationResult({file,responses}:{file: File, responses: string[]}): void {
-  //   this.invalidFiles = responses;
-  //   if (responses.length === 0) {
-  //     this.uploadedFiles.push(file);
-  //   }
-  // }
 }
 
 export interface DropFile {

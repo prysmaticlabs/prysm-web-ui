@@ -24,7 +24,7 @@
           <mat-slide-toggle class="p-2" [formControl]="uniqueToggleFormControl">Unique Passwords Mode</mat-slide-toggle>
         </div>
         <div class="flex-none"> 
-          <button mat-raised-button color="primary" >Remove</button>
+          <button mat-raised-button color="primary" (click)="removeKeystores()">Remove</button>
         </div>
       </div>
       <div class="overflow-y-auto keystore-list-wrapper">

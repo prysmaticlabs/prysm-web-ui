@@ -24,14 +24,12 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
     super();
   }
 
-
   fileStatus = FileStatus.default;
   fileStatuses = FileStatus;
   isUploading = false;
   importedFiles: EIPSlashingProtectionFormat[] = [];
   importedFileNames: string[] = [];
 
-  file: File | undefined;
   ngOnInit(): void {}
   fileChange(fileObj: DropFile): void {
     if(fileObj.action === DropFileAction.IMPORT){

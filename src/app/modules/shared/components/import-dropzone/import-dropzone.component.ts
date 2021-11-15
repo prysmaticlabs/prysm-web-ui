@@ -30,7 +30,7 @@ export class ImportDropzoneComponent{
           if (numFilesUploaded === droppedFiles.length) {
             this.uploading = false;
           }
-          
+
           this.fileChange.emit({
             file: (file),
             action: DropFileAction.IMPORT,
@@ -46,6 +46,7 @@ export class ImportDropzoneComponent{
   }
 
   removeFile(file: File): void {
+    this.invalidFiles = [];
     const index = this.uploadedFiles.findIndex(f => f.name === file.name);
     if (index >= 0) {
       this.uploadedFiles.splice(index, 1);

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as JSZip from 'jszip';
 import { from, throwError } from 'rxjs';
-import { catchError, map, take, tap } from 'rxjs/operators';
+import { catchError,  debounceTime, take, tap } from 'rxjs/operators';
 import { DropFile, ImportDropzoneComponent } from '../import-dropzone/import-dropzone.component';
 
 @Component({
@@ -15,7 +15,18 @@ export class ImportAccountsFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {}
 
+  editMode = false;
+
+  readonly keystorePasswordDefaultFormGroupInit = {
+    password: '',
+    hide: true
+  }
+
   uniqueToggleFormControl = this.formBuilder.control(false);
+  keystorePasswordDefaultFormGroup= this.formBuilder.group({
+    password: ['', Validators.required],
+    hide: [true]
+  });
 
   get keystoresImported(): FormArray {
     return this.formGroup?.controls['keystoresImported'] as FormArray ;
@@ -23,7 +34,15 @@ export class ImportAccountsFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.uniqueToggleFormControl.valueChanges.subscribe((value) => {
-      console.log(value);
+      this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);
+    });
+    this.keystorePasswordDefaultFormGroup.get('password')?.valueChanges.pipe(
+      debounceTime(500),
+    ).subscribe(password =>{
+      this.keystoresImported.controls.forEach(fg => {
+        fg.get('keystorePassword')?.setValue(password);
+      });
+      console.log(password);
     });
   }
 
@@ -72,6 +91,13 @@ export class ImportAccountsFormComponent implements OnInit {
     return '0x'+keystore.pubkey.slice(0,6);
   }
 
+  enterEditMode(): void {
+    this.keystoresImported.controls.forEach((fg) => {
+      fg.get('isSelected')?.setValue(false);
+    });
+    this.editMode = true;
+  }
+
   removeKeystores(): void {
     this.keystoresImported.controls = this.keystoresImported.controls.filter((fg) => {
       const selected = fg.get('isSelected')?.value;
@@ -82,6 +108,10 @@ export class ImportAccountsFormComponent implements OnInit {
       // keep the form groups that are not selected
       return !selected;
     });
+    if(this.keystoresImported.controls.length === 0){
+      this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);
+    }
+    
   }
 
   private updateImportedKeystores(fileName: string, jsonFile: {pubkey:string}): void {
@@ -101,6 +131,8 @@ export class ImportAccountsFormComponent implements OnInit {
     const keystoresFormGroup : FormGroup = this.formBuilder.group({
       pubkeyShort: this.displayPubKey(jsonFile),
       isSelected:[false],
+      hide: [true],
+      fileName: [fileName],
       keystore: [jsonFile],
       keystorePassword: ['', Validators.required],
     });

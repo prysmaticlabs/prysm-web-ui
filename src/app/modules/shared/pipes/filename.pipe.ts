@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 /*
- * Formats a validator balance, showing n/a if 0.
+ * partial truncate a file name based on max length
 */
 @Pipe({name: 'filename'})
 export class FileNamePipe implements PipeTransform {

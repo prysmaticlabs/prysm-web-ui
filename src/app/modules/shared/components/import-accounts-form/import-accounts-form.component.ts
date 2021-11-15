@@ -50,7 +50,7 @@ export class ImportAccountsFormComponent implements OnInit {
     if (obj.file.type === 'application/zip') {
       this.unzipFile(obj.file);
     } else {
-      obj.file.text().then((txt) => {
+      obj.file.text().then((txt:string) => {
         this.updateImportedKeystores(obj.file.name, JSON.parse(txt));
       });
       
@@ -88,7 +88,7 @@ export class ImportAccountsFormComponent implements OnInit {
   }
 
   private displayPubKey(keystore: {pubkey:string}): string {
-    return '0x'+keystore.pubkey.slice(0,6);
+    return '0x'+keystore.pubkey.slice(0,12);
   }
 
   enterEditMode(): void {

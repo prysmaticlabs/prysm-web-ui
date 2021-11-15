@@ -22,6 +22,7 @@ import { PrettyjsonPipe } from './pipes/pretty-json.pipe';
 import { EpochPipe } from './pipes/format-epoch.pipe';
 import { SlotPipe } from './pipes/format-slot.pipe';
 import { BalancePipe } from './pipes/balance.pipe';
+import { FileNamePipe } from './pipes/filename.pipe';
 
 import {ExternalLinkDirective} from './directives/external-link.directive';
 
@@ -49,7 +50,8 @@ const pipes = [
   PrettyjsonPipe,
   BalancePipe,
   EpochPipe,
-  SlotPipe
+  SlotPipe,
+  FileNamePipe
 ];
 
 const directives = [

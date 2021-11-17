@@ -31,7 +31,7 @@ export class ImportComponent {
 
   submit(): void {
     
-    if (this.keystoresFormGroup.invalid) {
+    if (this.keystoresFormGroup.invalid || this.slashingProtection?.invalid) {
       return;
     }
     const req: ImportKeystoresRequest = {
@@ -40,7 +40,7 @@ export class ImportComponent {
       keystoresPassword: this.keystoresFormGroup.controls.keystoresPassword
         .value,
     };
-    
+
     this.loading = true;
 
     let importKeystores$: Observable<any>= this.walletService.importKeystores(req);

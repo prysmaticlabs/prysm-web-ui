@@ -14,6 +14,8 @@ import {
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { LANDING_URL } from 'src/app/modules/core/constants';
+import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
+import { templateJitUrl } from '@angular/compiler';
 
 
 enum WizardState {
@@ -30,6 +32,10 @@ type voidFunc = () => void;
 })
 export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   @Input() resetOnboarding: voidFunc = ()=>{};
+
+  // View children.
+  @ViewChild('stepper') stepper?: MatStepper;
+  @ViewChild('slashingProtection') slashingProtection: ImportProtectionComponent | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,8 +67,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     validators: this.passwordValidator.matchingPasswordConfirmation,
   });
 
-  // View children.
-  @ViewChild('stepper') stepper?: MatStepper;
+
 
   // Observables and subjects.
   destroyed$ = new Subject();
@@ -94,7 +99,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
         this.keystoresFormGroup.markAllAsTouched();
         break;
     }
-    if (this.keystoresFormGroup.valid){
+    if (this.keystoresFormGroup.valid && !this.slashingProtection?.invalid){
       this.stepper?.next();
     }
   }

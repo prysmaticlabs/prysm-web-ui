@@ -44,6 +44,9 @@ export class ImportAccountsFormComponent implements OnInit {
   ngOnInit(): void {
     this.uniqueToggleFormControl.valueChanges.subscribe((value) => {
       this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);
+      this.keystoresImported.controls.forEach(fg => {
+        fg.get('keystorePassword')?.markAsPristine();
+      });
       // really shitty to need this ... but angular doesn't detect changes fast enough after so we need to check for changes again...
       this.changeDetectorRef.detectChanges();
     });

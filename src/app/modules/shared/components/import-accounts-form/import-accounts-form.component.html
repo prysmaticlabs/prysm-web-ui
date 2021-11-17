@@ -1,12 +1,15 @@
 <div class="import-keys-form">
   <div>
     <div class="text-white text-xl mt-4">
-      Import Validating Keystore(s)<span class="text-red-600">*</span> 
+      Import Validator Keystore(s)<span class="text-red-600">*</span> 
     </div>
     <div class="my-6 text-hint text-lg leading-relaxed">
-      Upload any folder of keystore files such as the validator_keys folder that
-      was created during the eth2 launchpad's eth2.0-deposit-cli process here.
-      You can drag and drop the directory or individual files.
+      <p>
+        Upload any keystore JSON file(s) or .zip of keystore file(s). <br/>
+        <i>Keystores files are usually named keystore-xxxxxxxx.json and were created during the Ethereum launchpad deposit cli process. </i><br/>
+        <i>Do not upload the deposit_data.json file.</i><br/>
+        You can drag and drop the directory or individual files.
+      </p>
     </div>
   </div>
   <form [formGroup]="formGroup">
@@ -21,7 +24,7 @@
     <mat-selection-list *ngIf="keystoresImported?.length > 0" class="rounded-md bg-indigo-900 override" style="padding-top:0px; min-width: 380px; max-width:550px; margin:0 auto;" >
       <div class="bg-indigo-800 rounded-t-md flex flex-row items-center w-full p-5">
         <div class="flex flex-1 self-stretch items-center "> 
-          <mat-slide-toggle [formControl]="uniqueToggleFormControl">Unique Passwords Mode</mat-slide-toggle>
+          <mat-slide-toggle [formControl]="uniqueToggleFormControl">Keystores have different passwords</mat-slide-toggle>
         </div>
         <div *ngIf="!editMode" class="flex-none">
           <button mat-raised-button color="primary" (click)="enterEditMode()">Edit</button>

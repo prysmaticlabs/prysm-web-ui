@@ -14,7 +14,7 @@
               mat-raised-button
               color="primary"
               (click)="submit()"
-              [disabled]="loading || keystoresFormGroup.invalid || keystoresFormGroup.invalid">
+              [disabled]="loading || keystoresFormGroup.invalid || slashingProtection.invalid">
               Submit Keystores
             </button>
             <div class="btn-progress" *ngIf="loading">

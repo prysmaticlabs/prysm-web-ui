@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import {map, debounceTime, take, switchMap, catchError} from 'rxjs/operators';
+import {map, debounceTime, take, switchMap, catchError, first, debounce} from 'rxjs/operators';
 
 import { WalletService } from '../../core/services/wallet.service';
 import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
@@ -27,26 +27,24 @@ export class KeystoreValidator {
   correctPassword(): AsyncValidatorFn {
     return (
       control: AbstractControl
-    ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+    ): Observable<{ [key: string]: any } | null> => {
       return control.valueChanges.pipe(
         debounceTime(500),
-        take(1),
-        switchMap(_ => {
-          const keystores: string[] = control.get('keystoresImported')?.value;
-          if (!keystores.length) {
+        switchMap((keystoreFG: any) => {
+          if (!keystoreFG) {
             return of(null);
           }
-          const keystoresPassword: string = control.get('keystoresPassword')?.value;
+          const keystoresPassword: string = keystoreFG.keystoresPassword;
           if (keystoresPassword === '') {
             return of(null);
           }
           const req: ValidateKeystoresRequest = {
-            keystores,
-            keystoresPassword,
+            keystores: [keystoreFG.keystore],
+            keystoresPassword: keystoresPassword,
           };
           return this.walletService.validateKeystores(req).pipe(
-            map(() => {
-              return null;
+            switchMap(() => {
+              return of(null);
             }),
             catchError((err: HttpErrorResponse) => {
               let formErr: object;
@@ -57,12 +55,14 @@ export class KeystoreValidator {
               }else {
                 formErr = { somethingWentWrong: true };
               }
-              control.get('keystoresPassword')?.setErrors(formErr);
+              control.get('keystorePassword')?.setErrors(formErr);
               return of(formErr);
             }),
           );
         }),
+        first()
       );
     };
   }
 }
+

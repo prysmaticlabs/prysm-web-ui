@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
 import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EnvironmenterService } from './environmenter.service';
 import {

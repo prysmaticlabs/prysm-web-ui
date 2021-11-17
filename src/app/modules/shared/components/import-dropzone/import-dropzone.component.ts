@@ -63,6 +63,11 @@ export class ImportDropzoneComponent{
       this.removeFile(file);
     });
   }
+
+  reset(): void {
+    this.uploadedFiles = [];
+    this.invalidFiles = [];
+  }
 }
 
 export interface DropFile {

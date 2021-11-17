@@ -31,6 +31,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { OverlayModule} from '@angular/cdk/overlay';
@@ -68,7 +69,8 @@ const materialModules = [
     MatMenuModule,
     MatDialogModule,
     MatListModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatButtonToggleModule
 ];
 
 const ckdModules = [

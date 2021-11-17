@@ -7,6 +7,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { NotificationService } from '../../services/notification.service';
 import { DropFile,DropFileAction, ImportDropzoneComponent} from 'src/app/modules/shared/components/import-dropzone/import-dropzone.component';
 import { EIPSlashingProtectionFormat } from '../../../wallet/pages/slashing-protection/model/interface';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-import-protection',
@@ -18,6 +19,7 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
   @ViewChild('dropzone') dropzone: ImportDropzoneComponent | undefined;
 
   constructor(
+    private formBuilder: FormBuilder,
     private walletService: WalletService,
     private notificationService: NotificationService
   ) {
@@ -29,6 +31,7 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
   isUploading = false;
   importedFiles: EIPSlashingProtectionFormat[] = [];
   importedFileNames: string[] = [];
+  isImportingKeystoreControl = this.formBuilder.control(null,Validators.required);
 
   ngOnInit(): void {}
   fileChange(fileObj: DropFile): void {
@@ -73,6 +76,17 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
       this.dropzone?.uploadedFiles.push(file);
     }).catch((err)=>{this.dropzone?.addInvalidFileReason(`Invalid Format: ${file?.name}`)});
     
+  }
+
+  toggleImportSlashingProtection(response:boolean): void {
+    this.isImportingKeystoreControl.setValue(response);
+    this.dropzone?.reset();
+    this.importedFileNames = [];
+    this.importedFiles = [];
+  }
+
+  get invalid():boolean {
+    return this.isImportingKeystoreControl.invalid || this.isImportingKeystoreControl.value && this.importedFiles.length === 0;
   }
 
   confirmImport(): void {

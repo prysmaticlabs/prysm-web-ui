@@ -1,14 +1,13 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
+import { Observable, throwError, zip } from 'rxjs';
 import { catchError, filter, take, tap } from 'rxjs/operators';
 import { LANDING_URL } from 'src/app/modules/core/constants';
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
-import { ImportKeystoresRequest } from 'src/app/proto/validator/accounts/v2/web_api';
-import { KeystoreValidator } from '../../../onboarding/validators/keystore.validator';
+import { ImportKeystoresRequest, ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
@@ -24,11 +23,10 @@ export class ImportComponent {
     private router: Router,
     private zone: NgZone,
     private notificationService: NotificationService,
-    private keystoreValidator: KeystoreValidator
   ) {}
   loading = false;
   keystoresFormGroup = this.formBuilder.group({
-    keystoresImported: this.formBuilder.array([])
+    keystoresImported: this.formBuilder.array([], Validators.required)
   });
 
   submit(): void {
@@ -42,25 +40,34 @@ export class ImportComponent {
       keystoresPassword: this.keystoresFormGroup.controls.keystoresPassword
         .value,
     };
+    
     this.loading = true;
 
-    this.walletService.importKeystores(req).pipe(
-          take(1),
-            filter((result) => result !== undefined),
-            tap(() => {
-              this.notificationService.notifySuccess(
-                'Successfully imported keystores'
-              );
+    let importKeystores$: Observable<any>= this.walletService.importKeystores(req);
+    const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
+    if(slashingProtectionFile ){
+      const reqImportSlashing: ImportSlashingProtectionRequest = {
+        slashingProtectionJson: JSON.stringify(slashingProtectionFile)
+      }
+      importKeystores$ = zip(this.walletService.importKeystores(req), this.walletService.importSlashingProtection(reqImportSlashing));
+    }
 
-              this.loading = false;
-              this.zone.run(() => {
-                this.router.navigate(['/' + LANDING_URL + '/wallet/accounts']);
-              });
-            }),
-            catchError((err) => {
-              this.loading = false;
-              return throwError(err);
-            })
+    importKeystores$.pipe(
+          take(1),
+          tap(() => {
+            this.notificationService.notifySuccess(
+              'Successfully imported keystores'
+            );
+
+            this.loading = false;
+            this.zone.run(() => {
+              this.router.navigate(['/' + LANDING_URL + '/wallet/accounts']);
+            });
+          }),
+          catchError((err) => {
+            this.loading = false;
+            return throwError(err);
+          })
     ).subscribe();
   }
 }

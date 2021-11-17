@@ -1,13 +1,18 @@
-
 <div class="pb-4">
     <div class="import-keys-form">
-        <div class="text-white text-xl mt-4">
-            Import Slashing protections (recommended)
-        </div>
-        <ng-container *ngIf="!isUploading">
+        <span class="my-6 text-hint text-lg leading-relaxed">
+           Are you importing an existing keystore?<span class="text-red-600">*</span> 
+            <mat-button-toggle-group class="override m-5" name="yesOrNo" aria-label="Slashing Protection Yes No">
+                <mat-button-toggle  class="override" (click)="toggleImportSlashingProtection(true)" aria-label="Slashing Protection Yes" value="true">Yes</mat-button-toggle>
+                <mat-button-toggle  class="override" (click)="toggleImportSlashingProtection(false)" aria-label="Slashing Protection No" value="false">No</mat-button-toggle>
+            </mat-button-toggle-group>
+        </span>
+        <ng-container *ngIf="!isUploading && isImportingKeystoreControl.value">
+            <div class="text-white text-xl mt-4 pb-5">
+                Import Slashing Protections (recommended)
+            </div>
             <div class="my-6 text-hint text-lg leading-relaxed"> Upload
-                your
-                slashing protection file. To read more about
+                your slashing protection file to protect your keystore(s). To read more about
                 how to obtain this file, see our documentation portal
                 <a class="text-blue-600"
                     href="https://docs.prylabs.network/docs/wallet/slashing-protection/"

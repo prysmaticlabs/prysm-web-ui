@@ -1,6 +1,7 @@
 .onboarding {
   .create-a-wallet {
     padding-top: 7%;
+    padding-bottom: 7%;
   }
   .onboarding-grid {
     .onboarding-card {
@@ -90,9 +91,6 @@
       }
       .mat-form-field-label {
         color: $white;
-      }
-      .mat-form-field {
-        width: 80%;
       }
       .confirm-mnemonic-form {
         .mat-input-element {

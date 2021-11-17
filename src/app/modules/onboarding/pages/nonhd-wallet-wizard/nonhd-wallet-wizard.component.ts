@@ -12,7 +12,6 @@ import {
   CreateWalletRequest,
   ImportKeystoresRequest
 } from 'src/app/proto/validator/accounts/v2/web_api';
-import { KeystoreValidator } from '../../validators/keystore.validator';
 
 import { LANDING_URL } from 'src/app/modules/core/constants';
 
@@ -35,7 +34,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
-    private keystoreValidator: KeystoreValidator,
     private router: Router,
     private walletService: WalletService,
   ) {}
@@ -47,13 +45,8 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   isSmallScreen = false;
 
   keystoresFormGroup = this.formBuilder.group({
-    keystoresImported: this.formBuilder.array([]) as FormArray
+    keystoresImported: this.formBuilder.array([], Validators.required) as FormArray
   });
-//,keystoresPassword: ['', Validators.required]
-  // new FormControl([] as string[][], [
-  //   this.keystoreValidator.validateIntegrity,
-  // ]),
-  //  asyncValidators: this.keystoreValidator.correctPassword(),
 
   walletPasswordFormGroup = this.formBuilder.group({
     password: new FormControl('', [

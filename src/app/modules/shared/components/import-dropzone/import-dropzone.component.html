@@ -16,7 +16,7 @@
             </ng-template>
         </ngx-file-drop>
     </div>
-     <div class="my-6 flex flex-wrap">
+     <div class="my-6 flex flex-wrap overflow-y-auto" style="max-height: 200px;">
         <mat-error *ngIf="invalidFiles.length">
             Not adding these files:
             <ul class="ml-8 list-inside list-disc">

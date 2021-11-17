@@ -25,3 +25,22 @@
     flex: 1 1 0%;
     padding-bottom:0px !important;
 }
+
+.override .mat-button-toggle-group-appearance-standard{
+    box-shadow: none;
+    border:0px !important;
+}
+
+
+.override mat-button-toggle:hover {
+    background-color: #434190 !important;
+}
+
+.override .mat-button-toggle-checked {
+    background-color: #434190 !important;
+}
+
+.override .mat-button-toggle-input {
+    background-color: none !important;
+    padding-left: 32px !important;
+}

@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as JSZip from 'jszip';
 import { from, throwError } from 'rxjs';
 import { catchError,  debounceTime, take, tap } from 'rxjs/operators';
 import { DropFile, ImportDropzoneComponent } from '../import-dropzone/import-dropzone.component';
+import { KeystoreValidator } from '../../validators/keystore.validator';
 
 @Component({
   selector: 'app-import-accounts-form',
@@ -13,18 +14,22 @@ export class ImportAccountsFormComponent implements OnInit {
   @Input() formGroup: FormGroup | null = null;
   @ViewChild('dropzone') dropzone: ImportDropzoneComponent | undefined;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private keystoreValidator: KeystoreValidator,
+    private changeDetectorRef: ChangeDetectorRef
+    ) {}
 
   editMode = false;
 
   readonly keystorePasswordDefaultFormGroupInit = {
-    password: '',
+    keystorePassword: '',
     hide: true
   }
 
   uniqueToggleFormControl = this.formBuilder.control(false);
   keystorePasswordDefaultFormGroup= this.formBuilder.group({
-    password: ['', Validators.required],
+    keystorePassword: ['', [Validators.required,  Validators.minLength(8)]],
     hide: [true]
   });
 
@@ -32,19 +37,28 @@ export class ImportAccountsFormComponent implements OnInit {
     return this.formGroup?.controls['keystoresImported'] as FormArray ;
   }
 
+  print(){
+    console.log(this.keystorePasswordDefaultFormGroup.get('keystorePassword'))
+  }
+
   ngOnInit(): void {
     this.uniqueToggleFormControl.valueChanges.subscribe((value) => {
       this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);
+      // really shitty to need this ... but angular doesn't detect changes fast enough after so we need to check for changes again...
+      this.changeDetectorRef.detectChanges();
     });
-    this.keystorePasswordDefaultFormGroup.get('password')?.valueChanges.pipe(
-      debounceTime(500),
+    this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.valueChanges.pipe(
+      debounceTime(250),
     ).subscribe(password =>{
       this.keystoresImported.controls.forEach(fg => {
         fg.get('keystorePassword')?.setValue(password);
+        fg.get('keystorePassword')?.updateValueAndValidity();
+        fg.get('keystorePassword')?.markAsPristine();
       });
-      console.log(password);
     });
   }
+
+
 
   fileChangeHandler(obj: DropFile): void {
     if (obj.file.type === 'application/zip') {
@@ -99,6 +113,7 @@ export class ImportAccountsFormComponent implements OnInit {
   }
 
   removeKeystores(): void {
+    
     this.keystoresImported.controls = this.keystoresImported.controls.filter((fg) => {
       const selected = fg.get('isSelected')?.value;
       if(selected){
@@ -108,8 +123,10 @@ export class ImportAccountsFormComponent implements OnInit {
       // keep the form groups that are not selected
       return !selected;
     });
+    this.keystoresImported.updateValueAndValidity();
     if(this.keystoresImported.controls.length === 0){
       this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);
+      this.editMode = false;
     }
     
   }
@@ -134,10 +151,21 @@ export class ImportAccountsFormComponent implements OnInit {
       hide: [true],
       fileName: [fileName],
       keystore: [jsonFile],
-      keystorePassword: ['', Validators.required],
+      keystorePassword: ['', [Validators.required,  Validators.minLength(8)]],
+    },{
+      asyncValidators: [this.keystoreValidator.correctPassword()]
     });
     
     this.keystoresImported?.push(keystoresFormGroup);
+    
+    // updates the keystorePasswordDefaultFormGroup based on each keystore
+    this.keystoresImported.controls.forEach((fg) => {
+      fg.get('keystorePassword')?.statusChanges.subscribe(status =>{
+        if(status === 'INVALID'){
+          this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.setErrors( fg.get('keystorePassword')?.errors || {});
+        }
+      });
+    })
     
   }
 

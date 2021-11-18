@@ -1,15 +1,15 @@
-import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, NgZone, ViewChild } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, throwError, zip } from 'rxjs';
-import { catchError, filter, take, tap } from 'rxjs/operators';
+import { catchError, switchMap, take } from 'rxjs/operators';
 import { LANDING_URL } from 'src/app/modules/core/constants';
-
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ImportAccountsFormComponent } from 'src/app/modules/shared/components/import-accounts-form/import-accounts-form.component';
 import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
 import { ImportKeystoresRequest, ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { NotificationService } from '../../../shared/services/notification.service';
+
 
 @Component({
   selector: 'app-import',
@@ -77,15 +77,18 @@ export class ImportComponent {
 
     zip(...observablesToExecute).pipe(
           take(1),
-          tap(() => {
-            this.notificationService.notifySuccess(
-              'Successfully imported keystores'
-            );
-
-            this.loading = false;
-            this.zone.run(() => {
-              this.router.navigate(['/' + LANDING_URL + '/wallet/accounts']);
-            });
+          switchMap((res) => {
+            if(res){
+              this.notificationService.notifySuccess(
+                'Successfully imported keystores'
+              );
+  
+              this.loading = false;
+              this.zone.run(() => {
+                this.router.navigate(['/' + LANDING_URL + '/wallet/accounts']);
+              });
+            }
+            return res;
           }),
           catchError((err) => {
             this.loading = false;

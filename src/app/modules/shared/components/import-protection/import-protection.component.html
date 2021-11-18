@@ -14,7 +14,7 @@
                 </mat-button-toggle-group>
             </div>
         </div>
-        <ng-container *ngIf="!isUploading && isImportingProtectionControl?.value">
+        <ng-container *ngIf="isImportingProtectionControl?.value">
             <div class="my-6 text-hint text-lg leading-relaxed"> Upload
                 your slashing protection file to protect your keystore(s). To read more about
                 how to obtain this file, see our documentation portal
@@ -28,23 +28,5 @@
                 (fileChange)="fileChange($event)" [multiple]="false" #dropzone></app-import-dropzone>
         </ng-container>
     </div>
-
-    <ng-container *ngIf="isUploading">
-        <div class="my-4 text-hint text-lg leading-relaxed">
-            Hang in there while we
-            <ng-container *ngIf="fileStatus === fileStatuses.uploading;
-                else
-                validateTemplate">
-                upload
-            </ng-container>
-            <ng-template #validateTemplate>
-                validate
-            </ng-template>
-            your files...
-        </div>
-        <div class="pb-2">
-            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </div>
-    </ng-container>
 </div>
 

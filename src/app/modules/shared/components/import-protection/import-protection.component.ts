@@ -28,7 +28,6 @@ export class ImportProtectionComponent extends BaseComponent {
 
   fileStatus = FileStatus.default;
   fileStatuses = FileStatus;
-  isUploading = false;
   importedFiles: EIPSlashingProtectionFormat[] = [];
   importedFileNames: string[] = [];
   isImportingProtectionControl = this.formBuilder.control(null,Validators.required);
@@ -86,35 +85,5 @@ export class ImportProtectionComponent extends BaseComponent {
 
   get invalid():boolean {
     return this.isImportingProtectionControl.invalid || this.isImportingProtectionControl.value && this.importedFiles.length === 0;
-  }
-
-  confirmImport(): void {
-    this.isUploading = true;
-    setTimeout(() => {
-      this.fileStatus = FileStatus.uploading;
-      const request = {
-        slashingProtectionJson: JSON.stringify(this.importedFiles),
-      } as ImportSlashingProtectionRequest;
-
-      this.walletService
-        .importSlashingProtection(request)
-        .pipe(
-          tap(() => {
-            this.isUploading = false;
-            this.notificationService.notifySuccess(
-              'Successfully imported your slashing protection'
-            );
-            this.back();
-          }),
-          catchError((error) => {
-            this.isUploading = false;
-            this.notificationService.notifyError(
-              'An error occurred while importing your slashing protection'
-            );
-            return error;
-          })
-        )
-        .subscribe();
-    }, 500);
   }
 }

@@ -111,7 +111,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     const keystoresImported: string[] = [];
     let keystorePasswords: string[] = [];
     (this.keystoresFormGroup.controls['keystoresImported'] as FormArray).controls.forEach((keystore: AbstractControl) => {
-      keystoresImported.push(keystore.get('keystore')?.value);
+      keystoresImported.push(JSON.stringify(keystore.get('keystore')?.value));
       keystorePasswords.push(keystore.get('keystorePassword')?.value);
     });
     if(this.importAccounts?.uniqueToggleFormControl.value){
@@ -158,8 +158,11 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     this.walletService.createWallet(request).pipe(
       switchMap(() => {
         return zip(...observablesToExecute).pipe(
-          tap(() => {
-            this.router.navigate([LANDING_URL]);
+          switchMap((res) => {
+            if(res){
+              this.router.navigate([LANDING_URL]);
+            }
+            return res;
           })
         );
       }),

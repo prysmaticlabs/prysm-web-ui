@@ -47,7 +47,7 @@
               </div>
               <div *ngIf="uniqueToggleFormControl.value " class="flex flex-1 self-stretch items-center ">
                 <mat-form-field  [ngClass]="'w-full '+((i===0)? 'p-2': 'pt-0 pr-2 pl-2 pb-2' )" appearance="outline">
-                  <mat-label>{{keystoreForm.get('pubkeyShort').value}}... ({{keystoreForm.get('fileName').value | filename:22}})<span class="text-red-600">*</span></mat-label>
+                  <mat-label [ngClass]="keystoreForm.get('keystorePassword')?.hasError('incorrectPassword') ? 'text-red-500':''">{{keystoreForm.get('pubkeyShort').value}}... ({{keystoreForm.get('fileName').value | filename:22}})<span class="text-red-600">*</span></mat-label>
                   <input placeholder="keystore password" formControlName="keystorePassword" [type]="keystoreForm.get('hide').value ? 'password' : 'text'"  matInput/>
                   <mat-icon matSuffix class="cursor-pointer" (click)="keystoreForm.get('hide').value = !keystoreForm.get('hide').value">{{keystoreForm.get('hide').value ? 'visibility_off' : 'visibility'}}</mat-icon>
                   <mat-error class="warning"

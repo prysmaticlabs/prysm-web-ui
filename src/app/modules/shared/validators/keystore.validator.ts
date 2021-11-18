@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import {map, debounceTime, take, switchMap, catchError, first, debounce} from 'rxjs/operators';
-
-import { WalletService } from '../../core/services/wallet.service';
-import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { catchError, debounceTime, first, switchMap } from 'rxjs/operators';
+import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
+import { WalletService } from '../../core/services/wallet.service';
+
 
 // KeystoreValidator implements the AsyncValidatorFn interface
 // from angular forms, allowing us to write a custom, asynchronous
@@ -34,16 +34,17 @@ export class KeystoreValidator {
           if (!keystoreFG) {
             return of(null);
           }
-          const keystoresPassword: string = keystoreFG.keystoresPassword;
-          if (keystoresPassword === '') {
+          const keystoresPassword: string = keystoreFG.keystorePassword;
+          if (keystoresPassword === '' || !keystoresPassword) {
             return of(null);
           }
           const req: ValidateKeystoresRequest = {
-            keystores: [keystoreFG.keystore],
+            keystores: [JSON.stringify(keystoreFG.keystore)],
             keystoresPassword: keystoresPassword,
           };
           return this.walletService.validateKeystores(req).pipe(
             switchMap(() => {
+              control.get('keystorePassword')?.setErrors(null);
               return of(null);
             }),
             catchError((err: HttpErrorResponse) => {

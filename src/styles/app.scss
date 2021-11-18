@@ -31,13 +31,16 @@
     border:0px !important;
 }
 
-
-.override mat-button-toggle:hover {
+.override mat-button-toggle{
     background-color: #434190 !important;
 }
 
+.override mat-button-toggle:hover {
+    background-color: #3c366b !important;
+}
+
 .override .mat-button-toggle-checked {
-    background-color: #434190 !important;
+    background-color: #3c366b !important;
 }
 
 .override .mat-button-toggle-input {

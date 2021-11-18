@@ -32,7 +32,7 @@
     <ng-container *ngIf="isUploading">
         <div class="my-4 text-hint text-lg leading-relaxed">
             Hang in there while we
-            <ng-container *ngIf="fileStatus == fileStatuses.uploading;
+            <ng-container *ngIf="fileStatus === fileStatuses.uploading;
                 else
                 validateTemplate">
                 upload

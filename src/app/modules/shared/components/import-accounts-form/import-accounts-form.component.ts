@@ -61,8 +61,6 @@ export class ImportAccountsFormComponent implements OnInit {
     });
   }
 
-
-
   fileChangeHandler(obj: DropFile): void {
     if (obj.file.type === 'application/zip') {
       this.unzipFile(obj.file);

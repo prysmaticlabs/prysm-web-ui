@@ -1,20 +1,20 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { BaseComponent } from '../base.component';
-import { WalletService } from '../../../core/services/wallet.service';
-import { FileStatus } from '../../services/enums';
-import { ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
-import { tap, catchError } from 'rxjs/operators';
-import { NotificationService } from '../../services/notification.service';
-import { DropFile,DropFileAction, ImportDropzoneComponent} from 'src/app/modules/shared/components/import-dropzone/import-dropzone.component';
-import { EIPSlashingProtectionFormat } from '../../../wallet/pages/slashing-protection/model/interface';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { catchError, tap } from 'rxjs/operators';
+import { DropFile, DropFileAction, ImportDropzoneComponent } from 'src/app/modules/shared/components/import-dropzone/import-dropzone.component';
+import { ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { WalletService } from '../../../core/services/wallet.service';
+import { EIPSlashingProtectionFormat } from '../../../wallet/pages/slashing-protection/model/interface';
+import { FileStatus } from '../../services/enums';
+import { NotificationService } from '../../services/notification.service';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: 'app-import-protection',
   templateUrl: './import-protection.component.html',
   styleUrls: ['./import-protection.component.scss'],
 })
-export class ImportProtectionComponent extends BaseComponent implements OnInit {
+export class ImportProtectionComponent extends BaseComponent {
 
   @ViewChild('dropzone') dropzone: ImportDropzoneComponent | undefined;
 
@@ -33,7 +33,6 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
   importedFileNames: string[] = [];
   isImportingProtectionControl = this.formBuilder.control(null,Validators.required);
 
-  ngOnInit(): void {}
   fileChange(fileObj: DropFile): void {
     if(fileObj.action === DropFileAction.IMPORT){
       this.processFile(fileObj);

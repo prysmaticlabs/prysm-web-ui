@@ -1,11 +1,12 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, throwError, zip } from 'rxjs';
 import { catchError, filter, take, tap } from 'rxjs/operators';
 import { LANDING_URL } from 'src/app/modules/core/constants';
 
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
+import { ImportAccountsFormComponent } from 'src/app/modules/shared/components/import-accounts-form/import-accounts-form.component';
 import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
 import { ImportKeystoresRequest, ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -16,7 +17,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 })
 export class ImportComponent {
   @ViewChild('slashingProtection') slashingProtection: ImportProtectionComponent | undefined;
-  
+  @ViewChild('importAccounts') importAccounts: ImportAccountsFormComponent | undefined;
   constructor(
     private formBuilder: FormBuilder,
     private walletService: WalletService,
@@ -29,30 +30,52 @@ export class ImportComponent {
     keystoresImported: this.formBuilder.array([], Validators.required)
   });
 
+  private get importKeystores$(): Observable<any>{
+    const keystoresImported: string[] = [];
+    let keystorePasswords: string[] = [];
+    (this.keystoresFormGroup.controls['keystoresImported'] as FormArray).controls.forEach((keystore: AbstractControl) => {
+      keystoresImported.push(keystore.get('keystore')?.value);
+      keystorePasswords.push(keystore.get('keystorePassword')?.value);
+    });
+    if(this.importAccounts?.uniqueToggleFormControl.value){
+      const arrayOfRequests: Observable<any>[] = [];
+      keystoresImported.forEach((keystore: string, index: number) => {
+        const req: ImportKeystoresRequest = {
+          keystoresImported: [keystore],
+          keystoresPassword: keystorePasswords[index],
+        };
+        arrayOfRequests.push(this.walletService.importKeystores(req));
+      });
+      return zip(...arrayOfRequests);
+    } else {
+      const req: ImportKeystoresRequest = {
+        keystoresImported: keystoresImported,
+        keystoresPassword: keystorePasswords[0],
+      };
+      return this.walletService.importKeystores(req);
+    }
+    
+  }
+
   submit(): void {
     
     if (this.keystoresFormGroup.invalid || this.slashingProtection?.invalid) {
       return;
     }
-    const req: ImportKeystoresRequest = {
-      keystoresImported: this.keystoresFormGroup.controls.keystoresImported
-        .value,
-      keystoresPassword: this.keystoresFormGroup.controls.keystoresPassword
-        .value,
-    };
 
     this.loading = true;
 
-    let importKeystores$: Observable<any>= this.walletService.importKeystores(req);
+    const observablesToExecute: Observable<any>[] = [this.importKeystores$];
+   
     const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
     if(slashingProtectionFile ){
       const reqImportSlashing: ImportSlashingProtectionRequest = {
         slashingProtectionJson: JSON.stringify(slashingProtectionFile)
       }
-      importKeystores$ = zip(this.walletService.importKeystores(req), this.walletService.importSlashingProtection(reqImportSlashing));
+      observablesToExecute.push(this.walletService.importSlashingProtection(reqImportSlashing));
     }
 
-    importKeystores$.pipe(
+    zip(...observablesToExecute).pipe(
           take(1),
           tap(() => {
             this.notificationService.notifySuccess(

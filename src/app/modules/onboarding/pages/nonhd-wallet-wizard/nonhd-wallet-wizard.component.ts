@@ -1,21 +1,23 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
-import { Subject, throwError } from 'rxjs';
+import { Observable, Subject, throwError, zip } from 'rxjs';
 import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 
 import {
   CreateWalletRequest,
-  ImportKeystoresRequest
+  ImportKeystoresRequest,
+  ImportSlashingProtectionRequest
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { LANDING_URL } from 'src/app/modules/core/constants';
 import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
 import { templateJitUrl } from '@angular/compiler';
+import { ImportAccountsFormComponent } from 'src/app/modules/shared/components/import-accounts-form/import-accounts-form.component';
 
 
 enum WizardState {
@@ -35,6 +37,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
 
   // View children.
   @ViewChild('stepper') stepper?: MatStepper;
+  @ViewChild('importAccounts') importAccounts: ImportAccountsFormComponent | undefined;
   @ViewChild('slashingProtection') slashingProtection: ImportProtectionComponent | undefined;
 
   constructor(
@@ -104,22 +107,57 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     }
   }
 
+  private get importKeystores$(): Observable<any>{
+    const keystoresImported: string[] = [];
+    let keystorePasswords: string[] = [];
+    (this.keystoresFormGroup.controls['keystoresImported'] as FormArray).controls.forEach((keystore: AbstractControl) => {
+      keystoresImported.push(keystore.get('keystore')?.value);
+      keystorePasswords.push(keystore.get('keystorePassword')?.value);
+    });
+    if(this.importAccounts?.uniqueToggleFormControl.value){
+      const arrayOfRequests: Observable<any>[] = [];
+      keystoresImported.forEach((keystore: string, index: number) => {
+        const req: ImportKeystoresRequest = {
+          keystoresImported: [keystore],
+          keystoresPassword: keystorePasswords[index],
+        };
+        arrayOfRequests.push(this.walletService.importKeystores(req));
+      });
+      return zip(...arrayOfRequests);
+    } else {
+      const req: ImportKeystoresRequest = {
+        keystoresImported: keystoresImported,
+        keystoresPassword: keystorePasswords[0],
+      };
+      return this.walletService.importKeystores(req);
+    }
+    
+  }
+
   createWallet(event: Event): void {
     event.stopPropagation();
     const request = {
       keymanager: 'IMPORTED',
       walletPassword: this.walletPasswordFormGroup.get('password')?.value,
     } as CreateWalletRequest;
-    const importRequest = {
-      keystoresPassword: this.keystoresFormGroup.get('keystoresPassword')?.value,
-      keystoresImported: this.keystoresFormGroup.get('keystoresImported')?.value,
-    } as ImportKeystoresRequest;
+   
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
+
+    const observablesToExecute: Observable<any>[] = [this.importKeystores$];
+   
+    const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
+    if(slashingProtectionFile ){
+      const reqImportSlashing: ImportSlashingProtectionRequest = {
+        slashingProtectionJson: JSON.stringify(slashingProtectionFile)
+      }
+      observablesToExecute.push(this.walletService.importSlashingProtection(reqImportSlashing));
+    }
+
     this.walletService.createWallet(request).pipe(
       switchMap(() => {
-        return this.walletService.importKeystores(importRequest).pipe(
+        return zip(...observablesToExecute).pipe(
           tap(() => {
             this.router.navigate([LANDING_URL]);
           })

@@ -31,7 +31,7 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
   isUploading = false;
   importedFiles: EIPSlashingProtectionFormat[] = [];
   importedFileNames: string[] = [];
-  isImportingKeystoreControl = this.formBuilder.control(null,Validators.required);
+  isImportingProtectionControl = this.formBuilder.control(null,Validators.required);
 
   ngOnInit(): void {}
   fileChange(fileObj: DropFile): void {
@@ -79,14 +79,14 @@ export class ImportProtectionComponent extends BaseComponent implements OnInit {
   }
 
   toggleImportSlashingProtection(response:boolean): void {
-    this.isImportingKeystoreControl.setValue(response);
+    this.isImportingProtectionControl.setValue(response);
     this.dropzone?.reset();
     this.importedFileNames = [];
     this.importedFiles = [];
   }
 
   get invalid():boolean {
-    return this.isImportingKeystoreControl.invalid || this.isImportingKeystoreControl.value && this.importedFiles.length === 0;
+    return this.isImportingProtectionControl.invalid || this.isImportingProtectionControl.value && this.importedFiles.length === 0;
   }
 
   confirmImport(): void {

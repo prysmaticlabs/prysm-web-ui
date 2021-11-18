@@ -37,10 +37,6 @@ export class ImportAccountsFormComponent implements OnInit {
     return this.formGroup?.controls['keystoresImported'] as FormArray ;
   }
 
-  print(){
-    console.log(this.keystorePasswordDefaultFormGroup.get('keystorePassword'))
-  }
-
   ngOnInit(): void {
     this.uniqueToggleFormControl.valueChanges.subscribe((value) => {
       this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);

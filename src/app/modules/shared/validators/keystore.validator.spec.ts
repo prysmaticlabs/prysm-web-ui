@@ -7,6 +7,7 @@ import { KeystoreValidator } from './keystore.validator';
 import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
+import { AnyRecord } from 'dns';
 
 describe('KeystoreValidator', () => {
   let walletService: WalletService;
@@ -35,22 +36,24 @@ describe('KeystoreValidator', () => {
 
   describe('Correct password', () => {
     it('should incorrect password error if error 400 is received from http response', done => {
-      const validator = new KeystoreValidator(walletService);
+      
       walletService.validateKeystores = (req: ValidateKeystoresRequest): Observable<object> => {
         return throwError(new HttpErrorResponse({
           status: 400,
           error: { message: 'wrong password' },
         }));
       };
+      const validator = new KeystoreValidator(walletService);
       const validationFunc = validator.correctPassword();
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
-        keystoresImported: new FormControl([] as string[][], null),
-        keystoresPassword: new FormControl('', null),
+        keystore: new FormControl({ value: ''}),
+        keystorePassword: new FormControl('asdsadasd'),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
       ) as Observable<ValidationErrors>;
+     
       obs.pipe(
         tap((errors) => {
           expect(errors).toEqual({
@@ -63,9 +66,9 @@ describe('KeystoreValidator', () => {
           return throwError(err);
         }),
       ).subscribe();
-
-      formControl.get('keystoresImported')?.setValue([['hi']]);
-      formControl.get('keystoresPassword')?.setValue([['hi']]);
+      // trigger value change
+      formControl.get('keystore')?.setValue('asdasdasd');
+      formControl.get('keystorePassword')?.setValue('hi');
     });
 
     it('should show error for all other http error status codes received', done => {
@@ -79,8 +82,8 @@ describe('KeystoreValidator', () => {
       const validationFunc = validator.correctPassword();
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
-        keystoresImported: new FormControl([] as string[][], null),
-        keystoresPassword: new FormControl('', null),
+        keystore: new FormControl({ value: ''}),
+        keystorePassword: new FormControl('asdsadasd'),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
@@ -95,11 +98,12 @@ describe('KeystoreValidator', () => {
         catchError(err => {
           console.log(err);
           return throwError(err);
+          
         }),
       ).subscribe();
-
-      formControl.get('keystoresImported')?.setValue([['hi']]);
-      formControl.get('keystoresPassword')?.setValue([['hi']]);
+      // trigger value change
+      formControl.get('keystore')?.setValue('asdasdasd');
+      formControl.get('keystorePassword')?.setValue('hi');
     });
 
     it('should pass validation if no error is received from http response', done => {
@@ -110,8 +114,8 @@ describe('KeystoreValidator', () => {
       const validationFunc = validator.correctPassword();
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
-        keystoresImported: new FormControl([] as string[][], null),
-        keystoresPassword: new FormControl('', null),
+        keystore: new FormControl({ value: ''}),
+        keystorePassword: new FormControl('asdsadasd'),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
@@ -124,11 +128,12 @@ describe('KeystoreValidator', () => {
         catchError(err => {
           console.log(err);
           return throwError(err);
+         
         }),
       ).subscribe();
-
-      formControl.get('keystoresImported')?.setValue([['hi']]);
-      formControl.get('keystoresPassword')?.setValue([['hi']]);
+     // trigger value change
+     formControl.get('keystore')?.setValue('asdasdasd');
+     formControl.get('keystorePassword')?.setValue('hi');
     });
   });
 });

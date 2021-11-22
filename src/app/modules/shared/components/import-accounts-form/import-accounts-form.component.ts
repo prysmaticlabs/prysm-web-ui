@@ -1,24 +1,72 @@
-import { Component, Input } from '@angular/core';
-import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
-import { FormGroup } from '@angular/forms';
-import { from, throwError } from 'rxjs';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as JSZip from 'jszip';
-import { catchError, take, tap } from 'rxjs/operators';
+import { from, throwError } from 'rxjs';
+import { catchError,  debounceTime, take, tap } from 'rxjs/operators';
+import { DropFile, ImportDropzoneComponent } from '../import-dropzone/import-dropzone.component';
+import { KeystoreValidator } from '../../validators/keystore.validator';
 
 @Component({
   selector: 'app-import-accounts-form',
   templateUrl: './import-accounts-form.component.html',
 })
-export class ImportAccountsFormComponent {
+export class ImportAccountsFormComponent implements OnInit {
   @Input() formGroup: FormGroup | null = null;
+  @ViewChild('dropzone') dropzone: ImportDropzoneComponent | undefined;
 
-  constructor() {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private keystoreValidator: KeystoreValidator,
+    private changeDetectorRef: ChangeDetectorRef
+    ) {}
 
-  // Properties.
+  editMode = false;
 
-  invalidFiles: string[] = [];
+  readonly keystorePasswordDefaultFormGroupInit = {
+    keystorePassword: '',
+    hide: true
+  }
 
-  uploading = false;
+  uniqueToggleFormControl = this.formBuilder.control(false);
+  keystorePasswordDefaultFormGroup= this.formBuilder.group({
+    keystorePassword: ['', [Validators.required,  Validators.minLength(8)]],
+    hide: [true]
+  });
+
+  get keystoresImported(): FormArray {
+    return this.formGroup?.controls['keystoresImported'] as FormArray ;
+  }
+
+  ngOnInit(): void {
+    this.uniqueToggleFormControl.valueChanges.subscribe((value) => {
+      this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);
+      this.keystoresImported.controls.forEach(fg => {
+        fg.get('keystorePassword')?.markAsPristine();
+      });
+      // Angular doesn't detect changes fast enough after so we need to check for changes again...
+      this.changeDetectorRef.detectChanges();
+    });
+    this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.valueChanges.pipe(
+      debounceTime(250),
+    ).subscribe(password =>{
+      this.keystoresImported.controls.forEach(fg => {
+        fg.get('keystorePassword')?.setValue(password);
+        fg.get('keystorePassword')?.updateValueAndValidity();
+        fg.get('keystorePassword')?.markAsPristine();
+      });
+    });
+  }
+
+  fileChangeHandler(obj: DropFile): void {
+    if (obj.file.type === 'application/zip') {
+      this.unzipFile(obj.file);
+    } else {
+      obj.file.text().then((txt:string) => {
+        this.updateImportedKeystores(obj.file.name, JSON.parse(txt));
+      });
+      
+    }
+  }
 
   // Unzip an uploaded zip file and attempt
   // to get all its keystores to update the form group.
@@ -27,10 +75,19 @@ export class ImportAccountsFormComponent {
       .pipe(
         take(1),
         tap((blob: JSZip) => {
-          blob.forEach(async (item) => {
-            const res = await blob.file(item)?.async('string');
-            if (res) {
-              this.updateImportedKeystores(item, JSON.parse(res));
+          blob.forEach((item) => {
+            const file = blob.file(item);
+            if(file){
+              file.async('string').then((txt) => {
+                try {
+                this.updateImportedKeystores(item, JSON.parse(txt));
+                } catch(err){
+                  // sometimes zip contains extra info that processes like a file
+                  // do nothing for parsing errors, will be validated for correct json in function
+                }
+              });
+            } else {
+              this.dropzone?.addInvalidFileReason('Error Reading File:'+item);
             }
           });
         }),
@@ -40,39 +97,73 @@ export class ImportAccountsFormComponent {
       )
       .subscribe();
   }
-  fileChangeHandler(obj: {
-    file: File;
-    context: any;
-    validationResult: (context: any, file: File, ...responses: any[]) => void;
-  }): void {
-    const { file, context, validationResult } = obj;
-    if (file.type === 'application/zip') {
-      this.unzipFile(file);
-      validationResult(context, file, this.invalidFiles);
-    } else {
-      file.text().then((txt) => {
-        this.updateImportedKeystores(file.name, JSON.parse(txt));
-        validationResult(context, file, this.invalidFiles);
-      });
-    }
+
+  private displayPubKey(keystore: {pubkey:string}): string {
+    return '0x'+keystore.pubkey.slice(0,12);
   }
 
-  private updateImportedKeystores(fileName: string, jsonFile: object): void {
-    if (!this.isKeystoreFileValid(jsonFile)) {
-      this.invalidFiles.push('Invalid Format: ' + fileName);
-      return;
-    }
+  enterEditMode(): void {
+    this.keystoresImported.controls.forEach((fg) => {
+      fg.get('isSelected')?.setValue(false);
+    });
+    this.editMode = true;
+  }
 
-    const imported = this.formGroup?.get('keystoresImported')
-      ?.value as string[];
-    const jsonString = JSON.stringify(jsonFile);
-    if (imported.includes(jsonString)) {
-      this.invalidFiles.push('Duplicate: ' + fileName);
+  removeKeystores(): void {
+    
+    this.keystoresImported.controls = this.keystoresImported.controls.filter((fg) => {
+      const selected = fg.get('isSelected')?.value;
+      if(selected){
+        // remove from imported dropzone
+        this.dropzone?.removeFile(fg.get('keystore')?.value);
+      }
+      // keep the form groups that are not selected
+      return !selected;
+    });
+    this.keystoresImported.updateValueAndValidity();
+    if(this.keystoresImported.controls.length === 0){
+      this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);
+      this.editMode = false;
+    }
+    
+  }
+
+  private updateImportedKeystores(fileName: string, jsonFile: {pubkey:string}): void {
+    if (!this.isKeystoreFileValid(jsonFile)) {
+      this.dropzone?.addInvalidFileReason('Invalid Format: ' + fileName);
       return;
     }
-    this.formGroup
-      ?.get('keystoresImported')
-      ?.setValue([...imported, jsonString]);
+    if(this.keystoresImported.controls.length > 0){
+      const imported = this.keystoresImported.controls.map((fg) => JSON.stringify(fg.get('keystore')?.value));
+      const jsonString = JSON.stringify(jsonFile);
+      if (imported.includes(jsonString)) {
+        this.dropzone?.addInvalidFileReason('Duplicate: ' + fileName);
+        return;
+      }
+    }
+    
+    const keystoresFormGroup : FormGroup = this.formBuilder.group({
+      pubkeyShort: this.displayPubKey(jsonFile),
+      isSelected:[false],
+      hide: [true],
+      fileName: [fileName],
+      keystore: [jsonFile],
+      keystorePassword: ['', [Validators.required,  Validators.minLength(8)]],
+    },{
+      asyncValidators: [this.keystoreValidator.correctPassword()]
+    });
+    
+    this.keystoresImported?.push(keystoresFormGroup);
+    
+    // updates the keystorePasswordDefaultFormGroup based on each keystore
+    this.keystoresImported.controls.forEach((fg) => {
+      fg.get('keystorePassword')?.statusChanges.subscribe(status =>{
+        if(status === 'INVALID'){
+          this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.setErrors( fg.get('keystorePassword')?.errors || {});
+        }
+      });
+    })
+    
   }
 
   private isKeystoreFileValid(jsonFile: object): boolean {

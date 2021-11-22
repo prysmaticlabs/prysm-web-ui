@@ -15,6 +15,7 @@ import { CreateAccountsFormComponent } from './components/create-accounts-form/c
 import { LoadingComponent } from './loading/loading.component';
 import { ImportAccountsFormComponent } from './components/import-accounts-form/import-accounts-form.component';
 import { ImportDropzoneComponent } from './components/import-dropzone/import-dropzone.component';
+import { ImportProtectionComponent } from './components/import-protection/import-protection.component';
 
 import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
 import { OrdinalPipe } from './pipes/ordinal.pipe';
@@ -41,7 +42,8 @@ const components = [
   LoadingComponent,
   ImportAccountsFormComponent,
   CreateAccountsFormComponent,
-  ImportDropzoneComponent
+  ImportDropzoneComponent,
+  ImportProtectionComponent
 ];
 
 const pipes = [

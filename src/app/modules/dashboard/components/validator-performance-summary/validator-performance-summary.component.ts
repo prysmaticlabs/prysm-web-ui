@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 
 import { Observable } from 'rxjs';
@@ -30,6 +30,7 @@ export class ValidatorPerformanceSummaryComponent {
     private validatorService: ValidatorService,
     private walletService: WalletService,
     private beaconNodeService: BeaconNodeService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   loading = true;
@@ -98,6 +99,7 @@ export class ValidatorPerformanceSummaryComponent {
       overallScore = 'Poor';
     }
     this.loading = false;
+    this.changeDetectorRef.detectChanges();
     return {
       averageInclusionDistance,
       correctlyVotedHeadPercent: votedHeadPercentage !== -1 ? (votedHeadPercentage * 100) : null,

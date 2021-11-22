@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ImportProtectionComponent } from './import-protection.component';
 import { WalletService } from '../../../core/services/wallet.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { NotificationService } from '../../services/notification.service';
 import { MockService } from 'ng-mocks';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '../../shared.module';
 
 describe('ImportProtectionComponent', () => {
   let component: ImportProtectionComponent;

@@ -1,0 +1,32 @@
+<div class="pb-4">
+    <div class="import-keys-form">
+        <div class="flex flex-row">
+            <div class="flex-col align-middle text-white">
+                <div class="mt-5 mb-5 text-lg">
+                    Import slashing protection data? (recommended)<span class="text-red-600">*</span> <br/>
+                    <i class="my-6 text-hint leading-relaxed">only for previously-used keystores </i>
+                </div>
+            </div>
+            <div class="flex-none">
+                <mat-button-toggle-group class="override m-5" name="yesOrNo" aria-label="Slashing Protection Yes No">
+                    <mat-button-toggle  class="override" (click)="toggleImportSlashingProtection(true)" aria-label="Slashing Protection Yes" value="true">Yes</mat-button-toggle>
+                    <mat-button-toggle  class="override" (click)="toggleImportSlashingProtection(false)" aria-label="Slashing Protection No" value="false">No</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+        <ng-container *ngIf="isImportingProtectionControl?.value">
+            <div class="my-6 text-hint text-lg leading-relaxed"> Upload
+                your slashing protection file to protect your keystore(s). To read more about
+                how to obtain this file, see our documentation portal
+                <a class="text-blue-600"
+                    href="https://docs.prylabs.network/docs/wallet/slashing-protection/"
+                    target="_blank">
+                    here
+                </a>
+            </div>
+            <app-import-dropzone [accept]="'.json'"
+                (fileChange)="fileChange($event)" [multiple]="false" #dropzone></app-import-dropzone>
+        </ng-container>
+    </div>
+</div>
+

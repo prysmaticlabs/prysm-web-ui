@@ -24,13 +24,13 @@ export class OnboardingComponent implements OnInit, OnDestroy {
       kind: WalletKind.Derived,
       name: 'Recover a Wallet',
       description:
-        'Use a 24-word mnemonic phrase to recover existing eth2 keystores',
+        'Use a 24-word mnemonic phrase to recover existing validator keystores',
       image: '/assets/images/onboarding/lock.svg',
     },
     {
       kind: WalletKind.Imported,
       name: 'Import Keystores',
-      description: 'Importing eth2 keystores from an external source',
+      description: 'Importing validator keystores from an external source',
       image: '/assets/images/onboarding/direct.svg',
     },
   ];

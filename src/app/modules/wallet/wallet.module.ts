@@ -20,7 +20,6 @@ import { AccountVoluntaryExitComponent } from './pages/account-voluntary-exit/ac
 import { AccountDeleteComponent } from './components/account-delete/account-delete.component';
 import { WalletComponent } from './wallet.component';
 import { SlashingProtectionComponent } from './pages/slashing-protection/slashing-protection.component';
-import { ImportProtectionComponent } from './components/import-protection/import-protection.component';
 import { AccountsFormSelectionComponent } from './components/accounts-form-selection/accounts-form-selection.component';
 import { AccountBackupComponent } from './pages/account-backup/account-backup.component';
 
@@ -40,7 +39,6 @@ import { AccountBackupComponent } from './pages/account-backup/account-backup.co
     AccountDeleteComponent,
     WalletComponent,
     SlashingProtectionComponent,
-    ImportProtectionComponent,
     AccountBackupComponent,
     AccountsFormSelectionComponent,
   ],

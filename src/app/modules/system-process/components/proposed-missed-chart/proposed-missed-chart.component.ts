@@ -73,7 +73,7 @@ export class ProposedMissedChartComponent {
         data: [70, 80, 80, 80, 60, 70, 40],
         type: 'bar',
         itemStyle: {
-          barBorderRadius: [0, 0, 10, 10]
+          borderRadius: [0, 0, 10, 10]
         },
         stack: 'one'
       },
@@ -88,7 +88,7 @@ export class ProposedMissedChartComponent {
         data: [30, 70, 100, 90, 70, 55, 40],
         type: 'bar',
         itemStyle: {
-          barBorderRadius: [10, 10, 0, 0]
+          borderRadius: [10, 10, 0, 0]
         },
         stack: 'one'
       }

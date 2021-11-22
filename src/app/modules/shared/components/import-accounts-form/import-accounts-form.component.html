@@ -1,63 +1,94 @@
 <div class="import-keys-form">
-  <div *ngIf="uploading">
+  <div>
     <div class="text-white text-xl mt-4">
-      Uploading files...
-    </div>
-    <div class="my-4 text-hint text-lg leading-relaxed">
-      Hang in there while we upload your keystore files...
-    </div>
-    <div class="pb-2">
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </div>
-  </div>
-  <div *ngIf="!uploading">
-    <div class="text-white text-xl mt-4">
-      Import Validating Keys
+      Import Validator Keystore(s)<span class="text-red-600">*</span> 
     </div>
     <div class="my-6 text-hint text-lg leading-relaxed">
-      Upload any folder of keystore files such as the validator_keys folder that
-      was created during the eth2 launchpad's eth2.0-deposit-cli process here.
-      You can drag and drop the directory or individual files. Onboarding requires keystores to use the same password.
-      Additional keystores with other passwords can be uploaded one at a time after onboarding.
+      <p>
+        Upload any keystore JSON file(s) or .zip of keystore file(s). <br/>
+        <i>Keystores files are usually named keystore-xxxxxxxx.json and were created in the Ethereum launchpad deposit CLI. </i><br/>
+        <i>Do not upload the deposit_data.json file.</i><br/>
+        You can drag and drop the directory or individual files.
+      </p>
     </div>
   </div>
   <form [formGroup]="formGroup">
     <app-import-dropzone [accept]="'.json,.zip'"
-      (fileChange)="fileChangeHandler($event)"></app-import-dropzone>
+      (fileChange)="fileChangeHandler($event)" #dropzone></app-import-dropzone>
     <div class="my-6 flex flex-wrap">
       <mat-error class="warning" *ngIf="formGroup && formGroup.touched &&
-        formGroup.controls.keystoresImported.hasError('noKeystoresUploaded')">
+        formGroup.controls.keystoresImported?.hasError('noKeystoresUploaded')">
         Please upload at least 1 valid keystore file
       </mat-error>
-      <mat-error class="warning" *ngIf="formGroup && formGroup.touched &&
-        formGroup.controls.keystoresImported.hasError('tooManyKeystores')">
-        Max 50 keystore files allowed. If you have more than that, we recommend
-        an HD wallet instead
-      </mat-error>
     </div>
-    <mat-form-field appearance="outline">
-      <mat-label>Password to unlock keystores <span class="text-red-600">*</span></mat-label>
-      <input
-        matInput
-        formControlName="keystoresPassword"
-        placeholder="Enter the password you used to originally create the
-        keystores"
-        name="keystoresPassword"
-        type="password"
-        />
-      <mat-error class="warning"
-        *ngIf="formGroup?.controls.keystoresPassword.hasError('required') && formGroup?.touched ">
-        Password for keystores is required
-      </mat-error>
-      <mat-error class="warning"
-        *ngIf="formGroup?.controls.keystoresPassword.hasError('incorrectPassword') && formGroup?.touched">
-        {{formGroup?.controls.keystoresPassword.getError('incorrectPassword')}}
-      </mat-error>
-      <mat-error class="warning"
-        *ngIf="formGroup?.controls.keystoresPassword.hasError('somethingWentWrong') && formGroup?.touched">
-        Something went wrong when attempting to decrypt your keystores, perhaps
-        your node is not running
-      </mat-error>
-    </mat-form-field>
+    <mat-selection-list *ngIf="keystoresImported?.length > 0" class="rounded-md bg-indigo-900 override" style="padding-top:0px; min-width: 380px; max-width:550px; margin:0 auto;" >
+      <div class="bg-indigo-800 rounded-t-md flex flex-row items-center w-full p-5">
+        <div class="flex flex-1 self-stretch items-center "> 
+          <mat-slide-toggle [formControl]="uniqueToggleFormControl">Keystores have different passwords</mat-slide-toggle>
+        </div>
+        <div *ngIf="!editMode" class="flex-none">
+          <button mat-raised-button color="primary" (click)="enterEditMode()">Edit</button>
+        </div>
+
+        <div *ngIf="editMode" class="flex-none"> 
+          <button mat-raised-button color="primary" (click)="removeKeystores()">Remove</button>
+          <button mat-raised-button (click)="editMode = false">Cancel</button>
+        </div>
+      </div>
+      <div class="overflow-y-auto keystore-list-wrapper">
+        <ng-container formArrayName="keystoresImported">
+          <mat-list-item *ngFor="let keystoreForm of keystoresImported.controls; let i=index">
+            <div class="flex flex-row items-center w-full" [formGroup]="keystoreForm"> 
+              <div *ngIf="editMode" class="flex self-stretch items-center ">
+                <mat-checkbox [ngClass]="(i===0)? 'p-5': 'pt-0 pr-5 pl-5 pb-5' " formControlName="isSelected"></mat-checkbox>
+              </div>
+              <div *ngIf="!uniqueToggleFormControl.value " class="flex flex-1 self-stretch items-center ">
+                <span [ngClass]="((i===0)? 'p-5 ': 'pt-0 pr-5 pl-5 pb-5 ')+(keystoreForm.get('keystorePassword')?.hasError('incorrectPassword')?'text-red-500':'')">{{keystoreForm.get('pubkeyShort').value}}... ({{keystoreForm.get('fileName').value | filename:(editMode?22:30)}}) <mat-icon class="align-middle" *ngIf="keystoreForm.get('keystorePassword')?.hasError('incorrectPassword')">error_outline</mat-icon></span>
+              </div>
+              <div *ngIf="uniqueToggleFormControl.value " class="flex flex-1 self-stretch items-center ">
+                <mat-form-field  [ngClass]="'w-full '+((i===0)? 'p-2': 'pt-0 pr-2 pl-2 pb-2' )" appearance="outline">
+                  <mat-label [ngClass]="keystoreForm.get('keystorePassword')?.hasError('incorrectPassword') ? 'text-red-500':''">{{keystoreForm.get('pubkeyShort').value}}... ({{keystoreForm.get('fileName').value | filename:22}})<span class="text-red-600">*</span></mat-label>
+                  <input placeholder="keystore password" formControlName="keystorePassword" [type]="keystoreForm.get('hide').value ? 'password' : 'text'"  matInput/>
+                  <mat-icon matSuffix class="cursor-pointer" (click)="keystoreForm.get('hide').value = !keystoreForm.get('hide').value">{{keystoreForm.get('hide').value ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  <mat-error class="warning"
+                    *ngIf="keystoreForm.get('keystorePassword')?.hasError('required') && keystoreForm.touched ">
+                    Password for keystore is required
+                  </mat-error>
+                  <mat-error class="warning"
+                    *ngIf="keystoreForm.get('keystorePassword')?.hasError('incorrectPassword') && keystoreForm.touched">
+                    Invalid Password
+                  </mat-error>
+                  <mat-error class="warning"
+                    *ngIf="keystoreForm.get('keystorePassword')?.hasError('somethingWentWrong') && keystoreForm.touched">
+                    Something went wrong when attempting to decrypt your keystore, perhaps
+                    your node is not running
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-list-item>
+        </ng-container>
+      </div>
+      <div *ngIf="!uniqueToggleFormControl.value" class="bg-indigo-800 rounded-b-md" [formGroup]="keystorePasswordDefaultFormGroup">
+        <mat-form-field  class="w-full p-2" appearance="outline">
+          <mat-label>keystore password <span class="text-red-600">*</span></mat-label>
+          <input placeholder="keystore password" formControlName="keystorePassword" [type]="keystorePasswordDefaultFormGroup.get('hide').value ? 'password' : 'text'"  matInput/>
+          <mat-icon matSuffix class="cursor-pointer" (click)="keystorePasswordDefaultFormGroup.get('hide').value = !keystorePasswordDefaultFormGroup.get('hide').value">{{keystorePasswordDefaultFormGroup.get('hide').value ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error class="warning"
+            *ngIf="keystorePasswordDefaultFormGroup.get('keystorePassword')?.hasError('required') && keystorePasswordDefaultFormGroup.get('keystorePassword').touched">
+            Password for keystores is required
+          </mat-error>
+          <mat-error class="warning"
+            *ngIf="keystorePasswordDefaultFormGroup.get('keystorePassword')?.hasError('incorrectPassword') && keystorePasswordDefaultFormGroup.get('keystorePassword').touched">
+            Invalid Password
+          </mat-error>
+          <mat-error class="warning"
+            *ngIf="keystorePasswordDefaultFormGroup.get('keystorePassword')?.hasError('somethingWentWrong') && keystorePasswordDefaultFormGroup.get('keystorePassword').touched">
+            Something went wrong when attempting to decrypt your keystores, perhaps
+            your node is not running
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-selection-list>
   </form>
 </div>

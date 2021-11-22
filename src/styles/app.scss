@@ -5,3 +5,45 @@
 @import "./layouts/index";
 @import "./views/index";
 @import "./tailwind-generated";
+
+// override framework layout
+
+.override .mat-list-item {
+    height: auto !important;
+}
+
+.override .mat-list-item .mat-list-item-content {
+    padding:0px !important;
+}
+
+.override .mat-form-field {
+    display: flex;
+}
+
+.override .mat-form-field .mat-form-field-wrapper {
+    display: flex;
+    flex: 1 1 0%;
+    padding-bottom:0px !important;
+}
+
+.override .mat-button-toggle-group-appearance-standard{
+    box-shadow: none;
+    border:0px !important;
+}
+
+.override mat-button-toggle{
+    background-color: #434190 !important;
+}
+
+.override mat-button-toggle:hover {
+    background-color: #3c366b !important;
+}
+
+.override .mat-button-toggle-checked {
+    background-color: #3c366b !important;
+}
+
+.override .mat-button-toggle-input {
+    background-color: none !important;
+    padding-left: 32px !important;
+}

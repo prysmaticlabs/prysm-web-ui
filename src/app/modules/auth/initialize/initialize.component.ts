@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LANDING_URL } from '../../core/constants';
 import { AuthenticationService } from '../services/authentication.service';
@@ -13,7 +13,8 @@ export class InitializeComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     // override the route reuse strategy
     this.router.routeReuseStrategy.shouldReuseRoute = (): boolean => {
@@ -40,6 +41,7 @@ export class InitializeComponent implements OnInit {
     } else {
       console.log('Warning: unauthorized');
       this.displayWarning = true;
+      this.changeDetectorRef.detectChanges();
     }
 
   }

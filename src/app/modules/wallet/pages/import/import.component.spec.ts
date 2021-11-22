@@ -1,6 +1,6 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -21,6 +21,8 @@ describe('ImportComponent', () => {
   let service: WalletService = MockService(WalletService);
   let router: Router;
 
+  const fb:FormBuilder = new FormBuilder();
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -36,7 +38,8 @@ describe('ImportComponent', () => {
       ],
       providers: [
         { provide: WalletService, useValue: service },
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: FormBuilder, useValue: fb }
       ]
     })
     .compileComponents();
@@ -56,14 +59,36 @@ describe('ImportComponent', () => {
   });
 
   it('should call the keystores import function upon form submit', () => {
-    const keystoresImported = ['a', 'b'];
+    const keystoresImportedData = ['a', 'b'];
     const keystoresPassword = 'Passw0rdz2020$';
-    component.keystoresFormGroup.controls.keystoresImported.setValue(keystoresImported);
-    component.keystoresFormGroup.controls.keystoresPassword.setValue(keystoresPassword);
+
+    const keysImportedForm = fb.group({
+      keystoresImported:fb.array([
+        fb.group({
+          pubkeyShort: '',
+          isSelected:false,
+          hide: true,
+          fileName: '',
+          keystore: keystoresImportedData[0],
+          keystorePassword: keystoresPassword
+        }),
+        fb.group({
+          pubkeyShort: '',
+          isSelected:false,
+          hide: true,
+          fileName: '',
+          keystore: keystoresImportedData[1],
+          keystorePassword: keystoresPassword
+        })
+      ])
+    });
+
+    component.keystoresFormGroup = keysImportedForm;
+    component.slashingProtection?.toggleImportSlashingProtection(false);
     component.submit();
     fixture.detectChanges();
     const req: ImportKeystoresRequest = {
-      keystoresImported,
+      keystoresImported: keystoresImportedData.map(keystore => JSON.stringify(keystore)),
       keystoresPassword,
     };
     expect(service.importKeystores).toHaveBeenCalledWith(req);

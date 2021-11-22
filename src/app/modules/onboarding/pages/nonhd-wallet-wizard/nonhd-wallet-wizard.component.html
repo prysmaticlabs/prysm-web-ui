@@ -14,10 +14,11 @@
         <div [ngClass]="!isSmallScreen?'wizard-container hidden md:flex md:w-2/3 items-center': 'wizard-container flex w-full items-center'">
           <mat-stepper [orientation]="!isSmallScreen?'horizontal':'vertical'" class="bg-paper rounded-r" linear #stepper>
             <mat-step [stepControl]="keystoresFormGroup" label="Import Keys">
-              <app-import-accounts-form [formGroup]="keystoresFormGroup"></app-import-accounts-form>
+              <app-import-accounts-form [formGroup]="keystoresFormGroup" #importAccounts></app-import-accounts-form>
+              <app-import-protection #slashingProtection></app-import-protection>
               <div class="mt-6">
                 <button color="accent" mat-raised-button (click)="resetOnboarding()">Back to Wallets</button>
-                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockAccounts)" [disabled]="keystoresFormGroup.invalid">Continue</button></span>
+                <span class="ml-4"><button color="primary" mat-raised-button (click)="nextStep($event, states.UnlockAccounts)" [disabled]="keystoresFormGroup.invalid || slashingProtection.invalid">Continue</button></span>
               </div>
             </mat-step>
             <mat-step [stepControl]="walletPasswordFormGroup" label="Wallet">

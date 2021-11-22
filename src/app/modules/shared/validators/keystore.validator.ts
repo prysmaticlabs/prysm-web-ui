@@ -1,11 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import {map, debounceTime, take, switchMap, catchError} from 'rxjs/operators';
-
-import { WalletService } from '../../core/services/wallet.service';
+import { catchError, debounceTime, first, switchMap } from 'rxjs/operators';
 import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
-import { HttpErrorResponse } from '@angular/common/http';
+import { WalletService } from '../../core/services/wallet.service';
+
 
 // KeystoreValidator implements the AsyncValidatorFn interface
 // from angular forms, allowing us to write a custom, asynchronous
@@ -27,26 +27,25 @@ export class KeystoreValidator {
   correctPassword(): AsyncValidatorFn {
     return (
       control: AbstractControl
-    ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+    ): Observable<{ [key: string]: any } | null> => {
       return control.valueChanges.pipe(
         debounceTime(500),
-        take(1),
-        switchMap(_ => {
-          const keystores: string[] = control.get('keystoresImported')?.value;
-          if (!keystores.length) {
+        switchMap((keystoreFG: any) => {
+          if (!keystoreFG) {
             return of(null);
           }
-          const keystoresPassword: string = control.get('keystoresPassword')?.value;
-          if (keystoresPassword === '') {
+          const keystoresPassword: string = keystoreFG.keystorePassword;
+          if (keystoresPassword === '' || !keystoresPassword) {
             return of(null);
           }
           const req: ValidateKeystoresRequest = {
-            keystores,
-            keystoresPassword,
+            keystores: [JSON.stringify(keystoreFG.keystore)],
+            keystoresPassword: keystoresPassword,
           };
           return this.walletService.validateKeystores(req).pipe(
-            map(() => {
-              return null;
+            switchMap(() => {
+              control.get('keystorePassword')?.setErrors(null);
+              return of(null);
             }),
             catchError((err: HttpErrorResponse) => {
               let formErr: object;
@@ -57,12 +56,14 @@ export class KeystoreValidator {
               }else {
                 formErr = { somethingWentWrong: true };
               }
-              control.get('keystoresPassword')?.setErrors(formErr);
+              control.get('keystorePassword')?.setErrors(formErr);
               return of(formErr);
             }),
           );
         }),
+        first()
       );
     };
   }
 }
+

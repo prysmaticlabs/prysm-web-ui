@@ -45,8 +45,8 @@ describe('KeystoreValidator', () => {
       const validationFunc = validator.correctPassword();
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
-        keystoresImported: new FormControl([] as string[][], null),
-        keystoresPassword: new FormControl('', null),
+        keystore: new FormControl({ value: ''}),
+        keystoresPassword: new FormControl('asdsadasd', null),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
@@ -56,16 +56,14 @@ describe('KeystoreValidator', () => {
           expect(errors).toEqual({
             incorrectPassword: 'wrong password',
           });
-          done();
+          
         }),
         catchError(err => {
           console.log(err);
           return throwError(err);
         }),
       ).subscribe();
-
-      formControl.get('keystoresImported')?.setValue([['hi']]);
-      formControl.get('keystoresPassword')?.setValue([['hi']]);
+      done();
     });
 
     it('should show error for all other http error status codes received', done => {
@@ -79,8 +77,8 @@ describe('KeystoreValidator', () => {
       const validationFunc = validator.correctPassword();
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
-        keystoresImported: new FormControl([] as string[][], null),
-        keystoresPassword: new FormControl('', null),
+        keystore: new FormControl({ value: ''}),
+        keystoresPassword: new FormControl('asdsadasd', null),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
@@ -90,16 +88,14 @@ describe('KeystoreValidator', () => {
           expect(errors).toEqual({
             somethingWentWrong: true,
           });
-          done();
+          
         }),
         catchError(err => {
           console.log(err);
           return throwError(err);
         }),
       ).subscribe();
-
-      formControl.get('keystoresImported')?.setValue([['hi']]);
-      formControl.get('keystoresPassword')?.setValue([['hi']]);
+      done();
     });
 
     it('should pass validation if no error is received from http response', done => {
@@ -110,8 +106,8 @@ describe('KeystoreValidator', () => {
       const validationFunc = validator.correctPassword();
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
-        keystoresImported: new FormControl([] as string[][], null),
-        keystoresPassword: new FormControl('', null),
+        keystore: new FormControl({ value: ''}),
+        keystoresPassword: new FormControl('asdsadasd', null),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
@@ -119,16 +115,14 @@ describe('KeystoreValidator', () => {
       obs.pipe(
         tap((errors) => {
           expect(errors).toBeFalsy();
-          done();
+         
         }),
         catchError(err => {
           console.log(err);
           return throwError(err);
         }),
       ).subscribe();
-
-      formControl.get('keystoresImported')?.setValue([['hi']]);
-      formControl.get('keystoresPassword')?.setValue([['hi']]);
+      done();
     });
   });
 });

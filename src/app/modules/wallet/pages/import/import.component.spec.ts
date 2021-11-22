@@ -88,7 +88,7 @@ describe('ImportComponent', () => {
     component.submit();
     fixture.detectChanges();
     const req: ImportKeystoresRequest = {
-      keystoresImported: keystoresImportedData,
+      keystoresImported: keystoresImportedData.map(keystore => JSON.stringify(keystore)),
       keystoresPassword,
     };
     expect(service.importKeystores).toHaveBeenCalledWith(req);

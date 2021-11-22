@@ -43,7 +43,7 @@ export class ImportAccountsFormComponent implements OnInit {
       this.keystoresImported.controls.forEach(fg => {
         fg.get('keystorePassword')?.markAsPristine();
       });
-      // really shitty to need this ... but angular doesn't detect changes fast enough after so we need to check for changes again...
+      // Angular doesn't detect changes fast enough after so we need to check for changes again...
       this.changeDetectorRef.detectChanges();
     });
     this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.valueChanges.pipe(

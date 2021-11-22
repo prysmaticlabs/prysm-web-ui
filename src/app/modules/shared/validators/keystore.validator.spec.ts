@@ -7,6 +7,7 @@ import { KeystoreValidator } from './keystore.validator';
 import { ValidateKeystoresRequest } from '../../../proto/validator/accounts/v2/web_api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
+import { AnyRecord } from 'dns';
 
 describe('KeystoreValidator', () => {
   let walletService: WalletService;
@@ -35,35 +36,39 @@ describe('KeystoreValidator', () => {
 
   describe('Correct password', () => {
     it('should incorrect password error if error 400 is received from http response', done => {
-      const validator = new KeystoreValidator(walletService);
+      
       walletService.validateKeystores = (req: ValidateKeystoresRequest): Observable<object> => {
         return throwError(new HttpErrorResponse({
           status: 400,
           error: { message: 'wrong password' },
         }));
       };
+      const validator = new KeystoreValidator(walletService);
       const validationFunc = validator.correctPassword();
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
         keystore: new FormControl({ value: ''}),
-        keystoresPassword: new FormControl('asdsadasd', null),
+        keystorePassword: new FormControl('asdsadasd'),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
       ) as Observable<ValidationErrors>;
+     
       obs.pipe(
         tap((errors) => {
           expect(errors).toEqual({
             incorrectPassword: 'wrong password',
           });
-          
+          done();
         }),
         catchError(err => {
           console.log(err);
           return throwError(err);
         }),
       ).subscribe();
-      done();
+      // trigger value change
+      formControl.get('keystore')?.setValue('asdasdasd');
+      formControl.get('keystorePassword')?.setValue('hi');
     });
 
     it('should show error for all other http error status codes received', done => {
@@ -78,7 +83,7 @@ describe('KeystoreValidator', () => {
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
         keystore: new FormControl({ value: ''}),
-        keystoresPassword: new FormControl('asdsadasd', null),
+        keystorePassword: new FormControl('asdsadasd'),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
@@ -88,14 +93,17 @@ describe('KeystoreValidator', () => {
           expect(errors).toEqual({
             somethingWentWrong: true,
           });
-          
+          done();
         }),
         catchError(err => {
           console.log(err);
           return throwError(err);
+          
         }),
       ).subscribe();
-      done();
+      // trigger value change
+      formControl.get('keystore')?.setValue('asdasdasd');
+      formControl.get('keystorePassword')?.setValue('hi');
     });
 
     it('should pass validation if no error is received from http response', done => {
@@ -107,7 +115,7 @@ describe('KeystoreValidator', () => {
       const formBuilder = new FormBuilder();
       const formControl = formBuilder.group({
         keystore: new FormControl({ value: ''}),
-        keystoresPassword: new FormControl('asdsadasd', null),
+        keystorePassword: new FormControl('asdsadasd'),
       });
       const obs = validationFunc(
         formControl as AbstractControl,
@@ -115,14 +123,17 @@ describe('KeystoreValidator', () => {
       obs.pipe(
         tap((errors) => {
           expect(errors).toBeFalsy();
-         
+          done();
         }),
         catchError(err => {
           console.log(err);
           return throwError(err);
+         
         }),
       ).subscribe();
-      done();
+     // trigger value change
+     formControl.get('keystore')?.setValue('asdasdasd');
+     formControl.get('keystorePassword')?.setValue('hi');
     });
   });
 });

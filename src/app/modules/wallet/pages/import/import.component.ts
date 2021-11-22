@@ -29,7 +29,11 @@ export class ImportComponent {
   keystoresFormGroup = this.formBuilder.group({
     keystoresImported: this.formBuilder.array([], Validators.required)
   });
-
+  // logic was not intended to be so complicated...
+  // api takes in a list of keystores and a password instead of a list of keystore password pairs
+  // this goes through the logic of zipping the request as 1 request if the passwords are the same vs
+  // 2 requests if the passwords are different
+  // logic also on the non hd wallet component
   private get importKeystores$(): Observable<any>{
     const keystoresImported: string[] = [];
     let keystorePasswords: string[] = [];
@@ -66,7 +70,7 @@ export class ImportComponent {
     this.loading = true;
 
     const observablesToExecute: Observable<any>[] = [this.importKeystores$];
-   
+    // temporary solution for slashing protection on a separate api
     const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
     if(slashingProtectionFile ){
       const reqImportSlashing: ImportSlashingProtectionRequest = {

@@ -106,7 +106,11 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       this.stepper?.next();
     }
   }
-
+  // logic was not intended to be so complicated...
+  // api takes in a list of keystores and a password instead of a list of keystore password pairs
+  // this goes through the logic of zipping the request as 1 request if the passwords are the same vs
+  // 2 requests if the passwords are different
+  // logic also on the import component
   private get importKeystores$(): Observable<any>{
     const keystoresImported: string[] = [];
     let keystorePasswords: string[] = [];
@@ -154,7 +158,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       }
       observablesToExecute.push(this.walletService.importSlashingProtection(reqImportSlashing));
     }
-
+  
     this.walletService.createWallet(request).pipe(
       switchMap(() => {
         return zip(...observablesToExecute).pipe(

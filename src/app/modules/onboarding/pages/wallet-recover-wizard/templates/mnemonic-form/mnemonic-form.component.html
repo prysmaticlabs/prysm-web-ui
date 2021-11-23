@@ -35,12 +35,13 @@
     </mat-form-field>
     <div>
         <app-create-accounts-form #numAccounts [formGroup]="numAccountsFg"></app-create-accounts-form>
+        <app-import-protection #slashingProtection ></app-import-protection>
     </div>
     <div class="mt-6">
         <button color="accent" type="button" mat-raised-button
             (click)="backToWalletsRaised.emit()">Back
             to Wallets</button>
         <span class="ml-4"><button color="primary" mat-raised-button
-                [disabled]="fg.invalid">Continue</button></span>
+                [disabled]="fg.invalid || slashingProtection.invalid">Continue</button></span>
     </div>
 </form>

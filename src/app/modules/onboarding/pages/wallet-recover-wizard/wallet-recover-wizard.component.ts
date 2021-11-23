@@ -16,9 +16,9 @@ import {
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
-import { catchError, takeUntil, tap } from 'rxjs/operators';
+import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LANDING_URL } from 'src/app/modules/core/constants';
-import { RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { ImportSlashingProtectionRequest, RecoverWalletRequest } from 'src/app/proto/validator/accounts/v2/web_api';
 import { WalletService } from '../../../core/services/wallet.service';
 import {
   StaticPasswordValidator
@@ -26,6 +26,7 @@ import {
 import { BaseComponent } from '../../../shared/components/base.component';
 import { MnemonicValidator } from '../../validators/mnemonic.validator';
 import { UtilityValidator } from '../../validators/utility.validator';
+import { MnemonicFormComponent } from './templates/mnemonic-form/mnemonic-form.component';
 
 @Component({
   selector: 'app-wallet-recover-wizard',
@@ -38,6 +39,7 @@ export class WalletRecoverWizardComponent
   @Output()
   backToWalletsRaised = new EventEmitter<void>();
   @ViewChild('stepper') stepper?: MatStepper;
+  @ViewChild('mnemonicForm') mnemonicForm: MnemonicFormComponent | undefined;
   mnemonicFg!: FormGroup;
   passwordFG!: FormGroup;
   walletPasswordFg!: FormGroup;
@@ -124,8 +126,18 @@ export class WalletRecoverWizardComponent
       wallet_password: form.get('password')?.value,
       language: this.mnemonicFg.get('language')?.value,
     } as RecoverWalletRequest;
-    this.walletService
-      .recover(request)
+
+    let recover$ =this.walletService.recover(request)
+    // include slashing protection
+    const slashingProtectionFile = this.mnemonicForm?.slashingProtectionFile;
+    if(slashingProtectionFile ){
+      const reqImportSlashing: ImportSlashingProtectionRequest = {
+        slashingProtectionJson: JSON.stringify(slashingProtectionFile)
+      }
+      recover$ = recover$.pipe(switchMap(res=> this.walletService.importSlashingProtection(reqImportSlashing)));
+    }
+
+    recover$
       .pipe(
         tap(() => {
           this.loading = false;

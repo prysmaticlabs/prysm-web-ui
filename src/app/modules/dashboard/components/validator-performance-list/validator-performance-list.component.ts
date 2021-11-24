@@ -14,8 +14,6 @@ import { UserService } from '../../../shared/services/user.service';
 export interface ValidatorListItem {
   publicKey: string;
   currentEffectiveBalances: string;
-  inclusionSlots: string;
-  inclusionDistances: string;
   correctlyVotedSource: boolean;
   correctlyVotedTarget: boolean;
   correctlyVotedHead: boolean;
@@ -33,7 +31,6 @@ export class ValidatorPerformanceListComponent
   implements OnInit {
   displayedColumns: string[] = [
     'publicKey',
-    'attLastIncludedSlot',
     'correctlyVotedSource',
     'correctlyVotedTarget',
     'correctlyVotedHead',
@@ -72,8 +69,6 @@ export class ValidatorPerformanceListComponent
                 performance.balancesBeforeEpochTransition[i] || '0';
               item.currentEffectiveBalances =
                 performance.currentEffectiveBalances[i] || '0';
-              item.inclusionDistances = performance.inclusionDistances[i];
-              item.inclusionSlots = performance.inclusionSlots[i];
               item.gains = BigNumber.from(item.balancesAfterEpochTransition)
                 .sub(BigNumber.from(item.balancesBeforeEpochTransition))
                 .toString();

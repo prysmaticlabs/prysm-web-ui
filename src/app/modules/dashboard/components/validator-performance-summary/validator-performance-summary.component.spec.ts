@@ -26,7 +26,6 @@ describe('ValidatorPerformanceSummaryComponent', () => {
     correctlyVotedSource: [true, false],
     correctlyVotedTarget: [true, true],
     averageActiveValidatorBalance: '32000000000',
-    inclusionDistances: ['2', '1'],
     balancesBeforeEpochTransition: ['31000000000', '31000000000'],
     balancesAfterEpochTransition: ['32000000000', '32000000000'],
     epoch: '',
@@ -43,7 +42,6 @@ describe('ValidatorPerformanceSummaryComponent', () => {
     }],
     nextPageToken: '',
     totalSize: 0,
-    inclusionSlots: [],
     publicKeys: [],
     missingValidators: [],
   } as ValidatorSummaryResponse & ValidatorBalances;
@@ -86,9 +84,6 @@ describe('ValidatorPerformanceSummaryComponent', () => {
   describe('transformPerformanceData', () => {
     it('should properly determine average effective balance', () => {
       expect(transformedData.totalBalance).toEqual('2.0');
-    });
-    it('should properly determine average inclusion distance', () => {
-      expect(transformedData.averageInclusionDistance).toEqual(1.5);
     });
     it('should properly determine epoch gains', () => {
       expect(transformedData.recentEpochGains).toEqual('2.0');

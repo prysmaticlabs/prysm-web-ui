@@ -18,13 +18,7 @@
           {{element.publicKey | base64tohex}}
         </td>
       </ng-container>
-
-      <ng-container matColumnDef="attLastIncludedSlot">
-        <th mat-header-cell *matHeaderCellDef>Last included slot</th>
-        <td mat-cell *matCellDef="let element"> {{element.inclusionSlots |
-          epoch}} </td>
-      </ng-container>
-
+      
       <ng-container matColumnDef="correctlyVotedSource">
         <th mat-header-cell *matHeaderCellDef>Correctly voted source</th>
         <td mat-cell *matCellDef="let element">

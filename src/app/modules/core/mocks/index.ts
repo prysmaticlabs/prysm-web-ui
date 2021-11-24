@@ -547,8 +547,6 @@ export const Mocks: IMocks = {
     correctlyVotedSource: [true, true, false],
     correctlyVotedTarget: [true, false, true],
     averageActiveValidatorBalance: '31000000000',
-    inclusionDistances: ['2', '2', '1'],
-    inclusionSlots: ['3022', '1022', '1021'],
     balancesBeforeEpochTransition: [
       '31200781367',
       '31216554607',

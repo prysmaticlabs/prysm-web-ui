@@ -24,7 +24,7 @@
                                 <app-mnemonic-form
                                     (backToWalletsRaised)="backToWalletsRaised.emit()"
                                     (nextRaised)="onNext(stepper,mnemonicFg,$event)"
-                                    [fg]="mnemonicFg"></app-mnemonic-form>
+                                    [fg]="mnemonicFg" #mnemonicForm></app-mnemonic-form>
                             </mat-step>
                             <mat-step [stepControl]="walletPasswordFg"
                                 label="Wallet password">

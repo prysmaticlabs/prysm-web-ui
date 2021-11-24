@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from '../../../../../shared/components/base.component';
 import { UtilityService } from '../../../../../shared/services/utility.service';
 import { Observable } from 'rxjs';
 import { ISelectListItem } from 'src/app/modules/shared/types/select-list-item';
+import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
 
 @Component({
   selector: 'app-mnemonic-form',
@@ -16,10 +17,13 @@ export class MnemonicFormComponent extends BaseComponent implements OnInit {
   @Output() nextRaised = new EventEmitter<FormGroup>();
   @Output()
   backToWalletsRaised = new EventEmitter<void>();
+  @ViewChild('slashingProtection') slashingProtection: ImportProtectionComponent | undefined;
   constructor(private fb: FormBuilder, utilityService: UtilityService) {
     super();
     this.languages$ = utilityService.languages$();
   }
+
+  
 
   languages$: Observable<ISelectListItem[]>;
 
@@ -41,8 +45,14 @@ export class MnemonicFormComponent extends BaseComponent implements OnInit {
         }
       });
   }
+
+  get slashingProtectionFile(){
+    return this.slashingProtection?.importedFiles[0];
+  }
+
+
   next(): void {
-    if (!this.fg) {
+    if (!this.fg || this.slashingProtection?.invalid) {
       return;
     }
     this.passValueToNum_Accounts(this.fg);

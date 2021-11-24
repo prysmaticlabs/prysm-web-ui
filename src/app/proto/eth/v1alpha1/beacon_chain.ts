@@ -480,16 +480,6 @@ export interface ValidatorSummaryResponse {
    */
   currentEffectiveBalances: string[];
   /**
-   *  The slot of when validator's attestation got included in the chain at previous epoch, the slot
-   *  is mapped 1-to-1 with the request's public keys.
-   */
-  inclusionSlots: string[];
-  /**
-   *  The distance of when validator submitted and got included in the chain, the distance
-   *  is mapped 1-to-1 with the request's public keys.
-   */
-  inclusionDistances: string[];
-  /**
    *  Whether the list of validator recently correctly voted for source at previous epoch, the result
    *  is mapped 1-to-1 with the request's public keys.
    */
@@ -787,14 +777,6 @@ export interface IndividualVotesRespond_IndividualVote {
    *  The current effective balance of the validator.
    */
   currentEpochEffectiveBalanceGwei: number;
-  /**
-   *  The slots of when the validator's attestation got included in the block.
-   */
-  inclusionSlot: number;
-  /**
-   *  How many slots have passed until the validator's attestation got included in the block.
-   */
-  inclusionDistance: number;
 }
 
 /**  SetAction defines the type of action that should be applied to the keys in a validator change set.

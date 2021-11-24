@@ -1,18 +1,16 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { ValidatorService } from 'src/app/modules/core/services/validator.service';
-
+import { BigNumber } from 'ethers';
+import { formatUnits } from 'ethers/lib/utils';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { BigNumber } from 'ethers';
-import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
-
-import { GWEI_PER_ETHER, FAR_FUTURE_EPOCH } from 'src/app/modules/core/constants';
 import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.service';
-import { ValidatorBalances, ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
+import { ValidatorBalances, ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+
+
 
 export interface PerformanceData {
-  averageInclusionDistance: number;
   correctlyVotedHeadPercent: number;
   overallScore: string;
   recentEpochGains: string;
@@ -39,7 +37,6 @@ export class ValidatorPerformanceSummaryComponent {
 
   tooltips = {
     totalBalance: 'Describes your total validator balance across all your active validating keys',
-    inclusionDistance: `This is the average number of slots it takes for your validator's attestations to get included in blocks. The lower this number, the better your rewards will be. 1 is the optimal inclusion distance`,
     recentEpochGains: `This summarizes your total gains in ETH over the last epoch (approximately 6 minutes ago), which will give you an approximation of most recent performance`,
     correctlyVoted: `The number of times in an epoch your validators voted correctly on the chain head vs. the total number of times they voted`,
     keys: `Total number of active validating keys in your wallet`,
@@ -80,12 +77,6 @@ export class ValidatorPerformanceSummaryComponent {
         perf.correctlyVotedHead.length;
     }
 
-    const averageInclusionDistance = perf.inclusionDistances.reduce((prev, curr) => {
-      if (curr.toString() === FAR_FUTURE_EPOCH) {
-        return prev;
-      }
-      return prev + Number.parseInt(curr, 10);
-    }, 0) / perf.inclusionDistances.length;
     let overallScore;
     if (votedHeadPercentage === 1) {
       overallScore = 'Perfect';
@@ -101,7 +92,6 @@ export class ValidatorPerformanceSummaryComponent {
     this.loading = false;
     this.changeDetectorRef.detectChanges();
     return {
-      averageInclusionDistance,
       correctlyVotedHeadPercent: votedHeadPercentage !== -1 ? (votedHeadPercentage * 100) : null,
       overallScore,
       recentEpochGains,

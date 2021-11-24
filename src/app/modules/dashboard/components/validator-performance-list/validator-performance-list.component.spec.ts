@@ -16,8 +16,6 @@ describe('ValidatorListComponent', () => {
   const service: ValidatorService = MockService(ValidatorService);
   service.performance$ = of({
       currentEffectiveBalances: [],
-      inclusionSlots: [],
-      inclusionDistances: [],
       correctlyVotedSource: [],
       correctlyVotedTarget: [],
       correctlyVotedHead: [],

@@ -54,18 +54,21 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.cleanUpAuthCacheAndRedirect();
       } else if (error.status === 503 || error.status === 0) {
         console.log('No server response', error);
-        this.globalDialogService.open({
-          payload: {
-            title: 'No Service Response',
-            content: this.NO_SERVER_RESPONSE ,
-            alert: {
-              type: DialogContentAlertType.ERROR,
-              title: error.status + ' ' + error.statusText ,
-              description: error.url ?? 'error message',
-              message: error
+        // TODO: open dialog if not syncing. should be replaced with a robust solution for showing sync progress.
+        if((error.error['message']??'').toLowerCase().search('syncing') === -1){
+          this.globalDialogService.open({
+            payload: {
+              title: 'No Service Response',
+              content: this.NO_SERVER_RESPONSE ,
+              alert: {
+                type: DialogContentAlertType.ERROR,
+                title: error.status + ' ' + error.statusText ,
+                description: error.url ?? 'error message',
+                message: error
+              }
             }
-          }
-        });
+          });
+        }
       } else if (error.status >= 400 && error.status < 600){
         console.log('Network or System Error...', error);
         this.globalDialogService.open({

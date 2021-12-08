@@ -95,11 +95,11 @@ export class WalletService {
   }
 
   exitAccounts(request: AccountVoluntaryExitRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/accounts/exit`, request);
+    return this.http.post(`${this.apiUrl}/accounts/voluntary-exit`, request);
   }
 
   deleteAccounts(request: DeleteAccountsRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/accounts/delete`, request);
+    return this.http.post(`${this.apiUrl}/wallet/accounts/delete`, request);
   }
 
   exportSlashingProtection(): Observable<ExportSlashingProtectionResponse> {

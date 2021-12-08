@@ -456,7 +456,7 @@ export interface ValidatorInfo {
 
 // TODO: see if this is still needed 
 export enum ValidatorStatus {
-  UNKNOWN_STATUS = 0,
+  UNKNOWN = 0,
   DEPOSITED = 1,
   PENDING = 2,
   ACTIVE = 3,
@@ -472,8 +472,8 @@ export enum ValidatorStatus {
 export function validatorStatusFromJSON(object: any): ValidatorStatus {
   switch (object) {
     case 0:
-    case 'UNKNOWN_STATUS':
-      return ValidatorStatus.UNKNOWN_STATUS;
+    case 'UNKNOWN':
+      return ValidatorStatus.UNKNOWN;
     case 1:
     case 'DEPOSITED':
       return ValidatorStatus.DEPOSITED;
@@ -507,7 +507,7 @@ export function validatorStatusFromJSON(object: any): ValidatorStatus {
 // TODO: see if this is still needed 
 export function validatorStatusToJSON(object: ValidatorStatus): string {
   switch (object) {
-    case ValidatorStatus.UNKNOWN_STATUS:
+    case ValidatorStatus.UNKNOWN:
       return 'UNKNOWN_STATUS';
     case ValidatorStatus.DEPOSITED:
       return 'DEPOSITED';

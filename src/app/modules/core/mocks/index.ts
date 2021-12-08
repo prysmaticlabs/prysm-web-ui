@@ -151,8 +151,8 @@ export const Mocks: IMocks = {
     keymanager_kind: 'IMPORTED',
     wallet_path: '/Users/erinlindford/Library/Eth2Validators/prysm-wallet-v2',
   } as WalletResponse,
-  '/v2/validator/accounts/exit': {},
-  '/v2/validator/accounts/delete': {},
+  '/v2/validator/accounts/voluntary-exit': {},
+  '/v2/validator/wallet/accounts/delete': {},
   '/v2/validator/initialize': {
     has_signed_up: true,
     has_wallet: true,

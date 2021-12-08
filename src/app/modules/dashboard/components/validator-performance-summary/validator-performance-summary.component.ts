@@ -7,6 +7,7 @@ import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.ser
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ValidatorBalances, ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorStatus, validatorStatusFromJSON } from 'src/app/proto/eth/v1alpha1/validator';
 
 
 
@@ -58,6 +59,7 @@ export class ValidatorPerformanceSummaryComponent {
   );
 
   private transformPerformanceData(perf: ValidatorSummaryResponse & ValidatorBalances): PerformanceData {
+    perf.balances = perf.balances.filter(b => b.status !== "UNKNOWN");
     const totalBalance = perf.balances.reduce(
       (prev, curr) => {
         if (curr && curr.balance) {
@@ -97,6 +99,7 @@ export class ValidatorPerformanceSummaryComponent {
       recentEpochGains,
       totalBalance: perf.balances && perf.balances.length !== 0 ? formatUnits(totalBalance, 'gwei').toString() : null,
     } as PerformanceData;
+    
   }
 
   private computeEpochGains(pre: string[], post: string[]): string {

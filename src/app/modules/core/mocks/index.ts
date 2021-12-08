@@ -344,8 +344,8 @@ export const Mocks: IMocks = {
         address:
           '/ip4/81.61.61.174/tcp/13000/p2p/16Uiu2HAmQm5wEXrnSxRLDkCx7BhRbBehpJ6nnkb9tmJQyYoVNn3u',
         direction: 'OUTBOUND',
-        connectionState: 2,
-        peerId: '16Uiu2HAmQm5wEXrnSxRLDkCx7BhRbBehpJ6nnkb9tmJQyYoVNn3u',
+        connection_state: 2,
+        peer_id: '16Uiu2HAmQm5wEXrnSxRLDkCx7BhRbBehpJ6nnkb9tmJQyYoVNn3u',
         enr:
           '-LK4QMurhtUl2O_DYyQGNBOMe35SYA258cHvFb_CkuJASviIY3buH2hbbqYK9zBo7YnkZXHh5YxMMWlznFZ86hUzIggCh2F0dG5ldHOIAAAAAAAAAACEZXRoMpDnp11aAAAAAf__________gmlkgnY0gmlwhFE9Pa6Jc2VjcDI1NmsxoQOz3AsQ_9p7sIMyFeRrkmjCQJAE-5eqSVt8whrZpSkMhIN0Y3CCMsiDdWRwgi7g',
       },
@@ -353,8 +353,8 @@ export const Mocks: IMocks = {
         address:
           '/ip4/71.244.103.3/tcp/13000/p2p/16Uiu2HAmJogALY3TCFffYWZxKT4SykEGMAPzdVvfrr149N1fwoFY',
         direction: 'OUTBOUND',
-        connectionState: 2,
-        peerId: '16Uiu2HAmJogALY3TCFffYWZxKT4SykEGMAPzdVvfrr149N1fwoFY',
+        connection_state: 2,
+        peer_id: '16Uiu2HAmJogALY3TCFffYWZxKT4SykEGMAPzdVvfrr149N1fwoFY',
         enr:
           '-LK4QKekP-beWUJwlRWlw5NMggQl2bIesoUYfr50aGdpIISzEGzTMDvWOyegAFFIopKlICuqxBvcj1Fxc09k6ZDu3mgKh2F0dG5ldHOIAAAAAAAIAACEZXRoMpDnp11aAAAAAf__________gmlkgnY0gmlwhEf0ZwOJc2VjcDI1NmsxoQNbX8hcitIiNVYKmJTT9FpaRUKhPveqAR3peDAJV7S604N0Y3CCMsiDdWRwgi7g',
       },

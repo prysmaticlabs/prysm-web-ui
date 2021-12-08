@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockService } from 'ng-mocks';
 import { SharedModule } from '../../../shared/shared.module';
 import {
@@ -15,22 +15,22 @@ describe('ValidatorListComponent', () => {
   let fixture: ComponentFixture<ValidatorPerformanceListComponent>;
   const service: ValidatorService = MockService(ValidatorService);
   service.performance$ = of({
-      currentEffectiveBalances: [],
-      correctlyVotedSource: [],
-      correctlyVotedTarget: [],
-      correctlyVotedHead: [],
-      balancesBeforeEpochTransition: [],
-      balancesAfterEpochTransition: [],
-      missingValidators: [],
-      averageActiveValidatorBalance: '',
-      publicKeys: [],
+      current_effective_balances: [],
+      correctly_voted_source: [],
+      correctly_voted_target: [],
+      correctly_voted_head: [],
+      balances_before_epoch_transition: [],
+      balances_after_epoch_transition: [],
+      missing_validators: [],
+      average_active_validator_balance: '',
+      public_keys: [],
       epoch: '',
       balances: [],
-      nextPageToken: '',
-      totalSize: 0,
+      next_page_token: '',
+      total_size: 0,
 
     } as ValidatorSummaryResponse & ValidatorBalances);
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
       imports: [

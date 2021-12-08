@@ -12,7 +12,7 @@ describe('AccountActionsComponent', () => {
   let fixture: ComponentFixture<AccountActionsComponent>;
   let service: WalletService = MockService(WalletService);
   service.walletConfig$ = of({
-    keymanagerKind: 'DERIVED',
+    keymanager_kind: 'DERIVED',
   } as WalletResponse);
 
   beforeEach(waitForAsync(() => {

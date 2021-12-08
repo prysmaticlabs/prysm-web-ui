@@ -34,7 +34,7 @@ export class AccountDeleteComponent {
 
   confirm(): void {
     const request = {
-      publicKeys: this.data,
+      public_keys_to_delete: this.data,
     } as DeleteAccountsRequest;
 
     this.walletService

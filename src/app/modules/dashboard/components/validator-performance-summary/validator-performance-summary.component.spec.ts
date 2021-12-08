@@ -21,17 +21,17 @@ describe('ValidatorPerformanceSummaryComponent', () => {
 
   let transformedData: PerformanceData;
   const defaultPerformanceData = {
-    currentEffectiveBalances: ['31000000000', '31000000000'],
-    correctlyVotedHead: [true, false],
-    correctlyVotedSource: [true, false],
-    correctlyVotedTarget: [true, true],
-    averageActiveValidatorBalance: '32000000000',
-    balancesBeforeEpochTransition: ['31000000000', '31000000000'],
-    balancesAfterEpochTransition: ['32000000000', '32000000000'],
+    current_effective_balances: ['31000000000', '31000000000'],
+    correctly_voted_head: [true, false],
+    correctly_voted_source: [true, false],
+    correctly_voted_target: [true, true],
+    average_active_validator_balance: '32000000000',
+    balances_before_epoch_transition: ['31000000000', '31000000000'],
+    balances_after_epoch_transition: ['32000000000', '32000000000'],
     epoch: '',
     balances: [{
 
-      publicKey: '0xa2b5aaad9c6efefe7bb9b1243a043404f3362937cfb6b31833929833173f476630ea2cfeb0d9ddf15f97ca8685948820',
+      public_key: '0xa2b5aaad9c6efefe7bb9b1243a043404f3362937cfb6b31833929833173f476630ea2cfeb0d9ddf15f97ca8685948820',
 
 
       index: 0,
@@ -40,10 +40,10 @@ describe('ValidatorPerformanceSummaryComponent', () => {
 
       status: ''
     }],
-    nextPageToken: '',
-    totalSize: 0,
-    publicKeys: [],
-    missingValidators: [],
+    next_page_token: '',
+    total_size: 0,
+    public_keys: [],
+    missing_validators: [],
   } as ValidatorSummaryResponse & ValidatorBalances;
 
   service['performance$'] = of(defaultPerformanceData);

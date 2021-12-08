@@ -51,7 +51,7 @@ export class ValidatorPerformanceSummaryComponent {
     shareReplay(1),
   );
   connectedPeers$ = this.peers$.pipe(
-    map(peers => peers.filter(p => p.connectionState.toString() === 'CONNECTED')),
+    map(peers => peers.filter(p => p.connection_state.toString() === 'CONNECTED')),
   );
   performanceData$: Observable<PerformanceData> = this.validatorService.performance$.pipe(
     map(this.transformPerformanceData.bind(this)),
@@ -68,13 +68,13 @@ export class ValidatorPerformanceSummaryComponent {
       BigNumber.from('0'),
     );
     const recentEpochGains = this.computeEpochGains(
-      perf.balancesBeforeEpochTransition, perf.balancesAfterEpochTransition,
+      perf.balances_before_epoch_transition, perf.balances_after_epoch_transition,
     );
-    const totalVotedHead = perf.correctlyVotedHead.length;
+    const totalVotedHead = perf.correctly_voted_head.length;
     let votedHeadPercentage = -1;
     if (totalVotedHead) {
-      votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length /
-        perf.correctlyVotedHead.length;
+      votedHeadPercentage = perf.correctly_voted_head.filter(Boolean).length /
+        perf.correctly_voted_head.length;
     }
 
     let overallScore;

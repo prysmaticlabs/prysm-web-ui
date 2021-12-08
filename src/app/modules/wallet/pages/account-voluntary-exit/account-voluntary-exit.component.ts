@@ -67,7 +67,7 @@ export class AccountVoluntaryExitComponent
       return false;
     }
     const request = {
-      publicKeys: this.keys.map((x) => x.validatingPublicKey),
+      public_keys: this.keys.map((x) => x.validating_public_key),
     } as AccountVoluntaryExitRequest;
 
     this.walletService.exitAccounts(request).subscribe((x) => {

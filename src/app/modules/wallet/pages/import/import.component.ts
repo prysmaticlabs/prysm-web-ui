@@ -45,16 +45,16 @@ export class ImportComponent {
       const arrayOfRequests: Observable<any>[] = [];
       keystoresImported.forEach((keystore: string, index: number) => {
         const req: ImportKeystoresRequest = {
-          keystoresImported: [keystore],
-          keystoresPassword: keystorePasswords[index],
+          keystores_imported: [keystore],
+          keystores_password: keystorePasswords[index],
         };
         arrayOfRequests.push(this.walletService.importKeystores(req));
       });
       return zip(...arrayOfRequests);
     } else {
       const req: ImportKeystoresRequest = {
-        keystoresImported: keystoresImported,
-        keystoresPassword: keystorePasswords[0],
+        keystores_imported: keystoresImported,
+        keystores_password: keystorePasswords[0],
       };
       return this.walletService.importKeystores(req);
     }
@@ -74,7 +74,7 @@ export class ImportComponent {
     const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
     if(slashingProtectionFile ){
       const reqImportSlashing: ImportSlashingProtectionRequest = {
-        slashingProtectionJson: JSON.stringify(slashingProtectionFile)
+        slashing_protection_json: JSON.stringify(slashingProtectionFile)
       }
       observablesToExecute.push(this.walletService.importSlashingProtection(reqImportSlashing));
     }

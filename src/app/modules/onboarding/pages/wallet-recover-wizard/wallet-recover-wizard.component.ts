@@ -132,7 +132,7 @@ export class WalletRecoverWizardComponent
     const slashingProtectionFile = this.mnemonicForm?.slashingProtectionFile;
     if(slashingProtectionFile ){
       const reqImportSlashing: ImportSlashingProtectionRequest = {
-        slashingProtectionJson: JSON.stringify(slashingProtectionFile)
+        slashing_protection_json: JSON.stringify(slashingProtectionFile)
       }
       recover$ = recover$.pipe(switchMap(res=> this.walletService.importSlashingProtection(reqImportSlashing)));
     }

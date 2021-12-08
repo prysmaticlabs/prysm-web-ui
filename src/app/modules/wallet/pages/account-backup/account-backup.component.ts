@@ -69,7 +69,7 @@ export class AccountBackupComponent extends BaseComponent {
     return this.walletService.backUpAccounts(request).pipe(
       tap(() => {
         this.notificationService.notifySuccess(
-          `Successfully backed up ${request.publicKeys.length} accounts`
+          `Successfully backed up ${request.public_keys.length} accounts`
         );
       }),
       catchError((err) => {
@@ -81,8 +81,8 @@ export class AccountBackupComponent extends BaseComponent {
 
   private getRequestForm(): BackupAccountsRequest {
     return {
-      publicKeys: Object.keys(this.accountBackForm.value),
-      keystoresPassword: this.encryptionPasswordForm.value.password,
+      public_keys: Object.keys(this.accountBackForm.value),
+      backup_password: this.encryptionPasswordForm.value.password,
     } as BackupAccountsRequest;
   }
 }

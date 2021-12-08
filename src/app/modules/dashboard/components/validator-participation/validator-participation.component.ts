@@ -65,10 +65,10 @@ export class ValidatorParticipationComponent implements OnInit, OnDestroy {
       return {} as ParticipationData;
     }
     return {
-      rate: (res.participation.globalParticipationRate * 100),
+      rate: (res.participation.global_participation_rate * 100),
       epoch: res.epoch,
-      totalVotedETH: this.gweiToETH(res.participation.votedEther).toNumber(),
-      totalEligibleETH: this.gweiToETH(res.participation.eligibleEther).toNumber(),
+      totalVotedETH: this.gweiToETH(res.participation.voted_ether).toNumber(),
+      totalEligibleETH: this.gweiToETH(res.participation.eligible_ether).toNumber(),
     } as ParticipationData;
   }
 

@@ -320,15 +320,15 @@ export interface Validator {
   /**
    *  48 byte BLS public key used for the validator's activities.
    */
-  publicKey: string;
+  public_key: string;
   /**
    *  32 byte hash of the withdrawal destination public key.
    */
-  withdrawalCredentials: string;
+  withdrawal_credentials: string;
   /**
    *  The validators current effective balance in gwei.
    */
-  effectiveBalance: string;
+  effective_balance: string;
   /**
    *  Whether or not the validator has been slashed.
    */
@@ -338,27 +338,27 @@ export interface Validator {
    *  be zero if the validator was present in the Ethereum 2.0 genesis. This
    *  field is FAR_FUTURE_EPOCH if the validator has not been activated.
    */
-  activationEligibilityEpoch: string;
+  activation_eligibility_epoch: string;
   /**
    *  Epoch when the validator was activated. This field may be zero if the
    *  validator was present in the Ethereum 2.0 genesis. This field is
    *  FAR_FUTURE_EPOCH if the validator has not been activated.
    */
-  activationEpoch: string;
+  activation_epoch: string;
   /**
    *  Epoch when the validator was exited. This field is FAR_FUTURE_EPOCH if
    *  the validator has not exited.
    *  FAR_FUTURE_EPOCH is a constant defined by the official Ethereum 2.0 specification:
    *  https://github.com/ethereum/eth2.0-specs/blob/v0.9.2/specs/core/0_beacon-chain.md#constants
    */
-  exitEpoch: string;
+  exit_epoch: string;
   /**
    *  Epoch when the validator is eligible to withdraw their funds. This field
    *  is FAR_FUTURE_EPOCH if the validator has not exited.
    *  FAR_FUTURE_EPOCH is a constant defined by the official Ethereum 2.0 specification:
    *  https://github.com/ethereum/eth2.0-specs/blob/v0.9.2/specs/core/0_beacon-chain.md#constants
    */
-  withdrawableEpoch: string;
+  withdrawable_epoch: string;
 }
 
 /**
@@ -369,46 +369,48 @@ export interface ValidatorParticipation {
    *  Percentage of validator participation in the given epoch. This field
    *  contains a value between 0 and 1.
    */
-  globalParticipationRate: number;
+  global_participation_rate: number;
   /**
    *  The total amount of ether, in gwei, that has been used in voting.
    */
-  votedEther: string;
+  voted_ether: string;
   /**
    *  The total amount of ether, in gwei, that is eligible for voting.
    */
-  eligibleEther: string;
+  eligible_ether: string;
   /**
    *  Total staked gwei that was active (i.e. eligible to vote) during the current epoch.
    */
-  currentEpochActiveGwei: string;
+  current_epoch_active_gwei: string;
   /**
    *  Total staked gwei that had attestations included in a block during the current epoch,
    *  attestations by the same validator do not increase this figure.
    */
-  currentEpochAttestingGwei: string;
+  current_epoch_attesting_gwei: string;
   /**
    *  Total staked gwei that attested to the majority-elected Casper FFG target epoch during the current epoch.
    */
-  currentEpochTargetAttestingGwei: string;
+  current_epoch_target_attesting_gwei: string;
   /**
    *  Same as current_epoch_active_gwei but for previous epoch.
    */
-  previousEpochActiveGwei: string;
+  previous_epoch_active_gwei: string;
   /**
    *  Same as current_epoch_attesting_gwei but for previous epoch.
    */
-  previousEpochAttestingGwei: string;
+  previous_epoch_attesting_gwei: string;
   /**
    *  Same as current_epoch_target_attesting_gwei but for previous epoch.
    */
-  previousEpochTargetAttestingGwei: string;
+  previous_epoch_target_attesting_gwei: string;
   /**
    *  Total staked gwei that attested to a head beacon block that is in the canonical chain.
    */
-  previousEpochHeadAttestingGwei: string;
+  previous_epoch_head_attesting_gwei: string;
 }
 
+
+// TODO: see if this is still needed 
 /**
  *  ValidatorInfo gives information about the state of a validator at a certain epoch.
  */
@@ -452,6 +454,7 @@ export interface ValidatorInfo {
   effectiveBalance: number;
 }
 
+// TODO: see if this is still needed 
 export enum ValidatorStatus {
   UNKNOWN_STATUS = 0,
   DEPOSITED = 1,
@@ -465,6 +468,7 @@ export enum ValidatorStatus {
   UNRECOGNIZED = -1,
 }
 
+// TODO: see if this is still needed 
 export function validatorStatusFromJSON(object: any): ValidatorStatus {
   switch (object) {
     case 0:
@@ -500,7 +504,7 @@ export function validatorStatusFromJSON(object: any): ValidatorStatus {
       return ValidatorStatus.UNRECOGNIZED;
   }
 }
-
+// TODO: see if this is still needed 
 export function validatorStatusToJSON(object: ValidatorStatus): string {
   switch (object) {
     case ValidatorStatus.UNKNOWN_STATUS:

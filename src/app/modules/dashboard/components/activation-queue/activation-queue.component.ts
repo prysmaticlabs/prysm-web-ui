@@ -92,26 +92,27 @@ export class ActivationQueueComponent {
     const activationKeysSet = new Set<string>();
     const exitKeysSet = new Set<string>();
 
-    if (queue.activationPublicKeys) {
-      queue.activationPublicKeys.forEach((key, _) => {
+    if (queue.activation_public_keys) {
+      queue.activation_public_keys.forEach((key, _) => {
         activationKeysSet.add(key);
       });
     }
-    if (queue.exitPublicKeys) {
-      queue.exitPublicKeys.forEach((key, _) => {
+    if (queue.exit_public_keys) {
+      queue.exit_public_keys.forEach((key, _) => {
         exitKeysSet.add(key);
       });
     }
     let secondsLeftInQueue: number;
-    if (queue.churnLimit >= activationKeysSet.size) {
+    if (queue.churn_limit >= activationKeysSet.size) {
       secondsLeftInQueue = 1;
     }
-    const epochsLeft = activationKeysSet.size / queue.churnLimit;
+    const epochsLeft = activationKeysSet.size / queue.churn_limit;
     secondsLeftInQueue = epochsLeft * SECONDS_PER_EPOCH;
 
+    //converting snake case response to camelcase
     return {
       originalData: queue,
-      churnLimit: Array.from({ length: queue.churnLimit }),
+      churnLimit: Array.from({ length: queue.churn_limit }),
       activationPublicKeys: activationKeysSet,
       exitPublicKeys: exitKeysSet,
       secondsLeftInQueue,

@@ -58,13 +58,13 @@ describe('WalletService', () => {
     it('it should properly submit a POST request to create a wallet', () => {
       const mockResponse = {
         wallet: {
-          walletPath: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
+          wallet_path: '/home/ubuntu/.eth2validators/prysm-wallet-v2',
         } as WalletResponse
       } as CreateWalletResponse;
       const request = {
         keymanager: 'DERIVED',
-        walletPassword: 'password',
-        numAccounts: 4,
+        wallet_password: 'password',
+        num_accounts: 4,
       } as CreateWalletRequest;
       // We trigger two separate subscriptions and ensure only a single
       // http request is sent below.

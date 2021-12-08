@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthRequest, AuthResponse, ChangePasswordRequest, HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { InitializeAuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { EnvironmenterService } from '../../core/services/environmenter.service';
 
 
@@ -16,7 +16,7 @@ export class AuthenticationService {
     private environmenter: EnvironmenterService
   ) {
   }
-  hasSignedUp = false;
+  
   shortLivedToken = '';
   private apiUrl = this.environmenter.env.validatorEndpoint;
 
@@ -36,10 +36,8 @@ export class AuthenticationService {
     window.localStorage.removeItem(this.TOKENEXPIRATIONNAME);
   }
 
-  checkHasUsedWeb(): Observable<HasUsedWebResponse> {
-    return this.http.get<HasUsedWebResponse>(`${this.apiUrl}/initialize`).pipe(
-      tap((res: HasUsedWebResponse) => this.hasSignedUp = res.hasSignedUp),
-    );
+  checkHasUsedWeb(): Observable<InitializeAuthResponse> {
+    return this.http.get<InitializeAuthResponse>(`${this.apiUrl}/initialize`);
   }
 
   getToken(): string | null{

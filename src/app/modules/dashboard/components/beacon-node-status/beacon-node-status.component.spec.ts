@@ -87,10 +87,10 @@ describe('BeaconNodeStatusComponent', () => {
   describe('Chain head data', () => {
     it('should display chain head information', () => {
       component.chainHead$ = of({
-        headSlot: 1024,
-        headEpoch: 32,
-        justifiedEpoch: 31,
-        finalizedEpoch: 30,
+        head_slot: 1024,
+        head_epoch: 32,
+        justified_epoch: 31,
+        finalized_epoch: 30,
       } as ChainHead);
       fixture.detectChanges();
       const content: HTMLElement = fixture.nativeElement;
@@ -101,10 +101,10 @@ describe('BeaconNodeStatusComponent', () => {
 
     it('should display a warning if > 4 epochs since finality', () => {
       component.chainHead$ = of({
-        headSlot: 1024,
-        headEpoch: 32,
-        justifiedEpoch: 31,
-        finalizedEpoch: 20,
+        head_slot: 1024,
+        head_epoch: 32,
+        justified_epoch: 31,
+        finalized_epoch: 20,
       } as ChainHead);
       fixture.detectChanges();
       const content: HTMLElement = fixture.nativeElement;
@@ -115,10 +115,10 @@ describe('BeaconNodeStatusComponent', () => {
   describe('Latest clock slot data', () => {
     it('should display \'Awaiting Genesis\' if slot number is negative', () => {
       component.chainHead$ = of({
-        headSlot: -1024,
-        headEpoch: 32,
-        justifiedEpoch: 31,
-        finalizedEpoch: 30,
+        head_slot: -1024,
+        head_epoch: 32,
+        justified_epoch: 31,
+        finalized_epoch: 30,
       } as ChainHead);
       component.latestClockSlotPoll$ = of(-1024);
       fixture.detectChanges();
@@ -128,10 +128,10 @@ describe('BeaconNodeStatusComponent', () => {
 
     it('should display string representation of slot number if positive', () => {
       component.chainHead$ = of({
-        headSlot: 1024,
-        headEpoch: 32,
-        justifiedEpoch: 31,
-        finalizedEpoch: 30,
+        head_slot: 1024,
+        head_epoch: 32,
+        justified_epoch: 31,
+        finalized_epoch: 30,
       } as ChainHead);
       component.latestClockSlotPoll$ = of(1024);
       fixture.detectChanges();

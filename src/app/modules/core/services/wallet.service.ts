@@ -1,30 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { map, share, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { EnvironmenterService } from './environmenter.service';
+import { Observable } from 'rxjs';
+import { map, share, shareReplay } from 'rxjs/operators';
 import {
-  ExportSlashingProtectionResponse,
-  ImportSlashingProtectionRequest,
-} from '../../../proto/validator/accounts/v2/web_api';
+  Account, CreateWalletRequest, CreateWalletResponse, GenerateMnemonicResponse, ImportKeystoresRequest,
+  ImportKeystoresResponse, ListAccountsResponse, ValidateKeystoresRequest, WalletResponse
+} from 'src/app/proto/validator/accounts/v2/web_api';
 import {
   AccountVoluntaryExitRequest,
   BackupAccountsRequest,
   BackupAccountsResponse,
-  DeleteAccountsRequest,
-  RecoverWalletRequest,
+  DeleteAccountsRequest, ExportSlashingProtectionResponse,
+  ImportSlashingProtectionRequest, RecoverWalletRequest
 } from '../../../proto/validator/accounts/v2/web_api';
-import {
-  WalletResponse,
-  GenerateMnemonicResponse,
-  CreateWalletRequest,
-  ListAccountsResponse,
-  Account,
-  ImportKeystoresRequest,
-  ImportKeystoresResponse,
-  CreateWalletResponse,
-  ValidateKeystoresRequest,
-} from 'src/app/proto/validator/accounts/v2/web_api';
+import { EnvironmenterService } from './environmenter.service';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +36,7 @@ export class WalletService {
     .get<ListAccountsResponse>(`${this.apiUrl}/accounts?all=true`)
     .pipe(
       map((res: ListAccountsResponse) =>
-        res.accounts.map((acc: Account) => acc.validatingPublicKey)
+        res.accounts.map((acc: Account) => acc.validating_public_key)
       ),
       share()
     );

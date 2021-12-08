@@ -2,7 +2,7 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { HasUsedWebResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { InitializeAuthResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { AuthenticationService } from '../services/authentication.service';
 
 import { LANDING_URL } from '../../core/constants';
@@ -22,7 +22,7 @@ export class HasWalletGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean | UrlTree {
         return this.authenticationService.checkHasUsedWeb().pipe(
-            map((res: HasUsedWebResponse) => {
+            map((res: InitializeAuthResponse) => {
                 const urlSegment = route.url[0];
                 const urlCases = [
                     {path: ONBOARDING_URL, hasWallet: true, result: this.router.parseUrl(LANDING_URL)},
@@ -31,7 +31,7 @@ export class HasWalletGuard implements CanActivate {
                     {path: LANDING_URL, hasWallet: false, result: this.router.parseUrl(ONBOARDING_URL)}
                 ];
                 const foundUrlCase = urlCases.find((urlCase) => {
-                    return urlCase.path === urlSegment.path && urlCase.hasWallet === res.hasWallet;
+                    return urlCase.path === urlSegment.path && urlCase.hasWallet === res.has_wallet;
                 });
                 return foundUrlCase ? foundUrlCase.result : false;
             }),

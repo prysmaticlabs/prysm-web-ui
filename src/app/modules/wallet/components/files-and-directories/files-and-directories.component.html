@@ -12,10 +12,10 @@
         </mat-icon>
       </div>
       <div class="text-primary text-base mt-2">
-        {{wallet?.walletPath}}
+        {{wallet?.wallet_path}}
       </div>
     </div>
-    <div *ngIf="wallet?.keymanagerKind === 'IMPORTED'">
+    <div *ngIf="wallet?.keymanager_kind === 'IMPORTED'">
       <div class="flex justify-between">
         <div class="text-white uppercase">Accounts Keystore File</div>
         <mat-icon
@@ -27,10 +27,10 @@
         </mat-icon>
       </div>
       <div class="text-primary text-base mt-2">
-        {{wallet?.walletPath}}/direct/accounts/all-accounts.keystore.json
+        {{wallet?.wallet_path}}/direct/accounts/all-accounts.keystore.json
       </div>
     </div>
-    <div *ngIf="wallet?.keymanagerKind === 'DERIVED'">
+    <div *ngIf="wallet?.keymanager_kind === 'DERIVED'">
       <div class="flex justify-between">
         <div class="text-white uppercase">Encrypted Seed File</div>
         <mat-icon
@@ -42,7 +42,7 @@
         </mat-icon>
       </div>
       <div class="text-primary text-base mt-2">
-        {{wallet?.walletPath}}/derived/seed.encrypted.json
+        {{wallet?.wallet_path}}/derived/seed.encrypted.json
       </div>
     </div>
   </div>

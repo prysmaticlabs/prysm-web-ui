@@ -22,13 +22,13 @@ describe('ActivationQueueComponent', () => {
   const service: ChainService = MockService(ChainService);
   const walletService: WalletService = MockService(WalletService);
   const defaultQueueResponse = {
-    churnLimit: 4,
-    activationPublicKeys: [
+    churn_limit: 4,
+    activation_public_keys: [
       hexToBase64('0x123456'),
     ],
-    activationValidatorIndices: [1],
-    exitPublicKeys: [],
-    exitValidatorIndices: [],
+    activation_validator_indices: [1],
+    exit_public_keys: [],
+    exit_validator_indices: [],
   } as ValidatorQueue;
   const defaultKeysResponse = [
     hexToBase64('0x123456'),
@@ -64,10 +64,10 @@ describe('ActivationQueueComponent', () => {
     it('should determine position in activation array', () => {
       const arr = [
         hexToBase64('0x234'),
-        defaultQueueResponse.activationPublicKeys[0],
+        defaultQueueResponse.activation_public_keys[0],
         hexToBase64('0x678')
       ];
-      const key = defaultQueueResponse.activationPublicKeys[0];
+      const key = defaultQueueResponse.activation_public_keys[0];
       const position = component.positionInArray(arr, key);
       expect(position).toEqual(2);
     });

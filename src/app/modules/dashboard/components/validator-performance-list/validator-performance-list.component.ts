@@ -57,18 +57,19 @@ export class ValidatorPerformanceListComponent
         map((performance: ValidatorSummaryResponse) => {
           const list: ValidatorListItem[] = [];
           if (performance) {
-            for (let i = 0; i < performance.publicKeys.length; i++) {
+            for (let i = 0; i < performance.public_keys.length; i++) {
+              // converting snake_case to camelCase
               const item = {} as ValidatorListItem;
-              item.publicKey = performance.publicKeys[i];
-              item.correctlyVotedSource = performance.correctlyVotedSource[i];
-              item.correctlyVotedHead = performance.correctlyVotedHead[i];
-              item.correctlyVotedTarget = performance.correctlyVotedTarget[i];
+              item.publicKey = performance.public_keys[i];
+              item.correctlyVotedSource = performance.correctly_voted_source[i];
+              item.correctlyVotedHead = performance.correctly_voted_head[i];
+              item.correctlyVotedTarget = performance.correctly_voted_target[i];
               item.balancesAfterEpochTransition =
-                performance.balancesAfterEpochTransition[i] || '0';
+                performance.balances_after_epoch_transition[i] || '0';
               item.balancesBeforeEpochTransition =
-                performance.balancesBeforeEpochTransition[i] || '0';
+                performance.balances_before_epoch_transition[i] || '0';
               item.currentEffectiveBalances =
-                performance.currentEffectiveBalances[i] || '0';
+                performance.current_effective_balances[i] || '0';
               item.gains = BigNumber.from(item.balancesAfterEpochTransition)
                 .sub(BigNumber.from(item.balancesBeforeEpochTransition))
                 .toString();

@@ -1,17 +1,16 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { zip, Observable, of } from 'rxjs';
-import { switchMap, mergeMap, concatAll, toArray, map, shareReplay, share } from 'rxjs/operators';
-
-import range from 'src/app/modules/core/utils/range';
+import { Injectable } from '@angular/core';
+import { Observable, zip } from 'rxjs';
+import { map, share, switchMap } from 'rxjs/operators';
+import {
+  ValidatorBalances, Validators, ValidatorSummaryResponse
+} from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { VersionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { EnvironmenterService } from './environmenter.service';
 import { WalletService } from './wallet.service';
 
-import {
-  ValidatorBalances, ValidatorSummaryResponse, Validators,
-} from 'src/app/proto/eth/v1alpha1/beacon_chain';
-import { ListAccountsResponse, LogsEndpointResponse, VersionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { EnvironmenterService } from './environmenter.service';
+
+
 
 export const MAX_EPOCH_LOOKBACK = 10;
 
@@ -32,9 +31,9 @@ export class ValidatorService {
 
   performance$: Observable<ValidatorSummaryResponse & ValidatorBalances> = this.walletService.validatingPublicKeys$.pipe(
     switchMap((publicKeys: string[]) => {
-      let params = `?publicKeys=`;
+      let params = `?public_keys=`;
       publicKeys.forEach((key, _) => {
-        params += `${this.encodePublicKey(key)}&publicKeys=`;
+        params += `${this.encodePublicKey(key)}&public_keys=`;
       });
       const balances = this.balances(publicKeys, 0, publicKeys.length);
       const httpReq = this.http.get<ValidatorSummaryResponse>(`${this.apiUrl}/beacon/summary${params}`);
@@ -72,10 +71,10 @@ export class ValidatorService {
     pageIndex: number,
     pageSize: number,
   ): string {
-    let params = `?pageSize=${pageSize}&pageToken=${pageIndex}`;
-    params += `&publicKeys=`;
+    let params = `?page_size=${pageSize}&page_token=${pageIndex}`;
+    params += `&public_keys=`;
     publicKeys.forEach((key, _) => {
-      params += `${this.encodePublicKey(key)}&publicKeys=`;
+      params += `${this.encodePublicKey(key)}&public_keys=`;
     });
     return params;
   }

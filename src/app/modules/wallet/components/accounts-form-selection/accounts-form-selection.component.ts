@@ -69,7 +69,7 @@ export class AccountsFormSelectionComponent implements OnInit {
 
   private searchbyPublicKey(publicKey: any, x: Account[]): Account[] {
     return publicKey
-      ? x.filter((c) => base64ToHex(c.validatingPublicKey) === publicKey)
+      ? x.filter((c) => base64ToHex(c.validating_public_key) === publicKey)
       : x;
   }
 }

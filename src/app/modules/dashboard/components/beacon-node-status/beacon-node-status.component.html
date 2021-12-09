@@ -32,17 +32,17 @@
     </div>
     <div class="flex">
       <div class="min-w-sm text-muted">Synced Up To</div>
-      <div class="text-lg">{{chainHead.headSlot}}</div>
+      <div class="text-lg">{{chainHead.head_slot}}</div>
     </div>
     <div class="flex">
       <div class="min-w-sm text-muted">Justified Epoch</div>
-      <div class="text-lg">{{chainHead.justifiedEpoch}}</div>
+      <div class="text-lg">{{chainHead.justified_epoch}}</div>
     </div>
     <div class="flex">
       <div class="min-w-sm text-muted">Finalized Epoch</div>
-      <div class="text-lg" [class.text-red-500]="(chainHead.headEpoch - chainHead.finalizedEpoch) > 4">{{chainHead.finalizedEpoch}}</div>
+      <div class="text-lg" [class.text-red-500]="(chainHead.head_epoch - chainHead.finalized_epoch) > 4">{{chainHead.finalized_epoch}}</div>
     </div>
-    <div class="text-red-500" *ngIf="(chainHead.headEpoch - chainHead.finalizedEpoch) > 4">
+    <div class="text-red-500" *ngIf="(chainHead.head_epoch - chainHead.finalized_epoch) > 4">
       Warning, the chain has not finalized in 4 epochs, which will lead to most validators leaking balances
     </div>
   </div>

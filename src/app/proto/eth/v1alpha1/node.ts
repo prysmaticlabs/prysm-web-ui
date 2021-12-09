@@ -92,11 +92,11 @@ export interface Peer {
   /**
    *  The connection state of the peer at the moment of the request. (e.g. Connecting)
    */
-  connectionState: ConnectionState;
+  connection_state: ConnectionState;
   /**
    *  The peer id of the peer.
    */
-  peerId: string;
+  peer_id: string;
   /**
    *  The latest ENR of the peer that's in the record.
    */

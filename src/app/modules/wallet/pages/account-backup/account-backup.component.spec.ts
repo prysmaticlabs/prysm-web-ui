@@ -22,7 +22,7 @@ describe('AccountBackupComponent', () => {
   beforeEach(waitForAsync(() => {
     walletService = MockService(WalletService);
     walletService.backUpAccounts = ({}) => {
-      return of({ zipFile: 'Hello' } as BackupAccountsResponse);
+      return of({ zip_file: 'Hello' } as BackupAccountsResponse);
     };
     notification = MockService(NotificationService);
 

@@ -44,7 +44,7 @@ export class BeaconNodeService {
   readonly nodeEndpoint$: Observable<string> = select$(
     this.checkState(),
     (res: DeepReadonly<BeaconStatusResponse>) => {
-      return res.beaconNodeEndpoint + BEACON_API_PREFIX;
+      return res.beacon_node_endpoint + BEACON_API_PREFIX;
     }
   );
   readonly connected$: Observable<boolean> = select$(
@@ -57,11 +57,11 @@ export class BeaconNodeService {
   );
   readonly chainHead$: Observable<ChainHead> = select$(
     this.checkState(),
-    (res: DeepReadonly<BeaconStatusResponse>) => res.chainHead,
+    (res: DeepReadonly<BeaconStatusResponse>) => res.chain_head,
   );
   readonly genesisTime$: Observable<number> = select$(
     this.checkState(),
-    (res: DeepReadonly<BeaconStatusResponse>) => res.genesisTime,
+    (res: DeepReadonly<BeaconStatusResponse>) => res.genesis_time,
   );
   readonly peers$: Observable<Peers> = this.http.get<Peers>(`${this.apiUrl}/beacon/peers`);
   readonly latestClockSlotPoll$: Observable<number> = interval(POLLING_INTERVAL).pipe(
@@ -69,7 +69,7 @@ export class BeaconNodeService {
     mergeMap(
       _ => select$(
         this.checkState(),
-        (res: DeepReadonly<BeaconStatusResponse>) => res.genesisTime,
+        (res: DeepReadonly<BeaconStatusResponse>) => res.genesis_time,
       )
     ),
     map((genesisTimeUnix: number) => {
@@ -98,11 +98,11 @@ export class BeaconNodeService {
     return this.fetchNodeStatus().pipe(
       catchError(_ => {
         return of({
-          beaconNodeEndpoint: 'unknown',
+          beacon_node_endpoint: 'unknown',
           connected: false,
           syncing: false,
-          chainHead: {
-            headEpoch: 0,
+          chain_head: {
+            head_epoch: 0,
           } as ChainHead,
         }) as Observable<BeaconStatusResponse>;
       }),

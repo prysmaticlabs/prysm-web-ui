@@ -18,211 +18,57 @@ import { IndexedAttestation, SignedBeaconBlock } from './beacon_block';
 import { Validator, ValidatorParticipation } from './validator';
 
 /**
- *  ValidatorChangeSet updates the server's list of keys on which to operate.
- */
-export interface ValidatorChangeSet {
-  /**
-   *  Action (add/remove/set).
-   */
-  action: SetAction;
-  /**
-   *  48 byte BLS public keys of validators on which the operation occurs.
-   */
-  publicKeys: string[];
-}
-
-/**
- *  Request for indexed attestations by target epoch.
- */
-export interface ListIndexedAttestationsRequest {
-  /**
-   *  Retrieve attestations by epoch processed.
-   */
-  epoch: number | undefined;
-  /**
-   *  Optional criteria to retrieve genesis epoch attestations.
-   */
-  genesisEpoch: boolean | undefined;
-  /**
-   *  The maximum number of IndexedAttestations to return in the response.
-   *  This field is optional.
-   */
-  pageSize: number;
-  /**
-   *  A pagination token returned from a previous call to `ListIndexedAttestations`
-   *  that indicates where this listing should continue from.
-   *  This field is optional.
-   */
-  pageToken: string;
-}
-
-/**
- *  Request for attestations.
- */
-export interface ListAttestationsRequest {
-  /**
-   *  Filter attestations by epoch processed.
-   */
-  epoch: number | undefined;
-  /**
-   *  Optional criteria to retrieve attestations from 0 epoch.
-   */
-  genesisEpoch: boolean | undefined;
-  /**
-   *  The maximum number of Attestations to return in the response.
-   *  This field is optional.
-   */
-  pageSize: number;
-  /**
-   *  A pagination token returned from a previous call to `ListAttestations`
-   *  that indicates where this listing should continue from.
-   *  This field is optional.
-   */
-  pageToken: string;
-}
-
-export interface ListAttestationsResponse {
-  attestations: Attestation[];
-  /**
-   *  A pagination token returned from a previous call to `ListAttestations`
-   *  that indicates from where listing should continue.
-   *  This field is optional.
-   */
-  nextPageToken: string;
-  /**
-   *  Total count of Attestations matching the request filter.
-   */
-  totalSize: number;
-}
-
-export interface ListIndexedAttestationsResponse {
-  indexedAttestations: IndexedAttestation[];
-  /**
-   *  A pagination token returned from a previous call to `ListIndexedAttestations`
-   *  that indicates from where listing should continue.
-   *  This field is optional.
-   */
-  nextPageToken: string;
-  /**
-   *  Total count of Attestations matching the request filter.
-   */
-  totalSize: number;
-}
-
-export interface ListBlocksRequest {
-  /**
-   *  Block root filter to return a single block.
-   */
-  root: string | undefined;
-  /**
-   *  Slot to lookup a block. If the slot is not yet finalized, this
-   *  criteria may yield multiple valid blocks if the node has seen blocks
-   *  from another fork.
-   */
-  slot: number | undefined;
-  /**
-   *  The epoch number for which to retrieve blocks. If specified, this
-   *  will return all blocks found within the span of the specified epoch.
-   */
-  epoch: number | undefined;
-  /**
-   *  Optional criteria to retrieve genesis block.
-   */
-  genesis: boolean | undefined;
-  /**
-   *  The maximum number of Blocks to return in the response.
-   *  This field is optional.
-   */
-  pageSize: number;
-  /**
-   *  A pagination token returned from a previous call to `ListBlocks`
-   *  that indicates where this listing should continue from.
-   *  This field is optional.
-   */
-  pageToken: string;
-}
-
-export interface ListBlocksResponse {
-  blockContainers: BeaconBlockContainer[];
-  /**
-   *  A pagination token returned from a previous call to `ListBlocks`
-   *  that indicates from where listing should continue.
-   *  This field is optional.
-   */
-  nextPageToken: string;
-  /**
-   *  Total count of Blocks matching the request filter.
-   */
-  totalSize: number;
-}
-
-/**
- *  A container that contains both the beacon block
- *  and its corresponding root.
- */
-export interface BeaconBlockContainer {
-  /**
-   *  The contained Ethereum beacon block.
-   */
-  block: SignedBeaconBlock | undefined;
-  /**
-   *  32 byte merkle tree root of contained beacon block.
-   */
-  blockRoot: string;
-}
-
-/**
  *  Information about the head of the beacon chain.
  */
 export interface ChainHead {
   /**
    *  Slot of the head block.
    */
-  headSlot: number;
+  head_slot: number;
   /**
    *  Epoch of the head block.
    */
-  headEpoch: number;
+  head_epoch: number;
   /**
    *  32 byte merkle tree root of the canonical head block in the beacon node.
    */
-  headBlockRoot: string;
+  head_block_root: string;
   /**
    *  Most recent slot that contains the finalized block.
    */
-  finalizedSlot: number;
+  finalized_slot: number;
   /**
    *  Epoch of the finalized block.
    */
-  finalizedEpoch: number;
+  finalized_epoch: number;
   /**
    *  Most recent 32 byte finalized block root.
    */
-  finalizedBlockRoot: string;
+  finalized_block_root: string;
   /**
    *  Most recent slot that contains the justified block.
    */
-  justifiedSlot: number;
+  justified_slot: number;
   /**
    *  Epoch of the justified block.
    */
-  justifiedEpoch: number;
+  justified_epoch: number;
   /**
    *  Most recent 32 byte justified block root.
    */
-  justifiedBlockRoot: string;
+  justified_block_root: string;
   /**
    *  Most recent slot that contains the previous justified block.
    */
-  previousJustifiedSlot: number;
+  previous_justified_slot: number;
   /**
    *  Epoch of the previous justified block.
    */
-  previousJustifiedEpoch: number;
+  previous_justified_epoch: number;
   /**
    *  Previous 32 byte justified block root.
    */
-  previousJustifiedBlockRoot: string;
+  previous_justified_block_root: string;
 }
 
 export interface ListCommitteesRequest {
@@ -270,6 +116,7 @@ export interface BeaconCommittees_CommitteesEntry {
   value: BeaconCommittees_CommitteesList | undefined;
 }
 
+// not used,but referenced in beacon/balances api
 export interface ListValidatorBalancesRequest {
   /**
    *  Optional criteria to retrieve balances at a specific epoch.
@@ -283,7 +130,7 @@ export interface ListValidatorBalancesRequest {
    *  Validator 48 byte BLS public keys to filter validators for the given
    *  epoch.
    */
-  publicKeys: string[];
+  public_keys: string[];
   /**
    *  Validator indices to filter validators for the given epoch.
    */
@@ -292,13 +139,13 @@ export interface ListValidatorBalancesRequest {
    *  The maximum number of Validators to return in the response.
    *  This field is optional.
    */
-  pageSize: number;
+  page_size: number;
   /**
    *  A pagination token returned from a previous call to `GetValidators`
    *  that indicates where this listing should continue from.
    *  This field is optional.
    */
-  pageToken: string;
+  page_token: string;
 }
 
 export interface ValidatorBalances {
@@ -311,18 +158,18 @@ export interface ValidatorBalances {
    *  A pagination token returned from a previous call to `GetListValidatorBalances`
    *  that indicates from where listing should continue.
    */
-  nextPageToken: string;
+  next_page_token: string;
   /**
    *  Total count of items matching the request filter.
    */
-  totalSize: number;
+  total_size: number;
 }
 
 export interface ValidatorBalances_Balance {
   /**
    *  Validator's 48 byte BLS public key.
    */
-  publicKey: string;
+  public_key: string;
   /**
    *  Validator's index in the validator set.
    */
@@ -336,7 +183,7 @@ export interface ValidatorBalances_Balance {
    */
   status: string;
 }
-
+// can't find object reference here need to search by /beacon/validators
 export interface ListValidatorsRequest {
   /**
    *  Optional criteria to retrieve validators at a specific epoch.
@@ -356,18 +203,18 @@ export interface ListValidatorsRequest {
    *  The maximum number of Validators to return in the response.
    *  This field is optional.
    */
-  pageSize: number;
+  page_size: number;
   /**
    *  A pagination token returned from a previous call to `GetValidators`
    *  that indicates where this listing should continue from.
    *  This field is optional.
    */
-  pageToken: string;
+  page_token: string;
   /**
    *  Specify which validators you would like to retrieve by their public keys.
    *  This field is optional.
    */
-  publicKeys: string[];
+  public_keys: string[];
   /**
    *  Specify which validators you would like to retrieve by their indices.
    *  This field is optional.
@@ -375,6 +222,7 @@ export interface ListValidatorsRequest {
   indices: number[];
 }
 
+// not used but referenced in /v1a1pha1/validator api.
 export interface GetValidatorRequest {
   /**
    *  Validator index in the registry.
@@ -383,7 +231,7 @@ export interface GetValidatorRequest {
   /**
    *  48 byte validator public key.
    */
-  publicKey: string | undefined;
+  public_key: string | undefined;
 }
 
 export interface Validators {
@@ -393,17 +241,17 @@ export interface Validators {
    *  set is from the Ethereum 2.0 genesis set.
    */
   epoch: number;
-  validatorList: Validators_ValidatorContainer[];
+  validator_list: Validators_ValidatorContainer[];
   /**
    *  A pagination token returned from a previous call to `GetValidators`
    *  that indicates from where listing should continue.
    *  This field is optional.
    */
-  nextPageToken: string;
+  next_page_token: string;
   /**
    *  Total count of Validators matching the request filter.
    */
-  totalSize: number;
+  total_size: number;
 }
 
 export interface Validators_ValidatorContainer {
@@ -462,61 +310,65 @@ export interface ActiveSetChanges {
   ejectedIndices: number[];
 }
 
+// not used, passed as query param in /summary request
 export interface ValidatorSummaryRequest {
   /**
    *  A list of 48 byte validator public keys.
    */
-  publicKeys: string[];
+  public_keys: string[];
   /**
    *  A list of validator indices to retrieve performance by their indices.
    */
   indices: number[];
 }
-
+// TODO: used and maybe should be extracted out
 export interface ValidatorSummaryResponse {
   /**
    *  A list of validator effective balances mapped 1-to-1 with the request's
    *  public keys.
    */
-  currentEffectiveBalances: string[];
+  current_effective_balances: string[];
   /**
    *  Whether the list of validator recently correctly voted for source at previous epoch, the result
    *  is mapped 1-to-1 with the request's public keys.
    */
-  correctlyVotedSource: boolean[];
+  correctly_voted_source: boolean[];
   /**
    *  Whether the list of validator recently correctly voted for target at previous epoch, the result
    *  is mapped 1-to-1 with the request's public keys.
    */
-  correctlyVotedTarget: boolean[];
+  correctly_voted_target: boolean[];
   /**
    *  Whether the list of validator recently correctly voted for head at previous epoch, the result
    *  is mapped 1-to-1 with the request's public keys.
    */
-  correctlyVotedHead: boolean[];
+  correctly_voted_head: boolean[];
   /**
    *  The balance of validators before epoch transition, the balance is mapped 1-to-1 with the requests's
    *  public keys.
    */
-  balancesBeforeEpochTransition: string[];
+  balances_before_epoch_transition: string[];
   /**
    *  The balance of validators after epoch transition, the balance is mapped 1-to-1 with the requests's
    *  public keys.
    */
-  balancesAfterEpochTransition: string[];
+  balances_after_epoch_transition: string[];
   /**
    *  The total number of validators from the request not found in
    *  in the beacon chain.
    */
-  missingValidators: string[];
+  missing_validators: string[];
   /**
    *  The average active validator balance in the beacon chain.
    */
-  averageActiveValidatorBalance: string;
+  average_active_validator_balance: string;
   /**
    *  The public keys in the order they are in of the response.
    */
-  publicKeys: string[];
+  public_keys: string[];
+
+  // TODO: add appropropriate comments
+  inactivity_scores?: string[];
 }
 
 export interface ValidatorQueue {
@@ -524,27 +376,27 @@ export interface ValidatorQueue {
    *  The amount of ether in gwei allowed to enter or exit the active
    *  validator set.
    */
-  churnLimit: number;
+  churn_limit: number;
   /**
    *  Ordered list of 48 byte public keys awaiting activation. 0th index is the
    *  next key to be processed.
    */
-  activationPublicKeys: string[];
+  activation_public_keys: string[];
   /**
    *  Ordered list of public keys awaiting exit. 0th index is the next key to
    *  be processed.
    */
-  exitPublicKeys: string[];
+  exit_public_keys: string[];
   /**
    *  Ordered list of validator indices awaiting activation. 0th item in the list is the
    *  next validator index to be processed.
    */
-  activationValidatorIndices: number[];
+  activation_validator_indices: number[];
   /**
    *  Ordered list of validator indices awaiting exit. 0th item in the list is the
    *  next validator index to be processed.
    */
-  exitValidatorIndices: number[];
+  exit_validator_indices: number[];
 }
 
 export interface ListValidatorAssignmentsRequest {
@@ -697,12 +549,13 @@ export interface BeaconConfig_ConfigEntry {
   value: string;
 }
 
+// TODO: unused 
 export interface SubmitSlashingResponse {
   /**
    *  Indices of the validators to be slashed by the submitted
    *  proposer/attester slashing object.
    */
-  slashedIndices: number[];
+  slashed_indices: number[];
 }
 
 export interface IndividualVotesRequest {

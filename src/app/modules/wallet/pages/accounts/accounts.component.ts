@@ -31,7 +31,6 @@ import { Validator } from 'src/app/proto/eth/v1alpha1/validator';
 import { ListAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { TableData } from '../../components/accounts-table/accounts-table.component';
 import { formatUnits } from 'ethers/lib/utils';
-import { Router } from '@angular/router';
 import { UserService } from 'src/app/modules/shared/services/user.service';
 import { BaseComponent } from '../../../shared/components/base.component';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -73,7 +72,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
       return this.walletService.accounts(ev.pageIndex, ev.pageSize).pipe(
         // Extract the validating public keys.
         zipMap((accs) =>
-          accs.accounts?.map((account) => account.validatingPublicKey)
+          accs.accounts?.map((account) => account.validating_public_key)
         ),
         switchMap(([accountsResponse, pubKeys]) =>
           // Combine the list of validators and their balances to display in the table.
@@ -129,23 +128,23 @@ export class AccountsComponent extends BaseComponent implements OnInit {
     validators: Validators,
     balances: ValidatorBalances
   ): MatTableDataSource<TableData> {
-    this.totalData = accountsResponse.totalSize;
+    this.totalData = accountsResponse.total_size;
     const tableData = accountsResponse.accounts.map((acc, idx) => {
-      let val = validators?.validatorList?.find(
-        (v) => acc.validatingPublicKey === v?.validator?.publicKey
+      let val = validators?.validator_list?.find(
+        (v) => acc.validating_public_key === v?.validator?.public_key
       );
       if (!val) {
         val = {
           index: 0,
           validator: {
-            effectiveBalance: '0',
-            activationEpoch: FAR_FUTURE_EPOCH,
-            exitEpoch: FAR_FUTURE_EPOCH,
+            effective_balance: '0',
+            activation_epoch: FAR_FUTURE_EPOCH,
+            exit_epoch: FAR_FUTURE_EPOCH,
           } as Validator,
         } as Validators_ValidatorContainer;
       }
       const balanceItem = balances?.balances.find(
-        (b) => b.publicKey === acc.validatingPublicKey
+        (b) => b.public_key === acc.validating_public_key
       );
       let bal = '0';
       let status = 'unknown';
@@ -157,20 +156,21 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         bal = formatUnits(BigNumber.from(balanceItem.balance), 'gwei');
       }
       const effectiveBalance = BigNumber.from(
-        val?.validator?.effectiveBalance
+        val?.validator?.effective_balance
       ).div(GWEI_PER_ETHER);
+      // converting a lot of snake case things to camel case.
       return {
         select: idx,
-        accountName: acc?.accountName,
+        accountName: acc?.account_name,
         index: val?.index ? val.index : 'n/a',
-        publicKey: acc.validatingPublicKey,
+        publicKey: acc.validating_public_key,
         balance: bal,
         effectiveBalance: effectiveBalance.toString(),
         status,
-        activationEpoch: val?.validator?.activationEpoch,
-        exitEpoch: val?.validator?.exitEpoch,
+        activationEpoch: val?.validator?.activation_epoch,
+        exitEpoch: val?.validator?.exit_epoch,
         lowBalance: effectiveBalance.toNumber() < 32,
-        options: acc.validatingPublicKey,
+        options: acc.validating_public_key,
       } as TableData;
     });
     const dataSource = new MatTableDataSource(tableData);

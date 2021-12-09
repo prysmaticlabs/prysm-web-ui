@@ -57,24 +57,24 @@ describe('AccountVoluntaryExitComponent', () => {
       const accounts = {
         accounts: [
           {
-            validatingPublicKey: '12131231',
-            accountName: 'merely-brief-gator',
+            validating_public_key: '12131231',
+            account_name: 'merely-brief-gator',
           } as Account,
           {
-            validatingPublicKey: '12131231',
-            accountName: 'personally-conscious-echidna',
+            validating_public_key: '12131231',
+            account_name: 'personally-conscious-echidna',
           } as Account,
           {
-            validatingPublicKey: '12131231',
-            accountName: 'slightly-amused-goldfish',
+            validating_public_key: '12131231',
+            account_name: 'slightly-amused-goldfish',
           } as Account,
           {
-            validatingPublicKey: '12131231',
-            accountName: 'nominally-present-bull',
+            validating_public_key: '12131231',
+            account_name: 'nominally-present-bull',
           } as Account,
           {
-            validatingPublicKey: '12131231',
-            accountName: 'marginally-green-mare',
+            validating_public_key: '12131231',
+            account_name: 'marginally-green-mare',
           } as Account,
         ],
       } as ListAccountsResponse;

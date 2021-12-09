@@ -21,10 +21,10 @@ describe('AccountsComponent', () => {
   service.accounts = () => {
       return of({
       accounts: [{
-        validatingPublicKey: '',
-        accountName: 'Fritz',
-        depositTxData: '',
-        derivationPath: 'somepath'
+        validating_public_key: '',
+        account_name: 'Fritz',
+        deposit_tx_data: '',
+        derivation_path: 'somepath'
       }] as Account[],
     } as ListAccountsResponse);
   };

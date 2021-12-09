@@ -35,7 +35,7 @@
       </div>
       <div 
         class="flex" 
-        *ngIf="positionInArray(data.originalData.activationPublicKeys, key) as position">
+        *ngIf="positionInArray(data.originalData.activation_public_keys, key) as position">
         <div class="text-muted">{{activationETAForPosition(position, data) | amDuration:'seconds'}} left</div>
         <div class="ml-2 text-secondary font-semibold">
           {{position | ordinal}} in line
@@ -59,7 +59,7 @@
       </div>
       <div 
         class="flex" 
-        *ngIf="positionInArray(data.originalData.exitPublicKeys, key) as position">
+        *ngIf="positionInArray(data.originalData.exit_public_keys, key) as position">
         <div class="text-muted">{{activationETAForPosition(position, data) | amDuration:'seconds'}} left</div>
         <div class="ml-2 text-secondary font-semibold">
           {{position | ordinal}} in line

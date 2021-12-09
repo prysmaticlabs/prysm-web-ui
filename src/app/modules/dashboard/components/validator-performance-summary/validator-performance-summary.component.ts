@@ -7,6 +7,7 @@ import { BeaconNodeService } from 'src/app/modules/core/services/beacon-node.ser
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { ValidatorBalances, ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
+import { ValidatorStatus, validatorStatusFromJSON } from 'src/app/proto/eth/v1alpha1/validator';
 
 
 
@@ -51,13 +52,14 @@ export class ValidatorPerformanceSummaryComponent {
     shareReplay(1),
   );
   connectedPeers$ = this.peers$.pipe(
-    map(peers => peers.filter(p => p.connectionState.toString() === 'CONNECTED')),
+    map(peers => peers.filter(p => p.connection_state.toString() === 'CONNECTED')),
   );
   performanceData$: Observable<PerformanceData> = this.validatorService.performance$.pipe(
     map(this.transformPerformanceData.bind(this)),
   );
 
   private transformPerformanceData(perf: ValidatorSummaryResponse & ValidatorBalances): PerformanceData {
+    perf.balances = perf.balances.filter(b => b.status !== "UNKNOWN");
     const totalBalance = perf.balances.reduce(
       (prev, curr) => {
         if (curr && curr.balance) {
@@ -68,13 +70,13 @@ export class ValidatorPerformanceSummaryComponent {
       BigNumber.from('0'),
     );
     const recentEpochGains = this.computeEpochGains(
-      perf.balancesBeforeEpochTransition, perf.balancesAfterEpochTransition,
+      perf.balances_before_epoch_transition, perf.balances_after_epoch_transition,
     );
-    const totalVotedHead = perf.correctlyVotedHead.length;
+    const totalVotedHead = perf.correctly_voted_head.length;
     let votedHeadPercentage = -1;
     if (totalVotedHead) {
-      votedHeadPercentage = perf.correctlyVotedHead.filter(Boolean).length /
-        perf.correctlyVotedHead.length;
+      votedHeadPercentage = perf.correctly_voted_head.filter(Boolean).length /
+        perf.correctly_voted_head.length;
     }
 
     let overallScore;
@@ -97,6 +99,7 @@ export class ValidatorPerformanceSummaryComponent {
       recentEpochGains,
       totalBalance: perf.balances && perf.balances.length !== 0 ? formatUnits(totalBalance, 'gwei').toString() : null,
     } as PerformanceData;
+    
   }
 
   private computeEpochGains(pre: string[], post: string[]): string {

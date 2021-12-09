@@ -33,10 +33,10 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
       tap((res: WalletResponse) => {
         this.loading = false;
         this.wallet = res;
-        if (!this.wallet.keymanagerKind) {
+        if (!this.wallet.keymanager_kind) {
           this.keymanagerKind = 'DERIVED';
         } else {
-          this.keymanagerKind = this.wallet.keymanagerKind;
+          this.keymanagerKind = this.wallet.keymanager_kind;
         }
       }),
       catchError((err) => {

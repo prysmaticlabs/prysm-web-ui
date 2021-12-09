@@ -40,7 +40,7 @@ export class KeystoreValidator {
           }
           const req: ValidateKeystoresRequest = {
             keystores: [JSON.stringify(keystoreFG.keystore)],
-            keystoresPassword: keystoresPassword,
+            keystores_password: keystoresPassword,
           };
           return this.walletService.validateKeystores(req).pipe(
             switchMap(() => {

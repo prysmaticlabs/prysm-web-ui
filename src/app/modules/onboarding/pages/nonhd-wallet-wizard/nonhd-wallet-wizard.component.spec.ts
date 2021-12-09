@@ -21,7 +21,7 @@ describe('NonhdWalletWizardComponent', () => {
     walletService = MockService(WalletService);
     walletService.createWallet = (req: CreateWalletRequest): Observable<CreateWalletResponse> => {
       return of({
-        wallet: { walletPath: 'hello' } as WalletResponse,
+        wallet: { wallet_path: 'hello' } as WalletResponse,
       } as CreateWalletResponse);
     };
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);

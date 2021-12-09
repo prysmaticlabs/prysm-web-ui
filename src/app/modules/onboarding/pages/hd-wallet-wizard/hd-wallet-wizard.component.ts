@@ -40,9 +40,6 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   isSmallScreen = false;
   loading = false;
-  walletFormGroup = this.formBuilder.group({
-    walletDir: ['']
-  });
   mnemonicFormGroup = this.formBuilder.group({
     mnemonic: new FormControl('',
       // Synchronous validators.
@@ -119,9 +116,8 @@ export class HdWalletWizardComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     const request = {
       keymanager: 'DERIVED',
-      walletPath: this.walletFormGroup.controls.walletDir.value,
-      walletPassword: this.walletPasswordFormGroup.controls.password.value,
-      numAccounts: this.accountsFormGroup.controls.numAccounts.value,
+      wallet_password: this.walletPasswordFormGroup.controls.password.value,
+      num_accounts: this.accountsFormGroup.controls.numAccounts.value,
       mnemonic: this.mnemonicFormGroup.controls.mnemonic.value,
     } as CreateWalletRequest;
     this.loading = true;

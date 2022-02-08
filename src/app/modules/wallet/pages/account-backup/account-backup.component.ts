@@ -80,7 +80,6 @@ export class AccountBackupComponent extends BaseComponent {
   }
 
   private getRequestForm(): BackupAccountsRequest {
-    console.log(this.accountBackForm);
     return {
       public_keys: Object.keys(this.accountBackForm.value),
       backup_password: this.encryptionPasswordForm.value.password,

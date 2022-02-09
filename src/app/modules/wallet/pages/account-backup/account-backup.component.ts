@@ -3,6 +3,7 @@ import {
   AbstractControlOptions, FormBuilder, FormControl,
   Validators
 } from '@angular/forms';
+import * as FileSaver from 'file-saver';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import {
@@ -14,7 +15,6 @@ import { StaticPasswordValidator } from '../../../core/validators/password.valid
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 import { BaseComponent } from '../../../shared/components/base.component';
 import { NotificationService } from '../../../shared/services/notification.service';
-
 @Component({
   selector: 'app-account-backup',
   templateUrl: './account-backup.component.html',
@@ -67,7 +67,11 @@ export class AccountBackupComponent extends BaseComponent {
     request: BackupAccountsRequest
   ): Observable<BackupAccountsResponse> {
     return this.walletService.backUpAccounts(request).pipe(
-      tap(() => {
+      tap((response) => {
+        const blob = new Blob([this.convertBase64ToBytes(response.zip_file)], {type:"application/zip"});
+        const d = new Date();
+        const fileName = `account-backup_${d.toDateTimeString()}.zip`;
+        FileSaver.saveAs(blob, fileName);
         this.notificationService.notifySuccess(
           `Successfully backed up ${request.public_keys.length} accounts`
         );
@@ -84,5 +88,15 @@ export class AccountBackupComponent extends BaseComponent {
       public_keys: Object.keys(this.accountBackForm.value),
       backup_password: this.encryptionPasswordForm.value.password,
     } as BackupAccountsRequest;
+  }
+
+  private convertBase64ToBytes(data: string) {
+    let byteCharacters = atob(data);
+    let byteNumbers = new Array(byteCharacters.length);
+    for (var i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    let byteArray = new Uint8Array(byteNumbers);
+    return byteArray;
   }
 }

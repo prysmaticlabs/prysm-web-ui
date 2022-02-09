@@ -1,28 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseComponent } from '../../../shared/components/base.component';
-import { WalletService } from '../../../core/services/wallet.service';
-import { map } from 'rxjs/operators';
 import {
-  Account,
-  AccountVoluntaryExitRequest,
-} from '../../../../proto/validator/accounts/v2/web_api';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  AbstractControlOptions,
+  AbstractControlOptions, FormBuilder, FormControl, Validators
 } from '@angular/forms';
-import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 import { ActivatedRoute } from '@angular/router';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import {
-  MatSelectionList,
-  MatSelectionListChange,
-} from '@angular/material/list';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSelectChange } from '@angular/material/select';
-import { FormControl } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+  AccountVoluntaryExitRequest
+} from '../../../../proto/validator/accounts/v2/web_api';
+import { WalletService } from '../../../core/services/wallet.service';
+import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
+import { BaseComponent } from '../../../shared/components/base.component';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
@@ -53,8 +40,6 @@ export class AccountVoluntaryExitComponent
     } as AbstractControlOptions
   );
 
-  keys: Account[] = [];
-
   toggledAll = new FormControl(false);
   publicKey: string | undefined;
 
@@ -67,9 +52,11 @@ export class AccountVoluntaryExitComponent
       return false;
     }
     const request = {
-      public_keys: this.keys.map((x) => x.validating_public_key),
+      public_keys: Object.keys(this.exitAccountFormGroup.value)
+                  .filter((x) => x !== 'confirmation')
+                  .map((x) => base64ToHex(x)),
     } as AccountVoluntaryExitRequest;
-
+    
     this.walletService.exitAccounts(request).subscribe((x) => {
       const exitedKeys =
         Object.keys(this.exitAccountFormGroup?.controls ?? {}).length - 1;

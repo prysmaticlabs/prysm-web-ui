@@ -4,7 +4,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { Observable, Subject, throwError, zip } from 'rxjs';
-import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, delay, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { WalletService } from 'src/app/modules/core/services/wallet.service';
 import { PasswordValidator } from 'src/app/modules/core/validators/password.validator';
 
@@ -159,8 +159,12 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       observablesToExecute.push(this.walletService.importSlashingProtection(reqImportSlashing));
     }
   
+    // a delay after the create wallet as it is non blocking once the wallet is created.
+    // the import keystores request requires a keymanager to be set which is retreived from the wallet.
+    // if the import keystores request is called too soon after wallet creation the keymanager may not yet be set.
     this.walletService.createWallet(request).pipe(
-      switchMap(() => {
+      delay(2000),
+      switchMap((resp) => {
         return zip(...observablesToExecute).pipe(
           switchMap((res) => {
             if(res){

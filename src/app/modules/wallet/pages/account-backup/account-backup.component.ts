@@ -68,6 +68,7 @@ export class AccountBackupComponent extends BaseComponent {
   ): Observable<BackupAccountsResponse> {
     return this.walletService.backUpAccounts(request).pipe(
       tap((response) => {
+        // convert base64 string to byte array
         const blob = new Blob([this.convertBase64ToBytes(response.zip_file)], {type:"application/zip"});
         const d = new Date();
         const fileName = `account-backup_${d.toDateTimeString()}.zip`;
@@ -90,6 +91,9 @@ export class AccountBackupComponent extends BaseComponent {
     } as BackupAccountsRequest;
   }
 
+  //convertBase64ToBytes is a utility function that can take in a base64 string and convert it to a byte array.
+  //The prysm backup accounts api right now is returning a response of a base64 string.
+  //Without this conversion, the file would be corrupted.
   private convertBase64ToBytes(data: string) {
     let byteCharacters = atob(data);
     let byteNumbers = new Array(byteCharacters.length);

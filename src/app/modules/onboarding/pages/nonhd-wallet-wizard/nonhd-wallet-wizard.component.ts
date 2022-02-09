@@ -159,6 +159,9 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       observablesToExecute.push(this.walletService.importSlashingProtection(reqImportSlashing));
     }
   
+    // a delay after the create wallet as it is non blocking once the wallet is created.
+    // the import keystores request requires a keymanager to be set which is retreived from the wallet.
+    // if the import keystores request is called too soon after wallet creation the keymanager may not yet be set.
     this.walletService.createWallet(request).pipe(
       delay(2000),
       switchMap((resp) => {

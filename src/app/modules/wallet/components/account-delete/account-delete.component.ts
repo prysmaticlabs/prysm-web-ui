@@ -1,8 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as FileSaver from 'file-saver';
 import { tap } from 'rxjs/operators';
-import { DeleteAccountsRequest } from 'src/app/proto/validator/accounts/v2/web_api';
+import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
+import { DeleteAccountsRequest,DeleteAccountsData,DeleteAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
 import { WalletService } from '../../../core/services/wallet.service';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -24,9 +26,9 @@ export class AccountDeleteComponent {
   }
   publicKeys: string[];
   confirmGroup: FormGroup = this.formBuilder.group({
+    isAutoDownload: [true],
     confirmation: ['', [Validators.required, UtilityValidator.MustBe('agree')]],
   });
-  
 
   cancel(): void {
     this.ref.close();
@@ -34,16 +36,34 @@ export class AccountDeleteComponent {
 
   confirm(): void {
     const request = {
-      public_keys_to_delete: this.data,
+      pubkeys: this.data,
     } as DeleteAccountsRequest;
 
     this.walletService
       .deleteAccounts(request)
       .pipe(
-        tap((x) => {
-          this.notificationService.notifySuccess(
-            `Successfully removed ${this.publicKeys.length} keys`
-          );
+        tap((resp:DeleteAccountsResponse) => {
+          if (resp && 
+            resp.slashing_protection && 
+            this.confirmGroup.controls['isAutoDownload'].value === true) {
+             const d = new Date();
+             let fileToSave = new Blob([resp.slashing_protection], {
+               type: 'application/json'
+             });
+             let fileName = `slashing_protection_${d.toDateTimeString()}.json`;
+             FileSaver.saveAs(fileToSave, fileName);
+            }
+          resp.data.forEach((data:DeleteAccountsData,index:number) => {
+            if(data.status === 'DELETED'){
+              this.notificationService.notifySuccess(
+                `Successfully removed ${base64ToHex(this.data[index])}`
+              );
+            } else {
+              this.notificationService.notifyError(
+                `Failed to remove ${base64ToHex(this.data[index])} with status ${data.status} and message ${data.message}`
+              );
+            }
+          });
           this.cancel();
         })
       )

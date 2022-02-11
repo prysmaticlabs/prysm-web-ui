@@ -36,21 +36,21 @@ export class SlashingProtectionComponent
     this.isImport = this.activatedRoute.snapshot.queryParams.import;
   }
 
-  exportSlashingProtection(): void {
-    this.walletService
-      .exportSlashingProtection()
-      .pipe(
-        tap((response) => {
-          const blob = new Blob([response.file], {
-            type: 'text/plain;charset=utf-8',
-          });
-          const d = new Date();
-          const fileName = `slashing-protection-${d.toDateTimeString()}.json`;
-          FileSaver.saveAs(blob, fileName);
-        })
-      )
-      .subscribe();
-  }
+  // exportSlashingProtection(): void {
+  //   this.walletService
+  //     .exportSlashingProtection()
+  //     .pipe(
+  //       tap((response) => {
+  //         const blob = new Blob([response.file], {
+  //           type: 'text/plain;charset=utf-8',
+  //         });
+  //         const d = new Date();
+  //         const fileName = `slashing-protection-${d.toDateTimeString()}.json`;
+  //         FileSaver.saveAs(blob, fileName);
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
   toggleActive(previous: HTMLElement, current: HTMLElement): void {
     previous.classList.remove('active');

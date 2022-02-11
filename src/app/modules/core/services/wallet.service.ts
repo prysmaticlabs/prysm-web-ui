@@ -10,9 +10,11 @@ import {
   AccountVoluntaryExitRequest,
   BackupAccountsRequest,
   BackupAccountsResponse,
-  DeleteAccountsRequest, ExportSlashingProtectionResponse,
   ImportSlashingProtectionRequest, RecoverWalletRequest
 } from '../../../proto/validator/accounts/v2/web_api';
+import {
+  DeleteAccountsRequest, DeleteAccountsResponse,
+} from '../../../proto/validator/accounts/v2/web_api_keymanager-api';
 import { EnvironmenterService } from './environmenter.service';
 
 @Injectable({
@@ -25,6 +27,7 @@ export class WalletService {
   ) {}
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
+  private keymanagerApiUrl = this.environmenter.env.keymanagerEndpoint;
 
   // Observables.
   walletConfig$: Observable<WalletResponse> = this.http
@@ -98,14 +101,11 @@ export class WalletService {
     return this.http.post(`${this.apiUrl}/accounts/voluntary-exit`, request);
   }
 
-  deleteAccounts(request: DeleteAccountsRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/wallet/accounts/delete`, request);
-  }
-
-  exportSlashingProtection(): Observable<ExportSlashingProtectionResponse> {
-    return this.http.get<ExportSlashingProtectionResponse>(
-      `${this.apiUrl}/slashing-protection/export`
-    );
+  deleteAccounts(request: DeleteAccountsRequest): Observable<DeleteAccountsResponse> {
+    let httpOption = {
+        body: request
+    }
+    return this.http.delete<DeleteAccountsResponse>(`${this.keymanagerApiUrl}/keystores`, httpOption);
   }
 
   importSlashingProtection(

@@ -205,20 +205,6 @@ export interface AccountVoluntaryExitRequest {
   public_keys: string[];
 }
 
-export interface DeleteAccountsRequest {
-  /**
-   *  Public keys to delete.
-   */
-  public_keys_to_delete: string[];
-}
-
-export interface ExportSlashingProtectionResponse {
-  /**
-   * The slashing protection json
-   */
-  file: string;
-}
-
 export interface ImportSlashingProtectionRequest {
   /**
    * JSON representin the slash protection

@@ -1,6 +1,6 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
@@ -29,10 +29,10 @@ export interface TableData {
   selector: 'app-accounts-table',
   templateUrl: './accounts-table.component.html',
 })
-export class AccountsTableComponent implements AfterViewInit {
+export class AccountsTableComponent implements AfterViewInit,OnChanges {
   @Input() dataSource: MatTableDataSource<TableData> | null = null;
   @Input() selection: SelectionModel<TableData> | null = null;
-  @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
+  @ViewChild(MatSort, { static: false }) sort: MatSort | null = null;
 
   readonly LANDING_URL = '/' + LANDING_URL;
 
@@ -61,6 +61,12 @@ export class AccountsTableComponent implements AfterViewInit {
       action: this.openExplorer.bind(this),
     },
   ];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.dataSource && this.dataSource){
+      this.dataSource.sort = this.sort;
+    }
+  }
 
   ngAfterViewInit(): void {
     if (this.dataSource) {

@@ -2,12 +2,12 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as FileSaver from 'file-saver';
+import { ToastrService } from 'ngx-toastr';
 import { tap } from 'rxjs/operators';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { DeleteAccountsRequest,DeleteAccountsData,DeleteAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
 import { WalletService } from '../../../core/services/wallet.service';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
-import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-account-delete',
@@ -18,8 +18,8 @@ export class AccountDeleteComponent {
   constructor(
     private ref: MatDialogRef<AccountDeleteComponent>,
     private walletService: WalletService,
-    private notificationService: NotificationService,
     private formBuilder: FormBuilder,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) private data: string[]
   ) {
     this.publicKeys = this.data;
@@ -54,14 +54,17 @@ export class AccountDeleteComponent {
              FileSaver.saveAs(fileToSave, fileName);
             }
           resp.data.forEach((data:DeleteAccountsData,index:number) => {
+            console.log("how many times",index);
             if(data.status === 'DELETED'){
-              this.notificationService.notifySuccess(
-                `Successfully removed ${base64ToHex(this.data[index])}`
+              this.toastr.success(
+                `Successfully removed ${base64ToHex(this.data[index]).substring(0, 10)}...`,
               );
             } else {
-              this.notificationService.notifyError(
-                `Failed to remove ${base64ToHex(this.data[index])} with status ${data.status} and message ${data.message}`
-              );
+              this.toastr.error(
+                `Failed to remove ${base64ToHex(this.data[index]).substring(0, 10)}... with status:${data.status} and message:"${data.message}"`
+              ,'Error',{
+                timeOut: 20000,
+              });
             }
           });
           this.cancel();

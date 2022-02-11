@@ -57,12 +57,12 @@ export class AccountDeleteComponent {
             console.log("how many times",index);
             if(data.status === 'DELETED'){
               this.toastr.success(
-                `Successfully removed ${base64ToHex(this.data[index]).substring(0, 10)}...`,
+                `${base64ToHex(this.data[index]).substring(0, 10)}... Deleted`,
               );
             } else {
               this.toastr.error(
-                `Failed to remove ${base64ToHex(this.data[index]).substring(0, 10)}... with status:${data.status} and message:"${data.message}"`
-              ,'Error',{
+                `${base64ToHex(this.data[index]).substring(0, 10)}... status: ${data.status}`,
+                `${data.message !== ''? data.message : 'Delete failed'}`,{
                 timeOut: 20000,
               });
             }

@@ -35,8 +35,9 @@ export class AccountDeleteComponent {
   }
 
   confirm(): void {
+    const hexKeys = this.data.map(key => base64ToHex(key));
     const request = {
-      pubkeys: this.data,
+      pubkeys: hexKeys,
     } as DeleteAccountsRequest;
 
     this.walletService
@@ -54,14 +55,13 @@ export class AccountDeleteComponent {
              FileSaver.saveAs(fileToSave, fileName);
             }
           resp.data.forEach((data:DeleteAccountsData,index:number) => {
-            console.log("how many times",index);
             if(data.status === 'DELETED'){
               this.toastr.success(
-                `${base64ToHex(this.data[index]).substring(0, 10)}... Deleted`,
+                `${hexKeys[index].substring(0, 10)}... Deleted`,
               );
             } else {
               this.toastr.error(
-                `${base64ToHex(this.data[index]).substring(0, 10)}... status: ${data.status}`,
+                `${hexKeys[index].substring(0, 10)}... status: ${data.status}`,
                 `${data.message !== ''? data.message : 'Delete failed'}`,{
                 timeOut: 20000,
               });

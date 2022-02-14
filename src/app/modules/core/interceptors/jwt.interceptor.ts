@@ -16,7 +16,9 @@ export class JwtInterceptor implements HttpInterceptor {
     // Add authorization header to all HTTP requests with
     // a jwt token if available from the auth service..
     const token = this.authenticationService.getToken();
-    if (token && request.url.indexOf(this.environmenterService.env.validatorEndpoint) !== -1) {
+    if ((token && request.url.indexOf(this.environmenterService.env.validatorEndpoint) !== -1) ||
+    (token && request.url.indexOf(this.environmenterService.env.keymanagerEndpoint) !== -1))
+    {
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`

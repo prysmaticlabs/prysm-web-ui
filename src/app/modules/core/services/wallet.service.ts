@@ -105,7 +105,7 @@ export class WalletService {
     let httpOption = {
         body: request
     }
-    return this.http.delete<DeleteAccountsResponse>(`${this.keymanagerApiUrl}/keystores`, httpOption);
+    return this.http.delete<DeleteAccountsResponse>(`${this.keymanagerApiUrl}`, httpOption);
   }
 
   importSlashingProtection(

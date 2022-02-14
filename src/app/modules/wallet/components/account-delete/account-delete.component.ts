@@ -47,11 +47,11 @@ export class AccountDeleteComponent {
           if (resp && 
             resp.slashing_protection && 
             this.confirmGroup.controls['isAutoDownload'].value === true) {
-             const d = new Date();
+             const d = new Date().toJSON().slice(0,10);
              let fileToSave = new Blob([resp.slashing_protection], {
                type: 'application/json'
              });
-             let fileName = `slashing_protection_${d.toDateTimeString()}.json`;
+             let fileName = `slashing_protection_${d}.json`;
              FileSaver.saveAs(fileToSave, fileName);
             }
           resp.data.forEach((data:DeleteAccountsData,index:number) => {

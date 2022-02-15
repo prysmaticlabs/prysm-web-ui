@@ -54,19 +54,20 @@ export class AccountDeleteComponent {
              let fileName = `slashing_protection_${d}.json`;
              FileSaver.saveAs(fileToSave, fileName);
             }
-          resp.data.forEach((data:DeleteAccountsData,index:number) => {
-            if(data.status === 'DELETED'){
-              this.toastr.success(
-                `${hexKeys[index].substring(0, 10)}... Deleted`,
-              );
-            } else {
-              this.toastr.error(
-                `${hexKeys[index].substring(0, 10)}... status: ${data.status}`,
-                `${data.message !== ''? data.message : 'Delete failed'}`,{
-                timeOut: 20000,
-              });
-            }
-          });
+            resp.data.forEach((data:DeleteAccountsData,index:number) => {
+              let pubkey = hexKeys[index]?hexKeys[index].substring(0, 10):'undefined pubkey';
+              if(data.status === 'DELETED'){
+                this.toastr.success(
+                  `${pubkey}... Deleted`,
+                );
+              } else {
+                this.toastr.error(
+                  `${pubkey}... status: ${data.status}`,
+                  `${data.message !== ''? data.message : 'Delete failed'}`,{
+                  timeOut: 20000,
+                });
+              }
+            });
           this.cancel();
         })
       )

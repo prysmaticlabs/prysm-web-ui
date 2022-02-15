@@ -79,7 +79,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next();
+    this.destroyed$.next(undefined);
     this.destroyed$.complete();
   }
 

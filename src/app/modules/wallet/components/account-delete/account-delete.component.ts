@@ -15,6 +15,17 @@ import { UtilityValidator } from '../../../onboarding/validators/utility.validat
   styleUrls: ['./account-delete.component.scss'],
 })
 export class AccountDeleteComponent {
+  readonly SPECIFIC_KEYS = 'specific';
+  readonly MANUAL_KEYS = 'manual';
+  publicKeys: string[];
+  deleteKeysType: string;
+
+  addPubkeyControl = this.formBuilder.control(null,[ Validators.pattern('^(0x){1}[A-Fa-f0-9]{96}$')]);
+  confirmGroup: FormGroup = this.formBuilder.group({
+    isAutoDownload: [true],
+    confirmation: ['', [Validators.required, UtilityValidator.MustBe('agree')]],
+  });
+
   constructor(
     private ref: MatDialogRef<AccountDeleteComponent>,
     private walletService: WalletService,
@@ -23,21 +34,26 @@ export class AccountDeleteComponent {
     @Inject(MAT_DIALOG_DATA) private data: string[]
   ) {
     this.publicKeys = this.data;
+    if(this.data && this.data.length > 0){
+      this.deleteKeysType = this.SPECIFIC_KEYS;
+    } else {
+      this.deleteKeysType = this.MANUAL_KEYS;
+    }
   }
-  publicKeys: string[];
-  confirmGroup: FormGroup = this.formBuilder.group({
-    isAutoDownload: [true],
-    confirmation: ['', [Validators.required, UtilityValidator.MustBe('agree')]],
-  });
-
+ 
   cancel(): void {
     this.ref.close();
+  }
+
+  addKey(){
+    this.publicKeys.push(this.addPubkeyControl.value);
+    this.addPubkeyControl.reset();
   }
 
   confirm(): void {
     const hexKeys = this.data.map(key => base64ToHex(key));
     const request = {
-      pubkeys: hexKeys,
+      pubkeys: this.deleteKeysType === this.SPECIFIC_KEYS? hexKeys : this.publicKeys,
     } as DeleteAccountsRequest;
 
     this.walletService

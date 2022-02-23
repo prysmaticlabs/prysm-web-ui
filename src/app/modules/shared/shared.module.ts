@@ -28,12 +28,14 @@ import { FileNamePipe } from './pipes/filename.pipe';
 import {ExternalLinkDirective} from './directives/external-link.directive';
 
 import { BreadcrumbService } from './services/breadcrumb.service';
+import { ToastrModule } from 'ngx-toastr';
 
 const thirdPartyModules = [
   MomentModule,
   NgxFileDropModule,
   NgxSkeletonLoaderModule,
-  NgxEchartsModule
+  NgxEchartsModule,
+  ToastrModule,
 ];
 
 const components = [
@@ -96,6 +98,7 @@ export class SharedModule {
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),
       }),
+      ToastrModule.forRoot(),
     ];
   }
 }

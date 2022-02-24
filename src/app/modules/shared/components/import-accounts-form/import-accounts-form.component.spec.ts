@@ -4,6 +4,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { EnvironmenterService } from 'src/app/modules/core/services/environmenter.service';
+import { SharedModule } from '../../shared.module';
 
 import { ImportAccountsFormComponent } from './import-accounts-form.component';
 
@@ -18,13 +19,15 @@ describe('ImportAccountsFormComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        SharedModule.forRoot(),
         NgxFileDropModule,
         BrowserAnimationsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        
       ],
       providers: [
         { provide: EnvironmenterService, useValue: serviceSpy },
-        { provide: FormBuilder, useValue: fb }
+        { provide: FormBuilder, useValue: fb },
       ]
     })
     .compileComponents();

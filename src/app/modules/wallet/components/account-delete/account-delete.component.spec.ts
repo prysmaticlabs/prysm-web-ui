@@ -26,7 +26,7 @@ describe('AccountDeleteComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AccountDeleteComponent],
       imports: [
-        SharedModule,
+        SharedModule.forRoot(),
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,

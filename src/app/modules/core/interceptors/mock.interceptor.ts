@@ -8,10 +8,11 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
-import { Mocks, generateBalancesForEpoch } from '../mocks';
+import { Mocks, generateBalancesForEpoch, KeymanagerAPIMocks, RestObject} from '../mocks';
 import { EnvironmenterService } from '../services/environmenter.service';
 
 export const VALIDATOR_API_PREFIX = '/v2/validator';
+export const KEYMANAGER_API_PREFIX = '/eth/v1/keystores';
 
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
@@ -21,6 +22,13 @@ export class MockInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let endpoint = '';
+    if (this.contains(request.url, KEYMANAGER_API_PREFIX)) {
+      let mock = KeymanagerAPIMocks[KEYMANAGER_API_PREFIX];
+      return of(new HttpResponse({
+        status: 200,
+        body: mock[request.method as keyof RestObject],
+      }));
+    }
     if (this.contains(request.url, VALIDATOR_API_PREFIX)) {
       endpoint = this.extractEndpoint(request.url, VALIDATOR_API_PREFIX);
     }

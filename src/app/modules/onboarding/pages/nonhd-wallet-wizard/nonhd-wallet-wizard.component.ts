@@ -10,11 +10,15 @@ import { PasswordValidator } from 'src/app/modules/core/validators/password.vali
 
 import {
   CreateWalletRequest,
+  ImportKeystoresData,
   ImportKeystoresRequest,
+  ImportKeystoresResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { LANDING_URL } from 'src/app/modules/core/constants';
 import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
+import { ToastrService } from 'ngx-toastr';
+import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
 
 
 enum WizardState {
@@ -41,6 +45,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private router: Router,
     private walletService: WalletService,
+    private toastr: ToastrService,
   ) {}
 
   // Properties.
@@ -48,6 +53,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   loading = false;
   isSmallScreen = false;
+  pubkeys: string[] = [];
 
   keystoresFormGroup = this.formBuilder.group({
     keystoresImported: this.formBuilder.array([], Validators.required) as FormArray
@@ -106,11 +112,14 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   private get importKeystores$(): Observable<any>{
     const keystoresImported: string[] = [];
     const keystorePasswords: string[] = [];
+    const publicKeys: string[] = [];
     (this.keystoresFormGroup.controls['keystoresImported'] as FormArray).controls.forEach((keystore: AbstractControl) => {
+      publicKeys.push(keystore.get('pubkeyShort')?.value);
       keystoresImported.push(JSON.stringify(keystore.get('keystore')?.value));
       keystorePasswords.push(keystore.get('keystorePassword')?.value);
     });
     const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
+    this.pubkeys = publicKeys;
     const req: ImportKeystoresRequest = {
       keystores: keystoresImported,
       passwords: keystorePasswords,
@@ -137,11 +146,33 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       delay(2000),
       switchMap((resp) => {
         return this.importKeystores$.pipe(
-          switchMap((res) => {
+          tap((res: ImportKeystoresResponse) => {
+            // will redirect as long as it is a 200 response.
+            // if the response is not a 200 it will be handled by the catchError.
+            // validator keys may not successfully be imported despite a 200 response.
+            // data response will be printed to console.
             if(res){
               this.router.navigate([LANDING_URL]);
+              console.log(res);
+              res.data.forEach((data:ImportKeystoresData,index:number) => {
+                let pubkey = this.pubkeys[index]??'undefined pubkey';
+                if(data.status === 'IMPORTED'){
+                  this.toastr.success(
+                    `${pubkey}... IMPORTED`,
+                  );
+                } else if ( data.status === 'DUPLICATE'){
+                  this.toastr.warning(
+                    `${pubkey}... DUPLICATE, no action taken`,
+                  );
+                }else {
+                  this.toastr.error(
+                    `${pubkey}... status: ${data.status}`,
+                    `${data.message !== ''? data.message : 'IMPORT failed'}`,{
+                    timeOut: 20000,
+                  });
+                }
+              });
             }
-            return res;
           })
         );
       }),

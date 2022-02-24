@@ -152,19 +152,28 @@ export interface ImportKeystoresRequest {
   /**
    *  JSON encoded keystore list.
    */
-  keystores_imported: string[];
+  keystores: string[];
   /**
    *  Password to unlock the keystores.
    */
-  keystores_password: string;
+  passwords: string[];
+  slashing_protection: string | null;
 }
 
 export interface ImportKeystoresResponse {
   /**
    *  Public keys successfully imported.
    */
-  imported_public_keys: string[];
+  
+  data: ImportKeystoresData[];
+  
 }
+
+export interface ImportKeystoresData {
+  status: string;
+  message: string;
+}
+
 
 export interface ValidateKeystoresRequest {
   /**

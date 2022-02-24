@@ -11,13 +11,10 @@ import { PasswordValidator } from 'src/app/modules/core/validators/password.vali
 import {
   CreateWalletRequest,
   ImportKeystoresRequest,
-  ImportSlashingProtectionRequest
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { LANDING_URL } from 'src/app/modules/core/constants';
 import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
-import { templateJitUrl } from '@angular/compiler';
-import { ImportAccountsFormComponent } from 'src/app/modules/shared/components/import-accounts-form/import-accounts-form.component';
 
 
 enum WizardState {
@@ -37,7 +34,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
 
   // View children.
   @ViewChild('stepper') stepper?: MatStepper;
-  @ViewChild('importAccounts') importAccounts: ImportAccountsFormComponent | undefined;
   @ViewChild('slashingProtection') slashingProtection: ImportProtectionComponent | undefined;
 
   constructor(
@@ -106,35 +102,21 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       this.stepper?.next();
     }
   }
-  // logic was not intended to be so complicated...
-  // api takes in a list of keystores and a password instead of a list of keystore password pairs
-  // this goes through the logic of zipping the request as 1 request if the passwords are the same vs
-  // 2 requests if the passwords are different
-  // logic also on the import component
+
   private get importKeystores$(): Observable<any>{
     const keystoresImported: string[] = [];
-    let keystorePasswords: string[] = [];
+    const keystorePasswords: string[] = [];
     (this.keystoresFormGroup.controls['keystoresImported'] as FormArray).controls.forEach((keystore: AbstractControl) => {
       keystoresImported.push(JSON.stringify(keystore.get('keystore')?.value));
       keystorePasswords.push(keystore.get('keystorePassword')?.value);
     });
-    if(this.importAccounts?.uniqueToggleFormControl.value){
-      const arrayOfRequests: Observable<any>[] = [];
-      keystoresImported.forEach((keystore: string, index: number) => {
-        const req: ImportKeystoresRequest = {
-          keystores_imported: [keystore],
-          keystores_password: keystorePasswords[index],
-        };
-        arrayOfRequests.push(this.walletService.importKeystores(req));
-      });
-      return zip(...arrayOfRequests);
-    } else {
-      const req: ImportKeystoresRequest = {
-        keystores_imported: keystoresImported,
-        keystores_password: keystorePasswords[0],
-      };
-      return this.walletService.importKeystores(req);
-    }
+    const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
+    const req: ImportKeystoresRequest = {
+      keystores: keystoresImported,
+      passwords: keystorePasswords,
+      slashing_protection: slashingProtectionFile ? JSON.stringify(slashingProtectionFile) : null,
+    };
+    return this.walletService.importKeystores(req);
     
   }
 
@@ -148,24 +130,13 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-
-    const observablesToExecute: Observable<any>[] = [this.importKeystores$];
-   
-    const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
-    if(slashingProtectionFile ){
-      const reqImportSlashing: ImportSlashingProtectionRequest = {
-        slashing_protection_json: JSON.stringify(slashingProtectionFile)
-      }
-      observablesToExecute.push(this.walletService.importSlashingProtection(reqImportSlashing));
-    }
-  
     // a delay after the create wallet as it is non blocking once the wallet is created.
     // the import keystores request requires a keymanager to be set which is retreived from the wallet.
     // if the import keystores request is called too soon after wallet creation the keymanager may not yet be set.
     this.walletService.createWallet(request).pipe(
       delay(2000),
       switchMap((resp) => {
-        return zip(...observablesToExecute).pipe(
+        return this.importKeystores$.pipe(
           switchMap((res) => {
             if(res){
               this.router.navigate([LANDING_URL]);

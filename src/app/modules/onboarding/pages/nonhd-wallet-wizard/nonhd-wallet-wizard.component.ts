@@ -166,8 +166,8 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
                   );
                 }else {
                   this.toastr.error(
-                    `${pubkey}... status: ${data.status}`,
-                    `${data.message !== ''? data.message : 'IMPORT failed'}`,{
+                    `${pubkey}... status: ${data.status} `,
+                    `IMPORT failed, message: ${data.message}`,{
                     timeOut: 20000,
                   });
                 }

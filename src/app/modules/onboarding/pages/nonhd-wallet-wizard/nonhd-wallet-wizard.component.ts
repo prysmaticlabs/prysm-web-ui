@@ -10,14 +10,15 @@ import { PasswordValidator } from 'src/app/modules/core/validators/password.vali
 
 import {
   CreateWalletRequest,
+  ImportKeystoresData,
   ImportKeystoresRequest,
-  ImportSlashingProtectionRequest
+  ImportKeystoresResponse,
 } from 'src/app/proto/validator/accounts/v2/web_api';
 
 import { LANDING_URL } from 'src/app/modules/core/constants';
 import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
-import { templateJitUrl } from '@angular/compiler';
-import { ImportAccountsFormComponent } from 'src/app/modules/shared/components/import-accounts-form/import-accounts-form.component';
+import { ToastrService } from 'ngx-toastr';
+import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
 
 
 enum WizardState {
@@ -37,7 +38,6 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
 
   // View children.
   @ViewChild('stepper') stepper?: MatStepper;
-  @ViewChild('importAccounts') importAccounts: ImportAccountsFormComponent | undefined;
   @ViewChild('slashingProtection') slashingProtection: ImportProtectionComponent | undefined;
 
   constructor(
@@ -45,6 +45,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private router: Router,
     private walletService: WalletService,
+    private toastr: ToastrService,
   ) {}
 
   // Properties.
@@ -52,6 +53,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   states = WizardState;
   loading = false;
   isSmallScreen = false;
+  pubkeys: string[] = [];
 
   keystoresFormGroup = this.formBuilder.group({
     keystoresImported: this.formBuilder.array([], Validators.required) as FormArray
@@ -106,35 +108,24 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
       this.stepper?.next();
     }
   }
-  // logic was not intended to be so complicated...
-  // api takes in a list of keystores and a password instead of a list of keystore password pairs
-  // this goes through the logic of zipping the request as 1 request if the passwords are the same vs
-  // 2 requests if the passwords are different
-  // logic also on the import component
+
   private get importKeystores$(): Observable<any>{
     const keystoresImported: string[] = [];
-    let keystorePasswords: string[] = [];
+    const keystorePasswords: string[] = [];
+    const publicKeys: string[] = [];
     (this.keystoresFormGroup.controls['keystoresImported'] as FormArray).controls.forEach((keystore: AbstractControl) => {
+      publicKeys.push(keystore.get('pubkeyShort')?.value);
       keystoresImported.push(JSON.stringify(keystore.get('keystore')?.value));
       keystorePasswords.push(keystore.get('keystorePassword')?.value);
     });
-    if(this.importAccounts?.uniqueToggleFormControl.value){
-      const arrayOfRequests: Observable<any>[] = [];
-      keystoresImported.forEach((keystore: string, index: number) => {
-        const req: ImportKeystoresRequest = {
-          keystores_imported: [keystore],
-          keystores_password: keystorePasswords[index],
-        };
-        arrayOfRequests.push(this.walletService.importKeystores(req));
-      });
-      return zip(...arrayOfRequests);
-    } else {
-      const req: ImportKeystoresRequest = {
-        keystores_imported: keystoresImported,
-        keystores_password: keystorePasswords[0],
-      };
-      return this.walletService.importKeystores(req);
-    }
+    const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
+    this.pubkeys = publicKeys;
+    const req: ImportKeystoresRequest = {
+      keystores: keystoresImported,
+      passwords: keystorePasswords,
+      slashing_protection: slashingProtectionFile ? JSON.stringify(slashingProtectionFile) : null,
+    };
+    return this.walletService.importKeystores(req);
     
   }
 
@@ -148,29 +139,40 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     // We attempt to create a wallet followed by a call to
     // signup using the wallet's password in the validator client.
-
-    const observablesToExecute: Observable<any>[] = [this.importKeystores$];
-   
-    const slashingProtectionFile = this.slashingProtection?.importedFiles[0];
-    if(slashingProtectionFile ){
-      const reqImportSlashing: ImportSlashingProtectionRequest = {
-        slashing_protection_json: JSON.stringify(slashingProtectionFile)
-      }
-      observablesToExecute.push(this.walletService.importSlashingProtection(reqImportSlashing));
-    }
-  
     // a delay after the create wallet as it is non blocking once the wallet is created.
     // the import keystores request requires a keymanager to be set which is retreived from the wallet.
     // if the import keystores request is called too soon after wallet creation the keymanager may not yet be set.
     this.walletService.createWallet(request).pipe(
       delay(2000),
       switchMap((resp) => {
-        return zip(...observablesToExecute).pipe(
-          switchMap((res) => {
+        return this.importKeystores$.pipe(
+          tap((res: ImportKeystoresResponse) => {
+            // will redirect as long as it is a 200 response.
+            // if the response is not a 200 it will be handled by the catchError.
+            // validator keys may not successfully be imported despite a 200 response.
+            // data response will be printed to console.
             if(res){
               this.router.navigate([LANDING_URL]);
+              console.log(res);
+              res.data.forEach((data:ImportKeystoresData,index:number) => {
+                let pubkey = this.pubkeys[index]??'undefined pubkey';
+                if(data.status === 'IMPORTED'){
+                  this.toastr.success(
+                    `${pubkey}... IMPORTED`,
+                  );
+                } else if ( data.status === 'DUPLICATE'){
+                  this.toastr.warning(
+                    `${pubkey}... DUPLICATE, no action taken`,
+                  );
+                }else {
+                  this.toastr.error(
+                    `${pubkey}... status: ${data.status} `,
+                    `IMPORT failed, message: ${data.message}`,{
+                    timeOut: 20000,
+                  });
+                }
+              });
             }
-            return res;
           })
         );
       }),

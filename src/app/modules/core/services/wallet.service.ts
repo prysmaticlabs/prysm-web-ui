@@ -82,7 +82,7 @@ export class WalletService {
     request: ImportKeystoresRequest
   ): Observable<ImportKeystoresResponse> {
     return this.http.post<ImportKeystoresResponse>(
-      `${this.apiUrl}/wallet/keystores/import`,
+      `${this.keymanagerApiUrl}`,
       request
     );
   }

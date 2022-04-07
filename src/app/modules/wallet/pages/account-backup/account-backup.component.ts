@@ -70,8 +70,8 @@ export class AccountBackupComponent extends BaseComponent {
       tap((response) => {
         // convert base64 string to byte array
         const blob = new Blob([this.convertBase64ToBytes(response.zip_file)], {type:"application/zip"});
-        const d = new Date();
-        const fileName = `account-backup_${d.toDateTimeString()}.zip`;
+        const d = new Date().toJSON().slice(0,10);
+        const fileName = `account-backup_${d}.zip`;
         FileSaver.saveAs(blob, fileName);
         this.notificationService.notifySuccess(
           `Successfully backed up ${request.public_keys.length} accounts`

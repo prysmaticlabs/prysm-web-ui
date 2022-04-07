@@ -5,7 +5,6 @@ import { AccountsComponent } from './pages/accounts/accounts.component';
 import { ImportComponent } from './pages/import/import.component';
 import { WalletDetailsComponent } from './pages/wallet-details/wallet-details.component';
 import { WalletComponent } from './wallet.component';
-import { SlashingProtectionComponent } from './pages/slashing-protection/slashing-protection.component';
 import { AccountBackupComponent } from './pages/account-backup/account-backup.component';
 
 const routes: Routes = [

@@ -1,12 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { catchError, tap } from 'rxjs/operators';
 import { DropFile, DropFileAction, ImportDropzoneComponent } from 'src/app/modules/shared/components/import-dropzone/import-dropzone.component';
-import { ImportSlashingProtectionRequest } from 'src/app/proto/validator/accounts/v2/web_api';
-import { WalletService } from '../../../core/services/wallet.service';
-import { EIPSlashingProtectionFormat } from '../../../wallet/pages/slashing-protection/model/interface';
+import { EIPSlashingProtectionFormat } from './model/interface';
 import { FileStatus } from '../../services/enums';
-import { NotificationService } from '../../services/notification.service';
 import { BaseComponent } from '../base.component';
 
 @Component({
@@ -20,8 +16,6 @@ export class ImportProtectionComponent extends BaseComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private walletService: WalletService,
-    private notificationService: NotificationService
   ) {
     super();
   }

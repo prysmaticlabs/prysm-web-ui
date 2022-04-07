@@ -1,6 +1,6 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -30,7 +30,7 @@ describe('ImportComponent', () => {
       ],
       imports: [
         RouterTestingModule,
-        SharedModule,
+        SharedModule.forRoot(),
         FormsModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
@@ -60,7 +60,7 @@ describe('ImportComponent', () => {
 
   it('should call the keystores import function upon form submit', () => {
     const keystoresImportedData = ['a', 'b'];
-    const keystoresPassword = 'Passw0rdz2020$';
+    const keystoresPasswords = ['Passw0rdz2020$', 'Passw0rdz2020$'];
 
     const keysImportedForm = fb.group({
       keystoresImported:fb.array([
@@ -70,7 +70,7 @@ describe('ImportComponent', () => {
           hide: true,
           fileName: '',
           keystore: keystoresImportedData[0],
-          keystorePassword: keystoresPassword
+          keystorePassword: keystoresPasswords[0]
         }),
         fb.group({
           pubkeyShort: '',
@@ -78,7 +78,7 @@ describe('ImportComponent', () => {
           hide: true,
           fileName: '',
           keystore: keystoresImportedData[1],
-          keystorePassword: keystoresPassword
+          keystorePassword: keystoresPasswords[1]
         })
       ])
     });
@@ -88,8 +88,9 @@ describe('ImportComponent', () => {
     component.submit();
     fixture.detectChanges();
     const req: ImportKeystoresRequest = {
-      keystores_imported: keystoresImportedData.map(keystore => JSON.stringify(keystore)),
-      keystores_password: keystoresPassword,
+      keystores: keystoresImportedData.map(keystore => JSON.stringify(keystore)),
+      passwords: keystoresPasswords,
+      slashing_protection: null
     };
     expect(service.importKeystores).toHaveBeenCalledWith(req);
   });

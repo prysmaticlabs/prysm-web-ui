@@ -152,19 +152,28 @@ export interface ImportKeystoresRequest {
   /**
    *  JSON encoded keystore list.
    */
-  keystores_imported: string[];
+  keystores: string[];
   /**
    *  Password to unlock the keystores.
    */
-  keystores_password: string;
+  passwords: string[];
+  slashing_protection: string | null;
 }
 
 export interface ImportKeystoresResponse {
   /**
    *  Public keys successfully imported.
    */
-  imported_public_keys: string[];
+  
+  data: ImportKeystoresData[];
+  
 }
+
+export interface ImportKeystoresData {
+  status: string;
+  message: string;
+}
+
 
 export interface ValidateKeystoresRequest {
   /**
@@ -203,20 +212,6 @@ export interface AccountVoluntaryExitRequest {
    * The key from the accounts that will be removed
    */
   public_keys: string[];
-}
-
-export interface DeleteAccountsRequest {
-  /**
-   *  Public keys to delete.
-   */
-  public_keys_to_delete: string[];
-}
-
-export interface ExportSlashingProtectionResponse {
-  /**
-   * The slashing protection json
-   */
-  file: string;
 }
 
 export interface ImportSlashingProtectionRequest {

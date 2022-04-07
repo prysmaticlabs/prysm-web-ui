@@ -33,7 +33,7 @@ describe('NonhdWalletWizardComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        SharedModule,
+        SharedModule.forRoot(),
         HttpClientTestingModule,
       ],
       providers: [

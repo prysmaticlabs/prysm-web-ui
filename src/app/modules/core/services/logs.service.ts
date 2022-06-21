@@ -29,7 +29,7 @@ export class LogsService {
     return stream(`${this.apiUrl}/health/logs/validator/stream`).pipe(
       map((obj: any) =>  obj ? obj.logs : ''),
       mergeAll(),
-    );
+    ) as Observable<string>;
   }
 
   beaconLogs(): Observable<string> {
@@ -46,6 +46,6 @@ export class LogsService {
     return stream(`${this.apiUrl}/health/logs/beacon/stream`).pipe(
       map((obj: any) => obj ? obj.logs : ''),
       mergeAll(),
-    );
+    ) as Observable<string>;
   }
 }

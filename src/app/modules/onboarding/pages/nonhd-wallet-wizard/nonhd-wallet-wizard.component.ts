@@ -18,7 +18,7 @@ import {
 import { LANDING_URL } from 'src/app/modules/core/constants';
 import { ImportProtectionComponent } from 'src/app/modules/shared/components/import-protection/import-protection.component';
 import { ToastrService } from 'ngx-toastr';
-import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
+
 
 
 enum WizardState {
@@ -82,7 +82,7 @@ export class NonhdWalletWizardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next();
+    this.destroyed$.next(undefined);
     this.destroyed$.complete();
   }
 

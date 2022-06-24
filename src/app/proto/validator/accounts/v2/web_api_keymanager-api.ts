@@ -26,3 +26,7 @@ export interface FeeRecipientData {
     pubkey: string,
     ethAddress: string
 }
+
+export interface SetFeeRecipientRequest {
+    ethaddress: string
+}

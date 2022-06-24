@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BEACONCHAIN_EXPLORER, LANDING_URL } from 'src/app/modules/core/constants';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { AccountDeleteComponent } from '../account-delete/account-delete.component';
+import { EditFeeRecipientComponent } from '../fee-recipient/fee-recipient-edit.component';
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
 
 
@@ -58,10 +59,15 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
   ];
   menuItems: MenuItem[] = [
     {
+      name: 'Edit Fee Recipient',
+      icon: 'open_in_new',
+      action: this.openEditFeeRecipientDialog.bind(this),
+    },
+    {
       name: 'View On Beaconcha.in Explorer',
       icon: 'open_in_new',
       action: this.openExplorer.bind(this),
-    },
+    }
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -117,7 +123,8 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
     }
   }
 
-  private openExplorer(publicKey: string): void {
+  private openExplorer(row: TableData): void {
+    let publicKey = row.publicKey
     if (window !== undefined) {
       let hex = base64ToHex(publicKey);
       hex = hex.replace('0x', '');
@@ -129,6 +136,13 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
     const d = this.dialog.open(AccountDeleteComponent, {
       width: '600px',
       data: [publicKey],
+    });
+  }
+
+  private openEditFeeRecipientDialog(row: TableData): void {
+    const d = this.dialog.open(EditFeeRecipientComponent, {
+      width: '600px',
+      data: {publickey:row.publicKey,ethaddress:row.feeRecipient},
     });
   }
 }

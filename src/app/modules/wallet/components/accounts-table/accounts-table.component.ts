@@ -16,6 +16,7 @@ export interface TableData {
   accountName: string;
   index: number;
   publicKey: string;
+  feeRecipient: string;
   balance: string;
   effectiveBalance: string;
   status: string;
@@ -47,6 +48,7 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
     'accountName',
     'publicKey',
     'index',
+    'feeRecipient',
     'balance',
     'effectiveBalance',
     'activationEpoch',

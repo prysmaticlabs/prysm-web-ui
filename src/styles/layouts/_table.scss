@@ -9,6 +9,19 @@ table.mat-table {
     justify-content: center;
   }
 
+  .mat-column-correctlyVotedSource {
+    max-width: 70px;
+  }
+  .mat-column-correctlyVotedTarget {
+    max-width: 50px;
+  }
+  .mat-column-correctlyVotedHead {
+    max-width: 50px;
+  }
+  .mat-column-gains{
+    max-width: 75px;
+  }
+
   th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
     padding-left: 12px;
     padding-right: 20px;

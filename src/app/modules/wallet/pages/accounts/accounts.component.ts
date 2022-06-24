@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { BigNumber } from 'ethers';
-import { BehaviorSubject, Observable, throwError, zip } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of, throwError, zip } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -34,6 +34,7 @@ import { formatUnits } from 'ethers/lib/utils';
 import { UserService } from 'src/app/modules/shared/services/user.service';
 import { BaseComponent } from '../../../shared/components/base.component';
 import { filter, takeUntil } from 'rxjs/operators';
+import { FeeRecipientData, ListFeeRecipientResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
 
 @Component({
   selector: 'app-accounts',
@@ -74,18 +75,18 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         zipMap((accs) =>
           accs.accounts?.map((account) => account.validating_public_key)
         ),
-        switchMap(([accountsResponse, pubKeys]) =>
-          // Combine the list of validators and their balances to display in the table.
-          zip(
-            this.validatorService.validatorList(pubKeys, 0, pubKeys.length),
-            this.validatorService.balances(pubKeys, 0, pubKeys.length)
-          ).pipe(
-            map(([validators, balances]) =>
-              // Transform the data into a pretty format for our table.
-              this.transformTableData(accountsResponse, validators, balances)
-            )
-          )
-        )
+        switchMap(([accountsResponse, pubKeys]) =>{
+          return zip(
+                this.validatorService.validatorList(pubKeys, 0, pubKeys.length),
+                this.validatorService.balances(pubKeys, 0, pubKeys.length),
+                zip(this.feeRecipients$(pubKeys))
+              ).pipe(
+                map(([validators, balances,feeRecipients]) =>{
+                  // Transform the data into a pretty format for our table.
+                  return this.transformTableData(accountsResponse, validators, balances, feeRecipients.map(f=>f.data))
+                })
+              )
+        }),
       );
     }),
     share(), // Share the observable across all subscribers.
@@ -122,17 +123,25 @@ export class AccountsComponent extends BaseComponent implements OnInit {
     this.userService.changeAccountListPerPage(event.pageSize);
     this.pageChanged$.next(event);
   }
+  
+  private feeRecipients$(pubkeys:string[]):Observable<ListFeeRecipientResponse>[]{
+    return pubkeys.map(key=>this.validatorService.getFeeRecipient(key));
+  }
 
   private transformTableData(
     accountsResponse: ListAccountsResponse,
     validators: Validators,
-    balances: ValidatorBalances
+    balances: ValidatorBalances,
+    feeRecipients: FeeRecipientData[]
   ): MatTableDataSource<TableData> {
     this.totalData = accountsResponse.total_size;
     const tableData = accountsResponse.accounts.map((acc, idx) => {
       let val = validators?.validator_list?.find(
         (v) => acc.validating_public_key === v?.validator?.public_key
       );
+    
+      let feeRecipient = feeRecipients.find(data=> data.pubkey === base64ToHex(acc.validating_public_key));
+      
       if (!val) {
         val = {
           index: 0,
@@ -171,6 +180,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         exitEpoch: val?.validator?.exit_epoch,
         lowBalance: effectiveBalance.toNumber() < 32,
         options: acc.validating_public_key,
+        feeRecipient: feeRecipient?.ethAddress ,
       } as TableData;
     });
     const dataSource = new MatTableDataSource(tableData);

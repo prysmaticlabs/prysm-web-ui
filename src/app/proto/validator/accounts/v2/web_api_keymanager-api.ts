@@ -17,3 +17,12 @@ export interface DeleteAccountsData {
     status: string,
     message: string
 }
+
+export interface ListFeeRecipientResponse {
+    data: FeeRecipientData
+}
+
+export interface FeeRecipientData {
+    pubkey: string,
+    ethAddress: string
+}

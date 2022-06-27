@@ -192,7 +192,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         accountName: acc?.account_name,
         index: val?.index ? val.index : 'n/a',
         publicKey: acc.validating_public_key,
-        balance: bal+Math.floor(Math.random() *10),
+        balance: bal,
         effectiveBalance: effectiveBalance.toString(),
         status,
         activationEpoch: val?.validator?.activation_epoch,

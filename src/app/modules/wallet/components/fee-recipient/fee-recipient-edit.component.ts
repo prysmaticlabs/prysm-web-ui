@@ -1,15 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as FileSaver from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
-import { throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
-import { inherits } from 'util';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
-import { TableData } from '../accounts-table/accounts-table.component';
 
 @Component({
   selector: 'fee-recipient-edit',
@@ -68,6 +63,7 @@ export class EditFeeRecipientComponent implements OnInit {
           this.toastr.success(
             `${base64ToHex(this.publicKey).substring(0, 10)}... updated fee recipient`,
           );
+          this.validatorService.refreshTableDataTrigger$.next(true);
           this.ref.close();
         }, (error) => {
           this.toastr.error(

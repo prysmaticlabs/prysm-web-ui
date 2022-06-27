@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, zip } from 'rxjs';
+import { Observable, Subject, zip } from 'rxjs';
 import { map, share, switchMap } from 'rxjs/operators';
 import {
   ValidatorBalances, Validators, ValidatorSummaryResponse
@@ -26,6 +26,8 @@ export class ValidatorService {
   ) { }
   private apiUrl = this.environmenter.env.validatorEndpoint;
   private keymanagerUrl = this.environmenter.env.keymanagerEndpoint;
+
+  refreshTableDataTrigger$ = new Subject<Boolean>();
 
   version$: Observable<VersionResponse> = this.http.get<VersionResponse>(`${this.apiUrl}/health/version`).pipe(
     share(),

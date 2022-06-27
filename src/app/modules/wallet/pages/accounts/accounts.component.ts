@@ -65,36 +65,43 @@ export class AccountsComponent extends BaseComponent implements OnInit {
   selection = new SelectionModel<TableData>(true /* allow multiselect */, []);
   tableDataSource$: Observable<
     MatTableDataSource<TableData>
-  > = this.pageChanged$.pipe(
-    // Debounce to prevent spamming the paginator component.
-    tap(() => (this.loading = true)),
-    debounceTime(300),
-    switchMap((ev: PageEvent) => {
-      return this.walletService.accounts(ev.pageIndex, ev.pageSize).pipe(
-        // Extract the validating public keys.
-        zipMap((accs) =>
-          accs.accounts?.map((account) => account.validating_public_key)
-        ),
-        switchMap(([accountsResponse, pubKeys]) =>{
-          return zip(
-                this.validatorService.validatorList(pubKeys, 0, pubKeys.length),
-                this.validatorService.balances(pubKeys, 0, pubKeys.length),
-                zip(this.feeRecipients$(pubKeys))
-              ).pipe(
-                map(([validators, balances,feeRecipients]) =>{
-                  // Transform the data into a pretty format for our table.
-                  return this.transformTableData(accountsResponse, validators, balances, feeRecipients.map(f=>f.data))
-                })
-              )
-        }),
-      );
-    }),
-    share(), // Share the observable across all subscribers.
-    tap(() => (this.loading = false)),
-    catchError((err) => {
-      return throwError(err);
-    })
-  );
+  > = this.getTableData$();
+
+  getTableData$():Observable<
+  MatTableDataSource<TableData>
+> {
+    return this.pageChanged$.pipe(
+      // Debounce to prevent spamming the paginator component.
+      tap(() => (this.loading = true)),
+      debounceTime(300),
+      switchMap((ev: PageEvent) => {
+        return this.walletService.accounts(ev.pageIndex, ev.pageSize).pipe(
+          // Extract the validating public keys.
+          zipMap((accs) =>
+            accs.accounts?.map((account) => account.validating_public_key)
+          ),
+          switchMap(([accountsResponse, pubKeys]) =>{
+            return zip(
+                  this.validatorService.validatorList(pubKeys, 0, pubKeys.length),
+                  this.validatorService.balances(pubKeys, 0, pubKeys.length),
+                  zip(this.feeRecipients$(pubKeys))
+                ).pipe(
+                  map(([validators, balances,feeRecipients]) =>{
+                    // Transform the data into a pretty format for our table.
+                    return this.transformTableData(accountsResponse, validators, balances, feeRecipients.map(f=>f.data))
+                  })
+                )
+          }),
+        );
+      }),
+      share(), // Share the observable across all subscribers.
+      tap(() => (this.loading = false)),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+  }
+
   ngOnInit(): void {
     this.userService.user$
       .pipe(
@@ -106,6 +113,12 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         })
       )
       .subscribe();
+    
+      this.validatorService.refreshTableDataTrigger$.subscribe(res=>{
+        if(res){
+          this.refreshData();
+        }
+      });
   }
   applySearchFilter(
     event: Event,
@@ -122,6 +135,12 @@ export class AccountsComponent extends BaseComponent implements OnInit {
   handlePageEvent(event: PageEvent): void {
     this.userService.changeAccountListPerPage(event.pageSize);
     this.pageChanged$.next(event);
+    this.refreshData();
+  }
+
+  refreshData(): void{
+    console.log("refresh triggered");
+    this.tableDataSource$ = this.getTableData$();
   }
   
   private feeRecipients$(pubkeys:string[]):Observable<ListFeeRecipientResponse>[]{
@@ -173,7 +192,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         accountName: acc?.account_name,
         index: val?.index ? val.index : 'n/a',
         publicKey: acc.validating_public_key,
-        balance: bal,
+        balance: bal+Math.floor(Math.random() *10),
         effectiveBalance: effectiveBalance.toString(),
         status,
         activationEpoch: val?.validator?.activation_epoch,

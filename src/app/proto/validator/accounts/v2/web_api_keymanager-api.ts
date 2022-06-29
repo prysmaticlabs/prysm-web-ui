@@ -24,7 +24,7 @@ export interface ListFeeRecipientResponse {
 
 export interface FeeRecipientData {
     pubkey: string,
-    ethAddress: string
+    ethaddress: string
 }
 
 export interface SetFeeRecipientRequest {

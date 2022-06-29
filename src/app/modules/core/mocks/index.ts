@@ -588,7 +588,7 @@ export const KeymanagerAPIMocks = {
     'GET':{
       data:{
         pubkey:"0xaadaf653799229200378369ee7d6d9fdbdcdc2788143ed44f1ad5f2367c735e83a37c5bb80d7fb917de73a61bbcf00c4",
-        ethAddress: "0xasdfsadfsfsfsdfsadfsdafsadfsadsdafasdf"
+        ethaddress: "0xasdfsadfsfsfsdfsadfsdafsadfsadsdafasdf"
       }
     } as ListFeeRecipientResponse,
     'POST':{},

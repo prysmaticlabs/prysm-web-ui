@@ -7,6 +7,7 @@ import {
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { VersionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { ListFeeRecipientResponse, SetFeeRecipientRequest } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
+import { base64ToHex } from '../utils/hex-util';
 import { EnvironmenterService } from './environmenter.service';
 import { WalletService } from './wallet.service';
 
@@ -62,7 +63,7 @@ export class ValidatorService {
   }
 
   getFeeRecipient(publicKey:string): Observable< ListFeeRecipientResponse>{
-    return this.http.get<ListFeeRecipientResponse>(`${this.keymanagerUrl}/validator/${publicKey}/feerecipient`)
+    return this.http.get<ListFeeRecipientResponse>(`${this.keymanagerUrl}/validator/${base64ToHex(publicKey)}/feerecipient`)
   }
 
   setFeeRecipient(publicKey:string,request: SetFeeRecipientRequest){

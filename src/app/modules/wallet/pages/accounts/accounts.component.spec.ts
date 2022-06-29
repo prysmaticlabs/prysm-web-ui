@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MockComponent, MockService } from 'ng-mocks';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { ListAccountsResponse, Account } from 'src/app/proto/validator/accounts/v2/web_api';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
@@ -17,7 +17,7 @@ describe('AccountsComponent', () => {
   let component: AccountsComponent;
   let fixture: ComponentFixture<AccountsComponent>;
   let service: WalletService = MockService(WalletService);
-  const valService: ValidatorService = MockService(ValidatorService);
+  let valService: ValidatorService = MockService(ValidatorService);
   service.accounts = () => {
       return of({
       accounts: [{
@@ -28,6 +28,7 @@ describe('AccountsComponent', () => {
       }] as Account[],
     } as ListAccountsResponse);
   };
+  valService.refreshTableDataTrigger$ = new Subject<Boolean>();
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -47,6 +48,7 @@ describe('AccountsComponent', () => {
     })
       .compileComponents();
     service = TestBed.inject(WalletService);
+    valService = TestBed.inject(ValidatorService);
   }));
 
   beforeEach(() => {

@@ -108,6 +108,13 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
     });
   }
 
+  copyFeeRecipientToClipboard(feeRecipient: string):void {
+    this.clipboard.copy(feeRecipient);
+    this.snackBar.open(`Copied ${feeRecipient.slice(0, 16)}... to Clipboard`, 'Close', {
+      duration: 4000,
+    });
+  }
+
   formatStatusColor(validatorStatus: string): string {
     switch (validatorStatus.trim().toLowerCase()) {
       case 'active':

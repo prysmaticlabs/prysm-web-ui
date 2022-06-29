@@ -160,7 +160,6 @@ export class AccountsComponent extends BaseComponent implements OnInit {
       );
     
       let feeRecipient = feeRecipients.find(data=> data.pubkey === base64ToHex(acc.validating_public_key));
-      
       if (!val) {
         val = {
           index: 0,
@@ -199,7 +198,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         exitEpoch: val?.validator?.exit_epoch,
         lowBalance: effectiveBalance.toNumber() < 32,
         options: acc.validating_public_key,
-        feeRecipient: feeRecipient?.ethAddress ,
+        feeRecipient: feeRecipient?.ethaddress ,
       } as TableData;
     });
     const dataSource = new MatTableDataSource(tableData);

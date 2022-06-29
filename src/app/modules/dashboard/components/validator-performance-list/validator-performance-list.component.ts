@@ -93,7 +93,7 @@ export class ValidatorPerformanceListComponent
               res.forEach((r)=>{
                 let item = list.find((obj)=>base64ToHex(obj.publicKey) === r.data.pubkey)
                 if(item){
-                  item.feeRecipient = r.data.ethAddress
+                  item.feeRecipient = r.data.ethaddress
                 }
               })
               return list;

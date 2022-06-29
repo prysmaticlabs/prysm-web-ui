@@ -7,7 +7,7 @@ import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 
 @Component({
-  selector: 'fee-recipient-edit',
+  selector: 'app-fee-recipient-edit',
   templateUrl: './fee-recipient-edit.component.html',
 })
 export class EditFeeRecipientComponent implements OnInit {

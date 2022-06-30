@@ -21,6 +21,7 @@ import { AccountDeleteComponent } from './components/account-delete/account-dele
 import { WalletComponent } from './wallet.component';
 import { AccountsFormSelectionComponent } from './components/accounts-form-selection/accounts-form-selection.component';
 import { AccountBackupComponent } from './pages/account-backup/account-backup.component';
+import { EditFeeRecipientComponent } from './components/fee-recipient/fee-recipient-edit.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AccountBackupComponent } from './pages/account-backup/account-backup.co
     WalletComponent,
     AccountBackupComponent,
     AccountsFormSelectionComponent,
+    EditFeeRecipientComponent
   ],
   imports: [
     CommonModule,

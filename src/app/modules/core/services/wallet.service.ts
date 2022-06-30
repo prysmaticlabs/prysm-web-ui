@@ -27,7 +27,7 @@ export class WalletService {
   ) {}
 
   private apiUrl = this.environmenter.env.validatorEndpoint;
-  private keymanagerApiUrl = this.environmenter.env.keymanagerEndpoint;
+  private keymanagerApiUrl = this.environmenter.env.keymanagerEndpoint+"/keystores";
 
   // Observables.
   walletConfig$: Observable<WalletResponse> = this.http

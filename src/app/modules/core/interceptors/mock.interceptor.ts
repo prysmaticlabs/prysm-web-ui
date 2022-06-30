@@ -13,6 +13,7 @@ import { EnvironmenterService } from '../services/environmenter.service';
 
 export const VALIDATOR_API_PREFIX = '/v2/validator';
 export const KEYMANAGER_API_PREFIX = '/eth/v1/keystores';
+export const KEYMANAGER_API_VALIDATOR_PREFIX = '/eth/v1/validator';
 
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
@@ -28,6 +29,16 @@ export class MockInterceptor implements HttpInterceptor {
         status: 200,
         body: mock[request.method as keyof RestObject],
       }));
+    }
+    if (this.contains(request.url, KEYMANAGER_API_VALIDATOR_PREFIX )) {
+      if(this.contains(request.url,'feerecipient')){
+        let mock = KeymanagerAPIMocks['/eth/v1/validator/{pubkey}/feerecipient'];
+        return of(new HttpResponse({
+          status: 200,
+          body: mock[request.method as keyof RestObject],
+        }));
+      }
+     
     }
     if (this.contains(request.url, VALIDATOR_API_PREFIX)) {
       endpoint = this.extractEndpoint(request.url, VALIDATOR_API_PREFIX);

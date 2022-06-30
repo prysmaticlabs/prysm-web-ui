@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, zip } from 'rxjs';
+import { Observable, Subject, zip } from 'rxjs';
 import { map, share, switchMap } from 'rxjs/operators';
 import {
   ValidatorBalances, Validators, ValidatorSummaryResponse
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { VersionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
+import { ListFeeRecipientResponse, SetFeeRecipientRequest } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
+import { base64ToHex } from '../utils/hex-util';
 import { EnvironmenterService } from './environmenter.service';
 import { WalletService } from './wallet.service';
 
@@ -24,6 +26,9 @@ export class ValidatorService {
     private environmenter: EnvironmenterService,
   ) { }
   private apiUrl = this.environmenter.env.validatorEndpoint;
+  private keymanagerUrl = this.environmenter.env.keymanagerEndpoint;
+
+  refreshTableDataTrigger$ = new Subject<Boolean>();
 
   version$: Observable<VersionResponse> = this.http.get<VersionResponse>(`${this.apiUrl}/health/version`).pipe(
     share(),
@@ -55,6 +60,18 @@ export class ValidatorService {
   ): Observable<Validators> {
     const params = this.formatURIParameters(publicKeys, pageIndex, pageSize);
     return this.http.get<Validators>(`${this.apiUrl}/beacon/validators${params}`);
+  }
+
+  getFeeRecipient(publicKey:string): Observable< ListFeeRecipientResponse>{
+    return this.http.get<ListFeeRecipientResponse>(`${this.keymanagerUrl}/validator/${base64ToHex(publicKey)}/feerecipient`)
+  }
+
+  setFeeRecipient(publicKey:string,request: SetFeeRecipientRequest){
+    return this.http.post(`${this.keymanagerUrl}/validator/${publicKey}/feerecipient`,request)
+  }
+
+  deleteFeeRecipient(publicKey:string){
+    return this.http.delete(`${this.keymanagerUrl}/validator/${publicKey}/feerecipient`)
   }
 
   balances(

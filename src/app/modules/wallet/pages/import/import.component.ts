@@ -67,11 +67,11 @@ export class ImportComponent {
               console.log(res);
               res.data.forEach((data:ImportKeystoresData,index:number) => {
                 let pubkey = this.pubkeys[index]??'undefined pubkey';
-                if(data.status === 'IMPORTED'){
+                if(data.status && data.status.toUpperCase() === 'IMPORTED'){
                   this.toastr.success(
                     `${pubkey}... IMPORTED`,
                   );
-                } else if ( data.status === 'DUPLICATE'){
+                } else if ( data.status && data.status.toUpperCase() === 'DUPLICATE'){
                   this.toastr.warning(
                     `${pubkey}... DUPLICATE, no action taken`,
                   );

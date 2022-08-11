@@ -72,7 +72,7 @@ export class AccountDeleteComponent {
             }
             resp.data.forEach((data:DeleteAccountsData,index:number) => {
               let pubkey = hexKeys[index]?hexKeys[index].substring(0, 10):'undefined pubkey';
-              if(data.status === 'DELETED'){
+              if(data.status && data.status.toUpperCase() === 'DELETED'){
                 this.toastr.success(
                   `${pubkey}... Deleted`,
                 );

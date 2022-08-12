@@ -1,0 +1,78 @@
+<form [formGroup]="confirmGroup" (ngSubmit)="confirm()">
+    <mat-dialog-content>
+        <div class="my-6">
+            <mat-chip-list>
+                <mat-chip>
+                    {{publicKey | base64tohex | slice:0:16}}...
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+        <div class="mb-6">
+            <section>
+                <mat-select formControlName="options">
+                    <mat-option value="DELETE">
+                        DELETE GAS LIMIT
+                    </mat-option>
+                    <mat-option value="SET">
+                        SET NEW GAS LIMIT
+                    </mat-option>
+                </mat-select>
+            </section>
+         </div>
+        <mat-form-field appearance="outline" *ngIf="confirmGroup.controls.options.value === 'SET'" class="pb-5">
+            <mat-label>Suggested Gas Limit ( used for external builder only )</mat-label>
+            <input
+                matInput
+                formControlName="gaslimit"
+                [placeholder]="data.gasLimit"
+                name="gaslimit"
+                type="text"
+                />
+            <mat-hint>
+                <span>
+                    measured in GWEI
+                </span>
+            </mat-hint>
+            <mat-error
+                *ngIf="confirmGroup.controls.confirmation.hasError('required')">
+                Gas Limit is required
+            </mat-error>
+        </mat-form-field>
+        <div class="mb-6 text-base text-white leading-snug" *ngIf="confirmGroup.controls.options.value !== ''">
+            Type in the words <i>"agree"</i> to confirm update of your Gas Limit.
+            <p class="text-error">WARN: Gas Limit is a suggested limit to move towards for the custom builder. Update will be reflected at start of epoch </p>
+        </div>
+        <mat-form-field appearance="outline" *ngIf="confirmGroup.controls.options.value !== ''">
+            <mat-label>Confirmation Text</mat-label>
+            <input
+                matInput
+                formControlName="confirmation"
+                placeholder="Type in agree"
+                name="confirmation"
+                type="text"
+                />
+            <mat-hint>
+                <span>
+                    Type <i>'agree'</i> if you want to delete the selected keys
+                </span>
+            </mat-hint>
+            <mat-error
+                *ngIf="confirmGroup.controls.confirmation.hasError('required')">
+                Confirmation text is required
+            </mat-error>
+            <mat-error
+                *ngIf="confirmGroup.controls.confirmation.hasError('incorectValue')">
+                You must type 'agree'
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <div class="flex justify-end w-100">
+            <button type="button" (click)="cancel()" mat-raised-button
+                color="accent">Cancel</button>
+            <button mat-raised-button
+                [disabled]="confirmGroup.invalid || !publicKey"
+                color="primary">Confirm</button>
+        </div>
+    </mat-dialog-actions>
+</form>

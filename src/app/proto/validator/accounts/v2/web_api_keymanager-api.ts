@@ -30,3 +30,7 @@ export interface FeeRecipientData {
 export interface SetFeeRecipientRequest {
     ethaddress: string
 }
+
+export interface setGasLimitRequest {
+    gas_limit: string
+}

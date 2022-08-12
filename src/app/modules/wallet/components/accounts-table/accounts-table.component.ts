@@ -9,6 +9,7 @@ import { BEACONCHAIN_EXPLORER, LANDING_URL } from 'src/app/modules/core/constant
 import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { AccountDeleteComponent } from '../account-delete/account-delete.component';
 import { EditFeeRecipientComponent } from '../fee-recipient/fee-recipient-edit.component';
+import { EditGasLimitComponent } from '../gas-limit/gas-limit-edit.component';
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
 
 
@@ -18,6 +19,7 @@ export interface TableData {
   index: number;
   publicKey: string;
   feeRecipient: string;
+  gasLimit: string;
   balance: string;
   effectiveBalance: string;
   status: string;
@@ -62,6 +64,11 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
       name: 'Edit Fee Recipient',
       icon: 'open_in_new',
       action: this.openEditFeeRecipientDialog.bind(this),
+    },
+    {
+      name: 'Edit Gas Limit',
+      icon: 'open_in_new',
+      action: this.openEditGasLimitDialog.bind(this),
     },
     {
       name: 'View On Beaconcha.in Explorer',
@@ -150,6 +157,13 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
     const d = this.dialog.open(EditFeeRecipientComponent, {
       width: '600px',
       data: {publickey:row.publicKey,ethaddress:row.feeRecipient},
+    });
+  }
+
+  private openEditGasLimitDialog(row: TableData):void {
+    const d = this.dialog.open(EditGasLimitComponent, {
+      width: '600px',
+      data: {publickey:row.publicKey,ethaddress:row.gasLimit},
     });
   }
 }

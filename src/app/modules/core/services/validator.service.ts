@@ -6,7 +6,7 @@ import {
   ValidatorBalances, Validators, ValidatorSummaryResponse
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { VersionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
-import { ListFeeRecipientResponse, SetFeeRecipientRequest } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
+import { ListFeeRecipientResponse, SetFeeRecipientRequest, setGasLimitRequest } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
 import { base64ToHex } from '../utils/hex-util';
 import { EnvironmenterService } from './environmenter.service';
 import { WalletService } from './wallet.service';
@@ -73,6 +73,15 @@ export class ValidatorService {
   deleteFeeRecipient(publicKey:string){
     return this.http.delete(`${this.keymanagerUrl}/validator/${publicKey}/feerecipient`)
   }
+
+  setGasLimit(publicKey:string,request: setGasLimitRequest){
+    return this.http.post(`${this.keymanagerUrl}/validator/${publicKey}/gas_limit`,request)
+  }
+
+  deleteGasLimit(publicKey:string){
+    return this.http.delete(`${this.keymanagerUrl}/validator/${publicKey}/gas_limit`)
+  }
+
 
   balances(
     publicKeys: string[],

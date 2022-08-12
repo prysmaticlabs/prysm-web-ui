@@ -22,6 +22,7 @@ import { WalletComponent } from './wallet.component';
 import { AccountsFormSelectionComponent } from './components/accounts-form-selection/accounts-form-selection.component';
 import { AccountBackupComponent } from './pages/account-backup/account-backup.component';
 import { EditFeeRecipientComponent } from './components/fee-recipient/fee-recipient-edit.component';
+import { EditGasLimitComponent } from './components/gas-limit/gas-limit-edit.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { EditFeeRecipientComponent } from './components/fee-recipient/fee-recipi
     WalletComponent,
     AccountBackupComponent,
     AccountsFormSelectionComponent,
-    EditFeeRecipientComponent
+    EditFeeRecipientComponent,
+    EditGasLimitComponent
   ],
   imports: [
     CommonModule,

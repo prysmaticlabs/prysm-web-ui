@@ -19,7 +19,6 @@ export interface TableData {
   index: number;
   publicKey: string;
   feeRecipient: string;
-  gasLimit: string;
   balance: string;
   effectiveBalance: string;
   status: string;
@@ -163,7 +162,7 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
   private openEditGasLimitDialog(row: TableData):void {
     const d = this.dialog.open(EditGasLimitComponent, {
       width: '600px',
-      data: {publickey:row.publicKey,ethaddress:row.gasLimit},
+      data: {publickey:row.publicKey},
     });
   }
 }

@@ -38,6 +38,13 @@ export class MockInterceptor implements HttpInterceptor {
           body: mock[request.method as keyof RestObject],
         }));
       }
+      if(this.contains(request.url,'gas_limit')){
+        let mock = KeymanagerAPIMocks['/eth/v1/validator/{pubkey}/gas_limit'];
+        return of(new HttpResponse({
+          status: 200,
+          body: mock[request.method as keyof RestObject],
+        }));
+      }
      
     }
     if (this.contains(request.url, VALIDATOR_API_PREFIX)) {

@@ -34,7 +34,7 @@ import { formatUnits } from 'ethers/lib/utils';
 import { UserService } from 'src/app/modules/shared/services/user.service';
 import { BaseComponent } from '../../../shared/components/base.component';
 import { filter, takeUntil } from 'rxjs/operators';
-import { FeeRecipientData, ListFeeRecipientResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
+import { FeeRecipientData, GasLimitData, GetGasLimitResponse, ListFeeRecipientResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
 
 @Component({
   selector: 'app-accounts',
@@ -88,7 +88,10 @@ export class AccountsComponent extends BaseComponent implements OnInit {
                 ).pipe(
                   map(([validators, balances,feeRecipients]) =>{
                     // Transform the data into a pretty format for our table.
-                    return this.transformTableData(accountsResponse, validators, balances, feeRecipients.map(f=>f.data))
+                    return this.transformTableData(accountsResponse, 
+                      validators, 
+                      balances, 
+                      feeRecipients.map(f=>f.data))
                   })
                 )
           }),
@@ -160,6 +163,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
       );
     
       let feeRecipient = feeRecipients.find(data=> data.pubkey === base64ToHex(acc.validating_public_key));
+    
       if (!val) {
         val = {
           index: 0,
@@ -198,7 +202,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         exitEpoch: val?.validator?.exit_epoch,
         lowBalance: effectiveBalance.toNumber() < 32,
         options: acc.validating_public_key,
-        feeRecipient: feeRecipient?.ethaddress ,
+        feeRecipient: feeRecipient?.ethaddress 
       } as TableData;
     });
     const dataSource = new MatTableDataSource(tableData);

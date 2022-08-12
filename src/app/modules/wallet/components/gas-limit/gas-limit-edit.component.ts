@@ -12,6 +12,7 @@ import { UtilityValidator } from '../../../onboarding/validators/utility.validat
 })
 export class EditGasLimitComponent implements OnInit {
   publicKey: string;
+  gasLimit: string = "";
   addPubkeyControl = this.formBuilder.control(null,[ Validators.pattern('^(0x){1}[A-Fa-f0-9]{96}$')]);
   confirmGroup: FormGroup = this.formBuilder.group({
     options: ['SET'],
@@ -24,9 +25,14 @@ export class EditGasLimitComponent implements OnInit {
     private validatorService: ValidatorService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    @Inject(MAT_DIALOG_DATA) private data: {publickey:string,ethaddress:string}
+    @Inject(MAT_DIALOG_DATA) private data: {publickey:string}
   ) {
     this.publicKey = this.data.publickey;
+    this.validatorService.getGasLimit(this.data.publickey).subscribe(gas => {
+      if(gas){
+        this.gasLimit = gas.data.gas_limit
+      }
+    });
   }
 
   ngOnInit(){

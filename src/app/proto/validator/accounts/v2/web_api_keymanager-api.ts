@@ -31,6 +31,14 @@ export interface SetFeeRecipientRequest {
     ethaddress: string
 }
 
-export interface setGasLimitRequest {
+export interface GetGasLimitResponse {
+    data: GasLimitData
+}
+
+export interface GasLimitData {
+    gas_limit: string
+}
+
+export interface SetGasLimitRequest {
     gas_limit: string
 }

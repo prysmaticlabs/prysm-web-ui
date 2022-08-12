@@ -9,7 +9,7 @@ import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import {
   Account, BackupAccountsResponse, BeaconStatusResponse, GenerateMnemonicResponse, ImportKeystoresResponse, InitializeAuthResponse, ListAccountsResponse, WalletResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
-import { DeleteAccountsResponse, ListFeeRecipientResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
+import { DeleteAccountsResponse, GetGasLimitResponse, ListFeeRecipientResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
 import { GWEI_PER_ETHER } from '../constants';
 
 
@@ -594,6 +594,15 @@ export const KeymanagerAPIMocks = {
         ethaddress: "0xasdfsadfsfsfsdfsadfsdafsadfsadsdafasdf"
       }
     } as ListFeeRecipientResponse,
+    'POST':{},
+    'DELETE':{},
+  }as RestObject,
+  '/eth/v1/validator/{pubkey}/gas_limit':{
+    'GET':{
+      data: {
+        gas_limit: "30000000"
+      }
+    } as GetGasLimitResponse,
     'POST':{},
     'DELETE':{},
   }as RestObject

@@ -36,6 +36,7 @@ export interface GetGasLimitResponse {
 }
 
 export interface GasLimitData {
+    pubkey: string,
     gas_limit: string
 }
 

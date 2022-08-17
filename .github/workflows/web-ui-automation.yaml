@@ -24,10 +24,6 @@ jobs:
       with: 
         node-version: "16.x"
         path: main
-    
-    - name: Exit if not on master branch
-      if: endsWith(github.ref, 'master') == false
-      run: exit -1
         
     - name: Install dependencies
       run: cd main && npm install

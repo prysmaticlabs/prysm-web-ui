@@ -66,24 +66,24 @@ export class ImportAccountsFormComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.valueChanges.pipe(
-      debounceTime(700),
-    ).subscribe(password =>{
-      if (this.keystorePasswordDefaultFormGroup.status === "VALID"){
-        console.log(password )
+    this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.statusChanges.subscribe(status =>{
+      console.log(this.keystoresImported)
+      if (status === "VALID"){
+        console.log(this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.value)
         this.keystoresImported.controls.forEach(fg => {
-          fg.get('keystorePassword')?.setValue(password);
+          fg.get('keystorePassword')?.setValue(this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.value);
           fg.get('keystorePassword')?.updateValueAndValidity();
           fg.get('keystorePassword')?.markAsPristine();
         });
       } else {
-        console.log(password )
+        console.log(this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.value)
         this.keystoresImported.controls.forEach(fg => {
           fg.get('keystorePassword')?.setValue("");
           fg.get('keystorePassword')?.updateValueAndValidity();
           fg.get('keystorePassword')?.markAsPristine();
         });
       }
+      console.log(this.keystorePasswordDefaultFormGroup)
     });
   }
 

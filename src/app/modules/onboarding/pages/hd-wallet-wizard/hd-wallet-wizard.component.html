@@ -53,7 +53,7 @@
                       color="primary"
                       mat-raised-button
                       (click)="createWallet($event)"
-                      [disabled]="walletPasswordFormGroup.invalid">
+                      [disabled]="!walletPasswordFormGroup.valid">
                       Create Wallet
                     </button>
                   </span>

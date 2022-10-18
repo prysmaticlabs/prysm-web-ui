@@ -24,7 +24,7 @@ export class KeystoreValidator {
     return null;
   }
 
-  correctPassword(): AsyncValidatorFn {
+  correctPassword(keystores?:string[]): AsyncValidatorFn {
     return (
       control: AbstractControl
     ): Observable<{ [key: string]: any } | null> => {
@@ -39,7 +39,7 @@ export class KeystoreValidator {
             return of(null);
           }
           const req: ValidateKeystoresRequest = {
-            keystores: [JSON.stringify(keystoreFG.keystore)],
+            keystores: keystores ?? [JSON.stringify(keystoreFG.keystore)],
             keystores_password: keystoresPassword,
           };
           return this.walletService.validateKeystores(req).pipe(

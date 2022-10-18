@@ -38,22 +38,47 @@ export class ImportAccountsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.uniqueToggleFormControl.valueChanges.subscribe((value) => {
+    this.uniqueToggleFormControl.valueChanges.subscribe((value:boolean) => {
       this.keystorePasswordDefaultFormGroup.reset(this.keystorePasswordDefaultFormGroupInit);
+      if (value == true) {
+        this.keystoresImported.controls.forEach(fg => {
+          fg.addAsyncValidators([this.keystoreValidator.correctPassword()])
+          fg.updateValueAndValidity()
+         
+        });
+        this.keystorePasswordDefaultFormGroup.clearAsyncValidators();
+        this.keystorePasswordDefaultFormGroup.updateValueAndValidity();
+      } else {
+        let keystores: string[] = this.keystoresImported.controls.map((fg) => {
+          fg.clearAsyncValidators()
+          fg.updateValueAndValidity();
+          return JSON.stringify(fg.get('keystore')?.value)
+        });
+        this.keystorePasswordDefaultFormGroup.addAsyncValidators([this.keystoreValidator.correctPassword(keystores)]);
+        this.keystorePasswordDefaultFormGroup.updateValueAndValidity();
+      }
       this.keystoresImported.controls.forEach(fg => {
         fg.get('keystorePassword')?.markAsPristine();
       });
+     
       // Angular doesn't detect changes fast enough after so we need to check for changes again...
       this.changeDetectorRef.detectChanges();
     });
-    this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.valueChanges.pipe(
-      debounceTime(250),
-    ).subscribe(password =>{
-      this.keystoresImported.controls.forEach(fg => {
-        fg.get('keystorePassword')?.setValue(password);
-        fg.get('keystorePassword')?.updateValueAndValidity();
-        fg.get('keystorePassword')?.markAsPristine();
-      });
+
+    this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.statusChanges.subscribe(status =>{
+      if (status === "VALID"){
+        this.keystoresImported.controls.forEach(fg => {
+          fg.get('keystorePassword')?.setValue(this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.value);
+          fg.get('keystorePassword')?.updateValueAndValidity();
+          fg.get('keystorePassword')?.markAsPristine();
+        });
+      } else {
+        this.keystoresImported.controls.forEach(fg => {
+          fg.get('keystorePassword')?.setValue("");
+          fg.get('keystorePassword')?.updateValueAndValidity();
+          fg.get('keystorePassword')?.markAsPristine();
+        });
+      }
     });
   }
 
@@ -149,21 +174,22 @@ export class ImportAccountsFormComponent implements OnInit {
       fileName: [fileName],
       keystore: [jsonFile],
       keystorePassword: ['', [Validators.required,  Validators.minLength(8)]],
-    },{
-      asyncValidators: [this.keystoreValidator.correctPassword()]
     });
+    if (this.uniqueToggleFormControl.value === true) {
+      keystoresFormGroup.addAsyncValidators([this.keystoreValidator.correctPassword()]);
+      this.keystorePasswordDefaultFormGroup.updateValueAndValidity();
+    }
     
     this.keystoresImported?.push(keystoresFormGroup);
-    
-    // updates the keystorePasswordDefaultFormGroup based on each keystore
-    this.keystoresImported.controls.forEach((fg) => {
-      fg.get('keystorePassword')?.statusChanges.subscribe(status =>{
-        if(status === 'INVALID'){
-          this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.setErrors( fg.get('keystorePassword')?.errors || {});
-        }
-      });
-    })
-    
+    let keystores: string[] = this.keystoresImported.controls.map((fg) => {
+      return JSON.stringify(fg.get('keystore')?.value)
+    });
+    if (this.uniqueToggleFormControl.value === false) {
+      this.keystorePasswordDefaultFormGroup.clearAsyncValidators();
+      this.keystorePasswordDefaultFormGroup.addAsyncValidators([this.keystoreValidator.correctPassword(keystores)]);
+      this.keystorePasswordDefaultFormGroup.updateValueAndValidity();
+    } 
+   
   }
 
   private isKeystoreFileValid(jsonFile: object): boolean {

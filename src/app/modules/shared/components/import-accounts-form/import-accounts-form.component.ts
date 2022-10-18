@@ -46,7 +46,6 @@ export class ImportAccountsFormComponent implements OnInit {
           fg.updateValueAndValidity()
          
         });
-        console.log("async is back")
         this.keystorePasswordDefaultFormGroup.clearAsyncValidators();
         this.keystorePasswordDefaultFormGroup.updateValueAndValidity();
       } else {
@@ -67,23 +66,19 @@ export class ImportAccountsFormComponent implements OnInit {
     });
 
     this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.statusChanges.subscribe(status =>{
-      console.log(this.keystoresImported)
       if (status === "VALID"){
-        console.log(this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.value)
         this.keystoresImported.controls.forEach(fg => {
           fg.get('keystorePassword')?.setValue(this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.value);
           fg.get('keystorePassword')?.updateValueAndValidity();
           fg.get('keystorePassword')?.markAsPristine();
         });
       } else {
-        console.log(this.keystorePasswordDefaultFormGroup.get('keystorePassword')?.value)
         this.keystoresImported.controls.forEach(fg => {
           fg.get('keystorePassword')?.setValue("");
           fg.get('keystorePassword')?.updateValueAndValidity();
           fg.get('keystorePassword')?.markAsPristine();
         });
       }
-      console.log(this.keystorePasswordDefaultFormGroup)
     });
   }
 
@@ -189,7 +184,6 @@ export class ImportAccountsFormComponent implements OnInit {
     let keystores: string[] = this.keystoresImported.controls.map((fg) => {
       return JSON.stringify(fg.get('keystore')?.value)
     });
-   console.log(this.uniqueToggleFormControl.value)
     if (this.uniqueToggleFormControl.value === false) {
       this.keystorePasswordDefaultFormGroup.clearAsyncValidators();
       this.keystorePasswordDefaultFormGroup.addAsyncValidators([this.keystoreValidator.correctPassword(keystores)]);

@@ -42,8 +42,6 @@ export class KeystoreValidator {
             keystores: keystores ?? [JSON.stringify(keystoreFG.keystore)],
             keystores_password: keystoresPassword,
           };
-          console.log("async validator"+req.keystores)
-
           return this.walletService.validateKeystores(req).pipe(
             switchMap(() => {
               control.get('keystorePassword')?.setErrors(null);

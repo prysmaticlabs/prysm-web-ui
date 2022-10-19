@@ -126,7 +126,7 @@ jobs:
     - name: Setup bazel
       uses: jwlawson/actions-setup-bazel@v1
       with:
-        bazel-version: '5.0.0'
+        bazel-version: '5.3.0'
 
     - name: Run Bazel
       run: cd prysm_repo && bazel build //validator/web:site_data

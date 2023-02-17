@@ -1,4 +1,10 @@
 # PrysmWebUi
+######################################################
+# DEPRECATION WARNING!
+
+The Prysm Web UI will no longer be supported at a future hard fork. Learn more about the deprecation at [Prysm Web UI Documentation](https://docs.prylabs.network/docs/prysm-usage/web-interface). For more questions or concerns please contact the team on our discord.
+
+#######################################################
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
 

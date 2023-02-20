@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, zip } from 'rxjs';
-import { map, share, switchMap } from 'rxjs/operators';
+import { Observable, Subject, zip,of } from 'rxjs';
+import { map, share, switchMap,catchError } from 'rxjs/operators';
 import {
   ValidatorBalances, Validators, ValidatorSummaryResponse
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
@@ -63,7 +63,17 @@ export class ValidatorService {
   }
 
   getFeeRecipient(publicKey:string): Observable< ListFeeRecipientResponse>{
-    return this.http.get<ListFeeRecipientResponse>(`${this.keymanagerUrl}/validator/${base64ToHex(publicKey)}/feerecipient`)
+    return this.http.get<ListFeeRecipientResponse>(`${this.keymanagerUrl}/validator/${base64ToHex(publicKey)}/feerecipient`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        let UNSET_RECIPIENT = "set by beacon node";
+        // just let the user know it's set by the beacon node if it's not set
+        return of({
+          data: {
+            pubkey: base64ToHex(publicKey),
+            ethaddress: UNSET_RECIPIENT,
+          }
+        });
+    }));
   }
 
   setFeeRecipient(publicKey:string,request: SetFeeRecipientRequest){

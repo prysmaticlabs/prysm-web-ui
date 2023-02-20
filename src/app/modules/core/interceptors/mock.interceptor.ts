@@ -5,6 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpResponse,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
@@ -37,6 +38,10 @@ export class MockInterceptor implements HttpInterceptor {
           status: 200,
           body: mock[request.method as keyof RestObject],
         }));
+        // throw new HttpErrorResponse({
+        //   error: "error occurred",
+        //   status: 400
+        // });
       }
      
     }

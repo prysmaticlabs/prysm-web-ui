@@ -37,6 +37,7 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
   @ViewChild(MatSort, { static: false }) sort: MatSort | null = null;
 
   readonly LANDING_URL = '/' + LANDING_URL;
+  readonly UNSET_RECIPIENT = "set by beacon node";
 
   constructor(
     private dialog: MatDialog,

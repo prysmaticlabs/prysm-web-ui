@@ -43,7 +43,8 @@
       matTooltipPosition="left"
       matTooltip="Copy to Clipboard"
       (click)="copyFeeRecipientToClipboard(row.feeRecipient)"
-      class="cursor-pointer"> {{row.feeRecipient | slice:0:8 }}... </td>
+      class="cursor-pointer"> {{
+        row.feeRecipient === UNSET_RECIPIENT ? UNSET_RECIPIENT : (row.feeRecipient | slice:0:8)+"..." }} </td>
     </ng-container>
     <ng-container matColumnDef="balance">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>ETH Balance</th>

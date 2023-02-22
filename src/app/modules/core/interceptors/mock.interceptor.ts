@@ -38,10 +38,6 @@ export class MockInterceptor implements HttpInterceptor {
           status: 200,
           body: mock[request.method as keyof RestObject],
         }));
-        // throw new HttpErrorResponse({
-        //   error: "error occurred",
-        //   status: 400
-        // });
       }
      
     }

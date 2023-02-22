@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-
 import { BigNumber } from 'ethers';
-import { BehaviorSubject, forkJoin, Observable, of, throwError, zip } from 'rxjs';
+import { BehaviorSubject, Observable, throwError, zip } from 'rxjs';
 import {
   catchError,
   debounceTime,

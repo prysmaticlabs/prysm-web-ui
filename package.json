@@ -1,6 +1,6 @@
 {
   "name": "prysm-web-ui",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "scripts": {
     "ng": "ng",
     "prestart": "ngtw build",

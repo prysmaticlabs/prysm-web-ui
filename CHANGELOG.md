@@ -1,6 +1,10 @@
 ## What's Changed
 
-- improve import validation to reduce OOM issues in ui by @james-prysm in #237
-- update dependencies by @james-prysm in #238
+**WEB UI IS DEPRECATING AND WILL BE FULLY REMOVED IN A LATER HARDFORK**
 
-**Full Changelog**: https://github.com/prysmaticlabs/prysm-web-ui/compare/v2.0.1...v2.0.2
+please reach out to the prysm team on discord if there are questions or concerns on the migration to an alternative solution.
+
+- web ui deprecation notice by @james-prysm #243
+- handle fee recipient errors by @james-prysm in #242
+
+**Full Changelog**: https://github.com/prysmaticlabs/prysm-web-ui/compare/v2.0.2...v2.0.3

@@ -5,6 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpResponse,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 

@@ -1,6 +1,13 @@
+<div class="bg-secondary text-white py-4 text-center mx-auto">
+  <div class="max-w-3xl mx-auto">
+    The Prysm UI is marked for <span class="text-black">DEPRECATION</span> and will be <span class="text-black">FULLY REMOVED</span> in a future hard fork. <br/>
+    Please check our <a  class="text-black" href="https://docs.prylabs.network/docs/prysm-usage/web-interface" target="_blank">web UI documentation</a> for more details
+  </div>
+</div>
 <div *ngIf="isDevelopment" class="bg-error text-white py-4 text-center mx-auto">
   <div class="max-w-3xl mx-auto">
     Warning! You are running the web UI in development mode, meaning it will show **fake** data for testing purposes. Do not run real validators this way. If you want to run the web UI with your real Prysm node and validator, follow our instructions <a class="text-black" href="https://docs.prylabs.network/docs/prysm-usage/web-interface" target="_blank">here</a>.
   </div>
+  
 </div>
 <router-outlet></router-outlet>

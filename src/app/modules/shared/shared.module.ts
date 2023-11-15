@@ -17,7 +17,6 @@ import { ImportAccountsFormComponent } from './components/import-accounts-form/i
 import { ImportDropzoneComponent } from './components/import-dropzone/import-dropzone.component';
 import { ImportProtectionComponent } from './components/import-protection/import-protection.component';
 
-import { Base64ToHexPipe } from './pipes/base64-to-hex.pipe';
 import { OrdinalPipe } from './pipes/ordinal.pipe';
 import { PrettyjsonPipe } from './pipes/pretty-json.pipe';
 import { EpochPipe } from './pipes/format-epoch.pipe';
@@ -49,7 +48,6 @@ const components = [
 ];
 
 const pipes = [
-  Base64ToHexPipe,
   OrdinalPipe,
   PrettyjsonPipe,
   BalancePipe,

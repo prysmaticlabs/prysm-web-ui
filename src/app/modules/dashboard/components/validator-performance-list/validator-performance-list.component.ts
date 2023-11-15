@@ -5,13 +5,12 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { BigNumber } from 'ethers';
 import { ValidatorSummaryResponse } from 'src/app/proto/eth/v1alpha1/beacon_chain';
-import { EMPTY, forkJoin, Observable, throwError, zip } from 'rxjs';
+import { forkJoin, Observable, throwError, zip } from 'rxjs';
 import { catchError, map, take, tap, takeUntil, filter, switchMap, flatMap, concatMap, mergeMap } from 'rxjs/operators';
 import { ValidatorService } from '../../../core/services/validator.service';
 import { BaseComponent } from '../../../shared/components/base.component';
 import { UserService } from '../../../shared/services/user.service';
 import { ListFeeRecipientResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
-import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 
 export interface ValidatorListItem {
   publicKey: string;
@@ -91,7 +90,7 @@ export class ValidatorPerformanceListComponent
           return forkJoin(arrayOfRequests).pipe(
             map((res:ListFeeRecipientResponse[]) => {
               res.forEach((r)=>{
-                let item = list.find((obj)=>base64ToHex(obj.publicKey) === r.data.pubkey)
+                let item = list.find((obj)=>obj.publicKey === r.data.pubkey)
                 if(item){
                   item.feeRecipient = r.data.ethaddress
                 }

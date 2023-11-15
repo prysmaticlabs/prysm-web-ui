@@ -5,7 +5,7 @@
   <div class="my-6">
     <mat-chip-list>
       <mat-chip *ngFor="let account of selection?.selected">
-        {{account.publicKey | base64tohex | slice:0:16}}...
+        {{account.publicKey | slice:0:16}}...
       </mat-chip>
     </mat-chip-list>
   </div>

@@ -20,7 +20,7 @@
         <mat-list-option
             [value]="item.validating_public_key"
             *cdkVirtualFor="let item of accounts$|async">
-            {{item.validating_public_key|base64tohex|slice:0:16}}...
+            {{item.validating_public_key|slice:0:16}}...
         </mat-list-option>
     </mat-selection-list>
 </cdk-virtual-scroll-viewport>

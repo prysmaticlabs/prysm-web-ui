@@ -34,35 +34,6 @@ export interface DomainResponse {
   signatureDomain: string;
 }
 
-export interface ValidatorActivationRequest {
-  /**
-   *  A list of 48 byte validator public keys.
-   */
-  publicKeys: string[];
-}
-
-export interface ValidatorActivationResponse {
-  /**
-   *  A list of validator statuses mapped 1-to-1 with the public keys
-   *  in the request.
-   */
-  statuses: ValidatorActivationResponse_Status[];
-}
-
-export interface ValidatorActivationResponse_Status {
-  /**
-   *  A 48 byte validator public key.
-   */
-  publicKey: string;
-  /**
-   *  A wrapper representing a validator's status object.
-   */
-  status: ValidatorStatusResponse | undefined;
-  /**
-   *  The validators index in the beacon state.
-   */
-  index: number;
-}
 
 export interface ChainStartResponse {
   /**
@@ -138,21 +109,6 @@ export interface MultipleValidatorStatusRequest {
    *  A list of 48 byte validator public keys.
    */
   publicKeys: string[];
-  /**
-   *  A list of validator indices.
-   */
-  indices: number[];
-}
-
-export interface MultipleValidatorStatusResponse {
-  /**
-   *  A list of 48 byte validator public keys.
-   */
-  publicKeys: string[];
-  /**
-   *  A list of ValidatorStatusResponses mapped 1-to-1 with the public keys.
-   */
-  statuses: ValidatorStatusResponse[];
   /**
    *  A list of validator indices.
    */
@@ -359,54 +315,6 @@ export interface Validator {
    *  https://github.com/ethereum/eth2.0-specs/blob/v0.9.2/specs/core/0_beacon-chain.md#constants
    */
   withdrawable_epoch: string;
-}
-
-/**
- *  ValidatorParticipation stores participation metrics during a given epoch.
- */
-export interface ValidatorParticipation {
-  /**
-   *  Percentage of validator participation in the given epoch. This field
-   *  contains a value between 0 and 1.
-   */
-  global_participation_rate: number;
-  /**
-   *  The total amount of ether, in gwei, that has been used in voting.
-   */
-  voted_ether: string;
-  /**
-   *  The total amount of ether, in gwei, that is eligible for voting.
-   */
-  eligible_ether: string;
-  /**
-   *  Total staked gwei that was active (i.e. eligible to vote) during the current epoch.
-   */
-  current_epoch_active_gwei: string;
-  /**
-   *  Total staked gwei that had attestations included in a block during the current epoch,
-   *  attestations by the same validator do not increase this figure.
-   */
-  current_epoch_attesting_gwei: string;
-  /**
-   *  Total staked gwei that attested to the majority-elected Casper FFG target epoch during the current epoch.
-   */
-  current_epoch_target_attesting_gwei: string;
-  /**
-   *  Same as current_epoch_active_gwei but for previous epoch.
-   */
-  previous_epoch_active_gwei: string;
-  /**
-   *  Same as current_epoch_attesting_gwei but for previous epoch.
-   */
-  previous_epoch_attesting_gwei: string;
-  /**
-   *  Same as current_epoch_target_attesting_gwei but for previous epoch.
-   */
-  previous_epoch_target_attesting_gwei: string;
-  /**
-   *  Total staked gwei that attested to a head beacon block that is in the canonical chain.
-   */
-  previous_epoch_head_attesting_gwei: string;
 }
 
 

@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
-import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
 
 @Component({
@@ -52,22 +51,22 @@ export class EditFeeRecipientComponent implements OnInit {
     let updateFeeRecipient$;
     switch(this.confirmGroup.controls['options'].value) {
       case 'DELETE':
-        updateFeeRecipient$ = this.validatorService.deleteFeeRecipient(base64ToHex(this.publicKey));
+        updateFeeRecipient$ = this.validatorService.deleteFeeRecipient(this.publicKey);
         break;
       case 'SET':
-        updateFeeRecipient$ = this.validatorService.setFeeRecipient(base64ToHex(this.publicKey),{ethaddress:this.confirmGroup.controls['feerecipient'].value});
+        updateFeeRecipient$ = this.validatorService.setFeeRecipient(this.publicKey,{ethaddress:this.confirmGroup.controls['feerecipient'].value});
         break;
     }
     if(updateFeeRecipient$) {
       updateFeeRecipient$.subscribe(()=>{
           this.toastr.success(
-            `${base64ToHex(this.publicKey).substring(0, 10)}... updated fee recipient`,
+            `${this.publicKey.substring(0, 10)}... updated fee recipient`,
           );
           this.validatorService.refreshTableDataTrigger$.next(true);
           this.ref.close();
         }, (error) => {
           this.toastr.error(
-            `${base64ToHex(this.publicKey).substring(0, 10)}... failed to update fee recipient`,error,{
+            `${this.publicKey.substring(0, 10)}... failed to update fee recipient`,error,{
             timeOut: 20000,
           });
           this.ref.close();

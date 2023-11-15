@@ -14,7 +14,6 @@ import {
 } from 'rxjs/operators';
 import { zipMap } from 'rxjs-pipe-ext/lib';
 
-import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { ValidatorService } from 'src/app/modules/core/services/validator.service';
 import { WalletService } from '../../../core/services/wallet.service';
 import {
@@ -158,7 +157,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
         (v) => acc.validating_public_key === v?.validator?.public_key
       );
     
-      let feeRecipient = feeRecipients.find(data=> data.pubkey === base64ToHex(acc.validating_public_key));
+      let feeRecipient = feeRecipients.find(data=> data.pubkey === acc.validating_public_key);
       if (!val) {
         val = {
           index: 0,
@@ -207,7 +206,7 @@ export class AccountsComponent extends BaseComponent implements OnInit {
 
   private filterPredicate(el: TableData, f: string): boolean {
     const inAccountName = el.accountName.indexOf(f) !== -1;
-    const inPublicKey = base64ToHex(el.publicKey).indexOf(f) !== -1;
+    const inPublicKey = el.publicKey.indexOf(f) !== -1;
     const inValidatorIndex = el.index.toString() === f;
     return inAccountName || inPublicKey || inValidatorIndex;
   }

@@ -7,7 +7,6 @@ import {
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { VersionResponse } from 'src/app/proto/validator/accounts/v2/web_api';
 import { ListFeeRecipientResponse, SetFeeRecipientRequest } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
-import { base64ToHex } from '../utils/hex-util';
 import { EnvironmenterService } from './environmenter.service';
 import { WalletService } from './wallet.service';
 
@@ -63,13 +62,13 @@ export class ValidatorService {
   }
 
   getFeeRecipient(publicKey:string): Observable< ListFeeRecipientResponse>{
-    return this.http.get<ListFeeRecipientResponse>(`${this.keymanagerUrl}/validator/${base64ToHex(publicKey)}/feerecipient`).pipe(
+    return this.http.get<ListFeeRecipientResponse>(`${this.keymanagerUrl}/validator/${publicKey}/feerecipient`).pipe(
       catchError((err: HttpErrorResponse) => {
         let UNSET_RECIPIENT = "set by beacon node";
         // just let the user know it's set by the beacon node if it's not set
         return of({
           data: {
-            pubkey: base64ToHex(publicKey),
+            pubkey: publicKey,
             ethaddress: UNSET_RECIPIENT,
           }
         });

@@ -29,7 +29,7 @@
         matTooltip="Copy to Clipboard"
         (click)="copyKeyToClipboard(row.publicKey)"
         class="cursor-pointer">
-        {{row.publicKey | base64tohex | slice:0:8 }}...
+        {{row.publicKey | slice:0:8 }}...
       </td>
     </ng-container>
 
@@ -99,7 +99,7 @@
           <a mat-icon-button
             matTooltip="Exit validator"
             [routerLink]="[ LANDING_URL, 'wallet','accounts','voluntary-exit']"
-            [queryParams]="{publicKey:row.publicKey | base64tohex}">
+            [queryParams]="{publicKey:row.publicKey}">
             <mat-icon>exit_to_app</mat-icon>
           </a>
           <button matTooltip="Delete account"

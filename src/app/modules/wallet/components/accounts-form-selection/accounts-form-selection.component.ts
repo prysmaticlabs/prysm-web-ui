@@ -9,7 +9,6 @@ import {
   MatSelectionListChange,
 } from '@angular/material/list';
 import { map } from 'rxjs/operators';
-import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 
 @Component({
   selector: 'app-accounts-form-selection [formGroup]',
@@ -69,7 +68,7 @@ export class AccountsFormSelectionComponent implements OnInit {
 
   private searchbyPublicKey(publicKey: any, x: Account[]): Account[] {
     return publicKey
-      ? x.filter((c) => base64ToHex(c.validating_public_key) === publicKey)
+      ? x.filter((c) => c.validating_public_key === publicKey)
       : x;
   }
 }

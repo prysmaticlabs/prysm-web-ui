@@ -3,7 +3,6 @@ import {
   AbstractControlOptions, FormBuilder, FormControl, Validators
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import {
   AccountVoluntaryExitRequest
 } from '../../../../proto/validator/accounts/v2/web_api';
@@ -53,8 +52,7 @@ export class AccountVoluntaryExitComponent
     }
     const request = {
       public_keys: Object.keys(this.exitAccountFormGroup.value)
-                  .filter((x) => x !== 'confirmation')
-                  .map((x) => base64ToHex(x)),
+                  .filter((x) => x !== 'confirmation'),
     } as AccountVoluntaryExitRequest;
     
     this.walletService.exitAccounts(request).subscribe((x) => {

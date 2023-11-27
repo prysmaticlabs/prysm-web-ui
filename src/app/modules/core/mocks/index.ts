@@ -1,11 +1,9 @@
-import { hexToBase64 } from 'src/app/modules/core/utils/hex-util';
 import {
   ChainHead, ValidatorBalances,
-  ValidatorBalances_Balance, ValidatorParticipationResponse, ValidatorQueue,
+  ValidatorBalances_Balance,
   Validators, ValidatorSummaryResponse, Validators_ValidatorContainer
 } from 'src/app/proto/eth/v1alpha1/beacon_chain';
 import { Peers } from 'src/app/proto/eth/v1alpha1/node';
-import { ValidatorParticipation } from 'src/app/proto/eth/v1alpha1/validator';
 import {
   Account, BackupAccountsResponse, BeaconStatusResponse, GenerateMnemonicResponse, ImportKeystoresResponse, InitializeAuthResponse, ListAccountsResponse, WalletResponse
 } from 'src/app/proto/validator/accounts/v2/web_api';
@@ -54,30 +52,16 @@ export const mockSlashingProtection = {
 };
 
 export const mockPublicKeys: string[] = [
-  hexToBase64(
-    '0xaadaf653799229200378369ee7d6d9fdbdcdc2788143ed44f1ad5f2367c735e83a37c5bb80d7fb917de73a61bbcf00c4'
-  ),
-  hexToBase64(
-    '0xb9a7565e5daaabf7e5656b64201685c6c0241df7195a64dcfc82f94b39826562208ea663dc8e340994fe5e2eef05967a'
-  ),
-  hexToBase64(
-    '0xa74a19ce0c8a7909cb38e6645738c8d3f85821e371ecc273f16d02ec8b279153607953522c61e0d9c16c73e4e106dd31'
-  ),
-  hexToBase64(
-    '0x8d4d65e320ebe3f8f45c1941a7f340eef43ff233400253a5532ad40313b4c5b3652ad84915c7ab333d8afb336e1b7407'
-  ),
-  hexToBase64(
-    '0x93b283992d2db593c40d0417ccf6302ed5a26180555ec401c858232dc224b7e5c92aca63646bbf4d0d61df1584459d90'
-  ),
+    '0xaadaf653799229200378369ee7d6d9fdbdcdc2788143ed44f1ad5f2367c735e83a37c5bb80d7fb917de73a61bbcf00c4',
+    '0xb9a7565e5daaabf7e5656b64201685c6c0241df7195a64dcfc82f94b39826562208ea663dc8e340994fe5e2eef05967a',
+    '0xa74a19ce0c8a7909cb38e6645738c8d3f85821e371ecc273f16d02ec8b279153607953522c61e0d9c16c73e4e106dd31',
+    '0x8d4d65e320ebe3f8f45c1941a7f340eef43ff233400253a5532ad40313b4c5b3652ad84915c7ab333d8afb336e1b7407',
+    '0x93b283992d2db593c40d0417ccf6302ed5a26180555ec401c858232dc224b7e5c92aca63646bbf4d0d61df1584459d90',
 ];
 
 const mockImportedKeys: string[] = [
-  hexToBase64(
-    '0x80027c7b2213480672caf8503b82d41ff9533ba3698c2d70d33fa6c1840b2c115691dfb6de791f415db9df8b0176b9e4'
-  ),
-  hexToBase64(
-    '0x800212f3ac97227ac9e4418ce649f386d90bbc1a95c400b6e0dbbe04da2f9b970e85c32ae89c4fdaaba74b5a2934ed5e'
-  ),
+    '0x80027c7b2213480672caf8503b82d41ff9533ba3698c2d70d33fa6c1840b2c115691dfb6de791f415db9df8b0176b9e4',
+    '0x800212f3ac97227ac9e4418ce649f386d90bbc1a95c400b6e0dbbe04da2f9b970e85c32ae89c4fdaaba74b5a2934ed5e',
 ];
 
 export const mockDepositDataJSON = [
@@ -499,22 +483,6 @@ export const Mocks: IMocks = {
       },
     ],
   } as Peers,
-  '/v2/validator/beacon/participation': {
-    epoch: 32,
-    finalized: true,
-    participation: {
-      current_epoch_active_gwei: '1446418000000000',
-      current_epoch_attesting_gwei: '102777000000000',
-      current_epoch_target_attesting_gwei: '101552000000000',
-      eligible_ether: '1446290000000000',
-      global_participation_rate: 0.7861,
-      previous_epoch_active_gwei: '1446290000000000',
-      previous_epoch_attesting_gwei: '1143101000000000',
-      previous_epoch_head_attesting_gwei: '1089546000000000',
-      previous_epoch_target_attesting_gwei: '1136975000000000',
-      voted_ether: '1136975000000000',
-    } as ValidatorParticipation,
-  } as ValidatorParticipationResponse,
   '/v2/validator/beacon/summary': {
     current_effective_balances: ['31000000000', '31000000000', '31000000000'],
     correctly_voted_head: [true, true, false],
@@ -530,13 +498,6 @@ export const Mocks: IMocks = {
     public_keys: mockPublicKeys,
     missing_validators: [],
   } as ValidatorSummaryResponse,
-  '/v2/validator/beacon/queue': {
-    churn_limit: 4,
-    activation_public_keys: [mockPublicKeys[0], mockPublicKeys[1]],
-    activation_validator_indices: [0, 1],
-    exit_public_keys: [mockPublicKeys[2]],
-    exit_validator_indices: [2],
-  } as ValidatorQueue,
   '/v2/validator/beacon/validators': {
     validator_list: mockPublicKeys.map((key, idx) => {
       return {

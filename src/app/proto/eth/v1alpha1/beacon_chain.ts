@@ -14,8 +14,7 @@
 //  limitations under the License.
 //
 import { Attestation } from './attestation';
-import { IndexedAttestation, SignedBeaconBlock } from './beacon_block';
-import { Validator, ValidatorParticipation } from './validator';
+import { Validator} from './validator';
 
 /**
  *  Information about the head of the beacon chain.
@@ -371,34 +370,6 @@ export interface ValidatorSummaryResponse {
   inactivity_scores?: string[];
 }
 
-export interface ValidatorQueue {
-  /**
-   *  The amount of ether in gwei allowed to enter or exit the active
-   *  validator set.
-   */
-  churn_limit: number;
-  /**
-   *  Ordered list of 48 byte public keys awaiting activation. 0th index is the
-   *  next key to be processed.
-   */
-  activation_public_keys: string[];
-  /**
-   *  Ordered list of public keys awaiting exit. 0th index is the next key to
-   *  be processed.
-   */
-  exit_public_keys: string[];
-  /**
-   *  Ordered list of validator indices awaiting activation. 0th item in the list is the
-   *  next validator index to be processed.
-   */
-  activation_validator_indices: number[];
-  /**
-   *  Ordered list of validator indices awaiting exit. 0th item in the list is the
-   *  next validator index to be processed.
-   */
-  exit_validator_indices: number[];
-}
-
 export interface ListValidatorAssignmentsRequest {
   /**
    *  Epoch to validator assignments for.
@@ -477,32 +448,6 @@ export interface ValidatorAssignments_CommitteeAssignment {
    *  Validator index in the beacon state.
    */
   validatorIndex: number;
-}
-
-export interface GetValidatorParticipationRequest {
-  /**
-   *  Epoch to request participation information.
-   */
-  epoch: number | undefined;
-  /**
-   *  Whether or not to query for the genesis information.
-   */
-  genesis: boolean | undefined;
-}
-
-export interface ValidatorParticipationResponse {
-  /**
-   *  Epoch which this message is applicable.
-   */
-  epoch: number;
-  /**
-   *  Whether or not epoch has been finalized.
-   */
-  finalized: boolean;
-  /**
-   *  The actual validator participation metrics.
-   */
-  participation: ValidatorParticipation | undefined;
 }
 
 export interface AttestationPoolRequest {

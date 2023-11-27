@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as FileSaver from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
 import { tap } from 'rxjs/operators';
-import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { DeleteAccountsRequest,DeleteAccountsData,DeleteAccountsResponse } from 'src/app/proto/validator/accounts/v2/web_api_keymanager-api';
 import { WalletService } from '../../../core/services/wallet.service';
 import { UtilityValidator } from '../../../onboarding/validators/utility.validator';
@@ -51,7 +50,7 @@ export class AccountDeleteComponent {
   }
 
   confirm(): void {
-    const hexKeys = this.data.map(key => base64ToHex(key));
+    const hexKeys = this.data;
     const request = {
       pubkeys: this.deleteKeysType === this.SPECIFIC_KEYS? hexKeys : this.publicKeys,
     } as DeleteAccountsRequest;

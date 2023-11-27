@@ -6,7 +6,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BEACONCHAIN_EXPLORER, LANDING_URL } from 'src/app/modules/core/constants';
-import { base64ToHex } from 'src/app/modules/core/utils/hex-util';
 import { AccountDeleteComponent } from '../account-delete/account-delete.component';
 import { EditFeeRecipientComponent } from '../fee-recipient/fee-recipient-edit.component';
 import { MenuItem } from '../icon-trigger-select/icon-trigger-select.component';
@@ -102,9 +101,8 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
   }
 
   copyKeyToClipboard(publicKey: string): void {
-    const hex = base64ToHex(publicKey);
-    this.clipboard.copy(hex);
-    this.snackBar.open(`Copied ${hex.slice(0, 16)}... to Clipboard`, 'Close', {
+    this.clipboard.copy(publicKey);
+    this.snackBar.open(`Copied ${publicKey.slice(0, 16)}... to Clipboard`, 'Close', {
       duration: 4000,
     });
   }
@@ -134,9 +132,8 @@ export class AccountsTableComponent implements AfterViewInit,OnChanges {
   private openExplorer(row: TableData): void {
     let publicKey = row.publicKey
     if (window !== undefined) {
-      let hex = base64ToHex(publicKey);
-      hex = hex.replace('0x', '');
-      window.open(`${BEACONCHAIN_EXPLORER}/validator/${hex}`, '_blank');
+      publicKey = publicKey.replace('0x', '');
+      window.open(`${BEACONCHAIN_EXPLORER}/validator/${publicKey}`, '_blank');
     }
   }
 

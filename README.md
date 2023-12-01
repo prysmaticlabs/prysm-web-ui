@@ -78,3 +78,9 @@ Then, do
 
 You should see protos being regenerated under `./src/app/proto`, which will be used as the types in our frontend application.
 
+## Steps to create release
+
+1. Once all commits are added to master, update the `CHANGELOG.md` file for all the associated changes.
+2. Create a version tag against master and push the new version tag. This will trigger the git action workflow.
+3. Follow README.md instructions on the [prysm repo](https://github.com/prysmaticlabs/prysm/tree/develop/validator/web) to update the validator client with the new UI.
+
